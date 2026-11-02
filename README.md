@@ -42,10 +42,16 @@ sync panel says syncing needs the Cloudflare build.
 
 ## Deploying to Cloudflare Pages
 
-This project is already deployed to `https://polski-cases.pages.dev`, with a
-custom domain attached in the dashboard (Pages → polski-cases → Custom
-domains). The D1 database exists and its id is in `wrangler.toml`, and the
-`progress` table has been created remotely.
+This project is deployed to **https://cases.hammad.lol** (custom domain on the
+`hammad.lol` zone) and to its `https://polski-cases.pages.dev` Pages address.
+Both serve the same deployment. The D1 database exists and its id is in
+`wrangler.toml`, the `progress` table has been created remotely, and sync works
+on both hosts.
+
+Note: the custom domain sits behind the `hammad.lol` zone, which appends a
+Cloudflare challenge-platform script to HTML (`/cdn-cgi/challenge-platform/
+scripts/jsd/main.js`). That is zone-level bot detection, not part of the build;
+the JS and CSS bytes are identical on both hosts.
 
 To ship a change:
 
@@ -109,9 +115,11 @@ write quota.
   wrong database name.
 - **Sync fails for everyone until midnight UTC** — the free-tier daily row
   limit was hit; the site itself is unaffected.
-- **Progress looks empty on the custom domain** — `localStorage` is per
-  origin. Open the old domain's `/progress/`, copy the sync code, then enter it
-  on the new domain under “I have a code”.
+- **Progress looks empty on `cases.hammad.lol`** — `localStorage` is per
+  origin, so progress earned on `polski-cases.pages.dev` does not follow you to
+  the custom domain. Open the old domain's `/progress/`, copy the sync code,
+  then enter it on the new domain under “I have a code”. Afterwards, stay on
+  one host: pick `cases.hammad.lol`.
 - **A deploy says the project already exists** — that is fine, it just means
   the project was created before; the upload still replaces the files.
 
