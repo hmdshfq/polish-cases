@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dopełniacz — the Polish genitive, from zero to confident</title>
+<style>
+  :root{
+    --paper:#f7f3ea; --card:#fffdf7; --ink:#1b1915; --ink2:#4b443a; --muted:#7c7365;
+    --line:#e3dac9; --line2:#efe8da;
+    --accent:#a4361f; --accent-soft:#f6e4de;
+    --green:#1d5b45; --green-soft:#e3efe7;
+    --amber:#8a5a10; --amber-soft:#f7ebd4;
+    --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    --radius:14px; --maxw:1120px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#131210; --card:#1c1a16; --ink:#efe9dd; --ink2:#c6bdad; --muted:#948b7b;
+      --line:#302c24; --line2:#26231d;
+      --accent:#e6795f; --accent-soft:#3a211a;
+      --green:#7cc4a4; --green-soft:#17302a;
+      --amber:#d8a95c; --amber-soft:#33280f;
+    }
+  }
+  html[data-theme="dark"]{
+    --paper:#131210; --card:#1c1a16; --ink:#efe9dd; --ink2:#c6bdad; --muted:#948b7b;
+    --line:#302c24; --line2:#26231d; --accent:#e6795f; --accent-soft:#3a211a;
+    --green:#7cc4a4; --green-soft:#17302a; --amber:#d8a95c; --amber-soft:#33280f;
+  }
+  html[data-theme="light"]{
+    --paper:#f7f3ea; --card:#fffdf7; --ink:#1b1915; --ink2:#4b443a; --muted:#7c7365;
+    --line:#e3dac9; --line2:#efe8da; --accent:#a4361f; --accent-soft:#f6e4de;
+    --green:#1d5b45; --green-soft:#e3efe7; --amber:#8a5a10; --amber-soft:#f7ebd4;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth; scroll-padding-top:96px}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{animation:none!important; transition:none!important} }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--sans); font-size:17px; line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(circle at 12% 8%, color-mix(in oklab, var(--accent) 5%, transparent), transparent 42%),
+                     radial-gradient(circle at 88% 2%, color-mix(in oklab, var(--green) 5%, transparent), transparent 38%);
+    background-attachment:fixed;
+  }
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px}
+  a{color:var(--accent); text-decoration-thickness:1px; text-underline-offset:3px}
+  a:hover{text-decoration-thickness:2px}
+  code, .pl{font-family:var(--mono); font-size:.94em}
+  .pl{font-family:var(--serif); font-size:1.04em; font-style:italic}
+  strong{font-weight:650}
+
+  /* ---------- progress + header ---------- */
+  #scrollbar{position:fixed; top:0; left:0; height:3px; width:0; background:var(--accent); z-index:60; transition:width .1s linear}
+  header.top{
+    position:sticky; top:0; z-index:50; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    background:color-mix(in oklab, var(--paper) 86%, transparent);
+    border-bottom:1px solid var(--line);
+  }
+  .top-in{max-width:var(--maxw); margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:18px}
+  .brand{font-family:var(--serif); font-size:19px; letter-spacing:.01em; white-space:nowrap}
+  .brand b{color:var(--accent)}
+  nav.sections{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; flex:1}
+  nav.sections::-webkit-scrollbar{display:none}
+  nav.sections a{
+    color:var(--ink2); text-decoration:none; font-size:13.5px; padding:7px 11px; border-radius:99px;
+    white-space:nowrap; transition:background .15s, color .15s;
+  }
+  nav.sections a:hover{background:var(--line2); color:var(--ink)}
+  nav.sections a.on{background:var(--ink); color:var(--paper)}
+  .theme{
+    border:1px solid var(--line); background:var(--card); color:var(--ink2); width:36px; height:36px;
+    border-radius:99px; cursor:pointer; font-size:15px; line-height:1; display:grid; place-items:center;
+  }
+  .theme:hover{border-color:var(--ink2); color:var(--ink)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:74px 0 40px; border-bottom:1px solid var(--line)}
+  .kicker{font-size:12.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:650; margin:0 0 18px}
+  h1{font-family:var(--serif); font-weight:500; font-size:clamp(42px, 7vw, 74px); line-height:1.02; margin:0 0 6px; letter-spacing:-.02em}
+  h1 em{font-style:italic; color:var(--accent)}
+  .lede{font-size:clamp(18px,2.2vw,21px); color:var(--ink2); max-width:56ch; margin:18px 0 30px}
+  .facts{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:0 0 32px}
+  .fact{border:1px solid var(--line); background:var(--card); border-radius:var(--radius); padding:16px 18px}
+  .fact .n{font-family:var(--serif); font-size:26px; line-height:1.1; margin-bottom:4px}
+  .fact .l{font-size:13px; color:var(--muted); line-height:1.45}
+  .cta{display:flex; gap:10px; flex-wrap:wrap}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:12px 20px; border-radius:99px; font-size:15px;
+    font-weight:600; text-decoration:none; cursor:pointer; border:1px solid transparent; font-family:inherit;
+  }
+  .btn.primary{background:var(--ink); color:var(--paper)}
+  .btn.primary:hover{background:var(--accent)}
+  .btn.ghost{border-color:var(--line); color:var(--ink); background:var(--card)}
+  .btn.ghost:hover{border-color:var(--ink2)}
+
+  /* ---------- sections ---------- */
+  section{padding:64px 0; border-bottom:1px solid var(--line)}
+  section:last-of-type{border-bottom:none}
+  .shead{display:flex; gap:20px; align-items:baseline; margin-bottom:26px}
+  .snum{font-family:var(--serif); font-size:15px; color:var(--accent); font-variant-numeric:tabular-nums; padding-top:10px; min-width:34px}
+  h2{font-family:var(--serif); font-weight:500; font-size:clamp(28px,3.6vw,38px); line-height:1.1; margin:0; letter-spacing:-.01em}
+  h3{font-family:var(--serif); font-weight:600; font-size:22px; margin:36px 0 12px; letter-spacing:-.005em}
+  h4{font-size:15px; font-weight:700; margin:24px 0 8px; letter-spacing:.01em}
+  p{margin:0 0 14px; max-width:74ch}
+  .small{font-size:14.5px; color:var(--muted)}
+  ul,ol{margin:0 0 16px; padding-left:22px; max-width:74ch}
+  li{margin:5px 0}
+  li::marker{color:var(--muted)}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+  .card{border:1px solid var(--line); background:var(--card); border-radius:var(--radius); padding:20px 22px}
+  .card h4{margin-top:0}
+  .card p:last-child{margin-bottom:0}
+
+  .ex{font-family:var(--serif); font-size:18px; margin:2px 0}
+  .ex .g{color:var(--accent); font-weight:600}
+  .tr{color:var(--muted); font-size:14px; font-style:italic}
+
+  .note{border-left:3px solid var(--amber); background:var(--amber-soft); padding:14px 18px; border-radius:0 10px 10px 0; margin:18px 0}
+  .note p:last-child{margin-bottom:0}
+  .note .lab{font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; font-weight:700; color:var(--amber); display:block; margin-bottom:4px}
+  .warn{border-left-color:var(--accent); background:var(--accent-soft)}
+  .warn .lab{color:var(--accent)}
+  .good{border-left-color:var(--green); background:var(--green-soft)}
+  .good .lab{color:var(--green)}
+
+  /* ---------- tables ---------- */
+  .tw{overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius); background:var(--card); margin:18px 0}
+  table{border-collapse:collapse; width:100%; font-size:15px; min-width:520px}
+  th,td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--line2); vertical-align:top}
+  thead th{background:color-mix(in oklab, var(--line2) 60%, transparent); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:700; position:sticky; top:0}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:color-mix(in oklab, var(--line2) 40%, transparent)}
+  td.pl, th.pl{font-family:var(--serif); font-size:16.5px; font-style:normal}
+  .end{color:var(--accent); font-weight:700}
+  .yes{color:var(--green); font-weight:600}
+  .no{color:var(--accent); font-weight:600; text-decoration:line-through; text-decoration-thickness:1px}
+
+  .chips{display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 6px}
+  .chip{font-size:13px; padding:5px 12px; border-radius:99px; border:1px solid var(--line); background:var(--card); color:var(--ink2)}
+  .chip b{color:var(--ink)}
+
+  /* ---------- drills ---------- */
+  .drills{background:var(--card); border:1px solid var(--line); border-radius:20px; padding:26px; box-shadow:0 1px 0 var(--line2)}
+  .setgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(215px,1fr)); gap:12px; margin-top:18px}
+  .setcard{
+    text-align:left; border:1px solid var(--line); background:var(--paper); border-radius:12px; padding:14px 16px;
+    cursor:pointer; font-family:inherit; color:var(--ink); transition:border-color .15s, transform .15s;
+  }
+  .setcard:hover{border-color:var(--accent); transform:translateY(-1px)}
+  .setcard .t{font-weight:650; font-size:15px; margin-bottom:3px}
+  .setcard .m{font-size:12.5px; color:var(--muted)}
+  .setcard .best{font-size:12px; color:var(--green); margin-top:6px; font-variant-numeric:tabular-nums}
+  .runner{display:none}
+  .runner.on{display:block}
+  .setgrid.off{display:none}
+  .rhead{display:flex; align-items:center; gap:14px; margin-bottom:18px; flex-wrap:wrap}
+  .rhead .ttl{font-weight:700; font-size:15px}
+  .rhead .cnt{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .rhead .sp{flex:1}
+  .xbtn{border:1px solid var(--line); background:transparent; color:var(--ink2); border-radius:99px; padding:6px 13px; font-size:13px; cursor:pointer; font-family:inherit}
+  .xbtn:hover{border-color:var(--ink2); color:var(--ink)}
+  .pbar{height:4px; background:var(--line2); border-radius:99px; overflow:hidden; margin-bottom:22px}
+  .pbar i{display:block; height:100%; width:0; background:var(--accent); transition:width .25s ease}
+  .ask{font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:10px}
+  .q{font-family:var(--serif); font-size:clamp(22px,3vw,30px); line-height:1.25; margin:0 0 6px}
+  .q .gap{color:var(--accent); border-bottom:2px dashed var(--accent); padding:0 18px}
+  .qhint{font-size:14px; color:var(--muted); margin-bottom:20px}
+  .opts{display:grid; gap:9px; margin:0 0 16px}
+  .opt{
+    display:flex; align-items:center; gap:12px; width:100%; text-align:left; cursor:pointer;
+    border:1px solid var(--line); background:var(--paper); border-radius:10px; padding:12px 15px;
+    font-family:var(--serif); font-size:19px; color:var(--ink); transition:border-color .12s, background .12s;
+  }
+  .opt:hover:not(:disabled){border-color:var(--accent)}
+  .opt:disabled{cursor:default}
+  .opt .k{font-family:var(--sans); font-size:11px; color:var(--muted); border:1px solid var(--line); border-radius:5px; padding:1px 6px; line-height:1.5}
+  .opt.right{border-color:var(--green); background:var(--green-soft); color:var(--green)}
+  .opt.wrong{border-color:var(--accent); background:var(--accent-soft); color:var(--accent)}
+  .opt.wrong .k,.opt.right .k{border-color:currentColor; color:inherit}
+  .typebox{display:flex; gap:9px; margin:0 0 14px; flex-wrap:wrap}
+  .typebox input{
+    flex:1; min-width:220px; font-family:var(--serif); font-size:20px; padding:11px 15px; border-radius:10px;
+    border:1px solid var(--line); background:var(--paper); color:var(--ink);
+  }
+  .typebox input:focus{outline:2px solid var(--accent); outline-offset:1px; border-color:transparent}
+  .typebox input.right{border-color:var(--green); background:var(--green-soft)}
+  .typebox input.wrong{border-color:var(--accent); background:var(--accent-soft)}
+  .fb{display:none; border-radius:10px; padding:13px 16px; margin:4px 0 16px; font-size:15px; line-height:1.55}
+  .fb.on{display:block}
+  .fb.ok{background:var(--green-soft); border:1px solid color-mix(in oklab, var(--green) 30%, transparent)}
+  .fb.no{background:var(--accent-soft); border:1px solid color-mix(in oklab, var(--accent) 30%, transparent)}
+  .fb .v{font-weight:700; margin-bottom:2px}
+  .fb .a{font-family:var(--serif); font-size:18px}
+  .fb .why{color:var(--ink2); margin-top:5px; font-size:14.5px}
+  .rfoot{display:flex; align-items:center; gap:12px}
+  .rfoot .sp{flex:1}
+  .score{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .summary{text-align:center; padding:26px 0}
+  .summary .big{font-family:var(--serif); font-size:52px; line-height:1; color:var(--accent); margin-bottom:8px}
+  .summary p{margin-left:auto; margin-right:auto}
+
+  /* ---------- reference ---------- */
+  .filter{display:flex; gap:10px; margin:16px 0; flex-wrap:wrap; align-items:center}
+  .filter input{
+    flex:1; min-width:240px; padding:10px 14px; border-radius:10px; border:1px solid var(--line);
+    background:var(--card); color:var(--ink); font-family:inherit; font-size:15px;
+  }
+  .filter input:focus{outline:2px solid var(--accent); outline-offset:1px}
+  .filter .n{font-size:13px; color:var(--muted)}
+
+  footer{padding:44px 0 70px; color:var(--muted); font-size:13.5px}
+  footer p{max-width:70ch}
+
+  @media (max-width:700px){
+    table{min-width:0}
+    th,td{padding:9px 10px; font-size:14px}
+    td{overflow-wrap:break-word}
+    th{overflow-wrap:normal}
+    td:first-child, th:first-child{white-space:nowrap}
+    td.pl, th.pl{font-size:15px}
+    thead th{position:static; font-size:11px}
+    .tw{margin:14px 0}
+  }
+  @media (max-width:860px){
+    .facts{grid-template-columns:1fr}
+    .grid2,.grid3{grid-template-columns:1fr}
+    .hero{padding:52px 0 34px}
+    section{padding:48px 0}
+    .shead{gap:12px}
+    .snum{padding-top:6px}
+    .drills{padding:18px}
+  }
+  @media print{
+    header.top,#scrollbar,.drills,.cta,.theme{display:none!important}
+    body{background:#fff; color:#000; font-size:11pt}
+    section{page-break-inside:avoid; padding:18px 0}
+    .card,.tw{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div id="scrollbar"></div>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">dopełniacz <b>·</b></div>
+    <nav class="sections" id="nav">
+      <a href="#basics">Basics</a>
+      <a href="#jobs">What it does</a>
+      <a href="#sg">Singular</a>
+      <a href="#au">-a or -u</a>
+      <a href="#pl">Plural</a>
+      <a href="#numbers">Numbers</a>
+      <a href="#verbs">Verbs</a>
+      <a href="#preps">Prepositions</a>
+      <a href="#negation">Negation</a>
+      <a href="#pronouns">Pronouns</a>
+      <a href="#traps">Traps</a>
+      <a href="#drills">Drills</a>
+      <a href="#cheat">Cheat sheet</a>
+    </nav>
+    <button class="theme" id="themeBtn" aria-label="Switch light or dark theme" title="Light / dark">◐</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============ HERO ============ -->
+<div class="hero" id="top">
+  <p class="kicker">Polish cases · 2 of 7</p>
+  <h1>Dopełniacz<br><em>the case of “of”</em></h1>
+  <p class="lede">
+    The genitive answers <b>kogo? czego?</b> — “of whom? of what?”. It is the second most common case in Polish
+    after the nominative, and it carries four jobs no other case shares: possession, quantity, the object of dozens
+    of verbs, and the object of every negated verb. Learn it once, properly, and half of Polish syntax stops
+    surprising you.
+  </p>
+  <div class="facts">
+    <div class="fact"><div class="n">kogo? czego?</div><div class="l">Its two questions. The first for people, the second for everything else.</div></div>
+    <div class="fact"><div class="n">4 endings</div><div class="l">Singular: <b>-a</b>, <b>-u</b>, <b>-y</b>, <b>-i</b>. Plural: <b>-ów</b>, <b>-y</b>, <b>-i</b>, or nothing.</div></div>
+    <div class="fact"><div class="n">191 drills</div><div class="l">Eight sets with instant feedback, explanations, and a “review my mistakes” pass.</div></div>
+  </div>
+  <div class="cta">
+    <a class="btn primary" href="#drills">Start drilling</a>
+    <a class="btn ghost" href="#cheat">One-page cheat sheet</a>
+  </div>
+</div>
+
+<!-- ============ 01 BASICS ============ -->
+<section id="basics">
+  <div class="shead"><div class="snum">01</div><h2>What the genitive is</h2></div>
+
+  <p>
+    Polish marks the role of a noun with an ending, not with word order. <b>Dopełniacz</b> is the case that answers
+    <b>kogo? czego?</b> — literally “of whom? of what?”. Its name comes from <i>dopełniać</i>, “to complete”: it
+    completes another word — a noun, a verb, an adjective, a numeral — by naming the thing that word is about.
+  </p>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>English “of” — and more</h4>
+      <p class="ex">dom <span class="g">ojca</span></p>
+      <p class="tr">the house of the father → the father’s house</p>
+      <p class="ex">szklanka <span class="g">wody</span></p>
+      <p class="tr">a glass of water</p>
+      <p class="ex">pięć <span class="g">książek</span></p>
+      <p class="tr">five books — English has no “of” here, Polish still needs the genitive</p>
+    </div>
+    <div class="card">
+      <h4>The one that catches everyone</h4>
+      <p class="ex">Mam <b>samochód</b>. → Nie mam <span class="g">samochodu</span>.</p>
+      <p class="tr">I have a car. → I don’t have a car.</p>
+      <p class="ex">Widzę <b>Annę</b>. → Nie widzę <span class="g">Anny</span>.</p>
+      <p class="tr">I see Anna. → I don’t see Anna.</p>
+      <p class="small">Negation flips the accusative object into the genitive. This is not optional in standard Polish.</p>
+    </div>
+  </div>
+
+  <div class="note">
+    <span class="lab">Why it matters</span>
+    <p>
+      The genitive is where learners’ Polish either starts sounding native or stalls. Cases you can dodge with a
+      different sentence; the genitive is unavoidable — it is in <i>nie ma</i>, in every number above four, in
+      <i>do</i>, <i>z</i>, <i>od</i>, <i>bez</i>, <i>dla</i>, <i>u</i>, and it is the ending that turns
+      “I don’t have time” from a mistake into a sentence.
+    </p>
+  </div>
+
+  <h3>The seven cases, for orientation</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Case</th><th>Polish</th><th>Question</th><th>Typical job</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td class="pl">mianownik</td><td class="pl">kto? co?</td><td>subject</td></tr>
+        <tr><td>2</td><td class="pl"><b>dopełniacz</b></td><td class="pl">kogo? czego?</td><td>of / quantity / negation</td></tr>
+        <tr><td>3</td><td class="pl">celownik</td><td class="pl">komu? czemu?</td><td>to / for someone</td></tr>
+        <tr><td>4</td><td class="pl">biernik</td><td class="pl">kogo? co?</td><td>direct object</td></tr>
+        <tr><td>5</td><td class="pl">narzędnik</td><td class="pl">kim? czym?</td><td>with / by means of</td></tr>
+        <tr><td>6</td><td class="pl">miejscownik</td><td class="pl">o kim? o czym?</td><td>location, topic (only with prepositions)</td></tr>
+        <tr><td>7</td><td class="pl">wołacz</td><td class="pl">—</td><td>addressing someone</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">You have already met 5 and 3. The genitive is the case that most often looks like the accusative — for masculine animates the two are identical — so that overlap is the one to watch.</p>
+</section>
+
+<!-- ============ 02 JOBS ============ -->
+<section id="jobs">
+  <div class="shead"><div class="snum">02</div><h2>The six jobs it does</h2></div>
+
+  <p>Every genitive you will ever produce belongs to one of these six patterns. Recognise the pattern, and the ending follows far more easily than by guessing.</p>
+
+  <div class="grid3">
+    <div class="card">
+      <h4>1 · Possession &amp; belonging</h4>
+      <p class="ex">samochód <span class="g">sąsiada</span></p>
+      <p class="tr">the neighbour’s car</p>
+      <p class="ex">córka <span class="g">mojej siostry</span></p>
+      <p class="tr">my sister’s daughter</p>
+      <p class="ex">stolica <span class="g">Polski</span></p>
+      <p class="tr">the capital of Poland</p>
+    </div>
+    <div class="card">
+      <h4>2 · Part of a whole</h4>
+      <p class="ex">szklanka <span class="g">wody</span></p>
+      <p class="tr">a glass of water</p>
+      <p class="ex">kawałek <span class="g">chleba</span></p>
+      <p class="tr">a piece of bread</p>
+      <p class="ex">kilogram <span class="g">cukru</span></p>
+      <p class="tr">a kilo of sugar</p>
+    </div>
+    <div class="card">
+      <h4>3 · Quantity and number</h4>
+      <p class="ex">pięć <span class="g">książek</span></p>
+      <p class="tr">five books</p>
+      <p class="ex">dużo <span class="g">pracy</span></p>
+      <p class="tr">a lot of work</p>
+      <p class="ex">kilka <span class="g">osób</span></p>
+      <p class="tr">a few people</p>
+    </div>
+    <div class="card">
+      <h4>4 · Object of certain verbs</h4>
+      <p class="ex">Szukam <span class="g">mieszkania</span>.</p>
+      <p class="tr">I’m looking for a flat.</p>
+      <p class="ex">Uczę się <span class="g">polskiego</span>.</p>
+      <p class="tr">I’m learning Polish.</p>
+      <p class="ex">Boję się <span class="g">ciemności</span>.</p>
+      <p class="tr">I’m afraid of the dark.</p>
+    </div>
+    <div class="card">
+      <h4>5 · Object of a negated verb</h4>
+      <p class="ex">Nie mam <span class="g">czasu</span>.</p>
+      <p class="tr">I don’t have time.</p>
+      <p class="ex">Nie znam <span class="g">tej pani</span>.</p>
+      <p class="tr">I don’t know that lady.</p>
+      <p class="ex">Nie ma <span class="g">mleka</span>.</p>
+      <p class="tr">There’s no milk.</p>
+    </div>
+    <div class="card">
+      <h4>6 · After prepositions</h4>
+      <p class="ex">do <span class="g">sklepu</span>, z <span class="g">Polski</span></p>
+      <p class="tr">to the shop, from Poland</p>
+      <p class="ex">bez <span class="g">cukru</span>, dla <span class="g">dzieci</span></p>
+      <p class="tr">without sugar, for the children</p>
+      <p class="ex">według <span class="g">mnie</span></p>
+      <p class="tr">according to me</p>
+    </div>
+  </div>
+
+  <h3>Two refinements worth knowing early</h3>
+  <p>
+    <b>Genitive of time.</b> Dates and clock-like time expressions stand in the genitive when they have a modifier:
+    <span class="pl">pierwszego maja</span>, <span class="pl">trzeciego stycznia</span>, <span class="pl">tego dnia</span>,
+    <span class="pl">zeszłego roku</span>, <span class="pl">następnego tygodnia</span>. Today’s date is a genitive:
+    <span class="pl">dwudziestego ósmego października</span>.
+  </p>
+  <p>
+    <b>Subjective vs objective genitive.</b> <span class="pl">śpiew ptaków</span> — the birds sing (subject);
+    <span class="pl">obrona miasta</span> — the city is defended (object). The same ending carries both directions;
+    context decides, exactly as English “the shooting of the hunters” does.
+  </p>
+</section>
+
+<!-- ============ 03 SINGULAR ============ -->
+<section id="sg">
+  <div class="shead"><div class="snum">03</div><h2>Singular endings</h2></div>
+
+  <p>Four endings, distributed by gender and by the final consonant of the stem. This table is the whole system in miniature.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Gender</th><th>Ending</th><th>Example</th><th>Rule in one line</th></tr></thead>
+      <tbody>
+        <tr><td>masculine — person or animal</td><td class="end">-a</td><td class="pl">student → studenta</td><td>all animates, with two exceptions</td></tr>
+        <tr><td>masculine — thing</td><td class="end">-a / -u</td><td class="pl">nóż → noża · stół → stołu</td><td>lexical: see the next section</td></tr>
+        <tr><td>masculine ending in <b>-a</b></td><td class="end">-y / -i</td><td class="pl">mężczyzna → mężczyzny</td><td>behaves like a feminine noun</td></tr>
+        <tr><td>feminine</td><td class="end">-y / -i</td><td class="pl">kobieta → kobiety · noc → nocy</td><td>-y after hard, -i after soft</td></tr>
+        <tr><td>neuter</td><td class="end">-a</td><td class="pl">okno → okna · morze → morza</td><td>always -a, no exceptions</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>-y or -i? The consonant decides</h3>
+  <p>Feminine nouns (and masculine nouns in <b>-a</b>) take <b>-i</b> after soft stems and after <b>k, g, l</b>; <b>-y</b> after everything hard, including the “hardened” sounds <b>c, cz, dz, dż, rz, sz, ż</b>.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Stem ends in</th><th>Ending</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td>k, g, l</td><td class="end">-i</td><td class="pl">książka → książki · noga → nogi · sól → soli</td></tr>
+        <tr><td>soft (ś, ć, ń, ź, j, l, ni, si, zi, ci)</td><td class="end">-i</td><td class="pl">pani → pani · ziemia → ziemi · miłość → miłości · szyja → szyi</td></tr>
+        <tr><td>hard (t, d, s, z, n, r, ł, w, b, p, m, f, ch)</td><td class="end">-y</td><td class="pl">kobieta → kobiety · woda → wody · szkoła → szkoły</td></tr>
+        <tr><td>hardened (c, cz, dz, dż, rz, sz, ż)</td><td class="end">-y</td><td class="pl">ulica → ulicy · noc → nocy · młodzież → młodzieży</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note good">
+    <span class="lab">Good news</span>
+    <p>Neuter is the only gender with a single, exception-free genitive ending: <b>-a</b>. If you know a noun is neuter, you already know its genitive singular.</p>
+  </div>
+
+  <h3>Masculine in -a: the “false feminine” group</h3>
+  <p>Words like <span class="pl">mężczyzna</span> (man), <span class="pl">kolega</span> (colleague), <span class="pl">poeta</span>, <span class="pl">kierowca</span> (driver), <span class="pl">starosta</span>, <span class="pl">tata</span> are grammatically masculine but decline like feminines.</p>
+  <p class="ex">mężczyzna → <span class="g">mężczyzny</span> · kolega → <span class="g">kolegi</span> · kierowca → <span class="g">kierowcy</span> · poeta → <span class="g">poety</span></p>
+
+  <h3>Adjectives and pronouns follow the same map</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Form</th><th>Masculine / neuter</th><th>Feminine</th><th>Plural (all genders)</th></tr></thead>
+      <tbody>
+        <tr><td>hard adjective</td><td class="pl">dobrego</td><td class="pl">dobrej</td><td class="pl">dobrych</td></tr>
+        <tr><td>soft adjective</td><td class="pl">taniego</td><td class="pl">taniej</td><td class="pl">tanich</td></tr>
+        <tr><td><i>ten</i></td><td class="pl">tego</td><td class="pl">tej</td><td class="pl">tych</td></tr>
+        <tr><td><i>który</i></td><td class="pl">którego</td><td class="pl">której</td><td class="pl">których</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">So: <span class="pl">dobry student → dobrego studenta</span>, <span class="pl">dobra książka → dobrej książki</span>, <span class="pl">dobre dzieci → dobrych dzieci</span>.</p>
+</section>
+
+<!-- ============ 04 -a/-u ============ -->
+<section id="au">
+  <div class="shead"><div class="snum">04</div><h2>-a or -u? The one real difficulty</h2></div>
+
+  <p>
+    For masculine inanimate nouns there is no rule that predicts the ending with certainty — the choice is lexical and
+    partly historical. But it is not random either: PWN describes clear semantic tendencies, and a learner who knows
+    them guesses right far more often than chance. Learn the tendencies, then memorise the frequent nouns.
+  </p>
+
+  <div class="grid2">
+    <div class="card">
+      <h4><span class="end">-a</span> tends to mean “a thing you can point at”</h4>
+      <ul>
+        <li><b>people and animals</b> — <span class="pl">studenta, psa, konia</span> (exceptions: <span class="pl">wołu, bawołu</span>)</li>
+        <li><b>tools</b> — <span class="pl">noża, klucza, młotka</span></li>
+        <li><b>vessels</b> — <span class="pl">kielicha, czajnika, półmiska</span></li>
+        <li><b>measures, weights, numbers</b> — <span class="pl">hektara, grama, miliona, tuzina</span></li>
+        <li><b>months</b> — <span class="pl">stycznia, lutego, marca … grudnia</span></li>
+        <li><b>dances and games</b> — <span class="pl">walca, mazura, pokera</span></li>
+        <li><b>fruits, mushrooms</b> — <span class="pl">grapefruita, rydza, grzyba</span></li>
+        <li><b>car brands</b> — <span class="pl">mercedesa, fiata</span></li>
+        <li><b>body parts</b> — <span class="pl">nosa, palca, brzucha</span></li>
+        <li>many <b>concrete everyday objects</b> — <span class="pl">chleba, sera, kotleta, komputera, telewizora, dworca</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4><span class="end">-u</span> tends to mean “a mass, a process, an idea”</h4>
+      <ul>
+        <li><b>abstract nouns</b> — <span class="pl">czasu, strachu, bólu, spokoju, sensu, widoku, zachodu</span></li>
+        <li><b>substances and materials</b> — <span class="pl">cukru, ryżu, proszku, piasku, mleka</span> (neuter), <span class="pl">soku, oleju, gazu</span></li>
+        <li><b>collectives</b> — <span class="pl">tłumu, lasu, narodu</span></li>
+        <li><b>loanwords</b> — <span class="pl">biznesu, koncertu, makijażu, lakieru, uniwersytetu, hotelu</span></li>
+        <li><b>places and containers as spaces</b> — <span class="pl">sklepu, banku, parku, rynku, pociągu</span></li>
+        <li><b>verbal nouns in -anie/-enie</b> are neuter, so they take <b>-a</b>: <span class="pl">mieszkania, zdania</span></li>
+      </ul>
+      <p class="small" style="margin-top:10px">Note the trap in the last line: the “process” intuition is right, but those nouns are neuter and end in <b>-a</b> anyway.</p>
+    </div>
+  </div>
+
+  <div class="note warn">
+    <span class="lab">Where the intuition breaks</span>
+    <p>
+      <span class="pl">komputer → komputera</span> (loanword, but concrete object), <span class="pl">telefon → telefonu</span> (also a concrete object).
+      <span class="pl">chleb → chleba</span> (a mass, but <b>-a</b>). <span class="pl">ser → sera</span>. <span class="pl">wół → wołu</span> and <span class="pl">bawół → bawołu</span> (animals, but <b>-u</b>).
+      These are the ones to memorise, and the drills below do exactly that.
+    </p>
+  </div>
+
+  <h3>When the ending changes the meaning</h3>
+  <p>Two nouns are famous for it, and examiners love them:</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Noun</th><th>Meaning</th><th>Genitive</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">przypadek</td><td>a coincidence, a case</td><td class="pl">przypadku</td></tr>
+        <tr><td class="pl">przypadek</td><td>a grammatical case</td><td class="pl">przypadka</td></tr>
+        <tr><td class="pl">bal</td><td>a ball, a party</td><td class="pl">balu</td></tr>
+        <tr><td class="pl">bal</td><td>a log</td><td class="pl">bala</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="lab">Practical strategy</span>
+    <p>
+      Learn the genitive together with the nominative from the start — <i>stół, stołu</i>; <i>sklep, sklepu</i> — the way you
+      learn gender. A noun card without its genitive is half a card. When you must guess: <b>-u</b> for anything abstract,
+      foreign, or mass-like; <b>-a</b> for anything you could put on a table.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 05 PLURAL ============ -->
+<section id="pl">
+  <div class="shead"><div class="snum">05</div><h2>Plural endings</h2></div>
+
+  <p>The plural genitive is the single most used form in Polish after the nominative — it appears after every number from five up. It has four outcomes: <b>-ów</b>, <b>-y</b>, <b>-i</b>, or no ending at all.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Group</th><th>Ending</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td>masculine, hard stem</td><td class="end">-ów</td><td class="pl">student → studentów · kot → kotów · samochód → samochodów · sklep → sklepów</td></tr>
+        <tr><td>masculine, stem in <b>j</b></td><td class="end">-ów</td><td class="pl">kraj → krajów · zwyczaj → zwyczajów</td></tr>
+        <tr><td>masculine, hardened stem (c, cz, dz, dż, rz, sz, ż)</td><td class="end">-y</td><td class="pl">lekarz → lekarzy · klucz → kluczy · miesiąc → miesięcy</td></tr>
+        <tr><td>masculine, soft stem</td><td class="end">-i</td><td class="pl">nauczyciel → nauczycieli · koń → koni · gość → gości</td></tr>
+        <tr><td>masculine in <b>-ec</b></td><td class="end">-ów</td><td class="pl">chłopiec → chłopców · ojciec → ojców · palec → palców</td></tr>
+        <tr><td>masculine in <b>-a</b></td><td class="end">-ów, or none</td><td class="pl">kolega → kolegów · mężczyzna → mężczyzn</td></tr>
+        <tr><td>feminine, hard stem</td><td class="end">none</td><td class="pl">kobieta → kobiet · ulica → ulic · książka → książek</td></tr>
+        <tr><td>feminine, soft or consonant-final</td><td class="end">-y / -i</td><td class="pl">noc → nocy · miłość → miłości · pani → pań</td></tr>
+        <tr><td>neuter in <b>-o / -e</b></td><td class="end">none</td><td class="pl">miasto → miast · morze → mórz · okno → okien</td></tr>
+        <tr><td>neuter, soft stem</td><td class="end">-i</td><td class="pl">narzędzie → narzędzi · mieszkanie → mieszkań</td></tr>
+        <tr><td>neuter in <b>-um</b></td><td class="end">-ów</td><td class="pl">muzeum → muzeów · centrum → centrów</td></tr>
+        <tr><td>foreign feminine in <b>-ia / -ja</b></td><td class="end">-ii / -ji</td><td class="pl">idea → idei · sesja → sesji</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>The fleeting <b>-e-</b></h3>
+  <p>Where the ending disappears, Polish often inserts <b>-e-</b> to keep the word pronounceable. It happens mostly after clusters of consonants:</p>
+  <p class="ex">książka → <span class="g">książek</span> · okno → <span class="g">okien</span> · jabłko → <span class="g">jabłek</span> · siostra → <span class="g">sióstr</span> · matka → <span class="g">matek</span> · córka → <span class="g">córek</span></p>
+
+  <h3>Irregulars you will use constantly</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Nominative</th><th>Genitive plural</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">człowiek</td><td class="pl">ludzi</td><td>different root</td></tr>
+        <tr><td class="pl">rok</td><td class="pl">lat</td><td>different root; <i>roku</i> is the singular</td></tr>
+        <tr><td class="pl">brat</td><td class="pl">braci</td><td>softened stem</td></tr>
+        <tr><td class="pl">ksiądz</td><td class="pl">księży</td><td>softened stem</td></tr>
+        <tr><td class="pl">przyjaciel</td><td class="pl">przyjaciół</td><td>fleeting <i>e</i></td></tr>
+        <tr><td class="pl">dziecko</td><td class="pl">dzieci</td><td>different stem</td></tr>
+        <tr><td class="pl">oko</td><td class="pl">oczu</td><td>irregular</td></tr>
+        <tr><td class="pl">ucho</td><td class="pl">uszu</td><td>irregular</td></tr>
+        <tr><td class="pl">ręka</td><td class="pl">rąk</td><td>nasal vowel returns</td></tr>
+        <tr><td class="pl">pieniądze</td><td class="pl">pieniędzy</td><td>plural only</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note good">
+    <span class="lab">Pattern to hold on to</span>
+    <p>Masculine leans towards <b>-ów</b> (except after soft and hardened consonants). Feminine and neuter lean towards <b>no ending</b> (except after soft consonants). If you must guess a masculine form, guess <b>-ów</b>.</p>
+  </div>
+</section>
+
+<!-- ============ 06 NUMBERS ============ -->
+<section id="numbers">
+  <div class="shead"><div class="snum">06</div><h2>Numbers, quantity, and the 2–4 trap</h2></div>
+
+  <p>This is the single most useful application of the genitive plural, and the one learners get wrong most often — because Polish changes strategy at <b>five</b>.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Number</th><th>Case of the noun</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>nominative singular</td><td class="pl">jeden kot · jedna książka</td></tr>
+        <tr><td>2 – 4</td><td><b>nominative plural</b> (not genitive!)</td><td class="pl">dwa koty · trzy książki · cztery okna</td></tr>
+        <tr><td>5 – 21</td><td><b>genitive plural</b></td><td class="pl">pięć kotów · jedenaście książek · dwadzieścia lat</td></tr>
+        <tr><td>22 – 24</td><td>nominative plural again</td><td class="pl">dwadzieścia dwa koty · dwadzieścia trzy książki</td></tr>
+        <tr><td>25 and up</td><td>genitive plural</td><td class="pl">dwadzieścia pięć kotów · sto książek</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="small">The rule: the last element of the number decides. <b>12, 13, 14</b> behave like 5 — <span class="pl">dwanaście lat</span>, never “dwanaście lata”.</p>
+
+  <h3>Masculine-personal nouns take a special numeral</h3>
+  <p>When the noun is a man or a group including men, the numeral itself has a different genitive form, and even 2–4 switches to the genitive:</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Numeral</th><th>With masculine-personal nouns</th><th>Translation</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">2</td><td class="pl">dwóch studentów</td><td>two students</td></tr>
+        <tr><td class="pl">3</td><td class="pl">trzech studentów</td><td>three students</td></tr>
+        <tr><td class="pl">4</td><td class="pl">czterech studentów</td><td>four students</td></tr>
+        <tr><td class="pl">5</td><td class="pl">pięciu studentów</td><td>five students</td></tr>
+        <tr><td class="pl">10</td><td class="pl">dziesięciu studentów</td><td>ten students</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">So “five students” is <b>pięciu studentów</b>, never “pięć studentów”. Compare <span class="pl">pięć kotów</span> — a cat is not masculine-personal.</p>
+
+  <h3>Quantity words that always demand the genitive</h3>
+  <div class="chips">
+    <span class="chip"><b>dużo</b> pracy</span>
+    <span class="chip"><b>mało</b> czasu</span>
+    <span class="chip"><b>wiele</b> osób</span>
+    <span class="chip"><b>kilka</b> minut</span>
+    <span class="chip"><b>parę</b> lat</span>
+    <span class="chip"><b>trochę</b> mleka</span>
+    <span class="chip"><b>mnóstwo</b> ludzi</span>
+    <span class="chip"><b>więcej</b> pieniędzy</span>
+    <span class="chip"><b>mniej</b> pracy</span>
+    <span class="chip"><b>pół</b> godziny</span>
+    <span class="chip"><b>półtora</b> roku</span>
+    <span class="chip"><b>półtorej</b> godziny</span>
+  </div>
+  <p class="small"><b>półtora</b> goes with masculine and neuter nouns, <b>półtorej</b> with feminine ones — both take the genitive singular.</p>
+
+  <h3>Collective numerals</h3>
+  <p>For mixed groups, children, and young animals Polish uses <span class="pl">dwoje, troje, czworo, pięcioro</span> + genitive plural:</p>
+  <p class="ex">dwoje <span class="g">dzieci</span> · troje <span class="g">ludzi</span> · pięcioro <span class="g">kurcząt</span></p>
+  <p class="small">Their own genitive is <b>-a</b>: <span class="pl">pięciorga dzieci</span> — “of five children”.</p>
+
+  <div class="note">
+    <span class="lab">Why “nie ma” loves numbers</span>
+    <p><span class="pl">Nie ma pięciu lat</span> — “he is not five years old”, literally “there is no five years”. The numeral <i>pięć</i> itself becomes genitive <b>pięciu</b> because it is the object of <i>nie ma</i>. Two layers of genitive in three words.</p>
+  </div>
+</section>
+
+<!-- ============ 07 VERBS ============ -->
+<section id="verbs">
+  <div class="shead"><div class="snum">07</div><h2>Verbs that take the genitive</h2></div>
+
+  <p>Several dozen Polish verbs govern the genitive as their direct object. They cluster into recognisable meanings — and the clusters are the memory hook.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Group</th><th>Verbs</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td><b>Fear, shame</b></td><td class="pl">bać się, wstydzić się, obawiać się</td><td class="pl">Boję się <span class="g">ciemności</span>.</td></tr>
+        <tr><td><b>Learning, finding out</b></td><td class="pl">uczyć się, nauczyć się, dowiedzieć się, zapomnieć</td><td class="pl">Uczę się <span class="g">polskiego</span>.</td></tr>
+        <tr><td><b>Seeking, needing</b></td><td class="pl">szukać, potrzebować, wymagać, unikać</td><td class="pl">Szukam <span class="g">mieszkania</span>.</td></tr>
+        <tr><td><b>Using</b></td><td class="pl">używać, użyć</td><td class="pl">Używam <span class="g">komputera</span>.</td></tr>
+        <tr><td><b>Listening, touching</b></td><td class="pl">słuchać, dotykać, dotknąć</td><td class="pl">Słucham <span class="g">muzyki</span>.</td></tr>
+        <tr><td><b>Defending, guarding</b></td><td class="pl">bronić, strzec, pilnować, przestrzegać</td><td class="pl">Pilnuję <span class="g">bagażu</span>.</td></tr>
+        <tr><td><b>Keeping a promise</b></td><td class="pl">dotrzymać, dochować</td><td class="pl">Dotrzymał <span class="g">słowa</span>.</td></tr>
+        <tr><td><b>Wishing, demanding</b></td><td class="pl">życzyć, winszować, gratulować, żądać, domagać się, oczekiwać, chcieć, pragnąć</td><td class="pl">Życzę ci <span class="g">szczęścia</span>.</td></tr>
+        <tr><td><b>Refusing, forbidding</b></td><td class="pl">odmawiać, zabraniać, zakazać, zaprzestać, zaniechać</td><td class="pl">Zabraniam <span class="g">palenia</span>.</td></tr>
+        <tr><td><b>Achieving, experiencing</b></td><td class="pl">dokonać, doznać, doświadczyć, doczekać się, dochodzić, nabyć</td><td class="pl">Dokonał <span class="g">wyboru</span>.</td></tr>
+        <tr><td><b>Giving, delivering</b></td><td class="pl">udzielić, dostarczyć</td><td class="pl">Udzielił <span class="g">wywiadu</span>.</td></tr>
+        <tr><td><b>Getting rid of</b></td><td class="pl">pozbyć się, wyzbyć się, wyrzec się, pozbawić</td><td class="pl">Pozbyłem się <span class="g">starego telefonu</span>.</td></tr>
+        <tr><td><b>Tasting, partitive</b></td><td class="pl">próbować, skosztować, napić się, nalać, dodać, ukroić, zjeść</td><td class="pl">Napiłem się <span class="g">wody</span>.</td></tr>
+        <tr><td><b>Impersonal</b></td><td class="pl">brakuje, ubyło, przybyło, wystarczy, szkoda, żal</td><td class="pl">Brakuje mi <span class="g">czasu</span>.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>The logic behind the list</h3>
+  <p>PWN groups these verbs by meaning, and the grouping is genuinely predictive:</p>
+  <ul>
+    <li><b>Negation-like meaning</b> — <span class="pl">brakować, odmawiać, zabraniać, zaprzestać, zaniechać, zapomnieć</span>: each can be paraphrased with “not”. The genitive is the case of absence, so it fits.</li>
+    <li><b>Multi-stage or partial action</b> — <span class="pl">bronić, dochodzić, doczekać się, dostarczać, pilnować</span>: you deal with part of a process, not a completed object.</li>
+    <li><b>Wish, demand, expectation</b> — <span class="pl">chcieć, pragnąć, żądać, wymagać, oczekiwać, życzyć</span>: what you want is not yet “there”, so again the case of non-existence.</li>
+  </ul>
+  <p>That is why <span class="pl">chcę kawy</span> (a part, some coffee) differs from <span class="pl">chcę kawę</span> (the whole cup, accusative). Both are correct; the genitive makes it partial.</p>
+
+  <h3>Verbs whose object changes the meaning</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>With genitive</th><th>With accusative</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">dobić <span class="g">targu</span> — settle a deal</td><td class="pl">dobić ranione zwierzę — finish off a wounded animal</td></tr>
+        <tr><td class="pl">dopiąć <span class="g">celu</span> — achieve a goal</td><td class="pl">dopiąć kurtkę — zip up a jacket</td></tr>
+        <tr><td class="pl">dostać <span class="g">grypy</span> — catch flu</td><td class="pl">dostać prezent — receive a present</td></tr>
+        <tr><td class="pl">dotknąć <span class="g">klamki</span> — touch a handle</td><td class="pl">dotknąć koleżankę — hurt a colleague</td></tr>
+        <tr><td class="pl">nabyć <span class="g">ogłady</span> — acquire refinement</td><td class="pl">nabyć posiadłość — buy an estate</td></tr>
+        <tr><td class="pl">przestrzegać <span class="g">przepisów</span> — obey rules</td><td class="pl">przestrzec koleżankę — warn a colleague</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Verbs that look genitive but are not</h3>
+  <div class="note warn">
+    <span class="lab">False friends from your instrumental and dative work</span>
+    <p>
+      <b>Dative:</b> <span class="pl">pomagać, dziękować, ufać, przyglądać się, przysłuchiwać się</span> — <span class="pl">Pomagam mamie</span>, not “mamy”.<br>
+      <b>Instrumental:</b> <span class="pl">interesować się, zajmować się, brzydzić się, kierować, dowodzić, grozić, opiekować się, posługiwać się</span> — <span class="pl">Interesuję się historią</span>, not “historii”.<br>
+      <b>Genitive but only with a preposition:</b> <span class="pl">cieszyć się z czegoś, śmiać się z czegoś</span> — <span class="pl">Cieszę się z sukcesu</span>.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 08 PREPOSITIONS ============ -->
+<section id="preps">
+  <div class="shead"><div class="snum">08</div><h2>Prepositions that command the genitive</h2></div>
+
+  <p>This is the most mechanical part of the case — a closed list. Learn it once and it never changes.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Preposition</th><th>Meaning</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">do</td><td>to, into</td><td class="pl">do <span class="g">sklepu</span>, do <span class="g">Polski</span></td></tr>
+        <tr><td class="pl">od</td><td>from (a person, a point)</td><td class="pl">od <span class="g">rana</span>, od <span class="g">brata</span></td></tr>
+        <tr><td class="pl">z / ze</td><td>from, out of</td><td class="pl">z <span class="g">Polski</span>, z <span class="g">domu</span></td></tr>
+        <tr><td class="pl">u</td><td>at someone’s place, at a doctor’s</td><td class="pl">u <span class="g">lekarza</span>, u <span class="g">mamy</span></td></tr>
+        <tr><td class="pl">bez</td><td>without</td><td class="pl">bez <span class="g">cukru</span>, bez <span class="g">ciebie</span></td></tr>
+        <tr><td class="pl">dla</td><td>for</td><td class="pl">dla <span class="g">dzieci</span></td></tr>
+        <tr><td class="pl">oprócz / prócz</td><td>except, besides</td><td class="pl">oprócz <span class="g">ciebie</span></td></tr>
+        <tr><td class="pl">koło / około / obok / blisko</td><td>near, around, next to</td><td class="pl">koło <span class="g">domu</span>, około <span class="g">piątej</span></td></tr>
+        <tr><td class="pl">dookoła</td><td>around</td><td class="pl">dookoła <span class="g">stołu</span></td></tr>
+        <tr><td class="pl">wśród / spośród</td><td>among, from among</td><td class="pl">wśród <span class="g">drzew</span></td></tr>
+        <tr><td class="pl">spod / znad / zza / sprzed / sponad / spomiędzy</td><td>from under / from above / from behind …</td><td class="pl">spod <span class="g">łóżka</span>, znad <span class="g">morza</span></td></tr>
+        <tr><td class="pl">podczas / w czasie / w trakcie</td><td>during</td><td class="pl">podczas <span class="g">obiadu</span></td></tr>
+        <tr><td class="pl">w ciągu</td><td>within, in the course of</td><td class="pl">w ciągu <span class="g">tygodnia</span></td></tr>
+        <tr><td class="pl">według / wedle / podług</td><td>according to</td><td class="pl">według <span class="g">mnie</span></td></tr>
+        <tr><td class="pl">wobec / względem</td><td>towards, in relation to</td><td class="pl">wobec <span class="g">niego</span></td></tr>
+        <tr><td class="pl">wskutek / z powodu / na skutek</td><td>as a result of, because of</td><td class="pl">z powodu <span class="g">choroby</span></td></tr>
+        <tr><td class="pl">zamiast</td><td>instead of</td><td class="pl">zamiast <span class="g">kawy</span></td></tr>
+        <tr><td class="pl">pomimo / mimo</td><td>despite</td><td class="pl">pomimo <span class="g">deszczu</span></td></tr>
+        <tr><td class="pl">wzdłuż / wpoprzek</td><td>along / across</td><td class="pl">wzdłuż <span class="g">rzeki</span></td></tr>
+        <tr><td class="pl">w razie / w wypadku / w przypadku</td><td>in case of</td><td class="pl">w razie <span class="g">potrzeby</span></td></tr>
+        <tr><td class="pl">w myśl</td><td>in accordance with</td><td class="pl">w myśl <span class="g">przepisów</span></td></tr>
+        <tr><td class="pl">w imieniu</td><td>on behalf of</td><td class="pl">w imieniu <span class="g">firmy</span></td></tr>
+        <tr><td class="pl">w stronę</td><td>towards</td><td class="pl">w stronę <span class="g">lasu</span></td></tr>
+        <tr><td class="pl">z okazji / z wyjątkiem</td><td>on the occasion of / except</td><td class="pl">z okazji <span class="g">urodzin</span></td></tr>
+        <tr><td class="pl">celem / tytułem / w drodze</td><td>for the purpose of, by way of</td><td class="pl">celem <span class="g">poprawy</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>The four that look genitive and are not</h3>
+  <div class="note warn">
+    <span class="lab">Dative prepositions — a frequent mistake</span>
+    <p><span class="pl">dzięki</span> (thanks to), <span class="pl">wbrew</span> (contrary to), <span class="pl">naprzeciw</span> (opposite), <span class="pl">przeciw</span> (against), <span class="pl">ku</span> (towards) all take the <b>dative</b>:</p>
+    <p class="ex">dzięki <span class="g">tobie</span> · wbrew <span class="g">przepisom</span> · naprzeciw <span class="g">oknu</span> · ku <span class="g">niebu</span></p>
+  </div>
+
+  <h3>“z” means two different cases</h3>
+  <p><b>z + genitive</b> = from, out of. <b>z + instrumental</b> = with, together with.</p>
+  <p class="ex">Wracam z <span class="g">pracy</span>. — I’m coming back from work.</p>
+  <p class="ex">Kawa z <b>mlekiem</b>. — Coffee with milk.</p>
+
+  <h3>Noun + noun: the prepositional alternative</h3>
+  <p>Polish often prefers a bare genitive where English needs a phrase, but a prepositional version usually exists too:</p>
+  <p class="ex">klucz <span class="g">do samochodu</span> ǁ klucz <span class="g">samochodu</span> · okazja <span class="g">zobaczenia</span> wystawy ǁ okazja <span class="g">do zobaczenia</span> wystawy</p>
+</section>
+
+<!-- ============ 09 NEGATION ============ -->
+<section id="negation">
+  <div class="shead"><div class="snum">09</div><h2>Negation: the accusative becomes genitive</h2></div>
+
+  <p>The rule is short and, in standard Polish, reliable: <b>a negated verb that would take an accusative object takes a genitive object instead.</b></p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Affirmative (accusative)</th><th>Negative (genitive)</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">Mam <b>samochód</b>.</td><td class="pl">Nie mam <span class="g">samochodu</span>.</td></tr>
+        <tr><td class="pl">Piję <b>kawę</b>.</td><td class="pl">Nie piję <span class="g">kawy</span>.</td></tr>
+        <tr><td class="pl">Czytam <b>gazetę</b>.</td><td class="pl">Nie czytam <span class="g">gazety</span>.</td></tr>
+        <tr><td class="pl">Mam <b>dobry pomysł</b>.</td><td class="pl">Nie mam <span class="g">dobrego pomysłu</span>.</td></tr>
+        <tr><td class="pl">Rozumiem <b>to pytanie</b>.</td><td class="pl">Nie rozumiem <span class="g">tego pytania</span>.</td></tr>
+        <tr><td class="pl">Znam <b>tę panią</b>.</td><td class="pl">Nie znam <span class="g">tej pani</span>.</td></tr>
+        <tr><td class="pl">Mam <b>dwa koty</b>.</td><td class="pl">Nie mam <span class="g">dwóch kotów</span>.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>“nie ma” and “nie było”</h3>
+  <p>Existence negated is always genitive — this is the construction you will use most in real life:</p>
+  <p class="ex">Nie ma <span class="g">mleka</span>. · Nie ma <span class="g">problemu</span>. · Nie ma <span class="g">nikogo</span>. · Nie było <span class="g">czasu</span>. · Nie będzie <span class="g">egzaminu</span>.</p>
+
+  <h3>When the rule does <em>not</em> apply</h3>
+  <ul>
+    <li><b>The verb already governs another case.</b> <span class="pl">Pomagam mamie</span> → <span class="pl">Nie pomagam mamie</span> (dative stays). <span class="pl">Interesuję się historią</span> → <span class="pl">Nie interesuję się historią</span> (instrumental stays).</li>
+    <li><b>“być” with a predicate noun.</b> <span class="pl">Jestem nauczycielem</span> → <span class="pl">Nie jestem nauczycielem</span> (instrumental stays).</li>
+    <li><b>“to jest / to nie jest”.</b> <span class="pl">To nie jest mój samochód</span> — nominative, because there is no accusative object at all.</li>
+    <li><b>The object sits behind a preposition.</b> <span class="pl">Mówię o tobie</span> → <span class="pl">Nie mówię o tobie</span> (locative stays).</li>
+    <li><b>The negated word is the subject, not the object.</b> <span class="pl">Nikt nie przyszedł</span> — nominative subject.</li>
+  </ul>
+
+  <div class="note">
+    <span class="lab">Register</span>
+    <p>In casual speech you will hear <span class="pl">nie mam czas</span> or <span class="pl">nie widzę Annę</span>. It is common, it is understood, and in an exam or a job interview it is wrong. Standard Polish requires the genitive, and natives notice its absence.</p>
+  </div>
+
+  <h3>Pronouns under negation</h3>
+  <p>The object pronoun also switches: <span class="pl">Mam <b>go</b></span> → <span class="pl">Nie mam <b>go</b></span>; <span class="pl">Widzę <b>ją</b></span> → <span class="pl">Nie widzę <b>jej</b></span>; <span class="pl">Znam <b>to</b></span> → <span class="pl">Nie znam <b>tego</b></span>.</p>
+  <p class="small">Masculine <i>go</i> looks identical because the accusative and genitive of <i>on</i> coincide. Feminine and neuter show the change clearly.</p>
+</section>
+
+<!-- ============ 10 PRONOUNS ============ -->
+<section id="pronouns">
+  <div class="shead"><div class="snum">10</div><h2>Pronouns</h2></div>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Nominative</th><th>Genitive</th><th>After a preposition</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">ja</td><td class="pl">mnie</td><td class="pl">do mnie</td><td>no <i>n-</i> for 1st/2nd person</td></tr>
+        <tr><td class="pl">ty</td><td class="pl">ciebie / cię</td><td class="pl">do ciebie</td><td><i>cię</i> is the unstressed form</td></tr>
+        <tr><td class="pl">on</td><td class="pl">jego / go</td><td class="pl">do niego</td><td><i>go</i> never starts a sentence</td></tr>
+        <tr><td class="pl">ona</td><td class="pl">jej</td><td class="pl">do niej</td><td></td></tr>
+        <tr><td class="pl">ono</td><td class="pl">jego / go</td><td class="pl">do niego</td><td></td></tr>
+        <tr><td class="pl">my</td><td class="pl">nas</td><td class="pl">do nas</td><td></td></tr>
+        <tr><td class="pl">wy</td><td class="pl">was</td><td class="pl">do was</td><td></td></tr>
+        <tr><td class="pl">oni / one</td><td class="pl">ich</td><td class="pl">do nich</td><td></td></tr>
+        <tr><td class="pl">siebie</td><td class="pl">siebie / się</td><td class="pl">do siebie</td><td>reflexive</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="lab">The <i>n-</i> rule</span>
+    <p>After a preposition, third-person pronouns gain <b>n-</b>: <span class="pl">do niego, u niej, bez nich, oprócz niego</span>. First and second person do not: <span class="pl">do mnie, u ciebie, bez was</span>.</p>
+  </div>
+
+  <h3>Possessives and demonstratives</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th></th><th>Masculine / neuter</th><th>Feminine</th><th>Plural</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">mój</td><td class="pl">mojego</td><td class="pl">mojej</td><td class="pl">moich</td></tr>
+        <tr><td class="pl">twój</td><td class="pl">twojego</td><td class="pl">twojej</td><td class="pl">twoich</td></tr>
+        <tr><td class="pl">nasz</td><td class="pl">naszego</td><td class="pl">naszej</td><td class="pl">naszych</td></tr>
+        <tr><td class="pl">swój</td><td class="pl">swojego</td><td class="pl">swojej</td><td class="pl">swoich</td></tr>
+        <tr><td class="pl">ten</td><td class="pl">tego</td><td class="pl">tej</td><td class="pl">tych</td></tr>
+        <tr><td class="pl">czyj</td><td class="pl">czyjego</td><td class="pl">czyjej</td><td class="pl">czyich</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small"><span class="pl">jego, jej, ich</span> do not decline: <span class="pl">samochód jego ojca</span>, <span class="pl">książka jej siostry</span>.</p>
+
+  <h3>Adjectives with the genitive</h3>
+  <p>A small set of adjectives governs the genitive directly — worth recognising, easy to use:</p>
+  <div class="chips">
+    <span class="chip"><b>pewien</b> sukcesu</span>
+    <span class="chip"><b>świadomy</b> ryzyka</span>
+    <span class="chip"><b>pełen</b> energii</span>
+    <span class="chip"><b>godny</b> uwagi</span>
+    <span class="chip"><b>wart</b> uwagi</span>
+    <span class="chip"><b>chciwy</b> zysku</span>
+    <span class="chip"><b>żądny</b> sławy</span>
+    <span class="chip"><b>pozbawiony</b> sensu</span>
+    <span class="chip"><b>bliski</b> płaczu</span>
+  </div>
+</section>
+
+<!-- ============ 11 TRAPS ============ -->
+<section id="traps">
+  <div class="shead"><div class="snum">11</div><h2>Ten traps, in the order you will hit them</h2></div>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Wrong</th><th>Right</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td class="no">Słucham muzykę.</td><td class="yes">Słucham muzyki.</td><td><i>słuchać</i> governs the genitive, not the accusative</td></tr>
+        <tr><td class="no">Szukam pracę.</td><td class="yes">Szukam pracy.</td><td><i>szukać</i> — genitive</td></tr>
+        <tr><td class="no">Uczę się o polskim.</td><td class="yes">Uczę się polskiego.</td><td>no preposition; the subject studied is the object</td></tr>
+        <tr><td class="no">Nie mam czas.</td><td class="yes">Nie mam czasu.</td><td>negation → genitive</td></tr>
+        <tr><td class="no">pięć książki</td><td class="yes">pięć książek</td><td>5+ → genitive plural</td></tr>
+        <tr><td class="no">dwa kotów</td><td class="yes">dwa koty</td><td>2–4 → nominative plural</td></tr>
+        <tr><td class="no">pięć studenty</td><td class="yes">pięciu studentów</td><td>masculine-personal numeral + genitive</td></tr>
+        <tr><td class="no">bez cukier</td><td class="yes">bez cukru</td><td>preposition + genitive</td></tr>
+        <tr><td class="no">dzięki ciebie</td><td class="yes">dzięki tobie</td><td><i>dzięki</i> takes the dative</td></tr>
+        <tr><td class="no">Nie jestem studenta.</td><td class="yes">Nie jestem studentem.</td><td><i>być</i> takes the instrumental</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note good">
+    <span class="lab">The three questions to ask before any noun</span>
+    <p><b>1.</b> Is the verb negated? → genitive. <b>2.</b> Is there a number of 5+ or a quantity word? → genitive plural. <b>3.</b> Is there a preposition from the genitive list? → genitive. If none of the three, the noun is probably not genitive at all.</p>
+  </div>
+</section>
+
+<!-- ============ 12 DRILLS ============ -->
+<section id="drills">
+  <div class="shead"><div class="snum">12</div><h2>Drills</h2></div>
+  <p id="drillIntro">Eight sets, 191 items. Every answer comes with the reason. Use <b>1–9</b> to pick an option, <b>Enter</b> to check or continue. Your best score per set is kept on this device.</p>
+
+  <div class="drills">
+    <div class="setgrid" id="setgrid"></div>
+
+    <div class="runner" id="runner">
+      <div class="rhead">
+        <span class="ttl" id="runTitle"></span>
+        <span class="cnt" id="runCount"></span>
+        <span class="sp"></span>
+        <span class="score" id="runScore"></span>
+        <button class="xbtn" id="quitBtn">Change set</button>
+      </div>
+      <div class="pbar"><i id="pfill"></i></div>
+
+      <div class="ask" id="askLine"></div>
+      <p class="q" id="qText"></p>
+      <p class="qhint" id="qHint"></p>
+
+      <div class="opts" id="opts"></div>
+      <div class="typebox" id="typebox" style="display:none">
+        <input id="answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Your answer">
+        <button class="btn primary" id="checkBtn">Check</button>
+      </div>
+
+      <div class="fb" id="fb" aria-live="polite"></div>
+
+      <div class="rfoot">
+        <button class="btn primary" id="nextBtn" disabled>Next</button>
+        <span class="sp"></span>
+        <button class="xbtn" id="skipBtn">Skip?</button>
+      </div>
+    </div>
+
+    <div class="summary" id="summary" style="display:none">
+      <div class="big" id="sumScore">0 / 0</div>
+      <p id="sumMsg"></p>
+      <div class="cta" style="justify-content:center" id="sumBtns"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 13 REFERENCE ============ -->
+<section id="reference">
+  <div class="shead"><div class="snum">13</div><h2>Reference: 49 nouns, verified</h2></div>
+  <p>Every form below was checked against the declension tables of Polish Wiktionary and, where relevant, the PWN language clinic. Type to filter by noun, ending, or gender.</p>
+
+  <div class="filter">
+    <input id="refFilter" type="search" placeholder="Filter: kot, -ów, feminine, irregular…" aria-label="Filter the reference table">
+    <span class="n" id="refCount"></span>
+  </div>
+
+  <div class="tw">
+    <table id="reftable">
+      <thead><tr><th>Noun</th><th>Genitive singular</th><th>Genitive plural</th><th>Why</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 14 CHEAT ============ -->
+<section id="cheat">
+  <div class="shead"><div class="snum">14</div><h2>One-page cheat sheet</h2></div>
+
+  <h3>Endings</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Gender</th><th>Singular</th><th>Plural</th></tr></thead>
+      <tbody>
+        <tr><td>masculine — person / animal</td><td class="pl">-a</td><td class="pl">-ów · -y · -i</td></tr>
+        <tr><td>masculine — thing</td><td class="pl">-a or -u</td><td class="pl">-ów · -y · -i</td></tr>
+        <tr><td>masculine in -a</td><td class="pl">-y / -i</td><td class="pl">-ów, or none</td></tr>
+        <tr><td>feminine</td><td class="pl">-y / -i</td><td class="pl">no ending, or -y / -i</td></tr>
+        <tr><td>neuter</td><td class="pl">-a</td><td class="pl">no ending, -i, or -ów</td></tr>
+        <tr><td>adjectives</td><td class="pl">-ego / -ej</td><td class="pl">-ich / -ych</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>The four rules that cover most real sentences</h3>
+  <ol>
+    <li><b>Negated verb</b> → accusative becomes genitive. <span class="pl">Nie mam czasu.</span></li>
+    <li><b>5 and above, and quantity words</b> → genitive plural. <span class="pl">pięć książek, dużo pracy.</span></li>
+    <li><b>Genitive prepositions</b> → do, od, z, u, bez, dla, oprócz, koło, około, obok, podczas, według, wobec, zamiast, pomimo, w ciągu, z powodu.</li>
+    <li><b>Verb + genitive</b> → szukać, uczyć się, bać się, potrzebować, używać, słuchać, pilnować, wymagać, oczekiwać, życzyć, brakuje.</li>
+  </ol>
+
+  <h3>Say it out loud, ten times</h3>
+  <p class="ex">Nie mam <span class="g">czasu</span>. · Nie ma <span class="g">mleka</span>. · Szukam <span class="g">mieszkania</span>. · Uczę się <span class="g">polskiego</span>. · Pięć <span class="g">książek</span>. · Szklanka <span class="g">wody</span>. · Do <span class="g">sklepu</span>. · Bez <span class="g">cukru</span>. · Boję się <span class="g">ciemności</span>. · Według <span class="g">mnie</span>.</p>
+
+  <div class="cta" style="margin-top:26px">
+    <button class="btn ghost" onclick="window.print()">Print this page</button>
+    <a class="btn ghost" href="#drills">Back to the drills</a>
+  </div>
+</section>
+
+<footer>
+  <p>
+    <b>Sources.</b> Hanna Jadacka, „Dopełniacz”, Poradnia Językowa PWN (sjp.pwn.pl) — the authoritative description of
+    endings, numeral genitives, verb government and the noun pairs whose meaning depends on the ending.
+    Polish Wiktionary declension tables, used to verify every noun form on this page mechanically (161 words checked).
+    <i>Dopełniacz</i>, Wikipedia (pl) for the functional overview.
+  </p>
+  <p>Made as a study companion. Corrections welcome — the drifts between textbook rules and living usage are exactly what this page tries not to hide.</p>
+</footer>
+
+</main>
+
+<script>
+/* ============================================================
+   DATA
+   ============================================================ */
+const SETS = [
+{
+  id:"endings", title:"Pick the genitive", meta:"24 items · case recognition",
+  ask:"Which form is the genitive singular?",
+  type:"choice",
+  items:[
+    {q:"student", hint:"masculine · person", opts:["studenta","studentowi","studentem"], a:"studenta", why:"Masculine nouns for people take -a. The other two are dative and instrumental."},
+    {q:"kot", hint:"masculine · animal", opts:["kota","kotu","kotem"], a:"kota", why:"Animals take -a: kot → kota."},
+    {q:"stół", hint:"masculine · thing", opts:["stołu","stołowi","stołem"], a:"stołu", why:"One of the -u nouns. A table is a thing, but the ending is lexical: stołu."},
+    {q:"komputer", hint:"masculine · thing", opts:["komputera","komputerowi","komputerem"], a:"komputera", why:"A loanword, but a concrete object, so -a: komputera."},
+    {q:"klucz", hint:"masculine · thing", opts:["klucza","kluczowi","kluczem"], a:"klucza", why:"A tool → -a: klucza. Note the plural is kluczy."},
+    {q:"miesiąc", hint:"masculine · time", opts:["miesiąca","miesiącowi","miesiącem"], a:"miesiąca", why:"Months and measures take -a: miesiąca."},
+    {q:"samochód", hint:"masculine · thing", opts:["samochodu","samochodowi","samochodem"], a:"samochodu", why:"A vehicle, but -u: samochodu. Memorise it."},
+    {q:"nauczyciel", hint:"masculine · person", opts:["nauczyciela","nauczycielowi","nauczycielem"], a:"nauczyciela", why:"Person → -a: nauczyciela."},
+    {q:"lekarz", hint:"masculine · person", opts:["lekarza","lekarzowi","lekarzem"], a:"lekarza", why:"Person → -a, even with a hardened stem: lekarza."},
+    {q:"gość", hint:"masculine · person", opts:["gościa","gościowi","gościem"], a:"gościa", why:"Person → -a: gościa. The plural is gości."},
+    {q:"przyjaciel", hint:"masculine · person", opts:["przyjaciela","przyjacielowi","przyjacielem"], a:"przyjaciela", why:"Person → -a: przyjaciela. Plural is irregular: przyjaciół."},
+    {q:"koń", hint:"masculine · animal", opts:["konia","koniowi","koniem"], a:"konia", why:"Animal → -a: konia. Soft stem, so the plural is koni."},
+    {q:"książka", hint:"feminine · hard k", opts:["książki","książce","książką"], a:"książki", why:"Feminine after k → -i: książki. Plural is książek."},
+    {q:"ulica", hint:"feminine · hardened c", opts:["ulicy","ulicę","ulicą"], a:"ulicy", why:"Hardened c → -y: ulicy."},
+    {q:"noc", hint:"feminine · consonant-final", opts:["nocy","noc","nocą"], a:"nocy", why:"Feminine ending in a consonant still takes -y after a hardened stem: nocy."},
+    {q:"miłość", hint:"feminine · soft", opts:["miłości","miłość","miłością"], a:"miłości", why:"Soft stem → -i: miłości. The same form serves singular and plural."},
+    {q:"ręka", hint:"feminine · hard k", opts:["ręki","rękę","ręką"], a:"ręki", why:"After k → -i: ręki. Plural is rąk."},
+    {q:"krew", hint:"feminine · irregular", opts:["krwi","krew","krwią"], a:"krwi", why:"krew → krwi, in both numbers."},
+    {q:"okno", hint:"neuter", opts:["okna","oknu","oknem"], a:"okna", why:"Every neuter takes -a: okna."},
+    {q:"morze", hint:"neuter · soft", opts:["morza","morzu","morzem"], a:"morza", why:"Neuter → -a, even with a soft stem: morza. Plural is mórz."},
+    {q:"imię", hint:"neuter · -ię", opts:["imienia","imieniu","imieniem"], a:"imienia", why:"The -ię nouns expand: imię → imienia. Plural: imion."},
+    {q:"dziecko", hint:"neuter", opts:["dziecka","dziecku","dzieckiem"], a:"dziecka", why:"Neuter → -a: dziecka. Plural is children: dzieci."},
+    {q:"narzędzie", hint:"neuter · soft", opts:["narzędzia","narzędziu","narzędziem"], a:"narzędzia", why:"Neuter → -a: narzędzia. Plural: narzędzi."},
+    {q:"zwierzę", hint:"neuter · -ę", opts:["zwierzęcia","zwierzęciu","zwierzęciem"], a:"zwierzęcia", why:"The -ę nouns expand: zwierzę → zwierzęcia. Plural: zwierząt."}
+  ]
+},
+{
+  id:"au", title:"-a or -u?", meta:"26 items · the masculine choice",
+  ask:"Choose the correct genitive singular.",
+  type:"choice",
+  items:[
+    {q:"chleb", hint:"a mass noun — but which ending?", opts:["chleba","chlebu"], a:"chleba", why:"One of the classic exceptions: a substance with -a. chleba."},
+    {q:"bank", hint:"a place", opts:["banku","banka"], a:"banku", why:"Places and institutions lean to -u: banku."},
+    {q:"nóż", hint:"a tool", opts:["noża","nożu"], a:"noża", why:"Tools take -a: noża."},
+    {q:"telefon", hint:"an object", opts:["telefonu","telefona"], a:"telefonu", why:"-u, unlike komputer. This pair is worth memorising."},
+    {q:"rower", hint:"an object", opts:["roweru","rowera"], a:"roweru", why:"-u: roweru."},
+    {q:"widelec", hint:"a tool, ends in -ec", opts:["widelca","widelcu"], a:"widelca", why:"Tools take -a: widelca. Plural is widelców."},
+    {q:"hotel", hint:"a building, a loanword", opts:["hotelu","hotela"], a:"hotelu", why:"Loanword and place → -u: hotelu."},
+    {q:"grzyb", hint:"a mushroom", opts:["grzyba","grzybu"], a:"grzyba", why:"Mushrooms take -a: grzyba."},
+    {q:"rynek", hint:"a place", opts:["rynku","rynka"], a:"rynku", why:"A place → -u: rynku."},
+    {q:"dworzec", hint:"a place, ends in -ec", opts:["dworca","dworcu"], a:"dworca", why:"Despite -ec, this one takes -a: dworca."},
+    {q:"telewizor", hint:"an object ending in -or", opts:["telewizora","telewizoru"], a:"telewizora", why:"Nouns in -or usually take -a: telewizora."},
+    {q:"sklep", hint:"a place", opts:["sklepu","sklepa"], a:"sklepu", why:"A place → -u: sklepu."},
+    {q:"palec", hint:"a body part, ends in -ec", opts:["palca","palcu"], a:"palca", why:"Body parts take -a: palca."},
+    {q:"ryż", hint:"a substance", opts:["ryżu","ryża"], a:"ryżu", why:"Substances lean to -u: ryżu."},
+    {q:"czas", hint:"abstract", opts:["czasu","czasa"], a:"czasu", why:"Abstract nouns take -u: czasu."},
+    {q:"park", hint:"a place", opts:["parku","parka"], a:"parku", why:"-u: parku. Note parka would be a completely different word — a jacket."},
+    {q:"ser", hint:"a food", opts:["sera","seru"], a:"sera", why:"-a: sera. Like chleb, a substance that takes -a."},
+    {q:"kotlet", hint:"a food", opts:["kotleta","kotletu"], a:"kotleta", why:"-a: kotleta."},
+    {q:"koncert", hint:"an event, a loanword", opts:["koncertu","koncerta"], a:"koncertu", why:"Events and loanwords lean to -u: koncertu."},
+    {q:"makijaż", hint:"a loanword", opts:["makijażu","makijaża"], a:"makijażu", why:"Loanword → -u: makijażu."},
+    {q:"cukier", hint:"a substance", opts:["cukru","cukra"], a:"cukru", why:"-u: cukru."},
+    {q:"proszek", hint:"a substance, ends in -ek", opts:["proszku","proszka"], a:"proszku", why:"-u: proszku. Many -ek nouns with a mass meaning behave this way."},
+    {q:"bal", hint:"meaning: a party", opts:["balu","bala"], a:"balu", why:"A party → balu. A log is bal → bala. The ending carries the meaning."},
+    {q:"przypadek", hint:"meaning: a grammatical case", opts:["przypadka","przypadku"], a:"przypadka", why:"The grammatical term takes -a: przypadka. A coincidence takes -u: przypadku."},
+    {q:"wół", hint:"an animal — the exception", opts:["wołu","woła"], a:"wołu", why:"One of only two animals with -u. The form woła exists but is colloquial."},
+    {q:"bawół", hint:"an animal — the exception", opts:["bawołu","bawoła"], a:"bawołu", why:"The second animal exception. Standard is bawołu."}
+  ]
+},
+{
+  id:"plural", title:"Genitive plural", meta:"38 items · typed answers",
+  ask:"Type the genitive plural.",
+  type:"type",
+  items:[
+    {q:"student", hint:"masculine · person", a:["studentów"], why:"Hard stem → -ów: studentów."},
+    {q:"kot", hint:"masculine · animal", a:["kotów"], why:"Hard stem → -ów: kotów."},
+    {q:"pies", hint:"masculine · animal", a:["psów"], why:"Fleeting e disappears: pies → psów."},
+    {q:"lekarz", hint:"masculine · hardened rz", a:["lekarzy"], why:"Hardened stem → -y: lekarzy."},
+    {q:"nauczyciel", hint:"masculine · soft l", a:["nauczycieli"], why:"Soft l → -i: nauczycieli."},
+    {q:"koń", hint:"masculine · soft", a:["koni"], why:"Soft stem → -i: koni."},
+    {q:"przyjaciel", hint:"masculine · irregular", a:["przyjaciół"], why:"Irregular: przyjaciół."},
+    {q:"mężczyzna", hint:"masculine in -a", a:["mężczyzn"], why:"One of the few masculines in -a with no ending: mężczyzn. Most take -ów, e.g. kolega → kolegów."},
+    {q:"chłopiec", hint:"masculine in -ec", a:["chłopców"], why:"-ec → -ców: chłopców."},
+    {q:"ojciec", hint:"masculine in -ec", a:["ojców"], why:"-ec → -ców: ojców."},
+    {q:"brat", hint:"masculine · irregular", a:["braci"], why:"Irregular, softened: braci."},
+    {q:"ksiądz", hint:"masculine · irregular", a:["księży"], why:"Irregular: księży."},
+    {q:"człowiek", hint:"masculine · different root", a:["ludzi"], why:"Suppletive: człowiek → ludzi."},
+    {q:"rok", hint:"masculine · different root", a:["lat"], why:"Suppletive: rok → lat. The singular genitive is roku."},
+    {q:"kobieta", hint:"feminine · hard stem", a:["kobiet"], why:"Feminine hard stem: no ending — kobiet."},
+    {q:"książka", hint:"feminine · hard k", a:["książek"], why:"No ending, with a fleeting e: książek."},
+    {q:"dziewczyna", hint:"feminine · hard stem", a:["dziewczyn"], why:"No ending: dziewczyn."},
+    {q:"ulica", hint:"feminine · hardened c", a:["ulic"], why:"No ending: ulic."},
+    {q:"praca", hint:"feminine · hardened c", a:["prac"], why:"No ending: prac."},
+    {q:"ręka", hint:"feminine · irregular", a:["rąk"], why:"The nasal returns: rąk."},
+    {q:"noga", hint:"feminine · hard g", a:["nóg"], why:"The vowel lengthens: nóg."},
+    {q:"noc", hint:"feminine · consonant-final", a:["nocy"], why:"Feminine in a consonant takes -y: nocy."},
+    {q:"miłość", hint:"feminine · soft", a:["miłości"], why:"-i: miłości. Same form as the singular genitive."},
+    {q:"krew", hint:"feminine · irregular", a:["krwi"], why:"krew → krwi in both numbers."},
+    {q:"okno", hint:"neuter · -o", a:["okien"], why:"No ending, with a fleeting e: okien."},
+    {q:"miasto", hint:"neuter · -o", a:["miast"], why:"No ending: miast."},
+    {q:"morze", hint:"neuter · -e, soft", a:["mórz"], why:"No ending, vowel change: mórz."},
+    {q:"imię", hint:"neuter · -ię", a:["imion"], why:"imię → imion."},
+    {q:"narzędzie", hint:"neuter · soft", a:["narzędzi"], why:"Soft stem → -i: narzędzi."},
+    {q:"mieszkanie", hint:"neuter · -anie", a:["mieszkań"], why:"-anie → -ań: mieszkań."},
+    {q:"dziecko", hint:"neuter · irregular", a:["dzieci"], why:"Irregular: dzieci."},
+    {q:"muzeum", hint:"neuter · -um", a:["muzeów"], why:"-um → -ów: muzeów."},
+    {q:"oko", hint:"neuter · irregular", a:["oczu"], why:"Irregular: oczu."},
+    {q:"ucho", hint:"neuter · irregular", a:["uszu"], why:"Irregular: uszu."},
+    {q:"zwierzę", hint:"neuter · -ę", a:["zwierząt"], why:"-ę → -ąt: zwierząt."},
+    {q:"pieniądze", hint:"plural only", a:["pieniędzy"], why:"pieniądze → pieniędzy."},
+    {q:"Włochy", hint:"country, plural only", a:["Włoch"], why:"Włochy → Włoch, with no ending."},
+    {q:"Niemcy", hint:"country, plural only", a:["Niemiec"], why:"Niemcy → Niemiec. Careful: as the name of people it is Niemców."}
+  ]
+},
+{
+  id:"numbers", title:"Numbers & quantity", meta:"20 items · 2–4 vs 5+",
+  ask:"Which phrase is correct?",
+  type:"choice",
+  items:[
+    {q:"three cats", hint:"the last element is 3", opts:["trzy koty","trzy kotów"], a:"trzy koty", why:"2–4 take the nominative plural: trzy koty."},
+    {q:"five cats", hint:"5 and above", opts:["pięć kotów","pięć koty"], a:"pięć kotów", why:"5+ take the genitive plural: pięć kotów."},
+    {q:"22 books", hint:"the last element is 2", opts:["dwadzieścia dwie książki","dwadzieścia dwie książek"], a:"dwadzieścia dwie książki", why:"22 ends in 2, so the nominative plural returns: dwadzieścia dwie książki."},
+    {q:"25 books", hint:"the last element is 5", opts:["dwadzieścia pięć książek","dwadzieścia pięć książki"], a:"dwadzieścia pięć książek", why:"25 ends in 5 → genitive plural: dwadzieścia pięć książek."},
+    {q:"12 years", hint:"12 is not 2", opts:["dwanaście lat","dwanaście lata"], a:"dwanaście lat", why:"12, 13 and 14 behave like 5: dwanaście lat."},
+    {q:"2 years", hint:"2–4", opts:["dwa lata","dwa lat"], a:"dwa lata", why:"2–4 take the nominative plural: dwa lata."},
+    {q:"5 years", hint:"5+", opts:["pięć lat","pięć lata"], a:"pięć lat", why:"5+ take the genitive plural: pięć lat."},
+    {q:"3 students", hint:"masculine-personal", opts:["trzech studentów","trzy studenty"], a:"trzech studentów", why:"Masculine-personal nouns use the genitive even for 3: trzech studentów."},
+    {q:"5 students", hint:"masculine-personal", opts:["pięciu studentów","pięć studentów"], a:"pięciu studentów", why:"The numeral itself turns genitive: pięciu studentów."},
+    {q:"1.5 years", hint:"półtora + masculine", opts:["półtora roku","półtora lat"], a:"półtora roku", why:"półtora takes the genitive singular: półtora roku."},
+    {q:"1.5 hours", hint:"godzina is feminine", opts:["półtorej godziny","półtora godziny"], a:"półtorej godziny", why:"Feminine nouns take półtorej: półtorej godziny."},
+    {q:"a lot of work", hint:"dużo + uncountable", opts:["dużo pracy","dużo praca"], a:"dużo pracy", why:"Quantity words take the genitive: dużo pracy."},
+    {q:"a few people", hint:"kilka + plural", opts:["kilka osób","kilka osoby"], a:"kilka osób", why:"kilka takes the genitive plural: kilka osób."},
+    {q:"two children", hint:"collective numeral", opts:["dwoje dzieci","dwoje dziecka"], a:"dwoje dzieci", why:"Collective numerals take the genitive plural: dwoje dzieci."},
+    {q:"more time", hint:"więcej", opts:["więcej czasu","więcej czas"], a:"więcej czasu", why:"Comparatives of quantity take the genitive: więcej czasu."},
+    {q:"a glass of water", hint:"partitive", opts:["szklanka wody","szklanka wodę"], a:"szklanka wody", why:"The container takes the genitive of the contents: szklanka wody."},
+    {q:"a kilo of sugar", hint:"partitive", opts:["kilogram cukru","kilogram cukier"], a:"kilogram cukru", why:"Genitive: kilogram cukru."},
+    {q:"a bottle of wine", hint:"partitive", opts:["butelka wina","butelka wino"], a:"butelka wina", why:"Genitive: butelka wina."},
+    {q:"a little milk", hint:"trochę", opts:["trochę mleka","trochę mleko"], a:"trochę mleka", why:"Genitive: trochę mleka."},
+    {q:"many people", hint:"wielu + masculine-personal", opts:["wielu ludzi","wielu ludzie"], a:"wielu ludzi", why:"wielu is the masculine-personal form, and the noun stays genitive: wielu ludzi."}
+  ]
+},
+{
+  id:"verbs", title:"Verb + genitive", meta:"30 items · typed answers",
+  ask:"Complete with the genitive.",
+  type:"type",
+  items:[
+    {q:"Boję się ___ (pies)", hint:"bać się", a:["psa"], why:"bać się + genitive: boję się psa."},
+    {q:"Uczę się ___ (język polski)", hint:"uczyć się", a:["języka polskiego"], why:"uczyć się + genitive, adjective agrees: języka polskiego."},
+    {q:"Szukam ___ (mieszkanie)", hint:"szukać", a:["mieszkania"], why:"szukać + genitive: mieszkania."},
+    {q:"Potrzebuję ___ (pomoc)", hint:"potrzebować", a:["pomocy"], why:"potrzebować + genitive: pomocy."},
+    {q:"Słucham ___ (muzyka)", hint:"słuchać", a:["muzyki"], why:"słuchać + genitive: muzyki. Never “muzykę”."},
+    {q:"Używam ___ (komputer)", hint:"używać", a:["komputera"], why:"używać + genitive: komputera."},
+    {q:"Pilnuję ___ (bagaż)", hint:"pilnować", a:["bagażu"], why:"pilnować + genitive: bagażu."},
+    {q:"Bronię ___ (prawda)", hint:"bronić", a:["prawdy"], why:"bronić + genitive: prawdy."},
+    {q:"Wymagam ___ (dokładność)", hint:"wymagać", a:["dokładności"], why:"wymagać + genitive: dokładności."},
+    {q:"Oczekuję ___ (odpowiedź)", hint:"oczekiwać", a:["odpowiedzi"], why:"oczekiwać + genitive: odpowiedzi."},
+    {q:"Życzę ci ___ (szczęście)", hint:"życzyć komuś czegoś", a:["szczęścia"], why:"Two objects: dative person, genitive thing — życzę ci szczęścia."},
+    {q:"Gratuluję ci ___ (awans)", hint:"gratulować komuś czegoś", a:["awansu"], why:"Same double object: gratuluję ci awansu."},
+    {q:"Zapomniałem ___ (parasol)", hint:"zapomnieć", a:["parasola"], why:"zapomnieć + genitive: parasola. “Zapomnieć o czymś” is also possible, with a preposition."},
+    {q:"Zaprzestał ___ (palenie)", hint:"zaprzestać", a:["palenia"], why:"zaprzestać + genitive: palenia."},
+    {q:"Dokonał ___ (wybór)", hint:"dokonać", a:["wyboru"], why:"dokonać + genitive: wyboru."},
+    {q:"Dotrzymał ___ (słowo)", hint:"dotrzymać", a:["słowa"], why:"dotrzymać słowa — a fixed genitive."},
+    {q:"Dotknął ___ (klamka)", hint:"dotknąć", a:["klamki"], why:"dotknąć + genitive: klamki."},
+    {q:"Przestrzegam ___ (przepisy)", hint:"przestrzegać", a:["przepisów"], why:"przestrzegać + genitive plural: przepisów."},
+    {q:"Chcę ___ (spokój)", hint:"chcieć", a:["spokoju"], why:"chcieć + genitive: spokoju. “Chcę spokój” exists but the genitive is the standard form here."},
+    {q:"Brakuje mi ___ (czas)", hint:"brakować", a:["czasu"], why:"brakować + genitive: brakuje mi czasu."},
+    {q:"Unikam ___ (kłopoty)", hint:"unikać", a:["kłopotów"], why:"unikać + genitive plural: kłopotów."},
+    {q:"Pozbyłem się ___ (stary telefon)", hint:"pozbyć się", a:["starego telefonu"], why:"pozbyć się + genitive, adjective agrees: starego telefonu."},
+    {q:"Udzielił ___ (wywiad)", hint:"udzielić", a:["wywiadu"], why:"udzielić komuś czegoś: udzielić wywiadu."},
+    {q:"Nauczyłem się ___ (nowe słowo)", hint:"nauczyć się", a:["nowego słowa"], why:"nauczyć się + genitive: nowego słowa."},
+    {q:"Dowiedziałem się ___ (prawda)", hint:"dowiedzieć się", a:["prawdy"], why:"dowiedzieć się + genitive: prawdy."},
+    {q:"Wstydzę się ___ (swój akcent)", hint:"wstydzić się", a:["swojego akcentu"], why:"wstydzić się + genitive: swojego akcentu."},
+    {q:"Nabył ___ (ogłada)", hint:"nabyć", a:["ogłady"], why:"nabyć + genitive: ogłady."},
+    {q:"Doznał ___ (szok)", hint:"doznać", a:["szoku"], why:"doznać + genitive: szoku."},
+    {q:"Pozbawił go ___ (prawo jazdy)", hint:"pozbawić kogoś czegoś", a:["prawa jazdy"], why:"pozbawić + genitive: prawa jazdy."},
+    {q:"Uczy dzieci ___ (angielski)", hint:"uczyć kogoś czegoś", a:["angielskiego"], why:"The subject taught is genitive: uczy dzieci angielskiego."}
+  ]
+},
+{
+  id:"negation", title:"Negation switch", meta:"14 items · accusative → genitive",
+  ask:"Which sentence is correct?",
+  type:"choice",
+  items:[
+    {q:"“I have a car.” → negated", hint:"mieć + accusative", opts:["Nie mam samochodu.","Nie mam samochód."], a:"Nie mam samochodu.", why:"Negated mieć → genitive: samochodu."},
+    {q:"“I see Anna.” → negated", hint:"widzieć + accusative", opts:["Nie widzę Anny.","Nie widzę Annę."], a:"Nie widzę Anny.", why:"Negated widzieć → genitive: Anny."},
+    {q:"“I drink coffee.” → negated", hint:"pić + accusative", opts:["Nie piję kawy.","Nie piję kawę."], a:"Nie piję kawy.", why:"Genitive: kawy."},
+    {q:"“I read a newspaper.” → negated", hint:"czytać + accusative", opts:["Nie czytam gazety.","Nie czytam gazetę."], a:"Nie czytam gazety.", why:"Genitive: gazety."},
+    {q:"“I have a good idea.” → negated", hint:"adjective agrees", opts:["Nie mam dobrego pomysłu.","Nie mam dobry pomysł."], a:"Nie mam dobrego pomysłu.", why:"Both adjective and noun go genitive: dobrego pomysłu."},
+    {q:"“I understand this question.” → negated", hint:"ten → tego", opts:["Nie rozumiem tego pytania.","Nie rozumiem to pytanie."], a:"Nie rozumiem tego pytania.", why:"Demonstrative and noun both genitive: tego pytania."},
+    {q:"“I like coffee.” → negated", hint:"lubić + accusative", opts:["Nie lubię kawy.","Nie lubię kawę."], a:"Nie lubię kawy.", why:"Genitive: kawy."},
+    {q:"“I know that lady.” → negated", hint:"ta pani", opts:["Nie znam tej pani.","Nie znam tę panią."], a:"Nie znam tej pani.", why:"Genitive: tej pani."},
+    {q:"“I have time.” → negated", hint:"czas → czasu", opts:["Nie mam czasu.","Nie mam czas."], a:"Nie mam czasu.", why:"Genitive: czasu."},
+    {q:"“I have two cats.” → negated", hint:"the numeral changes too", opts:["Nie mam dwóch kotów.","Nie mam dwa koty."], a:"Nie mam dwóch kotów.", why:"Both numeral and noun go genitive: dwóch kotów."},
+    {q:"“I am a teacher.” → negated", hint:"być + instrumental", opts:["Nie jestem nauczycielem.","Nie jestem nauczyciela."], a:"Nie jestem nauczycielem.", why:"być takes the instrumental, and negation does not change that."},
+    {q:"“I help mum.” → negated", hint:"pomagać + dative", opts:["Nie pomagam mamie.","Nie pomagam mamy."], a:"Nie pomagam mamie.", why:"Dative stays dative under negation."},
+    {q:"“I’m interested in history.” → negated", hint:"interesować się + instrumental", opts:["Nie interesuję się historią.","Nie interesuję się historii."], a:"Nie interesuję się historią.", why:"Instrumental stays instrumental under negation."},
+    {q:"“I see him.” → negated", hint:"the short pronoun", opts:["Nie widzę go.","Nie widzę jego."], a:"Nie widzę go.", why:"The unstressed form go is used in this position; jego would need heavy emphasis."}
+  ]
+},
+{
+  id:"preps", title:"Prepositions", meta:"23 items · typed answers",
+  ask:"Complete with the correct form.",
+  type:"type",
+  items:[
+    {q:"bez ___ (cukier)", hint:"without", a:["cukru"], why:"bez + genitive: bez cukru."},
+    {q:"do ___ (sklep)", hint:"to", a:["sklepu"], why:"do + genitive: do sklepu."},
+    {q:"od ___ (rana)", hint:"from", a:["rana"], why:"od + genitive: od rana."},
+    {q:"z ___ (Polska)", hint:"from", a:["Polski"], why:"z + genitive: z Polski."},
+    {q:"dla ___ (dzieci)", hint:"for", a:["dzieci"], why:"dla + genitive: dla dzieci."},
+    {q:"u ___ (lekarz)", hint:"at the doctor’s", a:["lekarza"], why:"u + genitive: u lekarza."},
+    {q:"obok ___ (bank)", hint:"next to", a:["banku"], why:"obok + genitive: obok banku."},
+    {q:"oprócz ___ (ty)", hint:"except you", a:["ciebie"], why:"oprócz + genitive: oprócz ciebie."},
+    {q:"według ___ (ja)", hint:"according to me", a:["mnie"], why:"według + genitive: według mnie."},
+    {q:"podczas ___ (obiad)", hint:"during", a:["obiadu"], why:"podczas + genitive: podczas obiadu."},
+    {q:"w ciągu ___ (tydzień)", hint:"within", a:["tygodnia"], why:"w ciągu + genitive: w ciągu tygodnia."},
+    {q:"zamiast ___ (kawa)", hint:"instead of", a:["kawy"], why:"zamiast + genitive: zamiast kawy."},
+    {q:"wśród ___ (drzewa)", hint:"among the trees", a:["drzew"], why:"wśród + genitive plural: wśród drzew."},
+    {q:"koło ___ (dom)", hint:"near", a:["domu"], why:"koło + genitive: koło domu."},
+    {q:"pomimo ___ (deszcz)", hint:"despite", a:["deszczu"], why:"pomimo + genitive: pomimo deszczu. (wbrew would take the dative.)"},
+    {q:"bez ___ (ja)", hint:"without me", a:["mnie"], why:"bez + genitive: bez mnie."},
+    {q:"do ___ (oni)", hint:"to them", a:["nich"], why:"Preposition + third person pronoun takes n-: do nich."},
+    {q:"u ___ (ona)", hint:"at her place", a:["niej"], why:"u + niej."},
+    {q:"dzięki ___ (ty)", hint:"thanks to you", a:["tobie"], why:"Trap: dzięki takes the dative, not the genitive."},
+    {q:"wbrew ___ (oczekiwania)", hint:"contrary to expectations", a:["oczekiwaniom"], why:"Trap: wbrew takes the dative plural: oczekiwaniom."},
+    {q:"z powodu ___ (choroba)", hint:"because of", a:["choroby"], why:"z powodu + genitive: choroby."},
+    {q:"z wyjątkiem ___ (Anna)", hint:"except Anna", a:["Anny"], why:"z wyjątkiem + genitive: Anny."},
+    {q:"na skutek ___ (błąd)", hint:"as a result of", a:["błędu"], why:"na skutek + genitive: błędu."}
+  ]
+},
+{
+  id:"translate", title:"Translate", meta:"16 items · production",
+  ask:"Write the Polish. Punctuation is ignored.",
+  type:"type",
+  items:[
+    {q:"I don’t have time.", hint:"mieć, negated", a:["nie mam czasu"], why:"Negation → genitive: nie mam czasu."},
+    {q:"a glass of water", hint:"szklanka", a:["szklanka wody"], why:"Partitive genitive: szklanka wody."},
+    {q:"five books", hint:"książka", a:["pięć książek"], why:"5+ → genitive plural: pięć książek."},
+    {q:"the teacher’s book", hint:"nauczyciel", a:["książka nauczyciela"], why:"Possessive genitive: książka nauczyciela."},
+    {q:"He is afraid of dogs.", hint:"bać się", a:["boi się psów"], why:"bać się + genitive plural: boi się psów."},
+    {q:"I am learning Polish.", hint:"uczyć się", a:["uczę się polskiego"], why:"uczyć się + genitive: uczę się polskiego."},
+    {q:"There is no milk.", hint:"nie ma", a:["nie ma mleka"], why:"nie ma + genitive: nie ma mleka."},
+    {q:"the first of May", hint:"date", a:["pierwszego maja"], why:"Dates are genitive: pierwszego maja."},
+    {q:"a kilo of sugar", hint:"kilogram", a:["kilogram cukru"], why:"kilogram cukru."},
+    {q:"Listen to the music!", hint:"słuchać, imperative", a:["słuchaj muzyki"], why:"słuchać + genitive: słuchaj muzyki."},
+    {q:"I need help.", hint:"potrzebować", a:["potrzebuję pomocy"], why:"potrzebować + genitive: potrzebuję pomocy."},
+    {q:"two days", hint:"dwa + dzień", a:["dwa dni"], why:"2–4 → nominative plural: dwa dni. Five would be pięć dni."},
+    {q:"on the third of January", hint:"date", a:["trzeciego stycznia"], why:"Dates are genitive: trzeciego stycznia."},
+    {q:"a cup of coffee", hint:"filiżanka", a:["filiżanka kawy"], why:"Partitive genitive: filiżanka kawy."},
+    {q:"a lot of people", hint:"dużo + ludzie", a:["dużo ludzi"], why:"dużo + genitive plural: dużo ludzi."},
+    {q:"a few minutes", hint:"kilka + minuta", a:["kilka minut"], why:"kilka + genitive plural: kilka minut."}
+  ]
+}
+];
+
+const REF = [
+["mężczyzna","mężczyzny","mężczyzn","masculine in -a → feminine endings"],
+["student","studenta","studentów","person → -a; hard stem → -ów"],
+["pies","psa","psów","animal → -a; fleeting e in the plural"],
+["kot","kota","kotów","animal → -a"],
+["koń","konia","koni","animal → -a; soft stem → -i"],
+["lekarz","lekarza","lekarzy","person → -a; hardened rz → -y"],
+["nauczyciel","nauczyciela","nauczycieli","person → -a; soft l → -i"],
+["przyjaciel","przyjaciela","przyjaciół","irregular plural"],
+["człowiek","człowieka","ludzi","suppletive plural"],
+["brat","brata","braci","irregular plural"],
+["ksiądz","księdza","księży","irregular plural"],
+["wół","wołu","wołów","animal exception: -u"],
+["bawół","bawołu","bawołów","animal exception: -u"],
+["chleb","chleba","chlebów","mass noun with -a"],
+["nóż","noża","noży","tool → -a"],
+["klucz","klucza","kluczy","tool → -a; hardened cz → -y"],
+["komputer","komputera","komputerów","loanword, but concrete → -a"],
+["stół","stołu","stołów","thing → -u"],
+["samochód","samochodu","samochodów","thing → -u"],
+["telefon","telefonu","telefonów","thing → -u"],
+["pociąg","pociągu","pociągów","thing → -u"],
+["cukier","cukru","cukrów","substance → -u"],
+["czas","czasu","czasów","abstract → -u"],
+["miesiąc","miesiąca","miesięcy","month → -a; c → cz in the plural"],
+["styczeń","stycznia","styczniów","months take -a"],
+["rok","roku","lat","suppletive plural"],
+["kobieta","kobiety","kobiet","feminine: -y; no ending in the plural"],
+["książka","książki","książek","after k → -i; fleeting e in the plural"],
+["ulica","ulicy","ulic","hardened c → -y"],
+["noc","nocy","nocy","consonant-final feminine → -y"],
+["miłość","miłości","miłości","soft feminine → -i"],
+["ręka","ręki","rąk","after k → -i; nasal returns in the plural"],
+["pani","pani","pań","soft feminine; plural has no ending"],
+["noclegownia","noclegowni","noclegowni","-nia keeps -i in both numbers"],
+["okno","okna","okien","neuter → -a; fleeting e in the plural"],
+["miasto","miasta","miast","neuter → -a; no ending in the plural"],
+["morze","morza","mórz","neuter → -a; vowel change in the plural"],
+["imię","imienia","imion","-ię expands"],
+["narzędzie","narzędzia","narzędzi","neuter soft → -a / -i"],
+["mieszkanie","mieszkania","mieszkań","-anie → -ań"],
+["dziecko","dziecka","dzieci","irregular plural"],
+["muzeum","muzeum","muzeów","-um → -ów"],
+["oko","oka","oczu","irregular plural"],
+["ucho","ucha","uszu","irregular plural"],
+["zwierzę","zwierzęcia","zwierząt","-ę expands; plural -ąt"],
+["pieniądze","—","pieniędzy","plural only"],
+["drzwi","—","drzwi","plural only, unchanged"],
+["Włochy","—","Włoch","country name, plural only"],
+["Niemcy","—","Niemiec","country name, plural only"]
+];
+
+/* ============================================================
+   THEME
+   ============================================================ */
+(function(){
+  const btn = document.getElementById("themeBtn");
+  const saved = localStorage.getItem("dop.theme");
+  if (saved) document.documentElement.setAttribute("data-theme", saved);
+  btn.addEventListener("click", function(){
+    const cur = document.documentElement.getAttribute("data-theme");
+    const sysDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const next = cur ? (cur === "dark" ? "light" : "dark") : (sysDark ? "light" : "dark");
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("dop.theme", next);
+  });
+})();
+
+/* ============================================================
+   SCROLL: progress bar + active nav
+   ============================================================ */
+(function(){
+  const bar = document.getElementById("scrollbar");
+  function onScroll(){
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + "%";
+  }
+  window.addEventListener("scroll", onScroll, {passive:true});
+  onScroll();
+
+  const links = Array.from(document.querySelectorAll("#nav a"));
+  const targets = links.map(a => document.querySelector(a.getAttribute("href"))).filter(Boolean);
+  if ("IntersectionObserver" in window){
+    const io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){
+          links.forEach(l => l.classList.toggle("on", l.getAttribute("href") === "#" + e.target.id));
+        }
+      });
+    }, {rootMargin:"-45% 0px -50% 0px"});
+    targets.forEach(t => io.observe(t));
+  }
+})();
+
+/* ============================================================
+   DRILL ENGINE
+   ============================================================ */
+(function(){
+  const grid = document.getElementById("setgrid");
+  const runner = document.getElementById("runner");
+  const summary = document.getElementById("summary");
+  const runTitle = document.getElementById("runTitle");
+  const runCount = document.getElementById("runCount");
+  const runScore = document.getElementById("runScore");
+  const pfill = document.getElementById("pfill");
+  const askLine = document.getElementById("askLine");
+  const qText = document.getElementById("qText");
+  const qHint = document.getElementById("qHint");
+  const optsEl = document.getElementById("opts");
+  const typebox = document.getElementById("typebox");
+  const answer = document.getElementById("answer");
+  const checkBtn = document.getElementById("checkBtn");
+  const fb = document.getElementById("fb");
+  const nextBtn = document.getElementById("nextBtn");
+  const quitBtn = document.getElementById("quitBtn");
+  const skipBtn = document.getElementById("skipBtn");
+
+  let S = { set:null, order:[], i:0, right:0, misses:[], done:false, retry:false };
+
+  const norm = s => s.toLowerCase().trim()
+      .replace(/[.,!?;:„”"()]/g,"")
+      .replace(/\s+/g," ");
+  const deacc = s => s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ł/g,"l");
+
+  function best(id){
+    try { return JSON.parse(localStorage.getItem("dop.best." + id) || "null"); } catch(e){ return null; }
+  }
+  function saveBest(id, r, t){
+    const b = best(id);
+    if (!b || r/t > b.r/b.t) localStorage.setItem("dop.best." + id, JSON.stringify({r:r, t:t}));
+  }
+
+  function buildGrid(){
+    grid.innerHTML = "";
+    SETS.forEach(function(s){
+      const b = best(s.id);
+      const btn = document.createElement("button");
+      btn.className = "setcard";
+      btn.innerHTML = '<div class="t">' + s.title + '</div><div class="m">' + s.meta + '</div>' +
+        (b ? '<div class="best">best ' + b.r + "/" + b.t + '</div>' : '');
+      btn.addEventListener("click", function(){ start(s.id); });
+      grid.appendChild(btn);
+    });
+  }
+
+  function start(id, onlyMisses){
+    const set = SETS.find(s => s.id === id);
+    S.set = set;
+    S.order = onlyMisses && onlyMisses.length ? onlyMisses.slice() : set.items.map((_, i) => i);
+    if (!onlyMisses) S.order = shuffle(S.order);
+    S.i = 0; S.right = 0; S.misses = []; S.done = false;
+    grid.classList.add("off");
+    summary.style.display = "none";
+    runner.classList.add("on");
+    runTitle.textContent = set.title;
+    askLine.textContent = onlyMisses ? "Reviewing your mistakes" : set.ask;
+    render();
+  }
+
+  function shuffle(a){
+    for (let i = a.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function render(){
+    const idx = S.order[S.i];
+    const item = S.set.items[idx];
+    fb.className = "fb";
+    fb.innerHTML = "";
+    nextBtn.disabled = true;
+    nextBtn.textContent = "Next";
+    skipBtn.style.display = "";
+    answer.classList.remove("right","wrong");
+    answer.value = "";
+    answer.disabled = false;
+    checkBtn.disabled = false;
+
+    runCount.textContent = (S.i + 1) + " / " + S.order.length;
+    runScore.textContent = S.right + " correct";
+    pfill.style.width = (S.i / S.order.length * 100) + "%";
+
+    qHint.textContent = item.hint ? "Hint: " + item.hint : "";
+
+    if (S.set.type === "choice"){
+      qText.textContent = item.q;
+      typebox.style.display = "none";
+      optsEl.style.display = "grid";
+      optsEl.innerHTML = "";
+      const shuffled = shuffle(item.opts.slice());
+      shuffled.forEach(function(o, i){
+        const b = document.createElement("button");
+        b.className = "opt";
+        b.innerHTML = '<span class="k">' + (i + 1) + '</span><span>' + o + '</span>';
+        b.dataset.val = o;
+        b.addEventListener("click", function(){ pick(b, item); });
+        optsEl.appendChild(b);
+      });
+    } else {
+      qText.innerHTML = item.q.replace("___", '<span class="gap"></span>');
+      optsEl.style.display = "none";
+      typebox.style.display = "flex";
+      setTimeout(function(){ answer.focus(); }, 40);
+    }
+  }
+
+  function markChoice(correct){
+    Array.from(optsEl.children).forEach(function(b){
+      b.disabled = true;
+      if (b.dataset.val === S.cur.a) b.classList.add("right");
+    });
+  }
+
+  function pick(btn, item){
+    if (btn.disabled) return;
+    S.cur = item;
+    const ok = btn.dataset.val === item.a;
+    if (!ok) btn.classList.add("wrong");
+    markChoice();
+    finishItem(ok, item.a);
+  }
+
+  function checkType(){
+    const item = S.set.items[S.order[S.i]];
+    const val = answer.value;
+    if (!val.trim()) { answer.focus(); return; }
+    const n = norm(val);
+    let ok = false, accentOnly = false;
+    item.a.forEach(function(c){
+      if (n === norm(c)) ok = true;
+      else if (deacc(n) === deacc(norm(c))) accentOnly = true;
+    });
+    answer.disabled = true;
+    checkBtn.disabled = true;
+    answer.classList.add(ok ? "right" : (accentOnly ? "right" : "wrong"));
+    finishItem(ok, item.a, accentOnly);
+  }
+
+  function finishItem(ok, correct, accentOnly){
+    S.cur = S.cur || S.set.items[S.order[S.i]];
+    if (ok) S.right++; else S.misses.push(S.order[S.i]);
+    runScore.textContent = S.right + " correct";
+    fb.className = "fb on " + (ok ? "ok" : "no");
+    const head = ok ? (accentOnly ? "Right — mind the diacritics" : "Correct") : "Not quite";
+    fb.innerHTML = '<div class="v">' + head + '</div>' +
+      '<div class="a">' + [].concat(correct).join(" · ") + '</div>' +
+      '<div class="why">' + S.set.items[S.order[S.i]].why + '</div>';
+    nextBtn.disabled = false;
+    skipBtn.style.display = "none";
+    nextBtn.focus();
+  }
+
+  function next(){
+    if (S.i + 1 >= S.order.length){ end(); return; }
+    S.i++;
+    render();
+  }
+
+  function end(){
+    runner.classList.remove("on");
+    summary.style.display = "block";
+    const total = S.order.length;
+    document.getElementById("sumScore").textContent = S.right + " / " + total;
+    const pct = Math.round(S.right / total * 100);
+    let msg;
+    if (pct === 100) msg = "Clean sweep. Move to the next set, or come back tomorrow — spacing is what makes this stick.";
+    else if (pct >= 80) msg = "Solid. Reread the explanations for the ones you missed, then run them again.";
+    else if (pct >= 50) msg = "The pattern is there but not automatic yet. Run the mistakes again now, and the whole set tomorrow.";
+    else msg = "Go back to the section for this set, read the table once more, then retry. Nothing here needs to be memorised blind.";
+    document.getElementById("sumMsg").textContent = msg;
+    saveBest(S.set.id, S.right, total);
+
+    const btns = document.getElementById("sumBtns");
+    btns.innerHTML = "";
+    if (S.misses.length){
+      const b1 = document.createElement("button");
+      b1.className = "btn primary";
+      b1.textContent = "Review " + S.misses.length + " mistake" + (S.misses.length > 1 ? "s" : "");
+      b1.addEventListener("click", function(){ start(S.set.id, S.misses); });
+      btns.appendChild(b1);
+    }
+    const b2 = document.createElement("button");
+    b2.className = "btn ghost";
+    b2.textContent = "Run the set again";
+    b2.addEventListener("click", function(){ start(S.set.id); });
+    btns.appendChild(b2);
+    const b3 = document.createElement("button");
+    b3.className = "btn ghost";
+    b3.textContent = "Choose another set";
+    b3.addEventListener("click", backToGrid);
+    btns.appendChild(b3);
+  }
+
+  function backToGrid(){
+    runner.classList.remove("on");
+    summary.style.display = "none";
+    grid.classList.remove("off");
+    buildGrid();
+  }
+
+  nextBtn.addEventListener("click", next);
+  checkBtn.addEventListener("click", checkType);
+  quitBtn.addEventListener("click", backToGrid);
+  skipBtn.addEventListener("click", function(){
+    const item = S.set.items[S.order[S.i]];
+    if (S.set.type === "choice"){
+      Array.from(optsEl.children).forEach(function(b){ b.disabled = true; if (b.dataset.val === item.a) b.classList.add("right"); });
+    } else {
+      answer.value = item.a[0]; answer.disabled = true; checkBtn.disabled = true;
+    }
+    finishItem(false, item.a);
+  });
+
+  answer.addEventListener("keydown", function(e){
+    if (e.key === "Enter"){
+      e.preventDefault();
+      if (answer.disabled) next(); else checkType();
+    }
+  });
+
+  document.addEventListener("keydown", function(e){
+    if (!runner.classList.contains("on")) return;
+    if (e.target === answer) return;
+    if (e.key >= "1" && e.key <= "9" && S.set.type === "choice"){
+      const b = optsEl.children[Number(e.key) - 1];
+      if (b && !b.disabled) b.click();
+    }
+    if (e.key === "Enter" && !nextBtn.disabled){ e.preventDefault(); next(); }
+  });
+
+  buildGrid();
+  window.__startSet = start;
+})();
+
+/* ============================================================
+   REFERENCE TABLE
+   ============================================================ */
+(function(){
+  const tbody = document.querySelector("#reftable tbody");
+  const input = document.getElementById("refFilter");
+  const count = document.getElementById("refCount");
+
+  function row(r){
+    const tr = document.createElement("tr");
+    tr.innerHTML = '<td class="pl">' + r[0] + '</td><td class="pl">' + r[1] +
+      '</td><td class="pl">' + r[2] + '</td><td class="small">' + r[3] + '</td>';
+    tr.dataset.txt = r.join(" ").toLowerCase();
+    return tr;
+  }
+
+  REF.forEach(r => tbody.appendChild(row(r)));
+  count.textContent = REF.length + " nouns";
+
+  input.addEventListener("input", function(){
+    const q = input.value.toLowerCase().trim();
+    let shown = 0;
+    Array.from(tbody.children).forEach(function(tr){
+      const hit = !q || tr.dataset.txt.indexOf(q) !== -1;
+      tr.style.display = hit ? "" : "none";
+      if (hit) shown++;
+    });
+    count.textContent = shown + " of " + REF.length;
+  });
+})();
+</script>
+</body>
+</html>

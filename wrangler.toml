@@ -1,0 +1,11 @@
+# Cloudflare Pages: static site + one Function + D1.
+# `npm run deploy` builds dist/ and uploads both the pages and functions/.
+name = "polski-cases"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-11-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "polski-progress"
+# Filled in by `wrangler d1 create polski-progress` — see README.
+database_id = "1c3023c4-840b-4fd6-b72a-abebf27cdddb"

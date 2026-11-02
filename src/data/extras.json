@@ -1,0 +1,4567 @@
+{
+ "nominative": {
+  "ref": {
+   "mode": "bold4",
+   "rows": [
+    [
+     "kot",
+     "koty",
+     "masc. animal",
+     "animal — non-personal in the plural"
+    ],
+    [
+     "pies",
+     "psy",
+     "masc. animal",
+     "animal; the <i>e</i> drops: psy"
+    ],
+    [
+     "student",
+     "studenci",
+     "masc. person",
+     "t → c: studenci"
+    ],
+    [
+     "mężczyzna",
+     "mężczyźni",
+     "masc. person",
+     "masculine in -a; stem changes"
+    ],
+    [
+     "kolega",
+     "koledzy",
+     "masc. person",
+     "masculine in -a; g → dz"
+    ],
+    [
+     "tata",
+     "tatowie",
+     "masc. person",
+     "masculine in -a"
+    ],
+    [
+     "poeta",
+     "poeci",
+     "masc. person",
+     "masculine in -a; t → c"
+    ],
+    [
+     "sędzia",
+     "sędziowie",
+     "masc. person",
+     "masculine in -a"
+    ],
+    [
+     "hrabia",
+     "hrabiowie",
+     "masc. person",
+     "masculine in -a"
+    ],
+    [
+     "człowiek",
+     "ludzie",
+     "masc. person",
+     "irregular: ludzie"
+    ],
+    [
+     "brat",
+     "bracia",
+     "masc. person",
+     "irregular: bracia"
+    ],
+    [
+     "ksiądz",
+     "księża",
+     "masc. person",
+     "irregular: księża"
+    ],
+    [
+     "przyjaciel",
+     "przyjaciele",
+     "masc. person",
+     ""
+    ],
+    [
+     "pan",
+     "panowie",
+     "masc. person",
+     "always -owie"
+    ],
+    [
+     "syn",
+     "synowie",
+     "masc. person",
+     "always -owie"
+    ],
+    [
+     "ojciec",
+     "ojcowie",
+     "masc. person",
+     "always -owie"
+    ],
+    [
+     "chłopiec",
+     "chłopcy",
+     "masc. person",
+     ""
+    ],
+    [
+     "Polak",
+     "Polacy",
+     "masc. person",
+     "k → c: Polacy"
+    ],
+    [
+     "lekarz",
+     "lekarze",
+     "masc. person",
+     "hardened stem, no change"
+    ],
+    [
+     "gość",
+     "goście",
+     "masc. person",
+     ""
+    ],
+    [
+     "mąż",
+     "mężowie",
+     "masc. person",
+     "always -owie"
+    ],
+    [
+     "profesor",
+     "profesorzy / profesorowie",
+     "masc. person",
+     "both -owie and -y"
+    ],
+    [
+     "doktor",
+     "doktorzy / doktorowie",
+     "masc. person",
+     "both -owie and -y"
+    ],
+    [
+     "król",
+     "królowie",
+     "masc. person",
+     "always -owie"
+    ],
+    [
+     "dentysta",
+     "dentyści",
+     "masc. person",
+     "masculine in -a; st → ść"
+    ],
+    [
+     "kierowca",
+     "kierowcy",
+     "masc. person",
+     "masculine in -a"
+    ],
+    [
+     "wróg",
+     "wrogowie",
+     "masc. person",
+     "-owie only; g stays hard"
+    ],
+    [
+     "Amerykanin",
+     "Amerykanie",
+     "masc. person",
+     ""
+    ],
+    [
+     "Rosjanin",
+     "Rosjanie",
+     "masc. person",
+     ""
+    ],
+    [
+     "Włoch",
+     "Włosi",
+     "masc. person",
+     "ch → si: Włosi"
+    ],
+    [
+     "Francuz",
+     "Francuzi",
+     "masc. person",
+     "stem unchanged"
+    ],
+    [
+     "Niemiec",
+     "Niemcy",
+     "masc. person",
+     "also the name of Germany"
+    ],
+    [
+     "Czech",
+     "Czesi",
+     "masc. person",
+     "ch → si: Czesi"
+    ],
+    [
+     "Węgier",
+     "Węgrzy",
+     "masc. person",
+     "irregular stem: Węgrzy"
+    ],
+    [
+     "książę",
+     "książęta",
+     "masc. person",
+     "irregular: książęta"
+    ],
+    [
+     "rok",
+     "lata",
+     "masc. thing",
+     "lata = years; roki = legal terms"
+    ],
+    [
+     "dom",
+     "domy",
+     "masc. thing",
+     ""
+    ],
+    [
+     "stół",
+     "stoły",
+     "masc. thing",
+     ""
+    ],
+    [
+     "komputer",
+     "komputery",
+     "masc. thing",
+     ""
+    ],
+    [
+     "samochód",
+     "samochody",
+     "masc. thing",
+     ""
+    ],
+    [
+     "klucz",
+     "klucze",
+     "masc. thing",
+     ""
+    ],
+    [
+     "talerz",
+     "talerze",
+     "masc. thing",
+     ""
+    ],
+    [
+     "telefon",
+     "telefony",
+     "masc. thing",
+     ""
+    ],
+    [
+     "nauczyciel",
+     "nauczyciele",
+     "masc. person",
+     "soft l: -e"
+    ],
+    [
+     "pisarz",
+     "pisarze",
+     "masc. person",
+     "hardened stem, no change"
+    ],
+    [
+     "inżynier",
+     "inżynierowie / inżynierzy",
+     "masc. person",
+     "both -owie and -y"
+    ],
+    [
+     "gołąb",
+     "gołębie",
+     "masc. animal",
+     "animal; ą → ę"
+    ],
+    [
+     "wróbel",
+     "wróble",
+     "masc. animal",
+     "animal; the <i>e</i> drops"
+    ],
+    [
+     "koń",
+     "konie",
+     "masc. animal",
+     "animal; soft stem"
+    ],
+    [
+     "kraj",
+     "kraje",
+     "masc. thing",
+     ""
+    ],
+    [
+     "kobieta",
+     "kobiety",
+     "feminine",
+     ""
+    ],
+    [
+     "dziewczyna",
+     "dziewczyny",
+     "feminine",
+     ""
+    ],
+    [
+     "matka",
+     "matki",
+     "feminine",
+     ""
+    ],
+    [
+     "siostra",
+     "siostry",
+     "feminine",
+     ""
+    ],
+    [
+     "żona",
+     "żony",
+     "feminine",
+     ""
+    ],
+    [
+     "córka",
+     "córki",
+     "feminine",
+     ""
+    ],
+    [
+     "pani",
+     "panie",
+     "feminine",
+     ""
+    ],
+    [
+     "studentka",
+     "studentki",
+     "feminine",
+     ""
+    ],
+    [
+     "ulica",
+     "ulice",
+     "feminine",
+     ""
+    ],
+    [
+     "książka",
+     "książki",
+     "feminine",
+     ""
+    ],
+    [
+     "noga",
+     "nogi",
+     "feminine",
+     ""
+    ],
+    [
+     "ręka",
+     "ręce",
+     "feminine",
+     "plural looks neuter: ręce"
+    ],
+    [
+     "woda",
+     "wody",
+     "feminine",
+     ""
+    ],
+    [
+     "kawa",
+     "kawy",
+     "feminine",
+     ""
+    ],
+    [
+     "mysz",
+     "myszy",
+     "feminine",
+     ""
+    ],
+    [
+     "rzecz",
+     "rzeczy",
+     "feminine",
+     ""
+    ],
+    [
+     "noc",
+     "noce",
+     "feminine",
+     ""
+    ],
+    [
+     "twarz",
+     "twarze",
+     "feminine",
+     ""
+    ],
+    [
+     "kość",
+     "kości",
+     "feminine",
+     ""
+    ],
+    [
+     "miłość",
+     "miłości",
+     "feminine",
+     ""
+    ],
+    [
+     "sól",
+     "sole",
+     "feminine",
+     "plural sole = different kinds of salt"
+    ],
+    [
+     "krew",
+     "krwie",
+     "feminine",
+     "plural only archaic; today singular only"
+    ],
+    [
+     "łódź",
+     "łodzie",
+     "feminine",
+     ""
+    ],
+    [
+     "ziemia",
+     "ziemie",
+     "feminine",
+     ""
+    ],
+    [
+     "idea",
+     "idee",
+     "feminine",
+     ""
+    ],
+    [
+     "sala",
+     "sale",
+     "feminine",
+     ""
+    ],
+    [
+     "mama",
+     "mamy",
+     "feminine",
+     ""
+    ],
+    [
+     "okno",
+     "okna",
+     "neuter",
+     ""
+    ],
+    [
+     "drzewo",
+     "drzewa",
+     "neuter",
+     ""
+    ],
+    [
+     "dziecko",
+     "dzieci",
+     "neuter",
+     "irregular: dzieci; non-personal"
+    ],
+    [
+     "imię",
+     "imiona",
+     "neuter",
+     ""
+    ],
+    [
+     "ramię",
+     "ramiona",
+     "neuter",
+     ""
+    ],
+    [
+     "zwierzę",
+     "zwierzęta",
+     "neuter",
+     ""
+    ],
+    [
+     "cielę",
+     "cielęta",
+     "neuter",
+     ""
+    ],
+    [
+     "morze",
+     "morza",
+     "neuter",
+     ""
+    ],
+    [
+     "pole",
+     "pola",
+     "neuter",
+     ""
+    ],
+    [
+     "muzeum",
+     "muzea",
+     "neuter",
+     ""
+    ],
+    [
+     "kino",
+     "kina",
+     "neuter",
+     ""
+    ],
+    [
+     "jajko",
+     "jajka",
+     "neuter",
+     ""
+    ],
+    [
+     "jabłko",
+     "jabłka",
+     "neuter",
+     ""
+    ],
+    [
+     "oko",
+     "oczy",
+     "neuter",
+     "irregular: oczy (oka = oil spots)"
+    ],
+    [
+     "ucho",
+     "uszy",
+     "neuter",
+     "irregular: uszy (ucha = handles)"
+    ],
+    [
+     "śniadanie",
+     "śniadania",
+     "neuter",
+     ""
+    ],
+    [
+     "mieszkanie",
+     "mieszkania",
+     "neuter",
+     ""
+    ],
+    [
+     "pytanie",
+     "pytania",
+     "neuter",
+     ""
+    ],
+    [
+     "nazwisko",
+     "nazwiska",
+     "neuter",
+     ""
+    ],
+    [
+     "państwo",
+     "państwa",
+     "neuter",
+     "as polite “you” it is masc. personal plural"
+    ],
+    [
+     "Kowalski",
+     "Kowalscy",
+     "masc. person",
+     "surname; -ski → -scy"
+    ]
+   ]
+  }
+ },
+ "genitive": {
+  "ref": {
+   "mode": "plain4",
+   "rows": [
+    [
+     "mężczyzna",
+     "mężczyzny",
+     "mężczyzn",
+     "masculine in -a → feminine endings"
+    ],
+    [
+     "student",
+     "studenta",
+     "studentów",
+     "person → -a; hard stem → -ów"
+    ],
+    [
+     "pies",
+     "psa",
+     "psów",
+     "animal → -a; fleeting e in the plural"
+    ],
+    [
+     "kot",
+     "kota",
+     "kotów",
+     "animal → -a"
+    ],
+    [
+     "koń",
+     "konia",
+     "koni",
+     "animal → -a; soft stem → -i"
+    ],
+    [
+     "lekarz",
+     "lekarza",
+     "lekarzy",
+     "person → -a; hardened rz → -y"
+    ],
+    [
+     "nauczyciel",
+     "nauczyciela",
+     "nauczycieli",
+     "person → -a; soft l → -i"
+    ],
+    [
+     "przyjaciel",
+     "przyjaciela",
+     "przyjaciół",
+     "irregular plural"
+    ],
+    [
+     "człowiek",
+     "człowieka",
+     "ludzi",
+     "suppletive plural"
+    ],
+    [
+     "brat",
+     "brata",
+     "braci",
+     "irregular plural"
+    ],
+    [
+     "ksiądz",
+     "księdza",
+     "księży",
+     "irregular plural"
+    ],
+    [
+     "wół",
+     "wołu",
+     "wołów",
+     "animal exception: -u"
+    ],
+    [
+     "bawół",
+     "bawołu",
+     "bawołów",
+     "animal exception: -u"
+    ],
+    [
+     "chleb",
+     "chleba",
+     "chlebów",
+     "mass noun with -a"
+    ],
+    [
+     "nóż",
+     "noża",
+     "noży",
+     "tool → -a"
+    ],
+    [
+     "klucz",
+     "klucza",
+     "kluczy",
+     "tool → -a; hardened cz → -y"
+    ],
+    [
+     "komputer",
+     "komputera",
+     "komputerów",
+     "loanword, but concrete → -a"
+    ],
+    [
+     "stół",
+     "stołu",
+     "stołów",
+     "thing → -u"
+    ],
+    [
+     "samochód",
+     "samochodu",
+     "samochodów",
+     "thing → -u"
+    ],
+    [
+     "telefon",
+     "telefonu",
+     "telefonów",
+     "thing → -u"
+    ],
+    [
+     "pociąg",
+     "pociągu",
+     "pociągów",
+     "thing → -u"
+    ],
+    [
+     "cukier",
+     "cukru",
+     "cukrów",
+     "substance → -u"
+    ],
+    [
+     "czas",
+     "czasu",
+     "czasów",
+     "abstract → -u"
+    ],
+    [
+     "miesiąc",
+     "miesiąca",
+     "miesięcy",
+     "month → -a; c → cz in the plural"
+    ],
+    [
+     "styczeń",
+     "stycznia",
+     "styczniów",
+     "months take -a"
+    ],
+    [
+     "rok",
+     "roku",
+     "lat",
+     "suppletive plural"
+    ],
+    [
+     "kobieta",
+     "kobiety",
+     "kobiet",
+     "feminine: -y; no ending in the plural"
+    ],
+    [
+     "książka",
+     "książki",
+     "książek",
+     "after k → -i; fleeting e in the plural"
+    ],
+    [
+     "ulica",
+     "ulicy",
+     "ulic",
+     "hardened c → -y"
+    ],
+    [
+     "noc",
+     "nocy",
+     "nocy",
+     "consonant-final feminine → -y"
+    ],
+    [
+     "miłość",
+     "miłości",
+     "miłości",
+     "soft feminine → -i"
+    ],
+    [
+     "ręka",
+     "ręki",
+     "rąk",
+     "after k → -i; nasal returns in the plural"
+    ],
+    [
+     "pani",
+     "pani",
+     "pań",
+     "soft feminine; plural has no ending"
+    ],
+    [
+     "noclegownia",
+     "noclegowni",
+     "noclegowni",
+     "-nia keeps -i in both numbers"
+    ],
+    [
+     "okno",
+     "okna",
+     "okien",
+     "neuter → -a; fleeting e in the plural"
+    ],
+    [
+     "miasto",
+     "miasta",
+     "miast",
+     "neuter → -a; no ending in the plural"
+    ],
+    [
+     "morze",
+     "morza",
+     "mórz",
+     "neuter → -a; vowel change in the plural"
+    ],
+    [
+     "imię",
+     "imienia",
+     "imion",
+     "-ię expands"
+    ],
+    [
+     "narzędzie",
+     "narzędzia",
+     "narzędzi",
+     "neuter soft → -a / -i"
+    ],
+    [
+     "mieszkanie",
+     "mieszkania",
+     "mieszkań",
+     "-anie → -ań"
+    ],
+    [
+     "dziecko",
+     "dziecka",
+     "dzieci",
+     "irregular plural"
+    ],
+    [
+     "muzeum",
+     "muzeum",
+     "muzeów",
+     "-um → -ów"
+    ],
+    [
+     "oko",
+     "oka",
+     "oczu",
+     "irregular plural"
+    ],
+    [
+     "ucho",
+     "ucha",
+     "uszu",
+     "irregular plural"
+    ],
+    [
+     "zwierzę",
+     "zwierzęcia",
+     "zwierząt",
+     "-ę expands; plural -ąt"
+    ],
+    [
+     "pieniądze",
+     "—",
+     "pieniędzy",
+     "plural only"
+    ],
+    [
+     "drzwi",
+     "—",
+     "drzwi",
+     "plural only, unchanged"
+    ],
+    [
+     "Włochy",
+     "—",
+     "Włoch",
+     "country name, plural only"
+    ],
+    [
+     "Niemcy",
+     "—",
+     "Niemiec",
+     "country name, plural only"
+    ]
+   ]
+  }
+ },
+ "accusative": {
+  "ref": {
+   "mode": "plain4",
+   "rows": [
+    [
+     "student",
+     "studenta",
+     "studentów",
+     "person → genitive form; plural male humans → genitive plural"
+    ],
+    [
+     "lekarz",
+     "lekarza",
+     "lekarzy",
+     "person → -a; plural -y after a hardened stem"
+    ],
+    [
+     "nauczyciel",
+     "nauczyciela",
+     "nauczycieli",
+     "person → -a; plural -i after soft l"
+    ],
+    [
+     "mężczyzna",
+     "mężczyznę",
+     "mężczyzn",
+     "masculine in -a → -ę; plural is masculine personal"
+    ],
+    [
+     "kolega",
+     "kolegę",
+     "kolegów",
+     "masculine in -a → -ę; plural → -ów"
+    ],
+    [
+     "człowiek",
+     "człowieka",
+     "ludzi",
+     "irregular plural"
+    ],
+    [
+     "przyjaciel",
+     "przyjaciela",
+     "przyjaciół",
+     "irregular plural"
+    ],
+    [
+     "brat",
+     "brata",
+     "braci",
+     "irregular plural"
+    ],
+    [
+     "pies",
+     "psa",
+     "psy",
+     "animal → -a in the singular, NOT in the plural"
+    ],
+    [
+     "kot",
+     "kota",
+     "koty",
+     "animal → -a in the singular, NOT in the plural"
+    ],
+    [
+     "koń",
+     "konia",
+     "konie",
+     "soft stem → -a in the singular; plural unchanged"
+    ],
+    [
+     "anioł",
+     "anioła",
+     "anioły / aniołów",
+     "grammatically animate, though nobody has seen one"
+    ],
+    [
+     "diabeł",
+     "diabła",
+     "diabły / diabłów",
+     "grammatically animate"
+    ],
+    [
+     "duch",
+     "ducha",
+     "duchy",
+     "grammatically animate"
+    ],
+    [
+     "trup",
+     "trupa",
+     "trupy / (rare) trupów",
+     "a dead person still counts as animate"
+    ],
+    [
+     "robot",
+     "robota / robot",
+     "roboty",
+     "grammatically animate; both singular forms are accepted"
+    ],
+    [
+     "bałwan",
+     "bałwana",
+     "bałwany",
+     "grammatically animate, despite being snow"
+    ],
+    [
+     "wampir",
+     "wampira",
+     "wampiry / wampirów",
+     "the undead count as animate"
+    ],
+    [
+     "papieros",
+     "papierosa",
+     "papierosy",
+     "animate-style ending: the standard form"
+    ],
+    [
+     "polonez",
+     "poloneza",
+     "polonezy",
+     "dances take the animate-style -a"
+    ],
+    [
+     "walc",
+     "walca",
+     "walce",
+     "dances take the animate-style -a"
+    ],
+    [
+     "grzyb",
+     "grzyba / grzyb",
+     "grzyby",
+     "both accepted"
+    ],
+    [
+     "kotlet",
+     "kotlet",
+     "kotlety",
+     "kotleta is colloquial"
+    ],
+    [
+     "banan",
+     "banan",
+     "banany",
+     "banana is colloquial"
+    ],
+    [
+     "stół",
+     "stół",
+     "stoły",
+     "thing → no change"
+    ],
+    [
+     "komputer",
+     "komputer",
+     "komputery",
+     "thing → no change"
+    ],
+    [
+     "samochód",
+     "samochód",
+     "samochody",
+     "thing → no change"
+    ],
+    [
+     "telefon",
+     "telefon",
+     "telefony",
+     "thing → no change"
+    ],
+    [
+     "klucz",
+     "klucz",
+     "klucze",
+     "thing → no change"
+    ],
+    [
+     "dom",
+     "dom",
+     "domy",
+     "thing → no change"
+    ],
+    [
+     "kobieta",
+     "kobietę",
+     "kobiety",
+     "feminine -a → -ę; plural unchanged"
+    ],
+    [
+     "książka",
+     "książkę",
+     "książki",
+     "feminine -a → -ę"
+    ],
+    [
+     "ulica",
+     "ulicę",
+     "ulice",
+     "feminine -a → -ę"
+    ],
+    [
+     "kawa",
+     "kawę",
+     "kawy",
+     "feminine -a → -ę"
+    ],
+    [
+     "herbata",
+     "herbatę",
+     "herbaty",
+     "feminine -a → -ę"
+    ],
+    [
+     "woda",
+     "wodę",
+     "wody",
+     "feminine -a → -ę"
+    ],
+    [
+     "ręka",
+     "rękę",
+     "ręce",
+     "feminine -a → -ę; plural ręce"
+    ],
+    [
+     "noga",
+     "nogę",
+     "nogi",
+     "feminine -a → -ę"
+    ],
+    [
+     "pani",
+     "panią",
+     "panie",
+     "exception: -ą, not -ę"
+    ],
+    [
+     "królowa",
+     "królową",
+     "królowe",
+     "exception: -ą, not -ę"
+    ],
+    [
+     "gospodyni",
+     "gospodynię",
+     "gospodynie",
+     "-i stem, but the regular -ę"
+    ],
+    [
+     "noc",
+     "noc",
+     "noce",
+     "feminine ending in a consonant → unchanged"
+    ],
+    [
+     "miłość",
+     "miłość",
+     "miłości",
+     "feminine ending in a consonant → unchanged"
+    ],
+    [
+     "dłoń",
+     "dłoń",
+     "dłonie",
+     "feminine ending in a consonant → unchanged"
+    ],
+    [
+     "mysz",
+     "mysz",
+     "myszy",
+     "feminine ending in a consonant → unchanged"
+    ],
+    [
+     "sól",
+     "sól",
+     "sole",
+     "feminine ending in a consonant → unchanged"
+    ],
+    [
+     "okno",
+     "okno",
+     "okna",
+     "neuter → never changes"
+    ],
+    [
+     "morze",
+     "morze",
+     "morza",
+     "neuter → never changes"
+    ],
+    [
+     "dziecko",
+     "dziecko",
+     "dzieci",
+     "neuter → never changes, despite meaning a child"
+    ],
+    [
+     "zwierzę",
+     "zwierzę",
+     "zwierzęta",
+     "neuter → never changes"
+    ],
+    [
+     "imię",
+     "imię",
+     "imiona",
+     "neuter → never changes"
+    ],
+    [
+     "drzwi",
+     "drzwi",
+     "drzwi",
+     "plural only, unchanged"
+    ],
+    [
+     "pieniądze",
+     "pieniądze",
+     "pieniądze",
+     "plural only, unchanged"
+    ]
+   ]
+  }
+ },
+ "vocative": {
+  "ref": {
+   "mode": "merge3",
+   "rows": [
+    [
+     "kot",
+     "kocie",
+     "masculine",
+     "t → ci plus -e"
+    ],
+    [
+     "pies",
+     "psie",
+     "masculine",
+     "fleeting e drops"
+    ],
+    [
+     "pan",
+     "panie",
+     "masculine",
+     "n → ni"
+    ],
+    [
+     "chłop",
+     "chłopie",
+     "masculine",
+     "p → pi"
+    ],
+    [
+     "chleb",
+     "chlebie",
+     "masculine",
+     "b → bi"
+    ],
+    [
+     "lew",
+     "lwie",
+     "masculine",
+     "w → wi"
+    ],
+    [
+     "las",
+     "lesie",
+     "masculine",
+     "s → si, a → e"
+    ],
+    [
+     "czas",
+     "czasie",
+     "masculine",
+     "s → si, a → e"
+    ],
+    [
+     "stół",
+     "stole",
+     "masculine",
+     "ł → l, ó → o"
+    ],
+    [
+     "anioł",
+     "aniele",
+     "masculine",
+     "ł → l"
+    ],
+    [
+     "duch",
+     "duchu",
+     "masculine",
+     "ch takes -u"
+    ],
+    [
+     "grzech",
+     "grzechu",
+     "masculine",
+     "ch takes -u"
+    ],
+    [
+     "kraj",
+     "kraju",
+     "masculine",
+     "j takes -u"
+    ],
+    [
+     "rok",
+     "roku",
+     "masculine",
+     "k takes -u"
+    ],
+    [
+     "dom",
+     "domu",
+     "masculine",
+     "matches the locative"
+    ],
+    [
+     "syn",
+     "synu",
+     "masculine",
+     "old u-stem relic"
+    ],
+    [
+     "człowiek",
+     "człowieku",
+     "masculine",
+     "k takes -u"
+    ],
+    [
+     "król",
+     "królu",
+     "masculine",
+     "l takes -u"
+    ],
+    [
+     "lekarz",
+     "lekarzu",
+     "masculine",
+     "rz takes -u"
+    ],
+    [
+     "mistrz",
+     "mistrzu",
+     "masculine",
+     "rz takes -u"
+    ],
+    [
+     "klucz",
+     "kluczu",
+     "masculine",
+     "cz takes -u"
+    ],
+    [
+     "gość",
+     "gościu",
+     "masculine",
+     "soft ć takes -u"
+    ],
+    [
+     "uczeń",
+     "uczniu",
+     "masculine",
+     "ń takes -u, e drops"
+    ],
+    [
+     "palec",
+     "palcu",
+     "masculine",
+     "-ec, neutral form"
+    ],
+    [
+     "widelec",
+     "widelcu",
+     "masculine",
+     "-ec, neutral form"
+    ],
+    [
+     "taniec",
+     "tańcu",
+     "masculine",
+     "-ec, neutral form"
+    ],
+    [
+     "miesiąc",
+     "miesiącu",
+     "masculine",
+     "-ec, neutral form"
+    ],
+    [
+     "mieszkaniec",
+     "mieszkańcu",
+     "masculine",
+     "-ec, neutral; mieszkańcze is elevated"
+    ],
+    [
+     "student",
+     "studencie",
+     "masculine",
+     "t → ci"
+    ],
+    [
+     "profesor",
+     "profesorze",
+     "masculine",
+     "r → rz"
+    ],
+    [
+     "samochód",
+     "samochodzie",
+     "masculine",
+     "d → dzi, ó → o"
+    ],
+    [
+     "sąsiad",
+     "sąsiedzie",
+     "masculine",
+     "d → dzi, ą → ę"
+    ],
+    [
+     "komputer",
+     "komputerze",
+     "masculine",
+     "r → rz"
+    ],
+    [
+     "mąż",
+     "mężu",
+     "masculine",
+     "ą → ę, ż takes -u"
+    ],
+    [
+     "ojciec",
+     "ojcze",
+     "irregular",
+     "one of the four exceptions"
+    ],
+    [
+     "chłopiec",
+     "chłopcze",
+     "irregular",
+     "one of the four exceptions"
+    ],
+    [
+     "ksiądz",
+     "księże",
+     "irregular",
+     "one of the four exceptions"
+    ],
+    [
+     "Bóg",
+     "Boże",
+     "irregular",
+     "one of the four exceptions"
+    ],
+    [
+     "człowiek (poetic)",
+     "człowiecze",
+     "irregular",
+     "archaic, literary"
+    ],
+    [
+     "tata",
+     "tato",
+     "masculine in -a",
+     "-a → -o"
+    ],
+    [
+     "kolega",
+     "kolego",
+     "masculine in -a",
+     "-a → -o"
+    ],
+    [
+     "mężczyzna",
+     "mężczyzno",
+     "masculine in -a",
+     "-a → -o"
+    ],
+    [
+     "kierowca",
+     "kierowco",
+     "masculine in -a",
+     "-a → -o"
+    ],
+    [
+     "sędzia",
+     "sędzio",
+     "masculine in -a",
+     "-a → -o"
+    ],
+    [
+     "hrabia",
+     "hrabio",
+     "masculine in -a",
+     "-a → -o"
+    ],
+    [
+     "artysta",
+     "artysto",
+     "masculine in -a",
+     "-a → -o"
+    ],
+    [
+     "idiota",
+     "idioto",
+     "masculine in -a",
+     "-a → -o"
+    ],
+    [
+     "Jerzy",
+     "Jerzy",
+     "name",
+     "ends in -y, unchanged"
+    ],
+    [
+     "Antoni",
+     "Antoni",
+     "name",
+     "ends in -i, unchanged"
+    ],
+    [
+     "Mieszko",
+     "Mieszku",
+     "name",
+     "names in -o take -u"
+    ],
+    [
+     "Marek",
+     "Marku",
+     "name",
+     "k takes -u"
+    ],
+    [
+     "Michał",
+     "Michale",
+     "name",
+     "ł → l"
+    ],
+    [
+     "Piotr",
+     "Piotrze",
+     "name",
+     "r → rz"
+    ],
+    [
+     "Paweł",
+     "Pawle",
+     "name",
+     "ł → l, e drops"
+    ],
+    [
+     "Andrzej",
+     "Andrzeju",
+     "name",
+     "j takes -u"
+    ],
+    [
+     "Krzysztof",
+     "Krzysztofie",
+     "name",
+     "f → fi"
+    ],
+    [
+     "Tomasz",
+     "Tomaszu",
+     "name",
+     "sz takes -u"
+    ],
+    [
+     "Łukasz",
+     "Łukaszu",
+     "name",
+     "sz takes -u"
+    ],
+    [
+     "Maciej",
+     "Macieju",
+     "name",
+     "j takes -u"
+    ],
+    [
+     "Jakub",
+     "Jakubie",
+     "name",
+     "b → bi"
+    ],
+    [
+     "Jan",
+     "Janie",
+     "name",
+     "n → ni"
+    ],
+    [
+     "Szymon",
+     "Szymonie",
+     "name",
+     "n → ni"
+    ],
+    [
+     "Adam",
+     "Adamie",
+     "name",
+     "d stays d"
+    ],
+    [
+     "Dawid",
+     "Dawidzie",
+     "name",
+     "d → dzi"
+    ],
+    [
+     "Tomek",
+     "Tomku",
+     "diminutive",
+     "-ek → -ku"
+    ],
+    [
+     "Piotrek",
+     "Piotrku",
+     "diminutive",
+     "-ek → -ku"
+    ],
+    [
+     "Maciek",
+     "Maćku",
+     "diminutive",
+     "-ek → -ku"
+    ],
+    [
+     "Kuba",
+     "Kubo",
+     "diminutive",
+     "masculine -a → -o"
+    ],
+    [
+     "Staś",
+     "Stasiu",
+     "diminutive",
+     "ś → si plus -u"
+    ],
+    [
+     "Krzyś",
+     "Krzysiu",
+     "diminutive",
+     "ś → si plus -u"
+    ],
+    [
+     "mama",
+     "mamo",
+     "feminine",
+     "-a → -o"
+    ],
+    [
+     "kobieta",
+     "kobieto",
+     "feminine",
+     "-a → -o"
+    ],
+    [
+     "siostra",
+     "siostro",
+     "feminine",
+     "-a → -o"
+    ],
+    [
+     "córka",
+     "córko",
+     "feminine",
+     "-a → -o"
+    ],
+    [
+     "matka",
+     "matko",
+     "feminine",
+     "-a → -o"
+    ],
+    [
+     "ziemia",
+     "ziemio",
+     "feminine",
+     "soft stem, ordinary noun → -o"
+    ],
+    [
+     "róża",
+     "różo",
+     "feminine",
+     "hardened stem, still -o"
+    ],
+    [
+     "ulica",
+     "ulico",
+     "feminine",
+     "hardened stem, still -o"
+    ],
+    [
+     "noc",
+     "nocy",
+     "feminine",
+     "consonant-final → -y"
+    ],
+    [
+     "rzecz",
+     "rzeczy",
+     "feminine",
+     "consonant-final → -y"
+    ],
+    [
+     "twarz",
+     "twarzy",
+     "feminine",
+     "consonant-final → -y"
+    ],
+    [
+     "miłość",
+     "miłości",
+     "feminine",
+     "soft stem → -i"
+    ],
+    [
+     "odpowiedź",
+     "odpowiedzi",
+     "feminine",
+     "soft stem → -i"
+    ],
+    [
+     "sól",
+     "soli",
+     "feminine",
+     "l → -i, ó → o"
+    ],
+    [
+     "krew",
+     "krwi",
+     "feminine",
+     "e drops, w → -i"
+    ],
+    [
+     "jesień",
+     "jesieni",
+     "feminine",
+     "soft ń → -i"
+    ],
+    [
+     "wieś",
+     "wsi",
+     "feminine",
+     "e drops, ś → s"
+    ],
+    [
+     "pani",
+     "pani",
+     "feminine",
+     "ends in -i, unchanged"
+    ],
+    [
+     "Anna",
+     "Anno",
+     "female name",
+     "full name → -o"
+    ],
+    [
+     "Katarzyna",
+     "Katarzyno",
+     "female name",
+     "full name → -o"
+    ],
+    [
+     "Agnieszka",
+     "Agnieszko",
+     "female name",
+     "full name → -o, even after sz"
+    ],
+    [
+     "Maria",
+     "Mario",
+     "female name",
+     "hard r → -o"
+    ],
+    [
+     "Zofia",
+     "Zofio",
+     "female name",
+     "full name → -o"
+    ],
+    [
+     "Ania",
+     "Aniu",
+     "female diminutive",
+     "soft stem → -u"
+    ],
+    [
+     "Kasia",
+     "Kasiu",
+     "female diminutive",
+     "soft stem → -u"
+    ],
+    [
+     "Zosia",
+     "Zosiu",
+     "female diminutive",
+     "soft stem → -u"
+    ],
+    [
+     "Basia",
+     "Basiu",
+     "female diminutive",
+     "soft stem → -u"
+    ],
+    [
+     "Ola",
+     "Olu",
+     "female diminutive",
+     "l behaves as soft"
+    ],
+    [
+     "ciocia",
+     "ciociu",
+     "feminine",
+     "soft personal noun → -u"
+    ],
+    [
+     "babcia",
+     "babciu",
+     "feminine",
+     "soft personal noun → -u"
+    ],
+    [
+     "dziecko",
+     "dziecko",
+     "neuter",
+     "unchanged"
+    ],
+    [
+     "okno",
+     "okno",
+     "neuter",
+     "unchanged"
+    ],
+    [
+     "imię",
+     "imię",
+     "neuter",
+     "unchanged"
+    ],
+    [
+     "zwierzę",
+     "zwierzę",
+     "neuter",
+     "unchanged"
+    ],
+    [
+     "studenci",
+     "studenci",
+     "plural",
+     "unchanged"
+    ],
+    [
+     "kobiety",
+     "kobiety",
+     "plural",
+     "unchanged"
+    ],
+    [
+     "dzieci",
+     "dzieci",
+     "plural",
+     "unchanged"
+    ],
+    [
+     "Państwo",
+     "Państwo",
+     "plural",
+     "unchanged"
+    ],
+    [
+     "Warszawa",
+     "Warszawo",
+     "place",
+     "-a → -o"
+    ],
+    [
+     "Polska",
+     "Polsko",
+     "place",
+     "-a → -o"
+    ],
+    [
+     "Kraków",
+     "Krakowie",
+     "place",
+     "matches the locative"
+    ],
+    [
+     "Gdańsk",
+     "Gdańsku",
+     "place",
+     "k takes -u"
+    ],
+    [
+     "Wrocław",
+     "Wrocławiu",
+     "place",
+     "w → wi"
+    ],
+    [
+     "Łódź",
+     "Łodzi",
+     "place",
+     "soft dź → -i"
+    ],
+    [
+     "Poznań",
+     "Poznaniu",
+     "place",
+     "ń takes -u"
+    ],
+    [
+     "Litwa",
+     "Litwo",
+     "place",
+     "-a → -o"
+    ],
+    [
+     "Europa",
+     "Europo",
+     "place",
+     "-a → -o"
+    ],
+    [
+     "doktor",
+     "doktorze",
+     "title",
+     "r → rz"
+    ],
+    [
+     "profesor",
+     "profesorze",
+     "title",
+     "r → rz"
+    ],
+    [
+     "dyrektor",
+     "dyrektorze",
+     "title",
+     "r → rz"
+    ],
+    [
+     "prezes",
+     "prezesie",
+     "title",
+     "s → si"
+    ],
+    [
+     "inżynier",
+     "inżynierze",
+     "title",
+     "r → rz"
+    ],
+    [
+     "minister",
+     "ministrze",
+     "title",
+     "r → rz"
+    ],
+    [
+     "mecenas",
+     "mecenasie",
+     "title",
+     "s → si"
+    ],
+    [
+     "proboszcz",
+     "proboszczu",
+     "title",
+     "sz takes -u"
+    ],
+    [
+     "Jezus",
+     "Jezu",
+     "religion",
+     "fixed exclamatory form"
+    ],
+    [
+     "Chrystus",
+     "Chryste",
+     "religion",
+     "old vocative, kept in exclamations"
+    ],
+    [
+     "biskup",
+     "biskupie",
+     "religion",
+     "p → pi"
+    ],
+    [
+     "papież",
+     "papieżu",
+     "religion",
+     "ż takes -u"
+    ],
+    [
+     "brat",
+     "bracie",
+     "religion",
+     "t → ci"
+    ],
+    [
+     "siostra",
+     "siostro",
+     "religion",
+     "-a → -o"
+    ],
+    [
+     "matka",
+     "matko",
+     "religion",
+     "Matko Boska"
+    ]
+   ]
+  }
+ },
+ "locative": {
+  "ref": {
+   "mode": "objects",
+   "rows": [
+    {
+     "a": "bank",
+     "s": "banku",
+     "p": "bankach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "k takes -u"
+    },
+    {
+     "a": "pociąg",
+     "s": "pociągu",
+     "p": "pociągach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "g takes -u"
+    },
+    {
+     "a": "dach",
+     "s": "dachu",
+     "p": "dachach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "ch takes -u"
+    },
+    {
+     "a": "hotel",
+     "s": "hotelu",
+     "p": "hotelach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "l takes -u in masculine"
+    },
+    {
+     "a": "język",
+     "s": "języku",
+     "p": "językach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "k takes -u"
+    },
+    {
+     "a": "nauczyciel",
+     "s": "nauczycielu",
+     "p": "nauczycielach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "l takes -u"
+    },
+    {
+     "a": "koń",
+     "s": "koniu",
+     "p": "koniach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "soft stem"
+    },
+    {
+     "a": "gość",
+     "s": "gościu",
+     "p": "gościach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "soft stem"
+    },
+    {
+     "a": "liść",
+     "s": "liściu",
+     "p": "liściach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "soft stem"
+    },
+    {
+     "a": "mistrz",
+     "s": "mistrzu",
+     "p": "mistrzach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "hardened rz takes -u"
+    },
+    {
+     "a": "lekarz",
+     "s": "lekarzu",
+     "p": "lekarzach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "hardened rz takes -u"
+    },
+    {
+     "a": "kraj",
+     "s": "kraju",
+     "p": "krajach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "soft j"
+    },
+    {
+     "a": "pokój",
+     "s": "pokoju",
+     "p": "pokojach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "soft j, ó → o"
+    },
+    {
+     "a": "ojciec",
+     "s": "ojcu",
+     "p": "ojcach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "soft c"
+    },
+    {
+     "a": "chłopiec",
+     "s": "chłopcu",
+     "p": "chłopcach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "soft c"
+    },
+    {
+     "a": "miesiąc",
+     "s": "miesiącu",
+     "p": "miesiącach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "soft c"
+    },
+    {
+     "a": "gracz",
+     "s": "graczu",
+     "p": "graczach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "hardened cz takes -u"
+    },
+    {
+     "a": "rynek",
+     "s": "rynku",
+     "p": "rynkach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "k takes -u, e drops"
+    },
+    {
+     "a": "Bóg",
+     "s": "Bogu",
+     "p": "bogach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "the only -óg word that keeps o"
+    },
+    {
+     "a": "ogień",
+     "s": "ogniu",
+     "p": "ogniach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "e drops, n softens"
+    },
+    {
+     "a": "kamień",
+     "s": "kamieniu",
+     "p": "kamieniach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "n softens to ni"
+    },
+    {
+     "a": "przyjaciel",
+     "s": "przyjacielu",
+     "p": "przyjaciołach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "plural stem przyjaciol-"
+    },
+    {
+     "a": "kościół",
+     "s": "kościele",
+     "p": "kościołach",
+     "g": "masculine, hard stem → -e",
+     "why": "exception: ł → l, but takes -e, not -u"
+    },
+    {
+     "a": "stół",
+     "s": "stole",
+     "p": "stołach",
+     "g": "masculine, hard stem → -e",
+     "why": "exception: ł → l, but takes -e, not -u"
+    },
+    {
+     "a": "pies",
+     "s": "psie",
+     "p": "psach",
+     "g": "masculine, hard stem → -e",
+     "why": "e drops, s softens"
+    },
+    {
+     "a": "cukier",
+     "s": "cukrze",
+     "p": "cukrach",
+     "g": "masculine, hard stem → -e",
+     "why": "r → rz"
+    },
+    {
+     "a": "sklep",
+     "s": "sklepie",
+     "p": "sklepach",
+     "g": "masculine, hard stem → -e",
+     "why": "hard stem takes -e"
+    },
+    {
+     "a": "chleb",
+     "s": "chlebie",
+     "p": "chlebach",
+     "g": "masculine, hard stem → -e",
+     "why": "hard stem takes -e"
+    },
+    {
+     "a": "klub",
+     "s": "klubie",
+     "p": "klubach",
+     "g": "masculine, hard stem → -e",
+     "why": "hard stem takes -e"
+    },
+    {
+     "a": "staw",
+     "s": "stawie",
+     "p": "stawach",
+     "g": "masculine, hard stem → -e",
+     "why": "w is soft here"
+    },
+    {
+     "a": "szef",
+     "s": "szefie",
+     "p": "szefach",
+     "g": "masculine, hard stem → -e",
+     "why": "hard stem takes -e"
+    },
+    {
+     "a": "sejf",
+     "s": "sejfie",
+     "p": "sejfach",
+     "g": "masculine, hard stem → -e",
+     "why": "hard stem takes -e"
+    },
+    {
+     "a": "las",
+     "s": "lesie",
+     "p": "lasach",
+     "g": "masculine, hard stem → -e",
+     "why": "a → e before -e"
+    },
+    {
+     "a": "mech",
+     "s": "mchu",
+     "p": "mechach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "fleeting e drops, ch takes -u like dach"
+    },
+    {
+     "a": "ogród",
+     "s": "ogrodzie",
+     "p": "ogrodach",
+     "g": "masculine, hard stem → -e",
+     "why": "d → dz, ó → o"
+    },
+    {
+     "a": "wieczór",
+     "s": "wieczorze",
+     "p": "wieczorach",
+     "g": "masculine, hard stem → -e",
+     "why": "r → rz, ó → o"
+    },
+    {
+     "a": "bunt",
+     "s": "buncie",
+     "p": "buntach",
+     "g": "masculine, hard stem → -e",
+     "why": "t → ci"
+    },
+    {
+     "a": "ślad",
+     "s": "śladzie",
+     "p": "śladach",
+     "g": "masculine, hard stem → -e",
+     "why": "d → dzi"
+    },
+    {
+     "a": "tron",
+     "s": "tronie",
+     "p": "tronach",
+     "g": "masculine, hard stem → -e",
+     "why": "n → ni"
+    },
+    {
+     "a": "sznur",
+     "s": "sznurze",
+     "p": "sznurach",
+     "g": "masculine, hard stem → -e",
+     "why": "r → rz"
+    },
+    {
+     "a": "ząb",
+     "s": "zębie",
+     "p": "zębach",
+     "g": "masculine, hard stem → -e",
+     "why": "ą → ę"
+    },
+    {
+     "a": "dąb",
+     "s": "dębie",
+     "p": "dębach",
+     "g": "masculine, hard stem → -e",
+     "why": "ą → ę"
+    },
+    {
+     "a": "świt",
+     "s": "świcie",
+     "p": "świtach",
+     "g": "masculine, hard stem → -e",
+     "why": "t → ci"
+    },
+    {
+     "a": "standard",
+     "s": "standardzie",
+     "p": "standardach",
+     "g": "masculine, hard stem → -e",
+     "why": "d → dzi"
+    },
+    {
+     "a": "banał",
+     "s": "banale",
+     "p": "banałach",
+     "g": "masculine, hard stem → -e",
+     "why": "ł → l"
+    },
+    {
+     "a": "głaz",
+     "s": "głazie",
+     "p": "głazach",
+     "g": "masculine, hard stem → -e",
+     "why": "z → zi"
+    },
+    {
+     "a": "gniew",
+     "s": "gniewie",
+     "p": "gniewach",
+     "g": "masculine, hard stem → -e",
+     "why": "w is soft here"
+    },
+    {
+     "a": "piach",
+     "s": "piachu",
+     "p": "piachach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "ch takes -u"
+    },
+    {
+     "a": "kowal",
+     "s": "kowalu",
+     "p": "kowalach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "l takes -u"
+    },
+    {
+     "a": "cień",
+     "s": "cieniu",
+     "p": "cieniach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "n softens to ni"
+    },
+    {
+     "a": "malkontent",
+     "s": "malkontencie",
+     "p": "malkontentach",
+     "g": "masculine, hard stem → -e",
+     "why": "t → ci"
+    },
+    {
+     "a": "mieszczanin",
+     "s": "mieszczaninie",
+     "p": "mieszczanach",
+     "g": "masculine, hard stem → -e",
+     "why": "plural drops -in"
+    },
+    {
+     "a": "dom",
+     "s": "domu",
+     "p": "domach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "exception: hard stem but -u"
+    },
+    {
+     "a": "pan",
+     "s": "panu",
+     "p": "panach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "exception: hard stem but -u"
+    },
+    {
+     "a": "syn",
+     "s": "synu",
+     "p": "synach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "exception: hard stem but -u"
+    },
+    {
+     "a": "rok",
+     "s": "roku",
+     "p": "latach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "suppletive plural"
+    },
+    {
+     "a": "dzień",
+     "s": "dniu",
+     "p": "dniach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "exception: e drops"
+    },
+    {
+     "a": "tydzień",
+     "s": "tygodniu",
+     "p": "tygodniach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "stem changes in both numbers"
+    },
+    {
+     "a": "cmentarz",
+     "s": "cmentarzu",
+     "p": "cmentarzach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "hardened rz takes -u"
+    },
+    {
+     "a": "szpital",
+     "s": "szpitalu",
+     "p": "szpitalach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "l takes -u"
+    },
+    {
+     "a": "urząd",
+     "s": "urzędzie",
+     "p": "urzędach",
+     "g": "masculine, hard stem → -e",
+     "why": "d → dzi, ą → ę"
+    },
+    {
+     "a": "sąd",
+     "s": "sądzie",
+     "p": "sądach",
+     "g": "masculine, hard stem → -e",
+     "why": "d → dzi"
+    },
+    {
+     "a": "dworzec",
+     "s": "dworcu",
+     "p": "dworcach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "soft c"
+    },
+    {
+     "a": "przystanek",
+     "s": "przystanku",
+     "p": "przystankach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "k takes -u, e drops"
+    },
+    {
+     "a": "balkon",
+     "s": "balkonie",
+     "p": "balkonach",
+     "g": "masculine, hard stem → -e",
+     "why": "n → ni"
+    },
+    {
+     "a": "korytarz",
+     "s": "korytarzu",
+     "p": "korytarzach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "hardened rz takes -u"
+    },
+    {
+     "a": "gabinet",
+     "s": "gabinecie",
+     "p": "gabinetach",
+     "g": "masculine, hard stem → -e",
+     "why": "t → ci"
+    },
+    {
+     "a": "szkoła",
+     "s": "szkole",
+     "p": "szkołach",
+     "g": "feminine, hard stem → -e",
+     "why": "ł → l before -e"
+    },
+    {
+     "a": "noga",
+     "s": "nodze",
+     "p": "nogach",
+     "g": "feminine, hard stem → -e",
+     "why": "g → dz"
+    },
+    {
+     "a": "mucha",
+     "s": "musze",
+     "p": "muchach",
+     "g": "feminine, hard stem → -e",
+     "why": "ch → sz"
+    },
+    {
+     "a": "kobieta",
+     "s": "kobiecie",
+     "p": "kobietach",
+     "g": "feminine, hard stem → -e",
+     "why": "t → ci"
+    },
+    {
+     "a": "siostra",
+     "s": "siostrze",
+     "p": "siostrach",
+     "g": "feminine, hard stem → -e",
+     "why": "r → rz"
+    },
+    {
+     "a": "mama",
+     "s": "mamie",
+     "p": "mamach",
+     "g": "feminine, hard stem → -e",
+     "why": "hard stem takes -e"
+    },
+    {
+     "a": "żona",
+     "s": "żonie",
+     "p": "żonach",
+     "g": "feminine, hard stem → -e",
+     "why": "n → ni"
+    },
+    {
+     "a": "Warszawa",
+     "s": "Warszawie",
+     "p": "Warszawach",
+     "g": "feminine, hard stem → -e",
+     "why": "w is soft here"
+    },
+    {
+     "a": "Polska",
+     "s": "Polsce",
+     "p": "Polskach",
+     "g": "feminine, hard stem → -e",
+     "why": "k → c"
+    },
+    {
+     "a": "Afryka",
+     "s": "Afryce",
+     "p": "Afrykach",
+     "g": "feminine, hard stem → -e",
+     "why": "k → c"
+    },
+    {
+     "a": "Ameryka",
+     "s": "Ameryce",
+     "p": "Amerykach",
+     "g": "feminine, hard stem → -e",
+     "why": "k → c"
+    },
+    {
+     "a": "kuchnia",
+     "s": "kuchni",
+     "p": "kuchniach",
+     "g": "feminine, soft stem → -i",
+     "why": "soft ni takes -i"
+    },
+    {
+     "a": "łazienka",
+     "s": "łazience",
+     "p": "łazienkach",
+     "g": "feminine, hard stem → -e",
+     "why": "k → c"
+    },
+    {
+     "a": "restauracja",
+     "s": "restauracji",
+     "p": "restauracjach",
+     "g": "feminine, soft stem → -i",
+     "why": "-ja → -ji"
+    },
+    {
+     "a": "kawiarnia",
+     "s": "kawiarni",
+     "p": "kawiarniach",
+     "g": "feminine, soft stem → -i",
+     "why": "soft ni takes -i"
+    },
+    {
+     "a": "droga",
+     "s": "drodze",
+     "p": "drogach",
+     "g": "feminine, hard stem → -e",
+     "why": "g → dz"
+    },
+    {
+     "a": "wieś",
+     "s": "wsi",
+     "p": "wsiach",
+     "g": "feminine, soft stem → -i",
+     "why": "irregular: final ś → si"
+    },
+    {
+     "a": "kość",
+     "s": "kości",
+     "p": "kościach",
+     "g": "feminine, soft stem → -i",
+     "why": "soft stem takes -i"
+    },
+    {
+     "a": "jesień",
+     "s": "jesieni",
+     "p": "jesieniach",
+     "g": "feminine, soft stem → -i",
+     "why": "soft n takes -i"
+    },
+    {
+     "a": "pani",
+     "s": "pani",
+     "p": "paniach",
+     "g": "feminine, soft stem → -i",
+     "why": "soft stem takes -i"
+    },
+    {
+     "a": "ziemia",
+     "s": "ziemi",
+     "p": "ziemiach",
+     "g": "feminine, soft stem → -i",
+     "why": "soft mi takes -i"
+    },
+    {
+     "a": "armia",
+     "s": "armii",
+     "p": "armiach",
+     "g": "feminine, soft stem → -i",
+     "why": "-ia → -ii"
+    },
+    {
+     "a": "historia",
+     "s": "historii",
+     "p": "historiach",
+     "g": "feminine, soft stem → -i",
+     "why": "-ia → -ii"
+    },
+    {
+     "a": "stacja",
+     "s": "stacji",
+     "p": "stacjach",
+     "g": "feminine, soft stem → -i",
+     "why": "-ja → -ji"
+    },
+    {
+     "a": "poczta",
+     "s": "poczcie",
+     "p": "pocztach",
+     "g": "feminine, hard stem → -e",
+     "why": "t → ci"
+    },
+    {
+     "a": "apteka",
+     "s": "aptece",
+     "p": "aptekach",
+     "g": "feminine, hard stem → -e",
+     "why": "k → c"
+    },
+    {
+     "a": "woda",
+     "s": "wodzie",
+     "p": "wodach",
+     "g": "feminine, hard stem → -e",
+     "why": "d → dzi"
+    },
+    {
+     "a": "rada",
+     "s": "radzie",
+     "p": "radach",
+     "g": "feminine, hard stem → -e",
+     "why": "d → dzi"
+    },
+    {
+     "a": "Wisła",
+     "s": "Wiśle",
+     "p": "Wisłach",
+     "g": "feminine, hard stem → -e",
+     "why": "s → ś, ł → l"
+    },
+    {
+     "a": "Ukraina",
+     "s": "Ukrainie",
+     "p": "Ukrainach",
+     "g": "feminine, hard stem → -e",
+     "why": "n → ni"
+    },
+    {
+     "a": "Słowacja",
+     "s": "Słowacji",
+     "p": "Słowacjach",
+     "g": "feminine, soft stem → -i",
+     "why": "-ja → -ji"
+    },
+    {
+     "a": "Litwa",
+     "s": "Litwie",
+     "p": "Litwach",
+     "g": "feminine, hard stem → -e",
+     "why": "w is soft here"
+    },
+    {
+     "a": "Łotwa",
+     "s": "Łotwie",
+     "p": "Łotwach",
+     "g": "feminine, hard stem → -e",
+     "why": "w is soft here"
+    },
+    {
+     "a": "Białoruś",
+     "s": "Białorusi",
+     "p": "Białorusiach",
+     "g": "feminine, soft stem → -i",
+     "why": "soft ś → si"
+    },
+    {
+     "a": "Sycylia",
+     "s": "Sycylii",
+     "p": "Sycyliach",
+     "g": "feminine, soft stem → -i",
+     "why": "-ia → -ii"
+    },
+    {
+     "a": "Kuba",
+     "s": "Kubie",
+     "p": "Kubach",
+     "g": "feminine, hard stem → -e",
+     "why": "hard stem takes -e"
+    },
+    {
+     "a": "Japonia",
+     "s": "Japonii",
+     "p": "Japoniach",
+     "g": "feminine, soft stem → -i",
+     "why": "-ia → -ii"
+    },
+    {
+     "a": "sobota",
+     "s": "sobocie",
+     "p": "sobotach",
+     "g": "feminine, hard stem → -e",
+     "why": "t → ci"
+    },
+    {
+     "a": "rzeka",
+     "s": "rzece",
+     "p": "rzekach",
+     "g": "feminine, hard stem → -e",
+     "why": "k → c"
+    },
+    {
+     "a": "matka",
+     "s": "matce",
+     "p": "matkach",
+     "g": "feminine, hard stem → -e",
+     "why": "k → c"
+    },
+    {
+     "a": "dróżka",
+     "s": "dróżce",
+     "p": "dróżkach",
+     "g": "feminine, hard stem → -e",
+     "why": "k → c"
+    },
+    {
+     "a": "rura",
+     "s": "rurze",
+     "p": "rurach",
+     "g": "feminine, hard stem → -e",
+     "why": "r → rz"
+    },
+    {
+     "a": "knieja",
+     "s": "kniei",
+     "p": "kniejach",
+     "g": "feminine, soft stem → -i",
+     "why": "-ja → -i after a vowel"
+    },
+    {
+     "a": "sól",
+     "s": "soli",
+     "p": "solach",
+     "g": "feminine, soft stem → -i",
+     "why": "l takes -i in feminine"
+    },
+    {
+     "a": "noc",
+     "s": "nocy",
+     "p": "nocach",
+     "g": "feminine, hardened stem → -y",
+     "why": "hardened c takes -y"
+    },
+    {
+     "a": "moc",
+     "s": "mocy",
+     "p": "mocach",
+     "g": "feminine, hardened stem → -y",
+     "why": "hardened c takes -y"
+    },
+    {
+     "a": "praca",
+     "s": "pracy",
+     "p": "pracach",
+     "g": "feminine, hardened stem → -y",
+     "why": "hardened c takes -y"
+    },
+    {
+     "a": "ulica",
+     "s": "ulicy",
+     "p": "ulicach",
+     "g": "feminine, hardened stem → -y",
+     "why": "hardened c takes -y"
+    },
+    {
+     "a": "książka",
+     "s": "książce",
+     "p": "książkach",
+     "g": "feminine, hard stem → -e",
+     "why": "k → c"
+    },
+    {
+     "a": "ręka",
+     "s": "ręce",
+     "p": "rękach",
+     "g": "feminine, hard stem → -e",
+     "why": "k → c; w ręce and w ręku both correct"
+    },
+    {
+     "a": "twarz",
+     "s": "twarzy",
+     "p": "twarzach",
+     "g": "feminine, hardened stem → -y",
+     "why": "hardened rz takes -y"
+    },
+    {
+     "a": "miłość",
+     "s": "miłości",
+     "p": "miłościach",
+     "g": "feminine, soft stem → -i",
+     "why": "soft ś → si"
+    },
+    {
+     "a": "plaża",
+     "s": "plaży",
+     "p": "plażach",
+     "g": "feminine, hardened stem → -y",
+     "why": "hardened ż takes -y"
+    },
+    {
+     "a": "łąka",
+     "s": "łące",
+     "p": "łąkach",
+     "g": "feminine, hard stem → -e",
+     "why": "k → c"
+    },
+    {
+     "a": "góra",
+     "s": "górze",
+     "p": "górach",
+     "g": "feminine, hard stem → -e",
+     "why": "r → rz"
+    },
+    {
+     "a": "wyspa",
+     "s": "wyspie",
+     "p": "wyspach",
+     "g": "feminine, hard stem → -e",
+     "why": "hard stem takes -e"
+    },
+    {
+     "a": "pustynia",
+     "s": "pustyni",
+     "p": "pustyniach",
+     "g": "feminine, soft stem → -i",
+     "why": "soft ni takes -i"
+    },
+    {
+     "a": "aleja",
+     "s": "alei",
+     "p": "alejach",
+     "g": "feminine, soft stem → -i",
+     "why": "-ja → -i after a vowel"
+    },
+    {
+     "a": "lekcja",
+     "s": "lekcji",
+     "p": "lekcjach",
+     "g": "feminine, soft stem → -i",
+     "why": "-ja → -ji"
+    },
+    {
+     "a": "geografia",
+     "s": "geografii",
+     "p": "geografiach",
+     "g": "feminine, soft stem → -i",
+     "why": "-ia → -ii"
+    },
+    {
+     "a": "kolacja",
+     "s": "kolacji",
+     "p": "kolacjach",
+     "g": "feminine, soft stem → -i",
+     "why": "-ja → -ji"
+    },
+    {
+     "a": "Rosja",
+     "s": "Rosji",
+     "p": "Rosjach",
+     "g": "feminine, soft stem → -i",
+     "why": "-ja → -ji"
+    },
+    {
+     "a": "piwnica",
+     "s": "piwnicy",
+     "p": "piwnicach",
+     "g": "feminine, hardened stem → -y",
+     "why": "hardened c takes -y"
+    },
+    {
+     "a": "dzielnica",
+     "s": "dzielnicy",
+     "p": "dzielnicach",
+     "g": "feminine, hardened stem → -y",
+     "why": "hardened c takes -y"
+    },
+    {
+     "a": "stolica",
+     "s": "stolicy",
+     "p": "stolicach",
+     "g": "feminine, hardened stem → -y",
+     "why": "hardened c takes -y"
+    },
+    {
+     "a": "tablica",
+     "s": "tablicy",
+     "p": "tablicach",
+     "g": "feminine, hardened stem → -y",
+     "why": "hardened c takes -y"
+    },
+    {
+     "a": "granica",
+     "s": "granicy",
+     "p": "granicach",
+     "g": "feminine, hardened stem → -y",
+     "why": "hardened c takes -y"
+    },
+    {
+     "a": "sala",
+     "s": "sali",
+     "p": "salach",
+     "g": "feminine, soft stem → -i",
+     "why": "l takes -i in feminine"
+    },
+    {
+     "a": "winda",
+     "s": "windzie",
+     "p": "windach",
+     "g": "feminine, hard stem → -e",
+     "why": "d → dzi"
+    },
+    {
+     "a": "fabryka",
+     "s": "fabryce",
+     "p": "fabrykach",
+     "g": "feminine, hard stem → -e",
+     "why": "k → c"
+    },
+    {
+     "a": "biblioteka",
+     "s": "bibliotece",
+     "p": "bibliotekach",
+     "g": "feminine, hard stem → -e",
+     "why": "k → c"
+    },
+    {
+     "a": "morze",
+     "s": "morzu",
+     "p": "morzach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "soft stem takes -u"
+    },
+    {
+     "a": "pole",
+     "s": "polu",
+     "p": "polach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "l takes -u in neuter"
+    },
+    {
+     "a": "słońce",
+     "s": "słońcu",
+     "p": "słońcach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "soft c takes -u"
+    },
+    {
+     "a": "serce",
+     "s": "sercu",
+     "p": "sercach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "soft c takes -u"
+    },
+    {
+     "a": "imię",
+     "s": "imieniu",
+     "p": "imionach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "stem imion- in the plural"
+    },
+    {
+     "a": "zwierzę",
+     "s": "zwierzęciu",
+     "p": "zwierzętach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "t-stem in the plural"
+    },
+    {
+     "a": "muzeum",
+     "s": "muzeum",
+     "p": "muzeach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "-lum nouns keep -um in the singular"
+    },
+    {
+     "a": "centrum",
+     "s": "centrum",
+     "p": "centrach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "-lum nouns keep -um in the singular"
+    },
+    {
+     "a": "dziecko",
+     "s": "dziecku",
+     "p": "dzieciach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "irregular plural"
+    },
+    {
+     "a": "mieszkanie",
+     "s": "mieszkaniu",
+     "p": "mieszkaniach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "soft n takes -u"
+    },
+    {
+     "a": "zdjęcie",
+     "s": "zdjęciu",
+     "p": "zdjęciach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "soft t takes -u"
+    },
+    {
+     "a": "jezioro",
+     "s": "jeziorze",
+     "p": "jeziorach",
+     "g": "neuter, hard stem → -e",
+     "why": "hard r softens to rz before -e"
+    },
+    {
+     "a": "mleko",
+     "s": "mleku",
+     "p": "mlekach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "k takes -u"
+    },
+    {
+     "a": "oko",
+     "s": "oku",
+     "p": "oczach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "irregular plural"
+    },
+    {
+     "a": "ucho",
+     "s": "uchu",
+     "p": "uszach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "irregular plural"
+    },
+    {
+     "a": "śniadanie",
+     "s": "śniadaniu",
+     "p": "śniadaniach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "soft n takes -u"
+    },
+    {
+     "a": "zdrowie",
+     "s": "zdrowiu",
+     "p": "zdrowiach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "soft w takes -u"
+    },
+    {
+     "a": "więzienie",
+     "s": "więzieniu",
+     "p": "więzieniach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "soft n takes -u"
+    },
+    {
+     "a": "wyjście",
+     "s": "wyjściu",
+     "p": "wyjściach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "soft stem takes -u"
+    },
+    {
+     "a": "miasteczko",
+     "s": "miasteczku",
+     "p": "miasteczkach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "k takes -u"
+    },
+    {
+     "a": "kino",
+     "s": "kinie",
+     "p": "kinach",
+     "g": "neuter, hard stem → -e",
+     "why": "n → ni before -e"
+    },
+    {
+     "a": "miasto",
+     "s": "mieście",
+     "p": "miastach",
+     "g": "neuter, hard stem → -e",
+     "why": "st → ść and a → e"
+    },
+    {
+     "a": "niebo",
+     "s": "niebie",
+     "p": "niebach",
+     "g": "neuter, hard stem → -e",
+     "why": "b → bi"
+    },
+    {
+     "a": "lato",
+     "s": "lecie",
+     "p": "latach",
+     "g": "neuter, hard stem → -e",
+     "why": "t → ci, a → e"
+    },
+    {
+     "a": "piętno",
+     "s": "piętnie",
+     "p": "piętnach",
+     "g": "neuter, hard stem → -e",
+     "why": "n → ni"
+    },
+    {
+     "a": "ciasto",
+     "s": "cieście",
+     "p": "ciastach",
+     "g": "neuter, hard stem → -e",
+     "why": "st → ść, a → e"
+    },
+    {
+     "a": "łoże",
+     "s": "łożu",
+     "p": "łożach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "soft stem takes -u"
+    },
+    {
+     "a": "liceum",
+     "s": "liceum",
+     "p": "liceach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "-eum nouns keep -um in the singular"
+    },
+    {
+     "a": "przedszkole",
+     "s": "przedszkolu",
+     "p": "przedszkolach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "l takes -u in neuter"
+    },
+    {
+     "a": "podwórko",
+     "s": "podwórku",
+     "p": "podwórkach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "k takes -u"
+    },
+    {
+     "a": "boisko",
+     "s": "boisku",
+     "p": "boiskach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "k takes -u"
+    },
+    {
+     "a": "lotnisko",
+     "s": "lotnisku",
+     "p": "lotniskach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "k takes -u"
+    },
+    {
+     "a": "Zakopane",
+     "s": "Zakopanem",
+     "p": "Zakopanach",
+     "g": "adjectival place name → -em",
+     "why": "adjectival place name takes -em"
+    },
+    {
+     "a": "Wilno",
+     "s": "Wilnie",
+     "p": "Wilnach",
+     "g": "neuter, hard stem → -e",
+     "why": "n → ni"
+    },
+    {
+     "a": "Kraków",
+     "s": "Krakowie",
+     "p": "Krakowach",
+     "g": "masculine, hard stem → -e",
+     "why": "ów → ow, w softens to wi before -e"
+    },
+    {
+     "a": "Gdańsk",
+     "s": "Gdańsku",
+     "p": "Gdańskach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "k takes -u"
+    },
+    {
+     "a": "Wrocław",
+     "s": "Wrocławiu",
+     "p": "Wrocławiach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "w is soft here"
+    },
+    {
+     "a": "Poznań",
+     "s": "Poznaniu",
+     "p": "Poznaniach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "n softens to ni"
+    },
+    {
+     "a": "Lublin",
+     "s": "Lublinie",
+     "p": "Lublinach",
+     "g": "masculine, hard stem → -e",
+     "why": "n → ni"
+    },
+    {
+     "a": "Berlin",
+     "s": "Berlinie",
+     "p": "Berlinach",
+     "g": "masculine, hard stem → -e",
+     "why": "n → ni"
+    },
+    {
+     "a": "Londyn",
+     "s": "Londynie",
+     "p": "Londynach",
+     "g": "masculine, hard stem → -e",
+     "why": "n → ni"
+    },
+    {
+     "a": "Lwów",
+     "s": "Lwowie",
+     "p": "Lwowach",
+     "g": "masculine, hard stem → -e",
+     "why": "ów → ow, w softens to wi before -e"
+    },
+    {
+     "a": "Rzym",
+     "s": "Rzymie",
+     "p": "Rzymach",
+     "g": "masculine, hard stem → -e",
+     "why": "m is soft here"
+    },
+    {
+     "a": "Paryż",
+     "s": "Paryżu",
+     "p": "Paryżach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "hardened ż takes -u"
+    },
+    {
+     "a": "Śląsk",
+     "s": "Śląsku",
+     "p": "Śląskach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "k takes -u"
+    },
+    {
+     "a": "Mazowsze",
+     "s": "Mazowszu",
+     "p": "Mazowszach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "hardened sz takes -u"
+    },
+    {
+     "a": "Podhale",
+     "s": "Podhalu",
+     "p": "Podhalach",
+     "g": "neuter, soft or k/g/ch stem → -u",
+     "why": "l takes -u in neuter"
+    },
+    {
+     "a": "Hel",
+     "s": "Helu",
+     "p": "Helach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "l takes -u"
+    },
+    {
+     "a": "Bytom",
+     "s": "Bytomiu",
+     "p": "Bytomiach",
+     "g": "masculine, hardened/soft stem → -u",
+     "why": "m softens to mi"
+    },
+    {
+     "a": "Rzeszów",
+     "s": "Rzeszowie",
+     "p": "Rzeszowach",
+     "g": "masculine, hard stem → -e",
+     "why": "ów → ow, w softens to wi before -e"
+    },
+    {
+     "a": "drzwi",
+     "s": "drzwiach",
+     "p": "drzwiach",
+     "g": "plural only",
+     "why": "plural only"
+    },
+    {
+     "a": "Katowice",
+     "s": "Katowicach",
+     "p": "Katowicach",
+     "g": "plural only",
+     "why": "plural only"
+    },
+    {
+     "a": "Tatry",
+     "s": "Tatrach",
+     "p": "Tatrach",
+     "g": "plural only",
+     "why": "plural only"
+    },
+    {
+     "a": "Mazury",
+     "s": "Mazurach",
+     "p": "Mazurach",
+     "g": "plural only",
+     "why": "plural only"
+    },
+    {
+     "a": "Kielce",
+     "s": "Kielcach",
+     "p": "Kielcach",
+     "g": "plural only",
+     "why": "plural only"
+    },
+    {
+     "a": "Chiny",
+     "s": "Chinach",
+     "p": "Chinach",
+     "g": "plural only",
+     "why": "regular -ach"
+    },
+    {
+     "a": "Indie",
+     "s": "Indiach",
+     "p": "Indiach",
+     "g": "plural only",
+     "why": "regular -ach"
+    },
+    {
+     "a": "Czechy",
+     "s": "Czechach",
+     "p": "Czechach",
+     "g": "plural only",
+     "why": "regular -ach"
+    },
+    {
+     "a": "Niemcy",
+     "s": "Niemczech",
+     "p": "Niemczech",
+     "g": "plural only",
+     "why": "exception: -ech"
+    },
+    {
+     "a": "Włochy",
+     "s": "Włoszech",
+     "p": "Włoszech",
+     "g": "plural only",
+     "why": "exception: -ech"
+    },
+    {
+     "a": "Węgry",
+     "s": "Węgrzech",
+     "p": "Węgrzech",
+     "g": "plural only",
+     "why": "exception: -ech"
+    },
+    {
+     "a": "urodziny",
+     "s": "urodzinach",
+     "p": "urodzinach",
+     "g": "plural only",
+     "why": "plural only"
+    },
+    {
+     "a": "imieniny",
+     "s": "imieninach",
+     "p": "imieninach",
+     "g": "plural only",
+     "why": "plural only"
+    },
+    {
+     "a": "wakacje",
+     "s": "wakacjach",
+     "p": "wakacjach",
+     "g": "plural only",
+     "why": "plural only"
+    }
+   ]
+  },
+  "cards": [
+   {
+    "p": "-u after k, g, ch, l",
+    "m": "Masculine and neuter nouns whose stem ends in <b>k, g, ch</b> or <b>l</b> take <b>-u</b>, never -e.",
+    "ex": "bank → w banku · pociąg → w pociągu · dach → na dachu · hotel → w hotelu · dziecko → o dziecku",
+    "lv": "basic"
+   },
+   {
+    "p": "-e after other hard consonants",
+    "m": "Every other hard stem takes <b>-e</b>, and that -e softens the consonant in front of it.",
+    "ex": "sklep → w sklepie · chleb → w chlebie · las → w lesie · miasto → w mieście",
+    "lv": "basic"
+   },
+   {
+    "p": "-u after soft and hardened stems",
+    "m": "Masculine and neuter nouns with a soft stem, or a hardened one (c, cz, dz, dż, rz, sz, ż), take <b>-u</b>.",
+    "ex": "koń → o koniu · morze → w morzu · gracz → o graczu · lekarz → o lekarzu · Paryż → w Paryżu",
+    "lv": "basic"
+   },
+   {
+    "p": "The feminine -e / -i / -y split",
+    "m": "Feminine nouns take <b>-e</b> after a hard stem, <b>-i</b> after a soft one or l, and <b>-y</b> after a hardened one.",
+    "ex": "szkoła → w szkole · sól → o soli · kuchnia → w kuchni · praca → w pracy · plaża → na plaży",
+    "lv": "basic"
+   },
+   {
+    "p": "Feminine hardened stems take -y, not -i",
+    "m": "This is the single most common error in the case. After c, cz, dz, dż, rz, sz, ż a feminine noun takes <b>-y</b>.",
+    "ex": "praca → w pracy · noc → w nocy · ulica → na ulicy · twarz → w twarzy · plaża → na plaży",
+    "lv": "basic"
+   },
+   {
+    "p": "-im or -ym? It is spelling, not grammar",
+    "m": "Adjectives take one ending, written <b>-im</b> after a soft stem and after k, g, and <b>-ym</b> everywhere else.",
+    "ex": "tani → tanim · polski → polskim · wysoki → wysokim · dobry → dobrym · nowy → nowym",
+    "lv": "basic"
+   },
+   {
+    "p": "Feminine adjectives: always -ej",
+    "m": "No exceptions, whatever the stem. The plural is -ych or -ich.",
+    "ex": "nowa → w nowej szkole · duża → w dużej sali · dobra → o dobrej książce",
+    "lv": "basic"
+   },
+   {
+    "p": "The plural: -ach, with three exceptions",
+    "m": "Every regular plural takes <b>-ach</b>. Exactly three countries take <b>-ech</b>.",
+    "ex": "w miastach · w lasach · w kinach — but w Niemczech, we Włoszech, na Węgrzech",
+    "lv": "basic"
+   },
+   {
+    "p": "Czechy, Indie, Chiny are regular",
+    "m": "Learners over-apply the exception. These three take the ordinary -ach.",
+    "ex": "w Czechach · w Indiach · w Chinach — compare w Niemczech",
+    "lv": "basic"
+   },
+   {
+    "p": "w or we?",
+    "m": "Use <b>we</b> when the next word starts with a consonant cluster that w alone cannot open, especially w + consonant.",
+    "ex": "we Włoszech · we Francji · we Wrocławiu — but w Warszawie, w Polsce",
+    "lv": "basic"
+   },
+   {
+    "p": "The five prepositions",
+    "m": "Only <b>w, na, o, po, przy</b> govern the locative. Nothing else does.",
+    "ex": "w domu · na stole · o tobie · po parku · przy oknie",
+    "lv": "basic"
+   },
+   {
+    "p": "Third person pronouns always take n-",
+    "m": "Because the locative always has a preposition, on / ona / oni always show <b>n-</b> here.",
+    "ex": "o nim · o niej · o nich — never *o im",
+    "lv": "basic"
+   },
+   {
+    "p": "dom, pan, syn take -u",
+    "m": "Three hard-stem masculine nouns that break the rule and take -u.",
+    "ex": "w domu · o panu · o synu",
+    "lv": "basic"
+   },
+   {
+    "p": "The locative never stands alone",
+    "m": "No preposition, no locative. This is what separates it from every other Polish case.",
+    "ex": "Correct: Myślę o pracy. Wrong: *Myślę pracę / *Myślę pracą.",
+    "lv": "basic"
+   },
+   {
+    "p": "Numerals take -u",
+    "m": "PWN states it without exception: numerals end in <b>-u</b> (spelled -u, -iu or -gu).",
+    "ex": "o trzech · o pięciu · o dziesięciu · o dwudziestu · o dwojgu",
+    "lv": "adv"
+   },
+   {
+    "p": "The k → c and g → dz shifts",
+    "m": "Before the feminine -e, k becomes c and g becomes dz.",
+    "ex": "Polska → w Polsce · rzeka → w rzece · noga → w nodze · droga → w drodze",
+    "lv": "adv"
+   },
+   {
+    "p": "ch → sz before feminine -e",
+    "m": "The only shift learners forget, because ch looks like it should stay.",
+    "ex": "mucha → w musze · ropucha → o ropusze",
+    "lv": "adv"
+   },
+   {
+    "p": "t → ci and d → dzi",
+    "m": "Before -e, t and d soften to ci and dzi (with an i that is not pronounced separately).",
+    "ex": "kobieta → o kobiecie · świat → na świecie · ogród → w ogrodzie · ślad → na śladzie",
+    "lv": "adv"
+   },
+   {
+    "p": "r → rz and ł → l",
+    "m": "Two shifts that change the spelling without changing the sound much.",
+    "ex": "siostra → o siostrze · biuro → w biurze · stół → na stole · szkoła → w szkole",
+    "lv": "adv"
+   },
+   {
+    "p": "-ów becomes -ow-",
+    "m": "City names and nouns in -ów drop the accent and take a soft w.",
+    "ex": "Kraków → w Krakowie · Lwów → we Lwowie · Rzeszów → w Rzeszowie",
+    "lv": "adv"
+   },
+   {
+    "p": "-um nouns do not decline in the singular",
+    "m": "Nouns in -um keep their ending in the locative singular.",
+    "ex": "w muzeum · w centrum · w liceum — but the plural does change: w muzeach",
+    "lv": "adv"
+   },
+   {
+    "p": "wieś → wsi",
+    "m": "A genuinely irregular form, worth memorising whole.",
+    "ex": "Mieszkam na wsi. (na, not w)",
+    "lv": "adv"
+   },
+   {
+    "p": "ręka: w ręce and w ręku",
+    "m": "PWN accepts both. Neither is an error.",
+    "ex": "Trzymam to w ręce. / Trzymam to w ręku.",
+    "lv": "adv"
+   },
+   {
+    "p": "dzień → dniu, but we dnie i w nocy",
+    "m": "The ordinary form is w dniu. The fixed phrase keeps the older dnie.",
+    "ex": "w dniu · we dnie i w nocy (obligatory in the phrase)",
+    "lv": "adv"
+   },
+   {
+    "p": "The *-em error",
+    "m": "Forms like *tamtem and *dobrem are wrong. The locative adjective ends in -im or -ym.",
+    "ex": "Correct: o tamtym, o dobrym. Wrong: *o tamtem, *o dobrem.",
+    "lv": "adv"
+   },
+   {
+    "p": "w Kieleckiem is legitimate",
+    "m": "The one real home of the -em ending: geographical names used as nouns.",
+    "ex": "w Kieleckiem · w Lubelskiem · w Poznańskiem",
+    "lv": "adv"
+   },
+   {
+    "p": "dziecko → dzieciach, oko → oczach, ucho → uszach",
+    "m": "Three neuter nouns with irregular plural stems. The singular is regular.",
+    "ex": "o dziecku / o dzieciach · w oku / w oczach · w uchu / w uszach",
+    "lv": "adv"
+   },
+   {
+    "p": "ludzie → ludziach",
+    "m": "The stem looks irregular, but the plural ending is the ordinary -ach.",
+    "ex": "o ludziach",
+    "lv": "adv"
+   },
+   {
+    "p": "imię → imieniu, plural imionach",
+    "m": "One of the -ę neuter nouns that swap the stem between numbers.",
+    "ex": "w imieniu (also = on behalf of) · o imionach",
+    "lv": "adv"
+   },
+   {
+    "p": "zwierzę → zwierzęciu, plural zwierzętach",
+    "m": "The -ę neuters take a -t- stem in the plural.",
+    "ex": "o zwierzęciu · o zwierzętach",
+    "lv": "adv"
+   },
+   {
+    "p": "-ja → -ji, but -ja after a vowel → -i",
+    "m": "The spelling of the feminine -i depends on what stands before the j.",
+    "ex": "tradycja → o tradycji · stacja → na stacji; aleja → w alei · knieja → w kniei",
+    "lv": "adv"
+   },
+   {
+    "p": "-ia → -ii",
+    "m": "Feminine nouns in -ia take a double i.",
+    "ex": "historia → o historii · armia → w armii · geografia → o geografii",
+    "lv": "adv"
+   },
+   {
+    "p": "Ukraine: na and w are both correct",
+    "m": "The Rada Języka Polskiego accepted both in 2022 and recommends w in official texts.",
+    "ex": "na Ukrainie / w Ukrainie — both correct",
+    "lv": "adv"
+   },
+   {
+    "p": "w domu, na wsi, na Śląsku",
+    "m": "The w/na contrast is lexical, not logical. These are the high-frequency ones.",
+    "ex": "w domu · na wsi · na Śląsku · na Mazurach · na Podhalu · na Kubie · na Węgrzech",
+    "lv": "adv"
+   },
+   {
+    "p": "Place vs movement: pod, nad, przed, za",
+    "m": "These positional prepositions take the <b>instrumental</b> for a static position and the accusative for movement towards. They never take the locative — that is what keeps the five-preposition rule safe.",
+    "ex": "Kot śpi pod stołem. (N.) / Kot wbiegł pod stół. (B.) · nad morzem (N.) / nad morze (B.)",
+    "lv": "adv"
+   },
+   {
+    "p": "wieczorem is not locative",
+    "m": "Time expressions without a preposition are instrumental, not locative. Do not force the locative on them.",
+    "ex": "wieczorem · latem · zimą · wiosną · jesienią",
+    "lv": "adv"
+   },
+   {
+    "p": "w poniedziałek is accusative",
+    "m": "Days of the week take the accusative after w. Months take the locative. This asymmetry is real.",
+    "ex": "w poniedziałek (B.) — but w styczniu (Ms.)",
+    "lv": "adv"
+   },
+   {
+    "p": "o + locative for clock time",
+    "m": "Clock time uses o plus the feminine locative of an ordinal, which is an adjective, not a numeral.",
+    "ex": "o trzeciej · o piątej · o wpół do szóstej",
+    "lv": "adv"
+   },
+   {
+    "p": "przy okazji, o zmroku",
+    "m": "A handful of idiomatic locative phrases that are not about place at all.",
+    "ex": "przy okazji (on occasion) · o zmroku (at dusk) · po wyjściu (after leaving)",
+    "lv": "adv"
+   }
+  ],
+  "plan": [
+   {
+    "t": "Day 1 · The rule",
+    "items": [
+     {
+      "k": "p1a",
+      "en": "Read sections 1–4: what the case is, its jobs, and the singular endings."
+     },
+     {
+      "k": "p1b",
+      "en": "Say the four endings out loud until they feel like one system: -e, -u, -i, -y."
+     },
+     {
+      "k": "p1c",
+      "en": "Run drill set 1 (Which ending?) once. Do not aim for 100% yet."
+     }
+    ]
+   },
+   {
+    "t": "Day 2 · The shifts",
+    "items": [
+     {
+      "k": "p2a",
+      "en": "Read section 7 on sound shifts. Learn the pairs, not the words."
+     },
+     {
+      "k": "p2b",
+      "en": "Cover the right-hand column and predict each form before you look."
+     },
+     {
+      "k": "p2c",
+      "en": "Run drill set 6 (Type the form) — typing forces the spelling."
+     }
+    ]
+   },
+   {
+    "t": "Day 3 · Plural",
+    "items": [
+     {
+      "k": "p3a",
+      "en": "Read section 5 on the plural, then the three exceptions in section 6."
+     },
+     {
+      "k": "p3b",
+      "en": "Repeat out loud: w Niemczech, we Włoszech, na Węgrzech — and w Czechach, w Indiach, w Chinach."
+     },
+     {
+      "k": "p3c",
+      "en": "Run drill set 2 (Plural and the exceptions)."
+     }
+    ]
+   },
+   {
+    "t": "Day 4 · Adjectives and pronouns",
+    "items": [
+     {
+      "k": "p4a",
+      "en": "Read section 8. Focus on -ym / -ej / -ych and the n- of the third person."
+     },
+     {
+      "k": "p4b",
+      "en": "Run drill set 3 (Adjectives, pronouns, numerals)."
+     },
+     {
+      "k": "p4c",
+      "en": "Mark ten flashcards as known — only the ones you did not have to think about."
+     }
+    ]
+   },
+   {
+    "t": "Day 5 · Prepositions",
+    "items": [
+     {
+      "k": "p5a",
+      "en": "Read section 9, one preposition at a time, and section 10 on verb patterns."
+     },
+     {
+      "k": "p5b",
+      "en": "Run drill set 4 (Which preposition?) and set 5 (Place or movement?)."
+     },
+     {
+      "k": "p5c",
+      "en": "Pick five verbs from the table and write one sentence with each."
+     }
+    ]
+   },
+   {
+    "t": "Day 6 · Traps and translation",
+    "items": [
+     {
+      "k": "p6a",
+      "en": "Read section 11 on the traps — especially the hardened-stem one."
+     },
+     {
+      "k": "p6b",
+      "en": "Run drill set 7 (Translate). Write the sentences by hand first if typing is easy."
+     },
+     {
+      "k": "p6c",
+      "en": "Review every mistake from the week using the Review button in each set."
+     }
+    ]
+   },
+   {
+    "t": "Day 7 · Consolidate",
+    "items": [
+     {
+      "k": "p7a",
+      "en": "Run the final test (set 8) without looking anything up."
+     },
+     {
+      "k": "p7b",
+      "en": "Go through the flashcards you marked as not known, and retire the ones you now know."
+     },
+     {
+      "k": "p7c",
+      "en": "Come back in a week and run set 8 again. Spacing is the whole point of the plan."
+     }
+    ]
+   }
+  ],
+  "verbs": [
+   {
+    "v": "mówić o",
+    "en": "to talk about",
+    "pat": "o + Ms.",
+    "ex": "Mówię o pracy.",
+    "f": "o",
+    "lv": "basic"
+   },
+   {
+    "v": "rozmawiać o",
+    "en": "to talk about, to discuss",
+    "pat": "o + Ms.",
+    "ex": "Rozmawiamy o pogodzie.",
+    "f": "o",
+    "lv": "basic"
+   },
+   {
+    "v": "opowiadać o",
+    "en": "to tell about",
+    "pat": "o + Ms.",
+    "ex": "Opowiadam o wakacjach.",
+    "f": "o",
+    "lv": "basic"
+   },
+   {
+    "v": "myśleć o",
+    "en": "to think about",
+    "pat": "o + Ms.",
+    "ex": "Myślę o tobie.",
+    "f": "o",
+    "lv": "basic"
+   },
+   {
+    "v": "marzyć o",
+    "en": "to dream of",
+    "pat": "o + Ms.",
+    "ex": "Marzę o podróżach.",
+    "f": "o",
+    "lv": "basic"
+   },
+   {
+    "v": "wiedzieć o",
+    "en": "to know about",
+    "pat": "o + Ms.",
+    "ex": "Wiem o tym.",
+    "f": "o",
+    "lv": "basic"
+   },
+   {
+    "v": "pamiętać o",
+    "en": "to remember about",
+    "pat": "o + Ms.",
+    "ex": "Pamiętam o urodzinach.",
+    "f": "o",
+    "lv": "basic"
+   },
+   {
+    "v": "zapomnieć o",
+    "en": "to forget about",
+    "pat": "o + Ms.",
+    "ex": "Zapomniałem o spotkaniu.",
+    "f": "o",
+    "lv": "basic"
+   },
+   {
+    "v": "przypominać o",
+    "en": "to remind about",
+    "pat": "o + Ms.",
+    "ex": "Przypominam ci o obiedzie.",
+    "f": "o",
+    "lv": "adv"
+   },
+   {
+    "v": "wspominać o",
+    "en": "to mention, to recall",
+    "pat": "o + Ms.",
+    "ex": "Wspominam o dzieciństwie.",
+    "f": "o",
+    "lv": "adv"
+   },
+   {
+    "v": "polegać na",
+    "en": "to rely on",
+    "pat": "na + Ms.",
+    "ex": "Polegam na tobie.",
+    "f": "na",
+    "lv": "basic"
+   },
+   {
+    "v": "znać się na",
+    "en": "to know about a subject",
+    "pat": "na + Ms.",
+    "ex": "Znam się na komputerach.",
+    "f": "na",
+    "lv": "basic"
+   },
+   {
+    "v": "koncentrować się na",
+    "en": "to focus on",
+    "pat": "na + Ms.",
+    "ex": "Koncentruję się na zadaniu.",
+    "f": "na",
+    "lv": "basic"
+   },
+   {
+    "v": "skupiać się na",
+    "en": "to concentrate on",
+    "pat": "na + Ms.",
+    "ex": "Skupiam się na pracy.",
+    "f": "na",
+    "lv": "basic"
+   },
+   {
+    "v": "opierać się na",
+    "en": "to be based on",
+    "pat": "na + Ms.",
+    "ex": "Opieram się na faktach.",
+    "f": "na",
+    "lv": "adv"
+   },
+   {
+    "v": "wzorować się na",
+    "en": "to model oneself on",
+    "pat": "na + Ms.",
+    "ex": "Wzoruję się na ojcu.",
+    "f": "na",
+    "lv": "adv"
+   },
+   {
+    "v": "zależeć na",
+    "en": "to depend on, to matter to",
+    "pat": "na + Ms.",
+    "ex": "Zależy mi na tobie.",
+    "f": "na",
+    "lv": "adv"
+   },
+   {
+    "v": "zasadzać się na",
+    "en": "to be founded on",
+    "pat": "na + Ms.",
+    "ex": "Zasada zasadza się na prostocie.",
+    "f": "na",
+    "lv": "adv"
+   },
+   {
+    "v": "upierać się przy",
+    "en": "to insist on",
+    "pat": "przy + Ms.",
+    "ex": "Upieram się przy swoim zdaniu.",
+    "f": "przy",
+    "lv": "basic"
+   },
+   {
+    "v": "obstawać przy",
+    "en": "to stand by, to insist on",
+    "pat": "przy + Ms.",
+    "ex": "Obstaję przy swoim.",
+    "f": "przy",
+    "lv": "adv"
+   },
+   {
+    "v": "stać przy",
+    "en": "to stand by",
+    "pat": "przy + Ms.",
+    "ex": "Stoję przy oknie.",
+    "f": "przy",
+    "lv": "basic"
+   },
+   {
+    "v": "pracować przy",
+    "en": "to work at (a machine, a desk)",
+    "pat": "przy + Ms.",
+    "ex": "Pracuję przy komputerze.",
+    "f": "przy",
+    "lv": "basic"
+   },
+   {
+    "v": "chodzić po",
+    "en": "to walk around",
+    "pat": "po + Ms.",
+    "ex": "Chodzę po pokoju.",
+    "f": "po",
+    "lv": "basic"
+   },
+   {
+    "v": "spacerować po",
+    "en": "to stroll around",
+    "pat": "po + Ms.",
+    "ex": "Spaceruję po parku.",
+    "f": "po",
+    "lv": "basic"
+   },
+   {
+    "v": "biegać po",
+    "en": "to run around",
+    "pat": "po + Ms.",
+    "ex": "Biegam po lesie.",
+    "f": "po",
+    "lv": "basic"
+   },
+   {
+    "v": "jeździć po",
+    "en": "to drive around",
+    "pat": "po + Ms.",
+    "ex": "Jeżdżę po mieście.",
+    "f": "po",
+    "lv": "basic"
+   },
+   {
+    "v": "szukać po",
+    "en": "to search all over",
+    "pat": "po + Ms.",
+    "ex": "Szukam po kątach.",
+    "f": "po",
+    "lv": "adv"
+   },
+   {
+    "v": "mieszkać w",
+    "en": "to live in",
+    "pat": "w + Ms.",
+    "ex": "Mieszkam w Krakowie.",
+    "f": "w",
+    "lv": "basic"
+   },
+   {
+    "v": "pracować w",
+    "en": "to work in",
+    "pat": "w + Ms.",
+    "ex": "Pracuję w biurze.",
+    "f": "w",
+    "lv": "basic"
+   },
+   {
+    "v": "być w",
+    "en": "to be in / at",
+    "pat": "w + Ms.",
+    "ex": "Jestem w domu.",
+    "f": "w",
+    "lv": "basic"
+   },
+   {
+    "v": "uczyć się w",
+    "en": "to study at",
+    "pat": "w + Ms.",
+    "ex": "Uczę się w szkole.",
+    "f": "w",
+    "lv": "basic"
+   },
+   {
+    "v": "wierzyć w",
+    "en": "to believe in",
+    "pat": "w + B. (accusative!)",
+    "ex": "Wierzę w ciebie.",
+    "f": "w",
+    "lv": "adv"
+   }
+  ]
+ },
+ "instrumental": {
+  "cards": [
+   {
+    "p": "interesować się",
+    "m": "to be interested in",
+    "ex": "Interesuję się muzyką.",
+    "lv": "basic"
+   },
+   {
+    "p": "zajmować się",
+    "m": "to do, to be busy with",
+    "ex": "Zajmuję się sportem.",
+    "lv": "basic"
+   },
+   {
+    "p": "opiekować się",
+    "m": "to look after",
+    "ex": "Opiekuję się psem.",
+    "lv": "basic"
+   },
+   {
+    "p": "bawić się",
+    "m": "to play with",
+    "ex": "Dzieci bawią się klockami.",
+    "lv": "basic"
+   },
+   {
+    "p": "spotykać się z",
+    "m": "to meet with",
+    "ex": "Spotykam się z Anną.",
+    "lv": "basic"
+   },
+   {
+    "p": "rozmawiać z",
+    "m": "to talk with",
+    "ex": "Rozmawiam z mamą.",
+    "lv": "basic"
+   },
+   {
+    "p": "przyjaźnić się z",
+    "m": "to be friends with",
+    "ex": "Przyjaźnię się z Tomkiem.",
+    "lv": "basic"
+   },
+   {
+    "p": "jechać / lecieć",
+    "m": "to go / fly by (vehicle)",
+    "ex": "Jadę autobusem, lecę samolotem.",
+    "lv": "basic"
+   },
+   {
+    "p": "pachnieć",
+    "m": "to smell of",
+    "ex": "Pachnie kawą.",
+    "lv": "basic"
+   },
+   {
+    "p": "machać",
+    "m": "to wave (with)",
+    "ex": "Macham ręką.",
+    "lv": "basic"
+   },
+   {
+    "p": "kiwać",
+    "m": "to nod",
+    "ex": "Kiwa głową.",
+    "lv": "basic"
+   },
+   {
+    "p": "nazywać (kogoś)",
+    "m": "to call somebody (a name)",
+    "ex": "Nazywają go geniuszem.",
+    "lv": "basic"
+   },
+   {
+    "p": "martwić się",
+    "m": "to worry about",
+    "ex": "Martwię się egzaminem.",
+    "lv": "basic"
+   },
+   {
+    "p": "cieszyć się",
+    "m": "to enjoy",
+    "ex": "Cieszę się życiem.",
+    "lv": "basic"
+   },
+   {
+    "p": "chwalić się",
+    "m": "to boast about",
+    "ex": "Chwalę się nowym rowerem.",
+    "lv": "basic"
+   },
+   {
+    "p": "handlować",
+    "m": "to trade in",
+    "ex": "Handluję warzywami.",
+    "lv": "adv"
+   },
+   {
+    "p": "kierować",
+    "m": "to drive / to manage",
+    "ex": "Kieruję samochodem.",
+    "lv": "adv"
+   },
+   {
+    "p": "rządzić",
+    "m": "to rule",
+    "ex": "Rządzi państwem.",
+    "lv": "adv"
+   },
+   {
+    "p": "posługiwać się",
+    "m": "to use",
+    "ex": "Posługuję się komputerem.",
+    "lv": "adv"
+   },
+   {
+    "p": "władać",
+    "m": "to have command of",
+    "ex": "Włada trzema językami.",
+    "lv": "adv"
+   },
+   {
+    "p": "gardzić",
+    "m": "to despise",
+    "ex": "Gardzę kłamstwem.",
+    "lv": "adv"
+   },
+   {
+    "p": "szczycić się",
+    "m": "to be proud of",
+    "ex": "Szczycę się córką.",
+    "lv": "adv"
+   },
+   {
+    "p": "bać się",
+    "m": "to be afraid of  ⚠ dopełniacz!",
+    "ex": "Boję się psa.",
+    "lv": "adv"
+   },
+   {
+    "p": "uważać za",
+    "m": "to consider (as)  ⚠ za + biernik!",
+    "ex": "Uważam go za przyjaciela.",
+    "lv": "adv"
+   }
+  ],
+  "plan": [
+   {
+    "t": "Dzień 1 · Meet the case",
+    "items": [
+     {
+      "k": "p1a",
+      "en": "Read sections 1–2 and say the rhythm aloud: –em, –ą, –ami."
+     },
+     {
+      "k": "p1b",
+      "en": "Say five sentences with a tool: piszę piórem / długopisem / ołówkiem…"
+     }
+    ]
+   },
+   {
+    "t": "Dzień 2 · Endings, singular",
+    "items": [
+     {
+      "k": "p2a",
+      "en": "Do Drill 1 until you score 15+ out of 16."
+     },
+     {
+      "k": "p2b",
+      "en": "Write 10 of your own sentences: one tool, one vehicle, one person, one „z”…"
+     }
+    ]
+   },
+   {
+    "t": "Dzień 3 · Transport & company",
+    "items": [
+     {
+      "k": "p3a",
+      "en": "List how you travel: pociągiem, autobusem, samochodem, rowerem…"
+     },
+     {
+      "k": "p3b",
+      "en": "Say who you do things with: z mamą, z kolegą, z przyjaciółmi… (do Drill 4)"
+     }
+    ]
+   },
+   {
+    "t": "Dzień 4 · Plural",
+    "items": [
+     {
+      "k": "p4a",
+      "en": "Memorise the -mi list: końmi, dziećmi, ludźmi, braćmi, gośćmi, liśćmi, pieniędzmi, przyjaciółmi, księżmi."
+     },
+     {
+      "k": "p4b",
+      "en": "Score 9+ in Drill 2."
+     }
+    ]
+   },
+   {
+    "t": "Dzień 5 · Prepositions",
+    "items": [
+     {
+      "k": "p5a",
+      "en": "Do Drill 3 and notice where narzędnik stops and biernik begins."
+     },
+     {
+      "k": "p5b",
+      "en": "Describe your room out loud: nad łóżkiem, pod stołem, przed oknem, za drzwiami, między…"
+     }
+    ]
+   },
+   {
+    "t": "Dzień 6 · Verbs",
+    "items": [
+     {
+      "k": "p6a",
+      "en": "Flashcards: mark 15 verbs as „Umiem”."
+     },
+     {
+      "k": "p6b",
+      "en": "Write 10 sentences with interesować się / zajmować się / opiekować się / bawić się."
+     }
+    ]
+   },
+   {
+    "t": "Dzień 7 · Test",
+    "items": [
+     {
+      "k": "p7a",
+      "en": "Take the final test, then review the tips you missed."
+     },
+     {
+      "k": "p7b",
+      "en": "Ask and answer out loud: Kim chcesz zostać? — Chcę zostać… (10 professions)."
+     }
+    ]
+   }
+  ],
+  "verbs": [
+   {
+    "v": "interesować się",
+    "c": "+ narzędnik",
+    "en": "to be interested in",
+    "ex": "Interesuję się muzyką.",
+    "lv": "basic"
+   },
+   {
+    "v": "zajmować się",
+    "c": "+ narzędnik",
+    "en": "to do, to be busy with",
+    "ex": "Zajmuję się sportem.",
+    "lv": "basic"
+   },
+   {
+    "v": "opiekować się",
+    "c": "+ narzędnik",
+    "en": "to look after",
+    "ex": "Opiekuję się psem.",
+    "lv": "basic"
+   },
+   {
+    "v": "bawić się",
+    "c": "+ narzędnik",
+    "en": "to play with",
+    "ex": "Dzieci bawią się klockami.",
+    "lv": "basic"
+   },
+   {
+    "v": "spotykać się z",
+    "c": "z + narzędnik",
+    "en": "to meet with",
+    "ex": "Spotykam się z Anną.",
+    "lv": "basic"
+   },
+   {
+    "v": "rozmawiać z",
+    "c": "z + narzędnik",
+    "en": "to talk with",
+    "ex": "Rozmawiam z mamą.",
+    "lv": "basic"
+   },
+   {
+    "v": "przyjaźnić się z",
+    "c": "z + narzędnik",
+    "en": "to be friends with",
+    "ex": "Przyjaźnię się z Tomkiem.",
+    "lv": "basic"
+   },
+   {
+    "v": "witać się z / żegnać się z",
+    "c": "z + narzędnik",
+    "en": "to greet / to say goodbye to",
+    "ex": "Witam się z sąsiadem.",
+    "lv": "basic"
+   },
+   {
+    "v": "jechać / lecieć / płynąć",
+    "c": "+ narzędnik",
+    "en": "to go by (vehicle)",
+    "ex": "Jadę autobusem. Lecę samolotem.",
+    "lv": "basic"
+   },
+   {
+    "v": "pachnieć",
+    "c": "+ narzędnik",
+    "en": "to smell of",
+    "ex": "Pachnie kawą.",
+    "lv": "basic"
+   },
+   {
+    "v": "machać",
+    "c": "+ narzędnik",
+    "en": "to wave (with)",
+    "ex": "Macham ręką do mamy.",
+    "lv": "basic"
+   },
+   {
+    "v": "kiwać",
+    "c": "+ narzędnik",
+    "en": "to nod",
+    "ex": "Kiwa głową.",
+    "lv": "basic"
+   },
+   {
+    "v": "tupać",
+    "c": "+ narzędnik",
+    "en": "to stamp (with)",
+    "ex": "Tupię nogą.",
+    "lv": "basic"
+   },
+   {
+    "v": "nazywać (kogoś)",
+    "c": "+ narzędnik",
+    "en": "to call somebody (a name)",
+    "ex": "Nazywają go geniuszem.",
+    "lv": "basic"
+   },
+   {
+    "v": "martwić się",
+    "c": "+ narzędnik",
+    "en": "to worry about",
+    "ex": "Martwię się egzaminem.",
+    "lv": "basic"
+   },
+   {
+    "v": "cieszyć się",
+    "c": "+ narzędnik",
+    "en": "to enjoy",
+    "ex": "Cieszę się życiem.",
+    "lv": "basic"
+   },
+   {
+    "v": "chwalić się",
+    "c": "+ narzędnik",
+    "en": "to boast about",
+    "ex": "Chwalę się nowym rowerem.",
+    "lv": "basic"
+   },
+   {
+    "v": "przejmować się",
+    "c": "+ narzędnik",
+    "en": "to fret about",
+    "ex": "Przejmuję się pogodą.",
+    "lv": "adv"
+   },
+   {
+    "v": "zachwycać się",
+    "c": "+ narzędnik",
+    "en": "to be delighted by",
+    "ex": "Zachwycam się tym miastem.",
+    "lv": "adv"
+   },
+   {
+    "v": "ekscytować się",
+    "c": "+ narzędnik",
+    "en": "to be excited about",
+    "ex": "Ekscytuję się wyjazdem.",
+    "lv": "adv"
+   },
+   {
+    "v": "handlować",
+    "c": "+ narzędnik",
+    "en": "to trade in",
+    "ex": "Handluję warzywami.",
+    "lv": "adv"
+   },
+   {
+    "v": "kierować",
+    "c": "+ narzędnik",
+    "en": "to drive / to manage",
+    "ex": "Kieruję samochodem. Kieruję zespołem.",
+    "lv": "adv"
+   },
+   {
+    "v": "rządzić",
+    "c": "+ narzędnik",
+    "en": "to rule",
+    "ex": "Rządzi państwem.",
+    "lv": "adv"
+   },
+   {
+    "v": "zarządzać",
+    "c": "+ narzędnik",
+    "en": "to manage",
+    "ex": "Zarządzam firmą.",
+    "lv": "adv"
+   },
+   {
+    "v": "dowodzić",
+    "c": "+ narzędnik",
+    "en": "to command",
+    "ex": "Dowodzi armią.",
+    "lv": "adv"
+   },
+   {
+    "v": "posługiwać się",
+    "c": "+ narzędnik",
+    "en": "to use",
+    "ex": "Posługuję się komputerem.",
+    "lv": "adv"
+   },
+   {
+    "v": "władać",
+    "c": "+ narzędnik",
+    "en": "to have command of",
+    "ex": "Włada trzema językami.",
+    "lv": "adv"
+   },
+   {
+    "v": "dysponować",
+    "c": "+ narzędnik",
+    "en": "to have at one's disposal",
+    "ex": "Dysponuję czasem.",
+    "lv": "adv"
+   },
+   {
+    "v": "gardzić",
+    "c": "+ narzędnik",
+    "en": "to despise",
+    "ex": "Gardzę kłamstwem.",
+    "lv": "adv"
+   },
+   {
+    "v": "brzydzić się",
+    "c": "+ narzędnik",
+    "en": "to be disgusted by",
+    "ex": "Brzydzę się kłamstwem.",
+    "lv": "adv"
+   },
+   {
+    "v": "szczycić się",
+    "c": "+ narzędnik",
+    "en": "to be proud of",
+    "ex": "Szczycę się córką.",
+    "lv": "adv"
+   },
+   {
+    "v": "szastać",
+    "c": "+ narzędnik",
+    "en": "to squander",
+    "ex": "Nie szastaj pieniędzmi!",
+    "lv": "adv"
+   },
+   {
+    "v": "uważać za",
+    "c": "za + BIERNIK",
+    "en": "to consider (as)",
+    "ex": "Uważam go za przyjaciela.",
+    "lv": "trap"
+   },
+   {
+    "v": "bać się",
+    "c": "+ DOPEŁNIACZ",
+    "en": "to be afraid of",
+    "ex": "Boję się psa.",
+    "lv": "trap"
+   },
+   {
+    "v": "wstydzić się",
+    "c": "+ DOPEŁNIACZ",
+    "en": "to be ashamed of",
+    "ex": "Wstydzę się swojego akcentu.",
+    "lv": "trap"
+   },
+   {
+    "v": "śmiać się z",
+    "c": "z + DOPEŁNIACZ",
+    "en": "to laugh at",
+    "ex": "Śmieję się z żartu.",
+    "lv": "trap"
+   },
+   {
+    "v": "grać na",
+    "c": "na + MIEJSCOWNIK",
+    "en": "to play (an instrument)",
+    "ex": "Gram na gitarze.",
+    "lv": "trap"
+   },
+   {
+    "v": "jeździć na",
+    "c": "na + MIEJSCOWNIK",
+    "en": "to ride (a bike, a horse)",
+    "ex": "Jeżdżę na rowerze.",
+    "lv": "trap"
+   }
+  ]
+ }
+}

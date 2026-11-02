@@ -1,0 +1,2354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mianownik — the Polish nominative, from zero to confident</title>
+<style>
+  :root{
+    --paper:#f7f3ea; --card:#fffdf7; --ink:#1b1915; --ink2:#4b443a; --muted:#7c7365;
+    --line:#e3dac9; --line2:#efe8da;
+    --accent:#a4361f; --accent-soft:#f6e4de;
+    --green:#1d5b45; --green-soft:#e3efe7;
+    --amber:#8a5a10; --amber-soft:#f7ebd4;
+    --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    --radius:14px; --maxw:1120px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#131210; --card:#1c1a16; --ink:#efe9dd; --ink2:#c6bdad; --muted:#948b7b;
+      --line:#302c24; --line2:#26231d;
+      --accent:#e6795f; --accent-soft:#3a211a;
+      --green:#7cc4a4; --green-soft:#17302a;
+      --amber:#d8a95c; --amber-soft:#33280f;
+    }
+  }
+  html[data-theme="dark"]{
+    --paper:#131210; --card:#1c1a16; --ink:#efe9dd; --ink2:#c6bdad; --muted:#948b7b;
+    --line:#302c24; --line2:#26231d; --accent:#e6795f; --accent-soft:#3a211a;
+    --green:#7cc4a4; --green-soft:#17302a; --amber:#d8a95c; --amber-soft:#33280f;
+  }
+  html[data-theme="light"]{
+    --paper:#f7f3ea; --card:#fffdf7; --ink:#1b1915; --ink2:#4b443a; --muted:#7c7365;
+    --line:#e3dac9; --line2:#efe8da; --accent:#a4361f; --accent-soft:#f6e4de;
+    --green:#1d5b45; --green-soft:#e3efe7; --amber:#8a5a10; --amber-soft:#f7ebd4;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth; scroll-padding-top:96px}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{animation:none!important; transition:none!important} }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--sans); font-size:17px; line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(circle at 12% 8%, color-mix(in oklab, var(--accent) 5%, transparent), transparent 42%),
+                     radial-gradient(circle at 88% 2%, color-mix(in oklab, var(--green) 5%, transparent), transparent 38%);
+    background-attachment:fixed;
+  }
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px}
+  a{color:var(--accent); text-decoration-thickness:1px; text-underline-offset:3px}
+  a:hover{text-decoration-thickness:2px}
+  code, .pl{font-family:var(--mono); font-size:.94em}
+  .pl{font-family:var(--serif); font-size:1.04em; font-style:italic}
+  strong{font-weight:650}
+
+  /* ---------- progress + header ---------- */
+  #scrollbar{position:fixed; top:0; left:0; height:3px; width:0; background:var(--accent); z-index:60; transition:width .1s linear}
+  header.top{
+    position:sticky; top:0; z-index:50; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    background:color-mix(in oklab, var(--paper) 86%, transparent);
+    border-bottom:1px solid var(--line);
+  }
+  .top-in{max-width:var(--maxw); margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:18px}
+  .brand{font-family:var(--serif); font-size:19px; letter-spacing:.01em; white-space:nowrap}
+  .brand b{color:var(--accent)}
+  nav.sections{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; flex:1}
+  nav.sections::-webkit-scrollbar{display:none}
+  nav.sections a{
+    color:var(--ink2); text-decoration:none; font-size:13.5px; padding:7px 11px; border-radius:99px;
+    white-space:nowrap; transition:background .15s, color .15s;
+  }
+  nav.sections a:hover{background:var(--line2); color:var(--ink)}
+  nav.sections a.on{background:var(--ink); color:var(--paper)}
+  .theme{
+    border:1px solid var(--line); background:var(--card); color:var(--ink2); width:36px; height:36px;
+    border-radius:99px; cursor:pointer; font-size:15px; line-height:1; display:grid; place-items:center;
+  }
+  .theme:hover{border-color:var(--ink2); color:var(--ink)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:74px 0 40px; border-bottom:1px solid var(--line)}
+  .kicker{font-size:12.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:650; margin:0 0 18px}
+  h1{font-family:var(--serif); font-weight:500; font-size:clamp(42px, 7vw, 74px); line-height:1.02; margin:0 0 6px; letter-spacing:-.02em}
+  h1 em{font-style:italic; color:var(--accent)}
+  .lede{font-size:clamp(18px,2.2vw,21px); color:var(--ink2); max-width:56ch; margin:18px 0 30px}
+  .facts{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:0 0 32px}
+  .fact{border:1px solid var(--line); background:var(--card); border-radius:var(--radius); padding:16px 18px}
+  .fact .n{font-family:var(--serif); font-size:26px; line-height:1.1; margin-bottom:4px}
+  .fact .l{font-size:13px; color:var(--muted); line-height:1.45}
+  .cta{display:flex; gap:10px; flex-wrap:wrap}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:12px 20px; border-radius:99px; font-size:15px;
+    font-weight:600; text-decoration:none; cursor:pointer; border:1px solid transparent; font-family:inherit;
+  }
+  .btn.primary{background:var(--ink); color:var(--paper)}
+  .btn.primary:hover{background:var(--accent)}
+  .btn.ghost{border-color:var(--line); color:var(--ink); background:var(--card)}
+  .btn.ghost:hover{border-color:var(--ink2)}
+
+  /* ---------- sections ---------- */
+  section{padding:64px 0; border-bottom:1px solid var(--line)}
+  section:last-of-type{border-bottom:none}
+  .shead{display:flex; gap:20px; align-items:baseline; margin-bottom:26px}
+  .snum{font-family:var(--serif); font-size:15px; color:var(--accent); font-variant-numeric:tabular-nums; padding-top:10px; min-width:34px}
+  h2{font-family:var(--serif); font-weight:500; font-size:clamp(28px,3.6vw,38px); line-height:1.1; margin:0; letter-spacing:-.01em}
+  h3{font-family:var(--serif); font-weight:600; font-size:22px; margin:36px 0 12px; letter-spacing:-.005em}
+  h4{font-size:15px; font-weight:700; margin:24px 0 8px; letter-spacing:.01em}
+  p{margin:0 0 14px; max-width:74ch}
+  .small{font-size:14.5px; color:var(--muted)}
+  ul,ol{margin:0 0 16px; padding-left:22px; max-width:74ch}
+  li{margin:5px 0}
+  li::marker{color:var(--muted)}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+  .card{border:1px solid var(--line); background:var(--card); border-radius:var(--radius); padding:20px 22px}
+  .card h4{margin-top:0}
+  .card p:last-child{margin-bottom:0}
+
+  .ex{font-family:var(--serif); font-size:18px; margin:2px 0}
+  .ex .g{color:var(--accent); font-weight:600}
+  .tr{color:var(--muted); font-size:14px; font-style:italic}
+
+  .note{border-left:3px solid var(--amber); background:var(--amber-soft); padding:14px 18px; border-radius:0 10px 10px 0; margin:18px 0}
+  .note p:last-child{margin-bottom:0}
+  .note .lab{font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; font-weight:700; color:var(--amber); display:block; margin-bottom:4px}
+  .warn{border-left-color:var(--accent); background:var(--accent-soft)}
+  .warn .lab{color:var(--accent)}
+  .good{border-left-color:var(--green); background:var(--green-soft)}
+  .good .lab{color:var(--green)}
+
+  /* ---------- tables ---------- */
+  .tw{overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius); background:var(--card); margin:18px 0}
+  table{border-collapse:collapse; width:100%; font-size:15px; min-width:520px}
+  th,td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--line2); vertical-align:top}
+  thead th{background:color-mix(in oklab, var(--line2) 60%, transparent); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:700; position:sticky; top:0}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:color-mix(in oklab, var(--line2) 40%, transparent)}
+  td.pl, th.pl{font-family:var(--serif); font-size:16.5px; font-style:normal}
+  .end{color:var(--accent); font-weight:700}
+  .yes{color:var(--green); font-weight:600}
+  .no{color:var(--accent); font-weight:600; text-decoration:line-through; text-decoration-thickness:1px}
+
+  .chips{display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 6px}
+  .chip{font-size:13px; padding:5px 12px; border-radius:99px; border:1px solid var(--line); background:var(--card); color:var(--ink2)}
+  .chip b{color:var(--ink)}
+
+  /* ---------- drills ---------- */
+  .drills{background:var(--card); border:1px solid var(--line); border-radius:20px; padding:26px; box-shadow:0 1px 0 var(--line2)}
+  .setgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(215px,1fr)); gap:12px; margin-top:18px}
+  .setcard{
+    text-align:left; border:1px solid var(--line); background:var(--paper); border-radius:12px; padding:14px 16px;
+    cursor:pointer; font-family:inherit; color:var(--ink); transition:border-color .15s, transform .15s;
+  }
+  .setcard:hover{border-color:var(--accent); transform:translateY(-1px)}
+  .setcard .t{font-weight:650; font-size:15px; margin-bottom:3px}
+  .setcard .m{font-size:12.5px; color:var(--muted)}
+  .setcard .best{font-size:12px; color:var(--green); margin-top:6px; font-variant-numeric:tabular-nums}
+  .runner{display:none}
+  .runner.on{display:block}
+  .setgrid.off{display:none}
+  .rhead{display:flex; align-items:center; gap:14px; margin-bottom:18px; flex-wrap:wrap}
+  .rhead .ttl{font-weight:700; font-size:15px}
+  .rhead .cnt{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .rhead .sp{flex:1}
+  .xbtn{border:1px solid var(--line); background:transparent; color:var(--ink2); border-radius:99px; padding:6px 13px; font-size:13px; cursor:pointer; font-family:inherit}
+  .xbtn:hover{border-color:var(--ink2); color:var(--ink)}
+  .pbar{height:4px; background:var(--line2); border-radius:99px; overflow:hidden; margin-bottom:22px}
+  .pbar i{display:block; height:100%; width:0; background:var(--accent); transition:width .25s ease}
+  .ask{font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:10px}
+  .q{font-family:var(--serif); font-size:clamp(22px,3vw,30px); line-height:1.25; margin:0 0 6px}
+  .q .gap{color:var(--accent); border-bottom:2px dashed var(--accent); padding:0 18px}
+  .qhint{font-size:14px; color:var(--muted); margin-bottom:20px}
+  .opts{display:grid; gap:9px; margin:0 0 16px}
+  .opt{
+    display:flex; align-items:center; gap:12px; width:100%; text-align:left; cursor:pointer;
+    border:1px solid var(--line); background:var(--paper); border-radius:10px; padding:12px 15px;
+    font-family:var(--serif); font-size:19px; color:var(--ink); transition:border-color .12s, background .12s;
+  }
+  .opt:hover:not(:disabled){border-color:var(--accent)}
+  .opt:disabled{cursor:default}
+  .opt .k{font-family:var(--sans); font-size:11px; color:var(--muted); border:1px solid var(--line); border-radius:5px; padding:1px 6px; line-height:1.5}
+  .opt.right{border-color:var(--green); background:var(--green-soft); color:var(--green)}
+  .opt.wrong{border-color:var(--accent); background:var(--accent-soft); color:var(--accent)}
+  .opt.wrong .k,.opt.right .k{border-color:currentColor; color:inherit}
+  .typebox{display:flex; gap:9px; margin:0 0 14px; flex-wrap:wrap}
+  .typebox input{
+    flex:1; min-width:220px; font-family:var(--serif); font-size:20px; padding:11px 15px; border-radius:10px;
+    border:1px solid var(--line); background:var(--paper); color:var(--ink);
+  }
+  .typebox input:focus{outline:2px solid var(--accent); outline-offset:1px; border-color:transparent}
+  .typebox input.right{border-color:var(--green); background:var(--green-soft)}
+  .typebox input.wrong{border-color:var(--accent); background:var(--accent-soft)}
+  .fb{display:none; border-radius:10px; padding:13px 16px; margin:4px 0 16px; font-size:15px; line-height:1.55}
+  .fb.on{display:block}
+  .fb.ok{background:var(--green-soft); border:1px solid color-mix(in oklab, var(--green) 30%, transparent)}
+  .fb.no{background:var(--accent-soft); border:1px solid color-mix(in oklab, var(--accent) 30%, transparent)}
+  .fb .v{font-weight:700; margin-bottom:2px}
+  .fb .a{font-family:var(--serif); font-size:18px}
+  .fb .why{color:var(--ink2); margin-top:5px; font-size:14.5px}
+  .rfoot{display:flex; align-items:center; gap:12px}
+  .rfoot .sp{flex:1}
+  .score{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .summary{text-align:center; padding:26px 0}
+  .summary .big{font-family:var(--serif); font-size:52px; line-height:1; color:var(--accent); margin-bottom:8px}
+  .summary p{margin-left:auto; margin-right:auto}
+
+  /* ---------- reference ---------- */
+  .filter{display:flex; gap:10px; margin:16px 0; flex-wrap:wrap; align-items:center}
+  /* the reference table holds 98 rows: it scrolls in its own box so the
+     page stays within what a full-page capture can rasterise */
+  .tw.tall{max-height:70vh; overflow-y:auto; overscroll-behavior:contain}
+  .tw.tall thead th{position:sticky; top:0; z-index:1}
+  .filter input{
+    flex:1; min-width:240px; padding:10px 14px; border-radius:10px; border:1px solid var(--line);
+    background:var(--card); color:var(--ink); font-family:inherit; font-size:15px;
+  }
+  .filter input:focus{outline:2px solid var(--accent); outline-offset:1px}
+  .filter .n{font-size:13px; color:var(--muted)}
+
+  footer{padding:44px 0 70px; color:var(--muted); font-size:13.5px}
+  footer p{max-width:70ch}
+
+  @media (max-width:700px){
+    table{min-width:0}
+    th,td{padding:9px 10px; font-size:14px}
+    td{overflow-wrap:break-word}
+    th{overflow-wrap:normal}
+    td:first-child, th:first-child{white-space:nowrap}
+    .tw.stack1 td:first-child{white-space:normal}
+    td.pl, th.pl{font-size:15px}
+    thead th{position:static; font-size:11px}
+    .tw{margin:14px 0}
+    .tw.stack1 table{display:block; min-width:0}
+    .tw.stack1 thead{display:none}
+    .tw.stack1 tbody{display:block}
+    .tw.stack1 tr{display:block; padding:12px 12px 10px; border-bottom:1px solid var(--line2)}
+    .tw.stack1 tr:last-child{border-bottom:none}
+    .tw.stack1 td{display:block; border:none; padding:2px 0; white-space:normal}
+    .tw.stack1 td:first-child{font-weight:700; white-space:normal; margin-bottom:3px}
+    .tw.stack1 td.end{font-weight:700}
+  }
+  @media (max-width:860px){
+    .facts{grid-template-columns:1fr}
+    .grid2,.grid3{grid-template-columns:1fr}
+    .hero{padding:52px 0 34px}
+    section{padding:48px 0}
+    .shead{gap:12px}
+    .snum{padding-top:6px}
+    .drills{padding:18px}
+  }
+  @media print{
+    header.top,#scrollbar,.drills,.cta,.theme{display:none!important}
+    body{background:#fff; color:#000; font-size:11pt}
+    section{page-break-inside:avoid; padding:18px 0}
+    .card,.tw{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div id="scrollbar"></div>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">mianownik <b>·</b></div>
+    <nav class="sections" id="nav">
+      <a href="#basics">Basics</a>
+      <a href="#jobs">What it does</a>
+      <a href="#gender">Gender</a>
+      <a href="#sg">Singular</a>
+      <a href="#pl">Plural</a>
+      <a href="#tables">Tables</a>
+      <a href="#adjectives">Adjectives</a>
+      <a href="#pronouns">Pronouns</a>
+      <a href="#numbers">Numbers</a>
+      <a href="#agreement">Agreement</a>
+      <a href="#traps">Traps</a>
+      <a href="#drills">Drills</a>
+      <a href="#reference">Reference</a>
+      <a href="#cheat">Cheat sheet</a>
+    </nav>
+    <button class="theme" id="themeBtn" aria-label="Switch light or dark theme" title="Light / dark">◐</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============ HERO ============ -->
+<div class="hero" id="top">
+  <p class="kicker">Polish cases · 1 of 7</p>
+  <h1>Mianownik<br><em>the case of the name</em></h1>
+  <p class="lede">
+    The nominative answers <b>kto? co?</b> — “who? what?”. It is the case of the dictionary, the subject, and the
+    word after <i>to jest</i>. You already use it in every sentence you say. What most learners never get is the
+    part that actually causes mistakes: <b>the nominative plural</b>, where Polish splits masculine nouns into
+    “men” and “everything else” and the ending decides whether a verb says <i>byli</i> or <i>były</i>.
+  </p>
+  <div class="facts">
+    <div class="fact"><div class="n">kto? co?</div><div class="l">Its two questions. The first for people, the second for everything else.</div></div>
+    <div class="fact"><div class="n">5 genders</div><div class="l">In the singular 3, in the plural 2 — and the plural split is what drives verb agreement.</div></div>
+    <div class="fact"><div class="n">8 drill sets</div><div class="l">Instant feedback, an explanation for every answer, and a “review my mistakes” pass.</div></div>
+  </div>
+  <div class="cta">
+    <a class="btn primary" href="#drills">Start drilling</a>
+    <a class="btn ghost" href="#cheat">One-page cheat sheet</a>
+  </div>
+</div>
+
+<!-- ============ 01 BASICS ============ -->
+<section id="basics">
+  <div class="shead"><div class="snum">01</div><h2>What the nominative is</h2></div>
+
+  <p>
+    Polish has seven cases. <b>Mianownik</b> — the nominative — is the first of them, the one every dictionary uses
+    as its headword, and the one you meet in the grammar table’s first row. Its name comes from <i>mianować</i>,
+    “to name”: it is the case that simply <b>names</b> a thing, without saying what is done to it, where it is, or
+    who owns it.
+  </p>
+
+  <p>
+    Because it carries no relation, it is the case of the <b>subject</b> — the doer — and of the <b>predicate
+    noun</b> after <i>być</i> and <i>to</i>. Every other case is, in a sense, the nominative plus a job.
+  </p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>#</th><th>Case</th><th>Question</th><th>Typical job</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td class="pl"><b>mianownik</b></td><td class="pl">kto? co?</td><td>the subject, the dictionary form, the name</td></tr>
+        <tr><td>2</td><td class="pl">dopełniacz</td><td class="pl">kogo? czego?</td><td>of, possession, after negation, after numbers</td></tr>
+        <tr><td>3</td><td class="pl">celownik</td><td class="pl">komu? czemu?</td><td>to / for someone — the recipient</td></tr>
+        <tr><td>4</td><td class="pl">biernik</td><td class="pl">kogo? co?</td><td>the direct object of most verbs</td></tr>
+        <tr><td>5</td><td class="pl">narzędnik</td><td class="pl">z kim? z czym?</td><td>with, by means of, “to be a <i>teacher</i>”</td></tr>
+        <tr><td>6</td><td class="pl">miejscownik</td><td class="pl">o kim? o czym?</td><td>only after prepositions — location, topic</td></tr>
+        <tr><td>7</td><td class="pl">wołacz</td><td class="pl">—</td><td>addressing someone directly</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note good">
+    <span class="lab">The good news</span>
+    <p>
+      The nominative is the only case whose <b>singular</b> you already know: it is the word as it appears in a
+      dictionary. <span class="pl">kot, kobieta, okno, dziecko</span> — those are nominatives. You have been using
+      this case since your first Polish sentence. Everything on this page is either about its <b>jobs</b> or about
+      its <b>plural</b>, which is where the real work is.
+    </p>
+  </div>
+
+  <h3>The dictionary form</h3>
+  <p>
+    When you look a word up, the entry is the nominative singular: <span class="pl">dom</span>, not
+    <span class="pl">domu</span>; <span class="pl">ręka</span>, not <span class="pl">ręki</span>. When you learn a
+    noun you should still learn its gender with it, because gender is what tells you how to decline it — but the
+    headword itself is always the nominative.
+  </p>
+  <p>
+    The same goes for adjectives (<span class="pl">dobry</span>) and for the citation of a noun inside a sentence.
+    If you say <span class="pl">„Kot” to rzeczownik</span>, “<i>kot</i> is a noun”, the quoted word stays in the
+    nominative because you are naming it, not using it.
+  </p>
+</section>
+
+<!-- ============ 02 JOBS ============ -->
+<section id="jobs">
+  <div class="shead"><div class="snum">02</div><h2>What the nominative does</h2></div>
+
+  <p>
+    The nominative has four jobs. Three of them are easy; the fourth — the predicate noun — is where English
+    speakers trip, because English uses the same bare form after “is”, and Polish sometimes uses the
+    <b>instrumental</b> instead.
+  </p>
+
+  <h3>1 · The subject</h3>
+  <p>
+    The doer of the sentence stands in the nominative. It decides the form of the verb, and in the past tense the
+    form of the verb tells you the subject’s gender — which is why the plural split matters so much.
+  </p>
+  <p class="ex"><b>Kot</b> śpi. · <b>Kobieta</b> czyta. · <b>Dzieci</b> się bawią. · <b>Studenci</b> piszą egzamin.</p>
+  <p class="tr">The cat is asleep. · The woman is reading. · The children are playing. · The students are taking an exam.</p>
+
+  <h3>2 · The predicate noun after <i>być</i> — and the great <i>to jest</i> exception</h3>
+  <p>
+    This is the one rule in this section worth memorising word for word:
+  </p>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>With <i>być</i> → instrumental</h4>
+      <p class="ex">Jestem <span class="g">nauczycielem</span>.</p>
+      <p class="tr">I am a teacher. — <b>not</b> <i>nauczyciel</i></p>
+      <p class="ex">On jest <span class="g">dobrym studentem</span>.</p>
+      <p class="tr">He is a good student.</p>
+      <p class="ex">Ona była <span class="g">lekarką</span>.</p>
+      <p class="tr">She was a doctor.</p>
+      <p class="small">A profession, a role, an identity after a form of <i>być</i> takes the instrumental.</p>
+    </div>
+    <div class="card">
+      <h4>With <i>to</i> → nominative</h4>
+      <p class="ex">To jest <b>nauczyciel</b>.</p>
+      <p class="tr">This is a teacher. — nominative, because <i>to</i> is the subject</p>
+      <p class="ex">To <b>dobry student</b>.</p>
+      <p class="tr">That’s a good student.</p>
+      <p class="ex">To <b>prawda</b>. · To <b>problem</b>.</p>
+      <p class="tr">That’s the truth. · That’s a problem.</p>
+      <p class="small">The pointing word <i>to</i> takes over the subject role, so the noun after it stays in the nominative.</p>
+    </div>
+  </div>
+
+  <div class="note warn">
+    <span class="lab">The trap in one line</span>
+    <p>
+      <span class="pl">Jestem <b>nauczyciel</b></span> ✗ — <span class="pl">Jestem <b>nauczycielem</b></span> ✓.
+      But <span class="pl">To jest <b>nauczyciel</b></span> ✓ and <span class="pl">To <b>nauczyciel</b></span> ✓.
+      The presence of <i>to</i> is the whole difference.
+    </p>
+  </div>
+
+  <p>
+    The distinction is between <b>identifying</b> and <b>classifying</b>. If the sentence points at one particular
+    thing and says what it is, Polish uses <i>to</i> and the nominative. If it puts a person into a category, it
+    uses <i>być</i> and the instrumental:
+  </p>
+  <p class="ex">To jest <b>mój brat</b>. <span class="small">— identifying: <i>to</i> + nominative</span></p>
+  <p class="ex">On jest <b>moim bratem</b>. <span class="small">— classifying a person: instrumental</span></p>
+  <p class="ex">To jest <b>dobra książka</b>. <span class="small">— identifying a thing</span></p>
+  <p class="ex">Ta książka jest <b>dobra</b>. <span class="small">— adjective after <i>być</i> stays nominative; only nouns turn instrumental</span></p>
+  <div class="note">
+    <span class="lab">Note on adjectives</span>
+    <p>
+      An <b>adjective</b> after a personal form of <i>być</i> normally stays <b>nominative</b>:
+      <span class="pl">On jest dobry</span>, <span class="pl">Ona jest zmęczona</span>,
+      <span class="pl">To jest dobre</span>. A <b>noun</b> is what turns instrumental:
+      <span class="pl">On jest studentem</span>.
+    </p>
+    <p>
+      When an adjective does appear in the instrumental, there is a reason. Either it agrees with a noun that is
+      already instrumental — <span class="pl">On jest <b>dobrym studentem</b></span>, where <i>dobrym</i> simply
+      follows <i>studentem</i> — or the copula is not a personal verb but an infinitive, a participle or a noun:
+      <span class="pl">być <b>dobrym</b></span>, <span class="pl">będąc <b>zmęczonym</b></span>. The Łódź
+      language clinic states the pair exactly this way: a noun predicate is usually instrumental, an adjective
+      predicate usually nominative.
+    </p>
+  </div>
+
+  <h3>3 · Naming and titles</h3>
+  <p>
+    Names, titles, headings, labels, captions, the name on a door, the title of a book: all nominative. Nothing is
+    being done to them and they are not the subject of anything — they are simply <b>named</b>.
+  </p>
+  <p class="ex">„Pan Tadeusz” · „Zbrodnia i kara” · Uniwersytet Warszawski · ulica Krakowska</p>
+  <p class="tr">A poem by Mickiewicz · Crime and Punishment · the University of Warsaw · Krakowska Street</p>
+  <p>
+    Notice that in a Polish address or in an institution’s name the words stay nominative even though English would
+    often use “of”: <span class="pl">Uniwersytet Warszawski</span> is literally “University Warsawian”, not
+    “University <i>of</i> Warsaw”.
+  </p>
+
+  <h3>4 · The subject of a negated or impersonal sentence — carefully</h3>
+  <p>
+    Polish has sentences with no subject at all, and sentences where the “subject” is a dative experiencer. These
+    are worth knowing because they are the exception to “the doer is nominative”:
+  </p>
+  <p class="ex">Nie ma <span class="g">mleka</span>. <span class="small">— no subject; the missing thing is genitive</span></p>
+  <p class="ex">Podoba mi się <b>ten film</b>. <span class="small">— literally “the film pleases itself to me”; the film is nominative</span></p>
+  <p class="ex">Trzeba <span class="g">wyjść</span>. <span class="small">— no subject at all</span></p>
+  <p>
+    In <span class="pl">Podoba mi się ten film</span> the verb agrees with <span class="pl">film</span>, not with
+    <span class="pl">mi</span> — and that is the giveaway that <span class="pl">film</span> is the grammatical
+    subject and therefore nominative, even though in English “I like the film” makes “I” look like the subject.
+    The same shape appears in <span class="pl">Podobają mi się te filmy</span>.
+  </p>
+
+  <div class="note">
+    <span class="lab">How to tell the subject in a strange sentence</span>
+    <p>
+      Ignore the English translation and ask which word the verb agrees with. In the present tense that usually
+      means: which word could you replace with <span class="pl">on / ona / ono / oni / one</span>? That word is the
+      nominative subject. Everything else in the sentence is some other case.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 03 GENDER ============ -->
+<section id="gender">
+  <div class="shead"><div class="snum">03</div><h2>Gender — three in the singular, five in the plural</h2></div>
+
+  <p>
+    You cannot build a correct nominative plural without knowing the gender, so this section comes first. Polish
+    looks like it has three genders, and in the singular it does: <b>masculine</b>, <b>feminine</b>,
+    <b>neuter</b>. But in the plural the masculine splits in two, and that split is the single most important fact
+    about the nominative plural.
+  </p>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>Singular — 3 genders</h4>
+      <p><b>masculine</b> — <span class="pl">kot, dom, stół, student</span></p>
+      <p><b>feminine</b> — <span class="pl">kobieta, ulica, noc</span></p>
+      <p><b>neuter</b> — <span class="pl">okno, dziecko, morze</span></p>
+      <p class="small">Usually recognisable from the ending, but not always — see the table below.</p>
+    </div>
+    <div class="card">
+      <h4>Plural — 2 genders</h4>
+      <p><b>masculine-personal</b> (<span class="pl">męskoosobowy</span>) — men, and mixed groups that include
+      at least one man: <span class="pl">studenci, panowie, Polacy</span></p>
+      <p><b>non-masculine-personal</b> (<span class="pl">niemęskoosobowy</span>) — everything else: women, children,
+      animals, things, abstract nouns: <span class="pl">kobiety, koty, domy, okna</span></p>
+      <p class="small">This is the split that decides <i>byli</i> vs <i>były</i>.</p>
+    </div>
+  </div>
+
+  <h3>The five grammatical categories</h3>
+  <p>
+    Polish grammars work with five categories, because they are the ones that matter for endings. The two extra
+    ones split the old “masculine” into people and everything else.
+  </p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Category</th><th>What it covers</th><th>Example</th><th>Plural type</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">męskoosobowy</td><td>men, boys, male persons — <b>men only</b></td><td class="pl">student, pan, Polak</td><td class="yes">personal</td></tr>
+        <tr><td class="pl">męskozwierzęcy</td><td>animals — in the singular only</td><td class="pl">kot, pies, gołąb</td><td class="no">non-personal</td></tr>
+        <tr><td class="pl">męskorzeczowy</td><td>things, ideas, concepts</td><td class="pl">dom, stół, kraj</td><td class="no">non-personal</td></tr>
+        <tr><td class="pl">żeński</td><td>all feminine nouns</td><td class="pl">kobieta, noc</td><td class="no">non-personal</td></tr>
+        <tr><td class="pl">nijaki</td><td>all neuter nouns</td><td class="pl">okno, dziecko</td><td class="no">non-personal</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="lab">The three-way masculine is only a singular thing</span>
+    <p>
+      In the plural, <span class="pl">męskozwierzęcy</span> and <span class="pl">męskorzeczowy</span> behave
+      identically — they both merge into the non-personal plural. So <span class="pl">kot</span> (animal) and
+      <span class="pl">dom</span> (thing) both go to <span class="pl">koty, domy</span> and both take
+      <span class="pl">były</span>. The animal/thing distinction matters in the <b>accusative singular</b> (widzę
+      kota, but widzę dom) — not in the nominative plural.
+    </p>
+  </div>
+
+  <h3>How to tell the gender</h3>
+  <p>
+    For most nouns the nominative ending gives it away:
+  </p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Ending</th><th>Usually</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">consonant</td><td>masculine</td><td class="pl">dom, kot, student, stół, kraj</td></tr>
+        <tr><td class="pl">-a</td><td>feminine</td><td class="pl">kobieta, ulica, woda</td></tr>
+        <tr><td class="pl">-o</td><td>neuter</td><td class="pl">okno, drzewo, kino</td></tr>
+        <tr><td class="pl">-e</td><td>neuter</td><td class="pl">morze, pole, mieszkanie</td></tr>
+        <tr><td class="pl">-ę</td><td>neuter</td><td class="pl">imię, zwierzę, cielę</td></tr>
+        <tr><td class="pl">-ść, -ś, -ź, -c, -cz, -sz, -ż, -rz, -l</td><td>feminine (soft consonant)</td><td class="pl">noc, rzecz, kość, sól, twarz, mysz</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>The exceptions you will actually meet</h3>
+  <div class="grid2">
+    <div class="card">
+      <h4>Masculine nouns in <i>-a</i></h4>
+      <p class="ex">kolega, tata, poeta, sędzia, hrabia, dentysta, kierowca</p>
+      <p>
+        They end in <i>-a</i> like feminine nouns, and decline partly like them in the singular — but they are
+        <b>masculine</b>, they take masculine adjectives (<span class="pl">dobry kolega</span>), and in the plural
+        they are <b>masculine-personal</b>: <span class="pl">koledzy, poeci, sędziowie, kierowcy</span>.
+      </p>
+    </div>
+    <div class="card">
+      <h4>Feminine nouns in a soft consonant</h4>
+      <p class="ex">noc, rzecz, kość, sól, twarz, mysz, krew, łódź, miłość</p>
+      <p>
+        These end in a consonant, which looks masculine, but they are feminine — and the tell is the <b>accusative
+        singular</b>, which is identical to the nominative (<span class="pl">widzę noc, widzę sól</span>). If the
+        accusative equals the nominative, the noun is feminine.
+      </p>
+    </div>
+  </div>
+
+  <div class="note good">
+    <span class="lab">The reliable test</span>
+    <p>
+      When the ending is ambiguous, check it with an adjective: <span class="pl">ten dobry student</span>,
+      <span class="pl">ta dobra noc</span>, <span class="pl">to dobre dziecko</span>. Native speakers store the
+      gender with the word; that is exactly what you should do when you learn a noun — <b>ta noc</b>, not
+      <b>noc</b>.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 04 SINGULAR ============ -->
+<section id="sg">
+  <div class="shead"><div class="snum">04</div><h2>The singular — the form you already know</h2></div>
+
+  <p>
+    In the singular the nominative has <b>no ending</b> to add. The nominative singular <i>is</i> the dictionary
+    form. That sounds trivial, but it is genuinely useful: for nouns, the singular nominative never changes, so
+    there is nothing to get wrong. What you need to learn instead is the <b>gender</b>, because the gender is what
+    the plural endings depend on.
+  </p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Gender</th><th>Typical ending</th><th>Examples</th><th>Watch out for</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>masculine</td><td class="pl">consonant</td>
+          <td class="pl">dom, kot, stół, student, komputer</td>
+          <td class="small">Fleeting <i>e</i>: <span class="pl">pies → psa</span>, <span class="pl">chłopiec → chłopca</span> — visible in other cases, not in the nominative</td>
+        </tr>
+        <tr>
+          <td>masculine in <i>-a</i></td><td class="pl">-a</td>
+          <td class="pl">kolega, tata, poeta, sędzia, dentysta</td>
+          <td class="small">Masculine despite the ending; takes <span class="pl">dobry</span>, not <span class="pl">dobra</span></td>
+        </tr>
+        <tr>
+          <td>feminine</td><td class="pl">-a</td>
+          <td class="pl">kobieta, ulica, woda, książka</td>
+          <td class="small">After <i>k</i> and <i>g</i> the plural behaves differently — see the plural section</td>
+        </tr>
+        <tr>
+          <td>feminine (soft)</td><td class="pl">-ść, -c, -cz, -sz, -ż, -rz, -l</td>
+          <td class="pl">noc, rzecz, kość, mysz, twarz, sól, łódź</td>
+          <td class="small">Consonant-final but feminine; accusative = nominative is the test</td>
+        </tr>
+        <tr>
+          <td>neuter</td><td class="pl">-o, -e, -ę</td>
+          <td class="pl">okno, morze, imię, zwierzę</td>
+          <td class="small">The <i>-ę</i> nouns expand in other cases: <span class="pl">imię → imienia</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Nouns that only exist in the plural</h3>
+  <p>
+    Some nouns have no singular at all — <i>plurale tantum</i>. They are always plural, and their nominative is the
+    only form you will use in this case. All the everyday ones name things, so they are
+    <b>non-masculine-personal</b> — which is why they take <span class="pl">były</span>, never
+    <span class="pl">byli</span>.
+  </p>
+  <div class="chips">
+    <span class="chip"><b>drzwi</b> — door(s)</span>
+    <span class="chip"><b>nożyczki</b> — scissors</span>
+    <span class="chip"><b>spodnie</b> — trousers</span>
+    <span class="chip"><b>okulary</b> — glasses</span>
+    <span class="chip"><b>urodziny</b> — birthday</span>
+    <span class="chip"><b>wakacje</b> — holidays</span>
+    <span class="chip"><b>Włochy</b> — Italy</span>
+    <span class="chip"><b>Niemcy</b> — Germany</span>
+    <span class="chip"><b>Węgry</b> — Hungary</span>
+  </div>
+  <p class="ex">Drzwi są zamknięte. · Okulary są na stole. · Wakacje były <span class="g">wspaniałe</span>.</p>
+  <p class="tr">The door is locked. · The glasses are on the table. · The holidays were wonderful.</p>
+  <p class="small">
+    Note <span class="pl">były</span>, not <span class="pl">byli</span> — these are non-personal plurals even
+    though English says “the holidays were”.
+  </p>
+
+  <div class="note">
+    <span class="lab">Country names that are plural</span>
+    <p>
+      <span class="pl">Włochy, Niemcy, Węgry, Czechy, Indie, Chiny, Stany Zjednoczone</span> are plural in Polish
+      and take plural verbs: <span class="pl">Niemcy <b>są</b> dużym krajem</span>. Careful:
+      <span class="pl">Niemcy</span> also means “Germans”, and that sense is masculine-personal —
+      <span class="pl">Niemcy <b>przyjechali</b></span>. The context decides, and the verb form tells you which
+      sense is meant.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 05 PLURAL ============ -->
+<section id="pl">
+  <div class="shead"><div class="snum">05</div><h2>The plural — the part that matters</h2></div>
+
+  <p>
+    Here is the whole system in one sentence: <b>masculine-personal takes <i>-i / -y / -e / -owie</i> — often after
+    the stem consonant has changed — and everything else takes <i>-y / -i / -e</i> and leaves the stem alone.</b>
+    The rest of this section is the detail behind that sentence.
+  </p>
+
+  <div class="note warn">
+    <span class="lab">First decide: does the group contain a man?</span>
+    <p>
+      This is not about the noun you are looking at — it is about the group the word refers to. Ten men →
+      <span class="pl">studenci</span>. Nine women and one man → still <span class="pl">studenci</span>.
+      A hundred women → <span class="pl">studentki</span>. Two cats → <span class="pl">koty</span>.
+    </p>
+  </div>
+
+  <h3>Masculine-personal — the hard half</h3>
+  <p>
+    Masculine-personal nouns are the only ones whose plural ending depends on the <b>sound before it</b>, and they
+    are the only ones where the stem can change shape. There are four endings — <i>-i</i>, <i>-y</i>, <i>-e</i>,
+    <i>-owie</i> — and the choice is regular once you know the final consonant of the stem.
+  </p>
+
+  <div class="tw stack1">
+    <table>
+      <thead><tr><th>Type of stem</th><th>Ending</th><th>Singular → plural</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="pl">hard: t, d, n, m, p, b, w, f, s, z, r</td>
+          <td class="pl end">-i</td>
+          <td class="pl">student → studenci<br>poeta → poeci<br>dentysta → dentyści</td>
+          <td class="small">The consonant softens before <i>-i</i>: <b>t → c</b>, <b>st → ść</b></td>
+        </tr>
+        <tr>
+          <td class="pl">velar: k, g, ch</td>
+          <td class="pl end">-y</td>
+          <td class="pl">Polak → Polacy<br>kolega → koledzy</td>
+          <td class="small"><b>k → c</b>, <b>g → dz</b>, then <i>-y</i></td>
+        </tr>
+        <tr>
+          <td class="pl">hardened: c, cz, sz, ż, rz, l</td>
+          <td class="pl end">-y / -e</td>
+          <td class="pl">kierowca → kierowcy<br>chłopiec → chłopcy<br>lekarz → lekarze<br>pisarz → pisarze<br>nauczyciel → nauczyciele</td>
+          <td class="small"><b>c</b> takes <i>-y</i>; <b>cz, sz, ż, rz, l</b> normally take <i>-e</i></td>
+        </tr>
+        <tr>
+          <td class="pl">soft: ś, ć, ź, ń</td>
+          <td class="pl end">-e</td>
+          <td class="pl">gość → goście</td>
+          <td class="small">No further change: the stem is already soft, so <i>-e</i> is all that is added</td>
+        </tr>
+        <tr>
+          <td class="pl">the suffix <b>-in</b> — nationalities and similar</td>
+          <td class="pl end">-e</td>
+          <td class="pl">Amerykanin → Amerykanie<br>Rosjanin → Rosjanie</td>
+          <td class="small">The <i>-in</i> is dropped; the stem keeps its hard <i>n</i></td>
+        </tr>
+        <tr>
+          <td class="pl">kinship, titles, some professions</td>
+          <td class="pl end">-owie</td>
+          <td class="pl">pan → panowie<br>syn → synowie<br>ojciec → ojcowie<br>król → królowie</td>
+          <td class="small">The dignified ending — see the next block</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="lab">The alternations are the real rule</span>
+    <p>
+      Masculine-personal plurals very often change the final consonant of the stem. Learn the pairs as pairs:
+      <span class="pl">t → c</span> (<span class="pl">student → studenci</span>),
+      <span class="pl">k → c</span> (<span class="pl">Polak → Polacy</span>),
+      <span class="pl">g → dz</span> (<span class="pl">kolega → koledzy</span>),
+      <span class="pl">ch → si</span> (<span class="pl">Czech → Czesi</span>,
+      <span class="pl">Włoch → Włosi</span>),
+      <span class="pl">r → rz</span> (<span class="pl">doktor → doktorzy</span>).
+    </p>
+    <p>
+      But some stems do not change at all: <span class="pl">Francuz → Francuzi</span>,
+      <span class="pl">lekarz → lekarze</span>, <span class="pl">nauczyciel → nauczyciele</span>. The consonant
+      that is already hardened simply keeps its shape.
+    </p>
+  </div>
+
+  <h3>The <i>-owie</i> group: honour, kinship and a few titles</h3>
+  <p>
+    <i>-owie</i> is the old, dignified ending. It survives in words for people you respect or are related to, and
+    in a handful of professions where both forms are accepted.
+  </p>
+  <div class="grid2">
+    <div class="card">
+      <h4>Always <i>-owie</i></h4>
+      <p class="ex">pan → <b>panowie</b> · syn → <b>synowie</b> · ojciec → <b>ojcowie</b></p>
+      <p class="ex">król → <b>królowie</b> · mąż → <b>mężowie</b> · wróg → <b>wrogowie</b></p>
+      <p class="ex">tata → <b>tatowie</b> · hrabia → <b>hrabiowie</b> · ksiądz → <b>księża</b>*</p>
+      <p class="small">* <span class="pl">ksiądz</span> is irregular, not <i>-owie</i>.</p>
+    </div>
+    <div class="card">
+      <h4>Both forms accepted</h4>
+      <p class="ex">profesor → <b>profesorzy</b> / profesorowie</p>
+      <p class="ex">doktor → <b>doktorzy</b> / doktorowie</p>
+      <p class="ex">inżynier → <b>inżynierowie</b> / inżynierzy</p>
+      <p class="small">The <i>-owie</i> form is more formal; <i>-y/-i</i> is the everyday one. Both are correct.</p>
+    </div>
+  </div>
+
+  <h3>Irregular masculine-personal plurals — learn these as words</h3>
+  <p>
+    A small set of very common nouns does not follow any rule. They are frequent enough that you should simply
+    memorise them.
+  </p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Singular</th><th>Plural</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">człowiek</td><td class="pl end">ludzie</td><td>person → people</td></tr>
+        <tr><td class="pl">brat</td><td class="pl end">bracia</td><td>brother</td></tr>
+        <tr><td class="pl">ksiądz</td><td class="pl end">księża</td><td>priest</td></tr>
+        <tr><td class="pl">książę</td><td class="pl end">książęta</td><td>prince</td></tr>
+        <tr><td class="pl">dziecko</td><td class="pl end">dzieci</td><td>child → children</td></tr>
+        <tr><td class="pl">mężczyzna</td><td class="pl end">mężczyźni</td><td>man</td></tr>
+        <tr><td class="pl">sędzia</td><td class="pl end">sędziowie</td><td>judge</td></tr>
+        <tr><td class="pl">poeta</td><td class="pl end">poeci</td><td>poet</td></tr>
+        <tr><td class="pl">gość</td><td class="pl end">goście</td><td>guest</td></tr>
+        <tr><td class="pl">koń</td><td class="pl end">konie</td><td>horse — an animal, so non-personal</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Everything else — the non-masculine-personal plural</h3>
+  <p>
+    Feminine, neuter, and all masculine nouns that are not men. The system here is simple: <b>the stem does not
+    change</b>, and there are three endings.
+  </p>
+
+  <div class="tw stack1">
+    <table>
+      <thead><tr><th>Stem ends in</th><th>Ending</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="pl"><b>hard</b>: b, d, f, ł, m, n, p, r, s, t, w, z — and k, g</td>
+          <td class="pl end">-y <span class="small">(written <i>-i</i> after k, g)</span></td>
+          <td class="pl">kot → koty · dom → domy · stół → stoły · kobieta → kobiety<br>noga → nogi · książka → książki</td>
+        </tr>
+        <tr>
+          <td class="pl"><b>soft or hardened</b>: c, cz, sz, ż, rz, l, j, ś, ć, ź, ń</td>
+          <td class="pl end">-e</td>
+          <td class="pl">ulica → ulice · talerz → talerze · lekarz → lekarze<br>koń → konie · nauczyciel → nauczyciele</td>
+        </tr>
+        <tr>
+          <td class="pl"><b>feminine</b> with a consonant-final nominative</td>
+          <td class="pl end">-i / -y / -e</td>
+          <td class="pl">kość → kości · mysz → myszy · noc → noce · rzecz → rzeczy</td>
+        </tr>
+        <tr>
+          <td class="pl"><b>neuter</b> in -o, -e</td>
+          <td class="pl end">-a</td>
+          <td class="pl">okno → okna · morze → morza · pole → pola</td>
+        </tr>
+        <tr>
+          <td class="pl"><b>neuter</b> in -ę</td>
+          <td class="pl end">-ta / -ona</td>
+          <td class="pl">zwierzę → zwierzęta · cielę → cielęta · imię → imiona · ramię → ramiona</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="lab">The spelling rule behind -y and -i</span>
+    <p>
+      Polish spelling forbids <i>ky</i> and <i>gy</i>, so a hard stem ending in <b>k</b> or <b>g</b> takes
+      <b>-i</b> in writing, and the <i>i</i> softens the consonant in speech: <span class="pl">noga → nogi</span>,
+      <span class="pl">książka → książki</span>. That <i>-i</i> is the same ending as <i>-y</i> — only the spelling
+      differs.
+    </p>
+    <p>
+      Do not confuse this with the <b>-e</b> group. A stem that is already soft or hardened — <span class="pl">c,
+      cz, sz, ż, rz, l</span> — takes <i>-e</i>, and this is a genuine ending change, not a spelling rule:
+      <span class="pl">ulica → ulice</span>, <span class="pl">talerz → talerze</span>,
+      <span class="pl">lekarz → lekarze</span>, <span class="pl">nauczyciel → nauczyciele</span>.
+    </p>
+  </div>
+
+  <h3>Neuter plurals that surprise</h3>
+  <p>
+    A few neuter nouns have a plural you would not predict, and two of them are extremely common.
+  </p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Singular</th><th>Plural</th><th>Meaning</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">oko</td><td class="pl end">oczy</td><td>eye → eyes</td><td class="small">irregular; <span class="pl">oka</span> exists but means “oil spots / grids”</td></tr>
+        <tr><td class="pl">ucho</td><td class="pl end">uszy</td><td>ear → ears</td><td class="small">irregular; <span class="pl">ucha</span> means “handles”</td></tr>
+        <tr><td class="pl">ręka</td><td class="pl end">ręce</td><td>hand → hands</td><td class="small">feminine, but the plural looks neuter</td></tr>
+        <tr><td class="pl">dziecko</td><td class="pl end">dzieci</td><td>child → children</td><td class="small">the most irregular plural in the language</td></tr>
+        <tr><td class="pl">imię</td><td class="pl end">imiona</td><td>name → names</td><td class="small">-ę stem expands to -ion-</td></tr>
+        <tr><td class="pl">zwierzę</td><td class="pl end">zwierzęta</td><td>animal → animals</td><td class="small">-ę → -ęta</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note warn">
+    <span class="lab">oczy, uszy, ręce — and the body-pair rule</span>
+    <p>
+      Body parts that come in pairs often have an irregular plural: <span class="pl">oko → oczy</span>,
+      <span class="pl">ucho → uszy</span>, <span class="pl">ręka → ręce</span>,
+      <span class="pl">noga → nogi</span> (regular). All of these are non-masculine-personal, so they take
+      <span class="pl">były</span>, never <span class="pl">byli</span>.
+    </p>
+  </div>
+
+  <h3>Fleeting <i>e</i> — the disappearing vowel</h3>
+  <p>
+    Many masculine nouns have an <b>e</b> in the last syllable of the nominative singular that disappears when an
+    ending is added. Since the nominative plural adds an ending, the <i>e</i> drops there too.
+  </p>
+  <p class="ex">pies → <span class="g">psy</span> · chłopiec → <span class="g">chłopcy</span> · wróbel → <span class="g">wróble</span></p>
+  <p class="ex">talerz → <span class="g">talerze</span> <span class="small">(keeps the e — not every <i>e</i> is fleeting)</span></p>
+  <p>
+    The fleeting <i>e</i> is not predictable from the spelling. When you learn such a noun, learn its plural with
+    it: <span class="pl">pies — psy</span>, not just <span class="pl">pies</span>.
+  </p>
+
+  <h3>When the plural means something else</h3>
+  <p>
+    A few nouns change meaning in the plural, and the nominative is where you see it.
+  </p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Singular</th><th>Plural</th><th>Two meanings</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">rok</td><td class="pl">lata</td><td>years (of a life, of history) — but <span class="pl">roki</span> means “legal terms / years of a reign”</td></tr>
+        <tr><td class="pl">człowiek</td><td class="pl">ludzie</td><td>people — <span class="pl">człowieki</span> does not exist</td></tr>
+        <tr><td class="pl">oko</td><td class="pl">oczy / oka</td><td>eyes (body) / oil spots on soup, grids</td></tr>
+        <tr><td class="pl">ucho</td><td class="pl">uszy / ucha</td><td>ears (body) / handles of a pot</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Surnames in the plural</h3>
+  <p>
+    Two surnames are enough to show the rule, and it is a rule, not a list: a surname that declines like an
+    adjective takes the masculine-personal plural of an adjective; a surname that declines like a noun takes
+    <i>-owie</i> when it names a couple or a family.
+  </p>
+  <p class="ex">Kowalski → <span class="g">Kowalscy</span> <span class="small">(adjectival: -ski → -scy)</span></p>
+  <p class="ex">Nowak → <span class="g">Nowakowie</span> <span class="small">(noun-like: -owie for a couple or family)</span></p>
+  <p class="small">
+    This is the standard Polish way of naming a couple: <span class="pl">Maria i Jan Kowalscy</span>,
+    <span class="pl">państwo Nowakowie</span>.
+  </p>
+</section>
+
+<!-- ============ 06 TABLES ============ -->
+<section id="tables">
+  <div class="shead"><div class="snum">06</div><h2>Full declension tables — where the nominative sits</h2></div>
+
+  <p>
+    Seeing the nominative inside the whole paradigm makes it easier to remember, and it shows you the forms the
+    nominative is <i>not</i>. Every form below was taken from the declension table of Polish Wiktionary.
+  </p>
+
+  <h3>Masculine — person: <span class="pl">student</span></h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Case</th><th>Singular</th><th>Plural</th></tr></thead>
+      <tbody>
+        <tr><td class="pl"><b>mianownik</b></td><td class="pl"><b>student</b></td><td class="pl"><b>studenci</b></td></tr>
+        <tr><td class="pl">dopełniacz</td><td class="pl">studenta</td><td class="pl">studentów</td></tr>
+        <tr><td class="pl">celownik</td><td class="pl">studentowi</td><td class="pl">studentom</td></tr>
+        <tr><td class="pl">biernik</td><td class="pl">studenta</td><td class="pl">studentów</td></tr>
+        <tr><td class="pl">narzędnik</td><td class="pl">studentem</td><td class="pl">studentami</td></tr>
+        <tr><td class="pl">miejscownik</td><td class="pl">studencie</td><td class="pl">studentach</td></tr>
+        <tr><td class="pl">wołacz</td><td class="pl">studencie</td><td class="pl">studenci</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Masculine — thing: <span class="pl">dom</span></h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Case</th><th>Singular</th><th>Plural</th></tr></thead>
+      <tbody>
+        <tr><td class="pl"><b>mianownik</b></td><td class="pl"><b>dom</b></td><td class="pl"><b>domy</b></td></tr>
+        <tr><td class="pl">dopełniacz</td><td class="pl">domu</td><td class="pl">domów</td></tr>
+        <tr><td class="pl">celownik</td><td class="pl">domowi</td><td class="pl">domom</td></tr>
+        <tr><td class="pl">biernik</td><td class="pl">dom</td><td class="pl">domy</td></tr>
+        <tr><td class="pl">narzędnik</td><td class="pl">domem</td><td class="pl">domami</td></tr>
+        <tr><td class="pl">miejscownik</td><td class="pl">domu</td><td class="pl">domach</td></tr>
+        <tr><td class="pl">wołacz</td><td class="pl">domu</td><td class="pl">domy</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">
+    Compare the accusative: <span class="pl">studenta</span> but <span class="pl">dom</span>. That is the
+    animal/thing split at work — and note that it does not affect the nominative at all.
+  </p>
+
+  <h3>Masculine in <i>-a</i>: <span class="pl">kolega</span></h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Case</th><th>Singular</th><th>Plural</th></tr></thead>
+      <tbody>
+        <tr><td class="pl"><b>mianownik</b></td><td class="pl"><b>kolega</b></td><td class="pl"><b>koledzy</b></td></tr>
+        <tr><td class="pl">dopełniacz</td><td class="pl">kolegi</td><td class="pl">kolegów</td></tr>
+        <tr><td class="pl">celownik</td><td class="pl">koledze</td><td class="pl">kolegom</td></tr>
+        <tr><td class="pl">biernik</td><td class="pl">kolegę</td><td class="pl">kolegów</td></tr>
+        <tr><td class="pl">narzędnik</td><td class="pl">kolegą</td><td class="pl">kolegami</td></tr>
+        <tr><td class="pl">miejscownik</td><td class="pl">koledze</td><td class="pl">kolegach</td></tr>
+        <tr><td class="pl">wołacz</td><td class="pl">kolego</td><td class="pl">koledzy</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Feminine: <span class="pl">kobieta</span></h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Case</th><th>Singular</th><th>Plural</th></tr></thead>
+      <tbody>
+        <tr><td class="pl"><b>mianownik</b></td><td class="pl"><b>kobieta</b></td><td class="pl"><b>kobiety</b></td></tr>
+        <tr><td class="pl">dopełniacz</td><td class="pl">kobiety</td><td class="pl">kobiet</td></tr>
+        <tr><td class="pl">celownik</td><td class="pl">kobiecie</td><td class="pl">kobietom</td></tr>
+        <tr><td class="pl">biernik</td><td class="pl">kobietę</td><td class="pl">kobiety</td></tr>
+        <tr><td class="pl">narzędnik</td><td class="pl">kobietą</td><td class="pl">kobietami</td></tr>
+        <tr><td class="pl">miejscownik</td><td class="pl">kobiecie</td><td class="pl">kobietach</td></tr>
+        <tr><td class="pl">wołacz</td><td class="pl">kobieto</td><td class="pl">kobiety</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Feminine in a soft consonant: <span class="pl">noc</span></h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Case</th><th>Singular</th><th>Plural</th></tr></thead>
+      <tbody>
+        <tr><td class="pl"><b>mianownik</b></td><td class="pl"><b>noc</b></td><td class="pl"><b>noce</b></td></tr>
+        <tr><td class="pl">dopełniacz</td><td class="pl">nocy</td><td class="pl">nocy</td></tr>
+        <tr><td class="pl">celownik</td><td class="pl">nocy</td><td class="pl">nocom</td></tr>
+        <tr><td class="pl">biernik</td><td class="pl">noc</td><td class="pl">noce</td></tr>
+        <tr><td class="pl">narzędnik</td><td class="pl">nocą</td><td class="pl">nocami</td></tr>
+        <tr><td class="pl">miejscownik</td><td class="pl">nocy</td><td class="pl">nocach</td></tr>
+        <tr><td class="pl">wołacz</td><td class="pl">nocy</td><td class="pl">noce</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">
+    The accusative equals the nominative — <span class="pl">widzę noc</span> — and that is the signature of every
+    feminine noun ending in a consonant.
+  </p>
+
+  <h3>Neuter: <span class="pl">okno</span></h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Case</th><th>Singular</th><th>Plural</th></tr></thead>
+      <tbody>
+        <tr><td class="pl"><b>mianownik</b></td><td class="pl"><b>okno</b></td><td class="pl"><b>okna</b></td></tr>
+        <tr><td class="pl">dopełniacz</td><td class="pl">okna</td><td class="pl">okien</td></tr>
+        <tr><td class="pl">celownik</td><td class="pl">oknu</td><td class="pl">oknom</td></tr>
+        <tr><td class="pl">biernik</td><td class="pl">okno</td><td class="pl">okna</td></tr>
+        <tr><td class="pl">narzędnik</td><td class="pl">oknem</td><td class="pl">oknami</td></tr>
+        <tr><td class="pl">miejscownik</td><td class="pl">oknie</td><td class="pl">oknach</td></tr>
+        <tr><td class="pl">wołacz</td><td class="pl">okno</td><td class="pl">okna</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Neuter in <i>-ę</i>: <span class="pl">imię</span></h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Case</th><th>Singular</th><th>Plural</th></tr></thead>
+      <tbody>
+        <tr><td class="pl"><b>mianownik</b></td><td class="pl"><b>imię</b></td><td class="pl"><b>imiona</b></td></tr>
+        <tr><td class="pl">dopełniacz</td><td class="pl">imienia</td><td class="pl">imion</td></tr>
+        <tr><td class="pl">celownik</td><td class="pl">imieniu</td><td class="pl">imionom</td></tr>
+        <tr><td class="pl">biernik</td><td class="pl">imię</td><td class="pl">imiona</td></tr>
+        <tr><td class="pl">narzędnik</td><td class="pl">imieniem</td><td class="pl">imionami</td></tr>
+        <tr><td class="pl">miejscownik</td><td class="pl">imieniu</td><td class="pl">imionach</td></tr>
+        <tr><td class="pl">wołacz</td><td class="pl">imię</td><td class="pl">imiona</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">
+    The whole stem expands from <i>imi-ę</i> to <i>imion-</i>. The nominative plural
+    <span class="pl">imiona</span> follows from that, and so does every other case.
+  </p>
+</section>
+
+<!-- ============ 07 ADJECTIVES ============ -->
+<section id="adjectives">
+  <div class="shead"><div class="snum">07</div><h2>Adjectives in the nominative</h2></div>
+
+  <p>
+    An adjective always agrees with its noun in <b>gender, number and case</b>. In the nominative that means the
+    adjective has <b>five</b> forms in the plural-and-singular system: three in the singular, two in the plural.
+  </p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Form</th><th>Used with</th><th class="pl">dobry</th><th class="pl">polski</th><th class="pl">wielki</th></tr></thead>
+      <tbody>
+        <tr><td>masc. sg.</td><td>masculine singular</td><td class="pl">dobry</td><td class="pl">polski</td><td class="pl">wielki</td></tr>
+        <tr><td>fem. sg.</td><td>feminine singular</td><td class="pl">dobra</td><td class="pl">polska</td><td class="pl">wielka</td></tr>
+        <tr><td>neut. sg.</td><td>neuter singular</td><td class="pl">dobre</td><td class="pl">polskie</td><td class="pl">wielkie</td></tr>
+        <tr><td>masc.-pers. pl.</td><td>men, or groups with a man</td><td class="pl end">dobrzy</td><td class="pl end">polscy</td><td class="pl end">wielcy</td></tr>
+        <tr><td>other pl.</td><td>everything else</td><td class="pl">dobre</td><td class="pl">polskie</td><td class="pl">wielkie</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="lab">Note the shape of the table</span>
+    <p>
+      The neuter singular and the non-personal plural are <b>identical</b>: <span class="pl">dobre</span>,
+      <span class="pl">polskie</span>, <span class="pl">wielkie</span>. So there are really only four distinct
+      forms in the nominative, and you get one of them for free.
+    </p>
+  </div>
+
+  <h3>The masculine-personal plural: <i>-i</i> becomes <i>-y</i>, and the stem changes</h3>
+  <p>
+    This is the form learners forget, because it is the only one that looks different from the pattern. After a
+    hard stem, <i>-y</i> becomes <b>-i</b>; after <i>k</i> and <i>g</i> it becomes <b>-cy</b> and <b>-dzy</b>;
+    and the stem consonant shifts.
+  </p>
+  <div class="chips">
+    <span class="chip">dobry → <b>dobrzy</b></span>
+    <span class="chip">nowy → <b>nowi</b></span>
+    <span class="chip">stary → <b>starzy</b></span>
+    <span class="chip">mądry → <b>mądrzy</b></span>
+    <span class="chip">ładny → <b>ładni</b></span>
+    <span class="chip">drogi → <b>drodzy</b></span>
+    <span class="chip">polski → <b>polscy</b></span>
+    <span class="chip">wielki → <b>wielcy</b></span>
+    <span class="chip">wysoki → <b>wysocy</b></span>
+    <span class="chip">mały → <b>mali</b></span>
+    <span class="chip">tani → <b>tani</b></span>
+    <span class="chip">głupi → <b>głupi</b></span>
+  </div>
+  <p class="small">
+    The last two do not change: <span class="pl">tani → tani</span>, <span class="pl">głupi → głupi</span> — a
+    stem already ending in a soft consonant takes no ending at all, and the form looks like the masculine singular.
+  </p>
+
+  <h3>Adjectives used as nouns</h3>
+  <p>
+    Polish turns an adjective into a person-noun with no extra word — the adjective simply stands alone in the
+    masculine-personal plural, or in the singular with a masculine ending.
+  </p>
+  <p class="ex">Chorzy czekają na lekarza. <span class="small">— “the sick (people) are waiting”</span></p>
+  <p class="ex">Dorośli nie rozumieją. <span class="small">— “adults don’t understand”</span></p>
+  <p class="ex">Biedni i bogaci. <span class="small">— “the poor and the rich”</span></p>
+  <p class="small">
+    This is why <span class="pl">dorośli</span> (adults) is masculine-personal even when it means adults in
+    general: the adjective keeps its masculine-personal plural.
+  </p>
+
+  <h3>Soft-stem adjectives and the <i>-i / -y</i> spelling</h3>
+  <p>
+    Polish spelling does not allow <i>ky</i>, <i>gy</i>, so adjectives whose stem ends in <b>k</b> or <b>g</b>
+    take <i>-i</i> in the masculine singular and <i>-i</i> after softening elsewhere:
+  </p>
+  <p class="ex">wielki, wielka, wielkie — wielcy · drogi, droga, drogie — drodzy · polski, polska, polskie — polscy</p>
+  <p>
+    The pattern <b>-ski → -scy</b> is worth noticing because it is also how surnames work:
+    <span class="pl">Kowalski → Kowalscy</span>.
+  </p>
+</section>
+
+<!-- ============ 08 PRONOUNS ============ -->
+<section id="pronouns">
+  <div class="shead"><div class="snum">08</div><h2>Pronouns in the nominative</h2></div>
+
+  <p>
+    Personal pronouns have their own nominative forms, and they carry the same masculine-personal split as nouns.
+    In fact pronouns are where the split is easiest to see — and where it matters most, because the third person
+    pronoun is what you use to check the gender of anything.
+  </p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Person</th><th>Singular</th><th>Plural</th></tr></thead>
+      <tbody>
+        <tr><td>1st</td><td class="pl">ja</td><td class="pl">my</td></tr>
+        <tr><td>2nd</td><td class="pl">ty</td><td class="pl">wy</td></tr>
+        <tr><td>3rd — masc.</td><td class="pl">on</td><td class="pl end">oni <span class="small">(at least one man)</span></td></tr>
+        <tr><td>3rd — fem.</td><td class="pl">ona</td><td class="pl end">one <span class="small">(no men)</span></td></tr>
+        <tr><td>3rd — neut.</td><td class="pl">ono</td><td class="pl end">one</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note warn">
+    <span class="lab">oni or one — the most useful choice on this page</span>
+    <p>
+      <span class="pl">Oni</span> is used when the group contains <b>at least one man</b>. <span class="pl">One</span>
+      is used for everything else: a group of women, a group of children, a group of animals, a group of things.
+      So <span class="pl">Ania i Kasia</span> → <span class="pl">one</span>, but
+      <span class="pl">Ania i Tomek</span> → <span class="pl">oni</span>. And
+      <span class="pl">kot i pies</span> → <span class="pl">one</span>, because animals are never personal.
+    </p>
+  </div>
+
+  <h3>Everyone, nobody, somebody</h3>
+  <p>
+    The indefinite and negative pronouns behave like masculine-personal adjectives when they refer to people:
+  </p>
+  <p class="ex"><b>Ktoś</b> przyszedł. · <b>Nikt</b> nie przyszedł. · <b>Wszyscy</b> przyszli.</p>
+  <p class="tr">Someone came. · Nobody came. · Everyone came.</p>
+  <p class="small">
+    <span class="pl">Wszyscy</span> is the masculine-personal form — it means “all people”. For everything else
+    the form is <span class="pl">wszystkie</span>: <span class="pl">Wszystkie dzieci przyszły</span>,
+    <span class="pl">wszystkie koty</span>.
+  </p>
+
+  <h3>Demonstrative and interrogative pronouns</h3>
+  <p>
+    These decline like adjectives, so their nominative has the same five shapes:
+  </p>
+  <div class="tw">
+    <table>
+      <thead><tr><th></th><th>masc. sg.</th><th>fem. sg.</th><th>neut. sg.</th><th>masc.-pers. pl.</th><th>other pl.</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">this / that</td><td class="pl">ten</td><td class="pl">ta</td><td class="pl">to</td><td class="pl end">ci</td><td class="pl">te</td></tr>
+        <tr><td class="pl">that (over there)</td><td class="pl">tamten</td><td class="pl">tamta</td><td class="pl">tamto</td><td class="pl end">tamci</td><td class="pl">tamte</td></tr>
+        <tr><td class="pl">which / who</td><td class="pl">który</td><td class="pl">która</td><td class="pl">które</td><td class="pl end">którzy</td><td class="pl">które</td></tr>
+        <tr><td class="pl">what kind</td><td class="pl">jaki</td><td class="pl">jaka</td><td class="pl">jakie</td><td class="pl end">jacy</td><td class="pl">jakie</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="ex"><b>Ci</b> ludzie · <b>te</b> kobiety · <b>te</b> dzieci · <b>którzy</b> studenci · <b>które</b> koty</p>
+  <p class="tr">these people · these women · these children · which students · which cats</p>
+
+  <div class="note">
+    <span class="lab">The one everyone gets wrong</span>
+    <p>
+      <span class="pl">Ci</span> for men, <span class="pl">te</span> for everything else — including mixed groups
+      of <b>things</b>: <span class="pl">te koty, te domy, te książki, te dzieci</span>. But a mixed group of
+      <b>people</b> with one man is <span class="pl">ci</span>: <span class="pl">ci studenci</span>. The test is
+      “is there a man in it?”, not “is the noun masculine?”.
+    </p>
+  </div>
+
+  <h3>Possessive pronouns</h3>
+  <p>
+    <span class="pl">mój, twój, nasz, wasz, swój</span> all decline like adjectives. In the nominative:
+  </p>
+  <div class="tw">
+    <table>
+      <thead><tr><th></th><th>masc. sg.</th><th>fem. sg.</th><th>neut. sg.</th><th>masc.-pers. pl.</th><th>other pl.</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">my</td><td class="pl">mój</td><td class="pl">moja</td><td class="pl">moje</td><td class="pl end">moi</td><td class="pl">moje</td></tr>
+        <tr><td class="pl">your (sg.)</td><td class="pl">twój</td><td class="pl">twoja</td><td class="pl">twoje</td><td class="pl end">twoi</td><td class="pl">twoje</td></tr>
+        <tr><td class="pl">our</td><td class="pl">nasz</td><td class="pl">nasza</td><td class="pl">nasze</td><td class="pl end">nasi</td><td class="pl">nasze</td></tr>
+        <tr><td class="pl">your (pl.)</td><td class="pl">wasz</td><td class="pl">wasza</td><td class="pl">wasze</td><td class="pl end">wasi</td><td class="pl">wasze</td></tr>
+        <tr><td class="pl">one’s own</td><td class="pl">swój</td><td class="pl">swoja</td><td class="pl">swoje</td><td class="pl end">swoi</td><td class="pl">swoje</td></tr>
+        <tr><td class="pl">whose</td><td class="pl">czyj</td><td class="pl">czyja</td><td class="pl">czyje</td><td class="pl end">czyi</td><td class="pl">czyje</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="ex"><b>Moi</b> rodzice · <b>moje</b> dzieci · <b>nasi</b> studenci · <b>nasze</b> koty</p>
+  <p class="tr">my parents · my children · our students · our cats</p>
+  <p class="small">
+    <span class="pl">Moi rodzice</span> — “parents” is masculine-personal because there is a father in it, even
+    though <span class="pl">mama</span> is feminine.
+  </p>
+
+  <div class="note good">
+    <span class="lab">Clipped forms you will hear</span>
+    <p>
+      Polish has short colloquial forms <span class="pl">ma, twa, swe, moi</span> etc. — <span class="pl">moja →
+      ma</span>, <span class="pl">twoja → twa</span>, <span class="pl">swoje → swe</span>. They exist and are
+      correct in poetry and in careful literary prose, but in speech use the full forms:
+      <span class="pl">moja, twoja, swoje</span>.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 09 NUMBERS ============ -->
+<section id="numbers">
+  <div class="shead"><div class="snum">09</div><h2>Numbers, and the nominative that follows them</h2></div>
+
+  <p>
+    Numbers are where the nominative meets the genitive, and where most learners make their first real mistake.
+    The rule has three parts.
+  </p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Number</th><th>Case of the noun</th><th>Example</th><th>Verb</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">jeden, jedna, jedno</td><td>nominative <b>singular</b></td><td class="pl">jeden student, jedna kobieta, jedno dziecko</td><td>singular</td></tr>
+        <tr><td class="pl">dwa, dwie</td><td>nominative <b>plural</b></td><td class="pl">dwa koty, dwie kobiety, dwie książki</td><td>plural, non-personal <span class="pl">były</span></td></tr>
+        <tr><td class="pl">trzy, cztery</td><td>nominative <b>plural</b></td><td class="pl">trzy koty, cztery książki</td><td>plural, non-personal <span class="pl">były</span></td></tr>
+        <tr><td class="pl">5 and above</td><td><b>genitive</b> plural</td><td class="pl">pięć kotów, pięć książek</td><td>singular neuter <span class="pl">było</span></td></tr>
+        <tr><td class="pl">2–4 with men</td><td><b>nominative</b> plural, personal</td><td class="pl">dwaj studenci, trzej studenci</td><td>plural personal <span class="pl">byli</span></td></tr>
+        <tr><td class="pl">5+ with men</td><td><b>genitive</b> plural + <span class="pl">-u</span> form</td><td class="pl">pięciu studentów</td><td>singular neuter <span class="pl">było</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>2, 3, 4 — the nominative zone</h3>
+  <p>
+    Up to four, the noun stays in the <b>nominative plural</b>. This is the one place where a number and a
+    nominative plural sit together, so it belongs on this page.
+  </p>
+  <p class="ex">dwa <b>koty</b> · dwie <b>kobiety</b> · dwa <b>okna</b> · trzy <b>książki</b> · cztery <b>domy</b></p>
+  <p>
+    Notice that <span class="pl">dwa</span> has a feminine form <span class="pl">dwie</span>, used with feminine
+    nouns, and <span class="pl">dwa</span> covers masculine and neuter. <span class="pl">trzy</span> and
+    <span class="pl">cztery</span> have one form for everything.
+  </p>
+
+  <div class="note warn">
+    <span class="lab">Two men, three men — the special forms</span>
+    <p>
+      With men, 2–4 uses a special numeral: <span class="pl">dwaj studenci</span> or
+      <span class="pl">dwóch studentów</span>, <span class="pl">trzej studenci</span> or
+      <span class="pl">trzech studentów</span>. The first keeps the noun in the nominative plural
+      (<span class="pl">dwaj studenci</span>); the second is followed by the genitive
+      (<span class="pl">dwóch studentów</span>) and is the more common form in speech. Both are correct.
+    </p>
+  </div>
+
+  <h3>Five and above — the noun leaves the nominative</h3>
+  <p>
+    From five upward the noun goes into the <b>genitive plural</b> and the verb becomes <b>singular neuter</b>:
+  </p>
+  <p class="ex">Pięć <span class="g">kotów</span> <b>było</b> w ogrodzie.</p>
+  <p class="tr">There were five cats in the garden. — literally “five of cats it-was”</p>
+  <p class="ex">Pięciu <span class="g">studentów</span> <b>przyszło</b>.</p>
+  <p class="tr">Five students came.</p>
+  <p class="small">
+    <span class="pl">Pięciu</span> is the masculine-personal form of the numeral; with women, children or things it
+    is <span class="pl">pięć</span>: <span class="pl">pięć kobiet, pięć książek</span>.
+  </p>
+
+  <h3>Collective numerals</h3>
+  <p>
+    For groups of mixed gender, for children, and for nouns that only exist in the plural, Polish uses the
+    <b>collective</b> numerals: <span class="pl">dwoje, troje, czworo, pięcioro</span> and so on. These are
+    followed by the genitive plural.
+  </p>
+  <p class="ex">dwoje <span class="g">dzieci</span> · troje <span class="g">drzwi</span> · pięcioro <span class="g">studentów</span></p>
+  <p class="tr">two children · three doors · five students (mixed group)</p>
+  <div class="note">
+    <span class="lab">When to use a collective numeral</span>
+    <p>
+      Use it for children (<span class="pl">dziecko</span> has no personal plural to count),
+      for mixed-gender groups of people, and for plural-only nouns like <span class="pl">drzwi</span>,
+      <span class="pl">nożyczki</span>, <span class="pl">spodnie</span>. Do not use it for a group of men — there
+      you use <span class="pl">dwóch, trzech, pięciu</span>.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 10 AGREEMENT ============ -->
+<section id="agreement">
+  <div class="shead"><div class="snum">10</div><h2>Agreement — the nominative decides everything else</h2></div>
+
+  <p>
+    The reason the nominative plural matters so much is that it controls the verb. In the present tense the verb
+    distinguishes only person and number, so the gender is invisible. In the <b>past tense</b> and the
+    <b>conditional</b>, gender appears — and the masculine-personal split becomes visible.
+  </p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Subject</th><th>Present</th><th>Past</th><th>What the past form tells you</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">student (masc. person)</td><td class="pl">czyta</td><td class="pl end">czytał</td><td>masculine singular</td></tr>
+        <tr><td class="pl">studentka (fem.)</td><td class="pl">czyta</td><td class="pl end">czytała</td><td>feminine singular</td></tr>
+        <tr><td class="pl">dziecko (neut.)</td><td class="pl">czyta</td><td class="pl end">czytało</td><td>neuter singular</td></tr>
+        <tr><td class="pl">studenci (men)</td><td class="pl">czytają</td><td class="pl end">czytali</td><td>masculine-personal plural</td></tr>
+        <tr><td class="pl">studentki (women)</td><td class="pl">czytają</td><td class="pl end">czytały</td><td>non-personal plural</td></tr>
+        <tr><td class="pl">koty (animals)</td><td class="pl">czytają*</td><td class="pl end">czytały</td><td>non-personal plural</td></tr>
+        <tr><td class="pl">dzieci (children)</td><td class="pl">czytają</td><td class="pl end">czytały</td><td>non-personal plural</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">
+    * Cats do not read, but the form shows the pattern. The point is the past tense: <b>-li</b> only ever appears
+    when the subject is masculine-personal.
+  </p>
+
+  <div class="note good">
+    <span class="lab">The one-letter test</span>
+    <p>
+      If the past-tense verb ends in <b>-li</b>, the subject contains at least one man. If it ends in
+      <b>-ły</b>, it does not. <span class="pl">Byli</span> vs <span class="pl">były</span>,
+      <span class="pl">przyszli</span> vs <span class="pl">przyszły</span>,
+      <span class="pl">zrobili</span> vs <span class="pl">zrobiły</span>. That is the whole test.
+    </p>
+  </div>
+
+  <h3>Mixed groups</h3>
+  <p>
+    A mixed group of people takes the masculine-personal forms as soon as one man is in it — even if the group is
+    overwhelmingly women.
+  </p>
+  <p class="ex">Ania, Kasia i Tomek <b>przyszli</b>. <span class="small">— one man in three → <i>-li</i></span></p>
+  <p class="ex">Ania i Kasia <b>przyszły</b>. <span class="small">— women only → <i>-ły</i></span></p>
+  <p class="ex">Ania, Kasia i kot <b>przyszły</b>. <span class="small">— an animal does not count as personal</span></p>
+
+  <h3>When the subject is a number</h3>
+  <p>
+    As the numerals section showed, a subject above four takes a <b>singular neuter</b> verb:
+  </p>
+  <p class="ex">Pięć osób <b>przyszło</b>. · Sześć kotów <b>spało</b>. · Dwadzieścia lat <b>minęło</b>.</p>
+  <p class="tr">Five people came. · Six cats were sleeping. · Twenty years passed.</p>
+  <p class="small">
+    This is not an error — it is the standard agreement for a numeral subject. <span class="pl">Pięć osób
+    przyszły</span> would be wrong.
+  </p>
+
+  <h3>Agreement with <i>państwo</i> and polite forms</h3>
+  <p>
+    Polish has no single polite “you”. It uses <span class="pl">pan</span> (to a man),
+    <span class="pl">pani</span> (to a woman), <span class="pl">państwo</span> (to a mixed group),
+    <span class="pl">panowie</span> (to men), <span class="pl">panie</span> (to women).
+  </p>
+  <p class="ex"><b>Pan</b> czyta. · <b>Pani</b> czyta. · <b>Państwo</b> czytają.</p>
+  <p class="tr">You are reading. (to a man / to a woman / to a group)</p>
+  <div class="note">
+    <span class="lab">Which verb with <i>państwo</i>?</span>
+    <p>
+      PWN’s language clinic puts it plainly: <i>„w użyciu są obie konstrukcje”</i> — both are in use. The 3rd person
+      plural is the traditional and standard one — <span class="pl">Są państwo zmęczeni?</span>,
+      <span class="pl">Byli państwo wczoraj?</span>, <span class="pl">Otrzymali państwo zawiadomienie</span> — and
+      the 2nd person plural, <span class="pl">Jesteście państwo zmęczeni?</span>, is also heard. Traditionally
+      <span class="pl">państwo</span> goes with the 3rd person plural; use that. The same holds for
+      <span class="pl">pan</span> and <span class="pl">pani</span>: <span class="pl">Czy pan czyta?</span>, not
+      <span class="pl">Czy czytasz pan?</span>
+    </p>
+  </div>
+
+  <h3>Adjectives agree too</h3>
+  <p>
+    An adjective in the nominative must match the noun in gender and number. This is where the five-form table
+    from the adjectives section does its work:
+  </p>
+  <p class="ex"><b>dobry</b> student · <b>dobra</b> studentka · <b>dobre</b> dziecko</p>
+  <p class="ex"><b>dobrzy</b> studenci · <b>dobre</b> studentki · <b>dobre</b> koty</p>
+  <div class="note warn">
+    <span class="lab">The mistake to avoid</span>
+    <p>
+      <span class="pl">dobrzy studentki</span> ✗ — “studentki” contains no men, so the adjective must be
+      <span class="pl">dobre studentki</span>. The noun decides, not the adjective. And
+      <span class="pl">dobre studenci</span> ✗ — “studenci” are men, so <span class="pl">dobrzy studenci</span>.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 11 TRAPS ============ -->
+<section id="traps">
+  <div class="shead"><div class="snum">11</div><h2>The traps, one by one</h2></div>
+
+  <p>
+    These are the mistakes that actually get made — by learners and, in the colloquial variants, by native
+    speakers too.
+  </p>
+
+  <h3>Trap 1 · <i>to jest</i> vs <i>jestem …</i></h3>
+  <p>
+    The single most common error. After <i>być</i> describing a role, the noun is <b>instrumental</b>; after
+    <i>to</i> identifying a thing, it is <b>nominative</b>.
+  </p>
+  <p class="ex">Jestem <span class="g">nauczycielem</span>. ✓ <span class="small">— role</span></p>
+  <p class="ex">To jest <b>nauczyciel</b>. ✓ <span class="small">— identification</span></p>
+  <p class="ex">Jestem <b>nauczyciel</b>. ✗</p>
+  <p class="small">
+    The exception: a <b>bare adjective</b> after <i>być</i> stays nominative and agrees with the subject —
+    <span class="pl">Jestem zmęczony</span>, not <span class="pl">zmęczonym</span>. Once the adjective has a noun
+    to agree with, it follows that noun: <span class="pl">Jestem dobrym studentem</span>.
+  </p>
+
+  <h3>Trap 2 · <i>to jest</i> vs <i>to są</i></h3>
+  <p>
+    English says “this is” for one thing and “these are” for several, and Polish does the same — but Polish is
+    stricter, because <i>to</i> is a full subject.
+  </p>
+  <p class="ex">To <b>jest</b> książka. <span class="small">— one</span></p>
+  <p class="ex">To <b>są</b> książki. <span class="small">— several</span></p>
+  <p class="ex">To <b>są</b> moi rodzice. <span class="small">— several people</span></p>
+  <div class="note">
+    <span class="lab">But in speech…</span>
+    <p>
+      In fast colloquial Polish you will hear <span class="pl">To jest moi rodzice</span>. It is common but it is
+      not the standard form; write and say <span class="pl">To są moi rodzice</span>.
+    </p>
+  </div>
+
+  <h3>Trap 3 · The nominative after <i>to</i> stays nominative — even in a list</h3>
+  <p class="ex">To <b>jest</b> kot i pies. <span class="small">— a compound subject: the verb can stay singular</span></p>
+  <p class="ex">To <b>są</b> kot i pies. <span class="small">— also correct, and more careful</span></p>
+  <p class="small">
+    With a compound subject, the standard rule prefers the plural verb when the parts are concrete things, as the
+    University of Warsaw language clinic puts it: <span class="pl">W łazience są wanna i umywalka</span>, not
+    <span class="pl">jest wanna i umywalka</span>.
+  </p>
+
+  <h3>Trap 4 · Nominative or vocative?</h3>
+  <p>
+    When you address someone directly, Polish uses the <b>vocative</b>, not the nominative. This is the one place
+    where the nominative is simply wrong.
+  </p>
+  <p class="ex"><b>Marek</b> czyta. <span class="small">— nominative: he is the subject</span></p>
+  <p class="ex"><b>Marku</b>, czytaj! <span class="small">— vocative: addressing him</span></p>
+  <p class="ex"><b>Panie Marku</b>, … · <b>Pani Anno</b>, … · <b>Kolego</b>, …</p>
+  <p class="small">
+    With first names and common nouns the vocative is different from the nominative; with many surnames and with
+    most nouns ending in a consonant it looks identical, which is why learners often do not notice the difference
+    until they meet a name like <span class="pl">Marku</span> or <span class="pl">Anno</span>.
+  </p>
+
+  <h3>Trap 5 · <i>ludzie</i> and <i>dzieci</i></h3>
+  <p>
+    Two plurals that do not look like their singulars at all, and both are extremely common.
+  </p>
+  <p class="ex">człowiek → <b>ludzie</b> <span class="small">(masculine-personal: ludzie przyszli)</span></p>
+  <p class="ex">dziecko → <b>dzieci</b> <span class="small">(non-personal: dzieci przyszły)</span></p>
+  <div class="note warn">
+    <span class="lab">The trap inside the trap</span>
+    <p>
+      <span class="pl">Ludzie</span> is masculine-personal, so it takes <span class="pl">byli</span>,
+      <span class="pl">przyszli</span>, <span class="pl">mówili</span>. <span class="pl">Dzieci</span> is
+      non-personal, so it takes <span class="pl">były</span>, <span class="pl">przyszły</span>,
+      <span class="pl">mówiły</span>. Two words that both mean “a bunch of humans”, two different agreements.
+    </p>
+  </div>
+
+  <h3>Trap 6 · <i>państwo</i> — singular form, plural meaning</h3>
+  <p>
+    <span class="pl">Państwo</span> looks like a neuter singular noun and literally means “state”, but as a polite
+    “you” it is <b>masculine-personal plural</b>: <span class="pl">Państwo są zmęczeni</span>,
+    <span class="pl">Państwo przyszli</span>.
+  </p>
+  <p class="small">
+    So <span class="pl">państwo</span> has two lives: “the state” (neuter singular — <span class="pl">państwo
+    jest duże</span>) and “you (plural, polite)” (masculine-personal — <span class="pl">państwo są
+    zmęczeni</span>).
+  </p>
+
+  <h3>Trap 7 · Country names and <i>Niemcy</i></h3>
+  <p>
+    Plural country names take plural verbs, and <span class="pl">Niemcy</span> is ambiguous between “Germany” and
+    “Germans”:
+  </p>
+  <p class="ex"><b>Niemcy</b> są dużym krajem. <span class="small">— Germany is a big country: non-personal</span></p>
+  <p class="ex"><b>Niemcy</b> przyjechali. <span class="small">— the Germans arrived: masculine-personal</span></p>
+
+  <h3>Trap 8 · The nominative after prepositions — it does not happen</h3>
+  <p>
+    Every Polish preposition governs a case, and <b>no preposition ever governs the nominative</b>. If you see a
+    preposition, the word after it is not nominative — it is genitive, dative, accusative, instrumental or
+    locative.
+  </p>
+  <p class="ex">do <span class="g">domu</span> · w <span class="g">domu</span> · z <span class="g">domem</span> · na <span class="g">dom</span></p>
+  <p class="small">
+    This is a useful sanity check: if you have written a preposition and then a nominative, one of the two is
+    wrong.
+  </p>
+
+  <h3>Trap 9 · Colloquial forms you will hear</h3>
+  <p>
+    Living Polish has variants that the standard does not accept. Knowing them helps you understand, but do not
+    produce them in writing.
+  </p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>You will hear</th><th>Standard</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">To jest moi rodzice</td><td class="pl">To są moi rodzice</td><td class="small">colloquial singular verb with a plural predicate</td></tr>
+        <tr><td class="pl">poszłem</td><td class="pl">poszedłem</td><td class="small">a very common analogical error — <b>not</b> standard</td></tr>
+        <tr><td class="pl">wzięłem</td><td class="pl">wziąłem</td><td class="small">same kind of error</td></tr>
+        <tr><td class="pl">studenci przyszli</td><td class="pl">—</td><td class="small">correct; the colloquial error is <span class="pl">studenci przyszły</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">
+    <span class="pl">Poszłem</span> and <span class="pl">wzięłem</span> are widely heard and widely condemned;
+    they are the Polish equivalent of “I seen it”. Use <span class="pl">poszedłem</span>,
+    <span class="pl">wziąłem</span>.
+  </p>
+</section>
+
+<!-- ============ 12 DRILLS ============ -->
+<section id="drills">
+  <div class="shead"><div class="snum">12</div><h2>Drills</h2></div>
+  <p id="drillIntro">Eight sets. Every answer comes with the reason. Use <b>1–9</b> to pick an option, <b>Enter</b> to check or continue. Your best score per set is kept on this device.</p>
+
+  <div class="drills">
+    <div class="setgrid" id="setgrid"></div>
+
+    <div class="runner" id="runner">
+      <div class="rhead">
+        <span class="ttl" id="runTitle"></span>
+        <span class="cnt" id="runCount"></span>
+        <span class="sp"></span>
+        <span class="score" id="runScore"></span>
+        <button class="xbtn" id="quitBtn">Change set</button>
+      </div>
+      <div class="pbar"><i id="pfill"></i></div>
+
+      <div class="ask" id="askLine"></div>
+      <p class="q" id="qText"></p>
+      <p class="qhint" id="qHint"></p>
+
+      <div class="opts" id="opts"></div>
+      <div class="typebox" id="typebox" style="display:none">
+        <input id="answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Your answer">
+        <button class="btn primary" id="checkBtn">Check</button>
+      </div>
+
+      <div class="fb" id="fb" aria-live="polite"></div>
+
+      <div class="rfoot">
+        <button class="btn primary" id="nextBtn" disabled>Next</button>
+        <span class="sp"></span>
+        <button class="xbtn" id="skipBtn">Skip?</button>
+      </div>
+    </div>
+
+    <div class="summary" id="summary" style="display:none">
+      <div class="big" id="sumScore">0 / 0</div>
+      <p id="sumMsg"></p>
+      <div class="cta" style="justify-content:center" id="sumBtns"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 13 REFERENCE ============ -->
+<section id="reference">
+  <div class="shead"><div class="snum">13</div><h2>Reference: nouns, verified</h2></div>
+  <p>
+    Every nominative below — singular and plural — was read from the declension table on that word’s Polish
+    Wiktionary page. The notes on <span class="pl">państwo</span>, surnames and the use of <span class="pl">krew</span>
+    were checked against <i>Poradnia Językowa PWN</i>. Type to filter by word, ending, gender or irregularity.
+  </p>
+
+  <div class="filter">
+    <input id="refFilter" type="search" placeholder="Filter: kot, -owie, żeński, irregular…" aria-label="Filter the reference table">
+    <span class="n" id="refCount"></span>
+  </div>
+
+  <div class="tw tall">
+    <table id="reftable">
+      <thead><tr><th>Nominative sg.</th><th>Nominative pl.</th><th>Gender</th><th>Note</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 14 CHEAT ============ -->
+<section id="cheat">
+  <div class="shead"><div class="snum">14</div><h2>One-page cheat sheet</h2></div>
+
+  <h3>The ending map</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Noun</th><th>Singular</th><th>Plural</th></tr></thead>
+      <tbody>
+        <tr><td>masculine — man / person</td><td class="pl">no ending</td><td class="pl end">-i · -y · -e · -owie</td></tr>
+        <tr><td>masculine — animal / thing</td><td class="pl">no ending</td><td class="pl">-y · -i · -e</td></tr>
+        <tr><td>masculine in <i>-a</i></td><td class="pl">-a</td><td class="pl end">-i · -y · -owie</td></tr>
+        <tr><td>feminine</td><td class="pl">-a, or a consonant</td><td class="pl">-y · -i · -e</td></tr>
+        <tr><td>neuter</td><td class="pl">-o · -e · -ę</td><td class="pl">-a · -ta · -ona</td></tr>
+        <tr><td>adjectives</td><td class="pl">-y / -i, -a, -e</td><td class="pl">-i / -y, then -e everywhere else</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>The five rules that cover most real sentences</h3>
+  <ol>
+    <li><b>Every dictionary word is a nominative.</b> Learn the noun with its gender: <span class="pl">ta noc</span>, not <span class="pl">noc</span>.</li>
+    <li><b>Subject = nominative.</b> The verb agrees with it, and in the past tense reveals its gender: <span class="pl">byli</span> vs <span class="pl">były</span>.</li>
+    <li><b><i>to</i> + nominative, <i>być</i> + instrumental.</b> <span class="pl">To jest nauczyciel</span> but <span class="pl">Jestem nauczycielem</span>.</li>
+    <li><b>The plural splits by men.</b> One man in the group → <span class="pl">-i/-y/-owie</span> and <span class="pl">byli</span>. No man → <span class="pl">-y/-i/-e</span> and <span class="pl">były</span>.</li>
+    <li><b>No preposition takes the nominative.</b> Ever.</li>
+  </ol>
+
+  <h3>Plurals worth memorising</h3>
+  <p class="ex">człowiek → <span class="g">ludzie</span> · brat → <span class="g">bracia</span> · ksiądz → <span class="g">księża</span> · książę → <span class="g">książęta</span> · dziecko → <span class="g">dzieci</span></p>
+  <p class="ex">oko → <span class="g">oczy</span> · ucho → <span class="g">uszy</span> · ręka → <span class="g">ręce</span> · rok → <span class="g">lata</span></p>
+  <p class="ex">mężczyzna → <span class="g">mężczyźni</span> · sędzia → <span class="g">sędziowie</span> · poeta → <span class="g">poeci</span> · gość → <span class="g">goście</span></p>
+
+  <h3>Say it out loud, ten times</h3>
+  <p class="ex">To jest <b>nauczyciel</b>. · Jestem <b>nauczycielem</b>. · <b>Studenci</b> przyszli. · <b>Studentki</b> przyszły. · <b>Dzieci</b> przyszły. · <b>Ludzie</b> przyszli.</p>
+  <p class="ex"><b>Ci</b> ludzie · <b>te</b> kobiety · <b>te</b> koty · <b>moi</b> rodzice · <b>moje</b> dzieci · <b>państwo</b> są zmęczeni</p>
+
+  <div class="cta" style="margin-top:26px">
+    <button class="btn ghost" onclick="window.print()">Print this page</button>
+    <a class="btn ghost" href="#drills">Back to the drills</a>
+  </div>
+</section>
+
+<footer>
+  <p>
+    <b>Sources.</b> Polish Wiktionary declension tables, read page by page to verify the forms on this page and in
+    the drills — nouns, adjectives, pronouns and numerals. <i>Poradnia Językowa PWN</i> for the polite
+    <span class="pl">państwo</span> construction and for surnames in the plural. The University of Warsaw language
+    clinic (<i>poradniajezykowa.uw.edu.pl</i>) for compound-subject agreement. <i>Mianownik</i>, Wikipedia (pl),
+    for the functional overview.
+  </p>
+  <p>
+    Made as a study companion. Corrections welcome — the drifts between textbook rules and living usage are
+    exactly what this page tries not to hide.
+  </p>
+</footer>
+
+</main>
+<script>
+/* ============================================================
+   DATA — drills (every form checked against the Polish
+   Wiktionary declension tables and PWN)
+   ============================================================ */
+const SETS = [
+{
+  id:"which-case", title:"Is it nominative?", meta:"24 items · case recognition",
+  ask:"Which form is the nominative?",
+  type:"choice",
+  items:[
+    {q:"dom", hint:"masculine · thing", opts:["dom","domu","domem"], a:"dom", why:"The nominative is the dictionary form, with no ending: dom. Domu is locative/genitive, domem instrumental."},
+    {q:"student", hint:"masculine · person", opts:["student","studenta","studentem"], a:"student", why:"Nominative: student. Studenta is genitive/accusative, studentem instrumental."},
+    {q:"kot", hint:"masculine · animal", opts:["kot","kota","kotu"], a:"kot", why:"Nominative: kot. Kota is genitive, kotu dative."},
+    {q:"kobieta", hint:"feminine", opts:["kobieta","kobiety","kobietą"], a:"kobieta", why:"Nominative: kobieta. Kobiety is genitive singular or nominative plural, kobietą instrumental."},
+    {q:"książka", hint:"feminine", opts:["książka","książki","książkę"], a:"książka", why:"Nominative: książka. Książki is genitive, książkę accusative."},
+    {q:"okno", hint:"neuter", opts:["okno","okna","oknem"], a:"okno", why:"Nominative: okno. Okna is genitive singular or nominative plural, oknem instrumental."},
+    {q:"morze", hint:"neuter", opts:["morze","morza","morzem"], a:"morze", why:"Nominative: morze. Morza is genitive/nominative plural, morzem instrumental."},
+    {q:"noc", hint:"feminine · consonant", opts:["noc","nocy","nocą"], a:"noc", why:"Nominative: noc. Nocy is genitive, nocą instrumental."},
+    {q:"stół", hint:"masculine · thing", opts:["stół","stołu","stołem"], a:"stół", why:"Nominative: stół. Stołu is genitive, stołem instrumental."},
+    {q:"nauczyciel", hint:"masculine · person", opts:["nauczyciel","nauczyciela","nauczycielem"], a:"nauczyciel", why:"Nominative: nauczyciel. Nauczyciela genitive, nauczycielem instrumental."},
+    {q:"woda", hint:"feminine", opts:["woda","wody","wodą"], a:"woda", why:"Nominative: woda. Wody genitive, wodą instrumental."},
+    {q:"serce", hint:"neuter", opts:["serce","serca","sercem"], a:"serce", why:"Nominative: serce. Serca genitive, sercem instrumental."},
+    {q:"samochód", hint:"masculine · thing", opts:["samochód","samochodu","samochodem"], a:"samochód", why:"Nominative: samochód. Samochodu genitive, samochodem instrumental."},
+    {q:"ulica", hint:"feminine", opts:["ulica","ulicy","ulicą"], a:"ulica", why:"Nominative: ulica. Ulicy genitive, ulicą instrumental."},
+    {q:"dziecko", hint:"neuter", opts:["dziecko","dziecka","dzieckiem"], a:"dziecko", why:"Nominative: dziecko. Dziecka genitive, dzieckiem instrumental."},
+    {q:"lekarz", hint:"masculine · person", opts:["lekarz","lekarza","lekarzem"], a:"lekarz", why:"Nominative: lekarz. Lekarza genitive, lekarzem instrumental."},
+    {q:"mysz", hint:"feminine · consonant", opts:["mysz","myszy","myszą"], a:"mysz", why:"Nominative: mysz. Myszy is genitive — and also nominative plural."},
+    {q:"drzewo", hint:"neuter", opts:["drzewo","drzewa","drzewem"], a:"drzewo", why:"Nominative: drzewo. Drzewa is genitive singular and nominative plural."},
+    {q:"kraj", hint:"masculine · thing", opts:["kraj","kraju","krajem"], a:"kraj", why:"Nominative: kraj. Kraju genitive/locative, krajem instrumental."},
+    {q:"twarz", hint:"feminine · consonant", opts:["twarz","twarzy","twarzą"], a:"twarz", why:"Nominative: twarz. Twarzy genitive, twarzą instrumental."},
+    {q:"kino", hint:"neuter", opts:["kino","kina","kinem"], a:"kino", why:"Nominative: kino. Kina genitive singular and nominative plural, kinem instrumental."},
+    {q:"gość", hint:"masculine · person", opts:["gość","gościa","gościem"], a:"gość", why:"Nominative: gość. Gościa genitive, gościem instrumental."},
+    {q:"kawa", hint:"feminine", opts:["kawa","kawy","kawą"], a:"kawa", why:"Nominative: kawa. Kawy genitive, kawą instrumental."},
+    {q:"muzeum", hint:"neuter · the tricky one", opts:["muzeum","muzea","muzeów"], a:"muzeum", why:"Nominative: muzeum. The plural muzea looks like the genitive singular, and muzeów is genitive plural. Neuter nouns in -um keep -um in the nominative but take -a in the plural."}
+  ]
+},
+{
+  id:"plural-basic", title:"Nominative plural", meta:"30 items · typed answers",
+  ask:"Type the nominative plural.",
+  type:"type",
+  items:[
+    {q:"kot", hint:"masculine · animal", a:["koty"], why:"Hard stem, animal → -y: koty. Non-personal."},
+    {q:"pies", hint:"masculine · animal", a:["psy"], why:"The fleeting e drops: pies → psy."},
+    {q:"dom", hint:"masculine · thing", a:["domy"], why:"Hard stem → -y: domy."},
+    {q:"stół", hint:"masculine · thing", a:["stoły"], why:"Hard stem → -y: stoły."},
+    {q:"komputer", hint:"masculine · thing", a:["komputery"], why:"Hard stem → -y: komputery."},
+    {q:"klucz", hint:"masculine · thing", a:["klucze"], why:"Stem ends in a hardened consonant (cz) → -e: klucze."},
+    {q:"talerz", hint:"masculine · thing", a:["talerze"], why:"Hardened rz → -e: talerze. The e of the stem stays."},
+    {q:"student", hint:"masculine · person", a:["studenci"], why:"Person: t → c and -i: studenci."},
+    {q:"lekarz", hint:"masculine · person", a:["lekarze"], why:"Person with a hardened stem → -e, no change: lekarze."},
+    {q:"nauczyciel", hint:"masculine · person", a:["nauczyciele"], why:"Soft l → -e: nauczyciele."},
+    {q:"pisarz", hint:"masculine · person", a:["pisarze"], why:"Person, hardened rz → -e: pisarze."},
+    {q:"Polak", hint:"masculine · person", a:["Polacy"], why:"k → c and -y: Polacy."},
+    {q:"kolega", hint:"masculine in -a", a:["koledzy"], why:"g → dz and -y: koledzy."},
+    {q:"chłopiec", hint:"masculine · person", a:["chłopcy"], why:"The e drops and c takes -y: chłopcy."},
+    {q:"pan", hint:"masculine · title", a:["panowie"], why:"Titles take the dignified -owie: panowie."},
+    {q:"syn", hint:"masculine · kinship", a:["synowie"], why:"Kinship → -owie: synowie."},
+    {q:"ojciec", hint:"masculine · kinship", a:["ojcowie"], why:"Kinship → -owie: ojcowie."},
+    {q:"król", hint:"masculine · title", a:["królowie"], why:"A title → -owie: królowie."},
+    {q:"kobieta", hint:"feminine", a:["kobiety"], why:"Hard stem → -y: kobiety."},
+    {q:"studentka", hint:"feminine", a:["studentki"], why:"k → -i: studentki. Non-personal despite meaning students."},
+    {q:"ulica", hint:"feminine · c", a:["ulice"], why:"c takes -e: ulice."},
+    {q:"książka", hint:"feminine · k", a:["książki"], why:"k → -i: książki."},
+    {q:"noga", hint:"feminine · g", a:["nogi"], why:"g → -i: nogi."},
+    {q:"noc", hint:"feminine · consonant", a:["noce"], why:"Hardened c → -e: noce."},
+    {q:"rzecz", hint:"feminine · consonant", a:["rzeczy"], why:"Hardened rz takes -y: rzeczy."},
+    {q:"twarz", hint:"feminine · consonant", a:["twarze"], why:"Hardened rz → -e: twarze."},
+    {q:"okno", hint:"neuter", a:["okna"], why:"Neuter → -a: okna."},
+    {q:"morze", hint:"neuter", a:["morza"], why:"Neuter → -a: morza."},
+    {q:"drzewo", hint:"neuter", a:["drzewa"], why:"Neuter → -a: drzewa."},
+    {q:"pole", hint:"neuter", a:["pola"], why:"Neuter → -a: pola."}
+  ]
+},
+{
+  id:"plural-irregular", title:"Irregular plurals", meta:"20 items · typed answers",
+  ask:"Type the nominative plural.",
+  type:"type",
+  items:[
+    {q:"człowiek", hint:"person", a:["ludzie"], why:"Completely irregular: człowiek → ludzie. Masculine-personal."},
+    {q:"brat", hint:"brother", a:["bracia"], why:"Irregular: brat → bracia."},
+    {q:"ksiądz", hint:"priest", a:["księża"], why:"Irregular: ksiądz → księża."},
+    {q:"książę", hint:"prince", a:["książęta"], why:"Irregular: książę → książęta."},
+    {q:"dziecko", hint:"child", a:["dzieci"], why:"Irregular: dziecko → dzieci. Non-personal, so dzieci przyszły."},
+    {q:"mężczyzna", hint:"man", a:["mężczyźni"], why:"Irregular stem: mężczyzna → mężczyźni."},
+    {q:"sędzia", hint:"judge", a:["sędziowie"], why:"-owie: sędziowie."},
+    {q:"poeta", hint:"poet", a:["poeci"], why:"t → c and -i: poeci."},
+    {q:"gość", hint:"guest", a:["goście"], why:"Soft stem → -e: goście."},
+    {q:"tata", hint:"dad", a:["tatowie"], why:"-owie: tatowie."},
+    {q:"hrabia", hint:"count", a:["hrabiowie"], why:"-owie: hrabiowie."},
+    {q:"oko", hint:"eye", a:["oczy"], why:"Irregular: oko → oczy. Oka means oil spots."},
+    {q:"ucho", hint:"ear", a:["uszy"], why:"Irregular: ucho → uszy. Ucha means handles."},
+    {q:"ręka", hint:"hand", a:["ręce"], why:"Irregular: ręka → ręce — it looks neuter."},
+    {q:"rok", hint:"year", a:["lata"], why:"Irregular: rok → lata. Roki means legal terms."},
+    {q:"imię", hint:"name", a:["imiona"], why:"The stem expands: imię → imiona."},
+    {q:"ramię", hint:"arm", a:["ramiona"], why:"The stem expands: ramię → ramiona."},
+    {q:"zwierzę", hint:"animal", a:["zwierzęta"], why:"-ę → -ęta: zwierzęta."},
+    {q:"cielę", hint:"calf", a:["cielęta"], why:"-ę → -ęta: cielęta."},
+    {q:"Niemiec", hint:"German", a:["Niemcy"], why:"Irregular: Niemiec → Niemcy. Note the same word means Germany."}
+  ]
+},
+{
+  id:"oni-one", title:"oni or one? byli or były?", meta:"24 items · agreement",
+  ask:"Choose the correct form.",
+  type:"choice",
+  items:[
+    {q:"Ania, Kasia i Tomek ___", hint:"one man in the group", opts:["przyszli","przyszły"], a:"przyszli", why:"A mixed group with a man takes the masculine-personal verb: przyszli."},
+    {q:"Ania i Kasia ___", hint:"two women", opts:["przyszły","przyszli"], a:"przyszły", why:"Women only → non-personal: przyszły."},
+    {q:"kot i pies ___", hint:"two animals", opts:["były","byli"], a:"były", why:"Animals are never personal → były."},
+    {q:"studentki ___", hint:"a group of women", opts:["były","byli"], a:"były", why:"Studentki contains no men → były."},
+    {q:"studenci ___", hint:"a group of men", opts:["byli","były"], a:"byli", why:"Studenci are men → byli."},
+    {q:"dzieci ___", hint:"children", opts:["były","byli"], a:"były", why:"Dzieci is non-personal → były."},
+    {q:"ludzie ___", hint:"people", opts:["byli","były"], a:"byli", why:"Ludzie is masculine-personal → byli."},
+    {q:"Państwo ___ zmęczeni?", hint:"polite “you”, plural", opts:["są","jest"], a:"są", why:"Państwo as polite “you” takes the 3rd person plural: są."},
+    {q:"___ studenci", hint:"“which” + men", opts:["którzy","które"], a:"którzy", why:"Masculine-personal → którzy."},
+    {q:"___ koty", hint:"“which” + animals", opts:["które","którzy"], a:"które", why:"Animals are non-personal → które."},
+    {q:"___ kobiety", hint:"“these” + women", opts:["te","ci"], a:"te", why:"Non-personal → te."},
+    {q:"___ ludzie", hint:"“these” + people", opts:["ci","te"], a:"ci", why:"Masculine-personal → ci."},
+    {q:"___ dzieci", hint:"“these” + children", opts:["te","ci"], a:"te", why:"Dzieci is non-personal → te."},
+    {q:"___ rodzice", hint:"“my” + parents", opts:["moi","moje"], a:"moi", why:"Rodzice includes a father → masculine-personal → moi."},
+    {q:"___ książki", hint:"“my” + books", opts:["moje","moi"], a:"moje", why:"Things → moje."},
+    {q:"___ studenci", hint:"“our” + students", opts:["nasi","nasze"], a:"nasi", why:"Men → nasi."},
+    {q:"___ koty", hint:"“our” + cats", opts:["nasze","nasi"], a:"nasze", why:"Animals → nasze."},
+    {q:"___ student", hint:"“good” + one man", opts:["dobry","dobra"], a:"dobry", why:"Masculine singular → dobry."},
+    {q:"___ studentka", hint:"“good” + one woman", opts:["dobra","dobry"], a:"dobra", why:"Feminine singular → dobra."},
+    {q:"___ dziecko", hint:"“good” + one child", opts:["dobre","dobry"], a:"dobre", why:"Neuter singular → dobre."},
+    {q:"___ studenci", hint:"“good” + men", opts:["dobrzy","dobre"], a:"dobrzy", why:"Masculine-personal plural → dobrzy."},
+    {q:"___ studentki", hint:"“good” + women", opts:["dobre","dobrzy"], a:"dobre", why:"Non-personal plural → dobre."},
+    {q:"___ koty", hint:"“good” + cats", opts:["dobre","dobrzy"], a:"dobre", why:"Non-personal plural → dobre."},
+    {q:"___ dzieci", hint:"“good” + children", opts:["dobre","dobrzy"], a:"dobre", why:"Non-personal plural → dobre."}
+  ]
+},
+{
+  id:"adjectives", title:"Adjectives in the nominative", meta:"24 items · typed answers",
+  ask:"Type the nominative form of the adjective. The hint says who or what it describes.",
+  type:"type",
+  items:[
+    {q:"dobry", hint:"men", a:["dobrzy"], why:"Masculine-personal plural: r → rz and the ending is -y: dobrzy."},
+    {q:"dobry", hint:"one woman", a:["dobra"], why:"Feminine singular: -a replaces -y: dobra."},
+    {q:"dobry", hint:"one child", a:["dobre"], why:"Neuter singular: -e: dobre."},
+    {q:"dobry", hint:"women, children or things", a:["dobre"], why:"The non-personal plural is identical to the neuter singular: dobre. One form, two jobs."},
+    {q:"nowy", hint:"men", a:["nowi"], why:"w → wi and -i: nowi. Polish spelling does not allow “wi” + y."},
+    {q:"nowy", hint:"women", a:["nowe"], why:"Non-personal plural: -e: nowe."},
+    {q:"stary", hint:"men", a:["starzy"], why:"r → rz and -y: starzy."},
+    {q:"mądry", hint:"men", a:["mądrzy"], why:"r → rz: mądrzy. The nasal ą stays."},
+    {q:"ładny", hint:"men", a:["ładni"], why:"n → ni and -i: ładni."},
+    {q:"drogi", hint:"men", a:["drodzy"], why:"g → dz, written dz + -y: drodzy. Hence the letter opening “Drodzy Państwo”."},
+    {q:"polski", hint:"men", a:["polscy"], why:"k → c: -ski becomes -scy: polscy."},
+    {q:"wielki", hint:"men", a:["wielcy"], why:"k → c: wielcy."},
+    {q:"wysoki", hint:"men", a:["wysocy"], why:"k → c: wysocy."},
+    {q:"mały", hint:"men", a:["mali"], why:"ł → l and -i: mali."},
+    {q:"tani", hint:"men", a:["tani"], why:"The stem already ends in a soft consonant (ni), so no ending is added: tani looks exactly like the masculine singular. Context tells them apart."},
+    {q:"głupi", hint:"men", a:["głupi"], why:"Soft p takes no ending either: głupi."},
+    {q:"polski", hint:"one woman", a:["polska"], why:"Feminine singular: k → -a: polska."},
+    {q:"wielki", hint:"one thing (neuter)", a:["wielkie"], why:"Neuter singular: k → -ie: wielkie."},
+    {q:"wysoki", hint:"women", a:["wysokie"], why:"Non-personal plural after k: -ie: wysokie."},
+    {q:"mały", hint:"women", a:["małe"], why:"Non-personal plural: -e: małe."},
+    {q:"tani", hint:"women", a:["tanie"], why:"A soft stem takes -e in the plural: tanie."},
+    {q:"głupi", hint:"children", a:["głupie"], why:"Non-personal plural: -e: głupie."},
+    {q:"drogi", hint:"women", a:["drogie"], why:"Non-personal plural: -e: drogie. Only the masculine-personal drodzy changes the stem."},
+    {q:"stary", hint:"women", a:["stare"], why:"Non-personal plural: -e: stare."}
+  ]
+},
+{
+  id:"pronouns", title:"Pronouns: ten, ci, moi…", meta:"22 items · pick the form",
+  ask:"Choose the form that fits.",
+  type:"choice",
+  items:[
+    {q:"___ ludzie", hint:"“these” + people", opts:["ci","te"], a:"ci", why:"Ludzie is masculine-personal → ci."},
+    {q:"___ kobiety", hint:"“these” + women", opts:["te","ci"], a:"te", why:"No man in the group → te."},
+    {q:"___ dzieci", hint:"“these” + children", opts:["te","ci"], a:"te", why:"Children count as non-personal → te. Hence “te dzieci przyszły”."},
+    {q:"___ koty", hint:"“these” + cats", opts:["te","ci"], a:"te", why:"Animals are never personal → te."},
+    {q:"___ rodzice", hint:"“my” + parents", opts:["moi","moje"], a:"moi", why:"A father is in the group → masculine-personal → moi."},
+    {q:"___ koty", hint:"“my” + cats", opts:["moje","moi"], a:"moje", why:"Things and animals → moje."},
+    {q:"___ książki", hint:"“my” + books", opts:["moje","moi"], a:"moje", why:"Feminine plural of a thing → moje."},
+    {q:"___ studenci", hint:"“our” + students", opts:["nasi","nasze"], a:"nasi", why:"Men → nasi. The stem itself changes: nasz → nasi."},
+    {q:"___ dzieci", hint:"“our” + children", opts:["nasze","nasi"], a:"nasze", why:"Non-personal → nasze."},
+    {q:"___ panowie", hint:"“which” + gentlemen", opts:["którzy","które"], a:"którzy", why:"Panowie are men → którzy."},
+    {q:"___ dziewczyny", hint:"“which” + girls", opts:["które","którzy"], a:"które", why:"Girls only → które."},
+    {q:"___ zwierzęta", hint:"“what kind of” + animals", opts:["jakie","jacy"], a:"jakie", why:"Animals are non-personal → jakie."},
+    {q:"___ chłopcy", hint:"“what kind of” + boys", opts:["jacy","jakie"], a:"jacy", why:"Boys → jacy. Note k → c."},
+    {q:"___ okno", hint:"“this” + window", opts:["to","ten"], a:"to", why:"Okno is neuter → to."},
+    {q:"___ pies", hint:"“this” + dog", opts:["ten","ta"], a:"ten", why:"Pies is masculine → ten."},
+    {q:"___ kobieta", hint:"“this” + woman", opts:["ta","ten"], a:"ta", why:"Kobieta is feminine → ta."},
+    {q:"___ studenci", hint:"“these” + students", opts:["ci","te"], a:"ci", why:"Men → ci."},
+    {q:"___ siostra", hint:"“my” + sister", opts:["moja","moi"], a:"moja", why:"Feminine singular → moja. Moi is the masculine-personal plural."},
+    {q:"___ bracia", hint:"“my” + brothers", opts:["moi","moje"], a:"moi", why:"Brothers are men → moi."},
+    {q:"___ koleżanki", hint:"“my” + (female) friends", opts:["moje","moi"], a:"moje", why:"Women only → moje."},
+    {q:"___ samochód", hint:"“my” + car", opts:["mój","moja"], a:"mój", why:"Masculine singular → mój."},
+    {q:"___ zwierzę", hint:"“this” + animal", opts:["to","ten"], a:"to", why:"Zwierzę is neuter → to."}
+  ]
+},
+{
+  id:"jest", title:"to jest or jestem …em?", meta:"19 items · nominative or instrumental",
+  ask:"Choose the form that fits.",
+  type:"choice",
+  items:[
+    {q:"To ___ nauczyciel.", hint:"one person", opts:["jest","są"], a:"jest", why:"The subject is the singular nauczyciel → jest."},
+    {q:"To ___ moi rodzice.", hint:"several people", opts:["są","jest"], a:"są", why:"A plural subject → są. “To jest moi rodzice” is heard but not standard."},
+    {q:"To ___ książka.", hint:"one thing", opts:["jest","są"], a:"jest", why:"Singular subject → jest."},
+    {q:"To ___ książki.", hint:"several things", opts:["są","jest"], a:"są", why:"Plural subject → są."},
+    {q:"Jestem ___.", hint:"nauczyciel — my profession", opts:["nauczycielem","nauczyciel"], a:"nauczycielem", why:"After jestem the noun goes into the instrumental: jestem nauczycielem. Only “to jest” keeps the nominative."},
+    {q:"Marek jest ___.", hint:"student", opts:["studentem","student"], a:"studentem", why:"Jest + noun → instrumental: studentem."},
+    {q:"Ona jest ___.", hint:"lekarka", opts:["lekarką","lekarka"], a:"lekarką", why:"Feminine instrumental in -ą: lekarką."},
+    {q:"Oni są ___.", hint:"studenci", opts:["studentami","studenci"], a:"studentami", why:"Plural instrumental in -ami: studentami."},
+    {q:"My jesteśmy ___.", hint:"studenci", opts:["studentami","studenci"], a:"studentami", why:"The same instrumental after jesteśmy: studentami."},
+    {q:"Ten pan jest ___.", hint:"lekarz", opts:["lekarzem","lekarz"], a:"lekarzem", why:"Instrumental: lekarzem."},
+    {q:"Zostałem ___.", hint:"nauczyciel", opts:["nauczycielem","nauczyciel"], a:"nauczycielem", why:"Zostać works like być: it takes the instrumental."},
+    {q:"Jestem ___.", hint:"zmęczony — an adjective", opts:["zmęczony","zmęczonym"], a:"zmęczony", why:"A bare adjective after być stays nominative and agrees with the subject. A noun, or an adjective that belongs to a noun, goes instrumental: Jestem dobrym studentem."},
+    {q:"Jesteśmy ___.", hint:"zmęczeni — an adjective, men", opts:["zmęczeni","zmęczonymi"], a:"zmęczeni", why:"Masculine-personal nominative plural: zmęczeni. Not the instrumental zmęczonymi."},
+    {q:"Dzieci są ___.", hint:"zmęczone — an adjective", opts:["zmęczone","zmęczeni"], a:"zmęczone", why:"Dzieci is non-personal → zmęczone."},
+    {q:"Studenci są ___.", hint:"zmęczeni — an adjective", opts:["zmęczeni","zmęczone"], a:"zmęczeni", why:"Studenci are men → zmęczeni."},
+    {q:"To jest ___ córka.", hint:"“my” + daughter", opts:["moja","moją"], a:"moja", why:"After “to jest” the predicate stays nominative: moja córka. Moją is the accusative/instrumental."},
+    {q:"To jest ___.", hint:"lekarz", opts:["lekarz","lekarzem"], a:"lekarz", why:"“To jest” + nominative. Compare “On jest lekarzem”."},
+    {q:"Ona jest ___.", hint:"nauczycielka", opts:["nauczycielką","nauczycielka"], a:"nauczycielką", why:"Instrumental feminine: nauczycielką."},
+    {q:"Ja jestem ___.", hint:"Polak", opts:["Polakiem","Polak"], a:"Polakiem", why:"Nationalities take the instrumental after być: jestem Polakiem. But “to jest Polak” stays nominative."}
+  ]
+},
+{
+  id:"numbers", title:"Numbers: 2–4, 5 and above", meta:"18 items · pick the form",
+  ask:"Choose the form that fits.",
+  type:"choice",
+  items:[
+    {q:"dwa ___", hint:"kot", opts:["koty","kotów"], a:"koty", why:"Up to four the noun stays in the nominative plural: dwa koty."},
+    {q:"dwie ___", hint:"kobieta", opts:["kobiety","kobiet"], a:"kobiety", why:"Dwie with a feminine noun, noun in the nominative plural: dwie kobiety."},
+    {q:"trzy ___", hint:"książka", opts:["książki","książek"], a:"książki", why:"Three is still in the nominative zone: trzy książki."},
+    {q:"cztery ___", hint:"dom", opts:["domy","domów"], a:"domy", why:"Four is the last number that keeps the nominative: cztery domy."},
+    {q:"pięć ___", hint:"kot", opts:["kotów","koty"], a:"kotów", why:"From five upward the noun takes the genitive plural: pięć kotów."},
+    {q:"pięć ___", hint:"książka", opts:["książek","książki"], a:"książek", why:"Genitive plural: pięć książek."},
+    {q:"dziesięć ___", hint:"rok", opts:["lat","lata"], a:"lat", why:"Genitive plural of lata is lat: dziesięć lat."},
+    {q:"dwaj ___", hint:"student", opts:["studenci","studentów"], a:"studenci", why:"Dwaj keeps the noun in the nominative plural: dwaj studenci."},
+    {q:"dwóch ___", hint:"student", opts:["studentów","studenci"], a:"studentów", why:"Dwóch is followed by the genitive: dwóch studentów. This is the more usual form in speech."},
+    {q:"trzej ___", hint:"student", opts:["studenci","studentów"], a:"studenci", why:"Trzej + nominative plural: trzej studenci."},
+    {q:"pięciu ___", hint:"student", opts:["studentów","studenci"], a:"studentów", why:"Pięciu is the masculine-personal numeral and takes the genitive: pięciu studentów."},
+    {q:"dwoje ___", hint:"dziecko", opts:["dzieci","dziecko"], a:"dzieci", why:"The collective numeral takes the genitive plural: dwoje dzieci."},
+    {q:"___ koty były w ogrodzie.", hint:"the numeral", opts:["Dwa","Dwóch"], a:"Dwa", why:"Koty are not people, so the plain numeral: dwa koty."},
+    {q:"___ studentów przyszło.", hint:"the numeral", opts:["Pięciu","Pięć"], a:"Pięciu", why:"Men → the masculine-personal form pięciu, then the genitive studentów."},
+    {q:"Pięć kotów ___ w ogrodzie.", hint:"the verb", opts:["było","były"], a:"było", why:"With five and above the verb is singular neuter: było."},
+    {q:"Dwa koty ___ w ogrodzie.", hint:"the verb", opts:["były","było"], a:"były", why:"Up to four the verb is plural: były."},
+    {q:"Dwaj studenci ___", hint:"the verb", opts:["przyszli","przyszło"], a:"przyszli", why:"Dwaj studenci is a masculine-personal plural subject → przyszli."},
+    {q:"Dwóch studentów ___", hint:"the verb", opts:["przyszło","przyszli"], a:"przyszło", why:"Dwóch studentów is a genitive phrase, so the verb is the singular neuter przyszło."}
+  ]
+}
+];
+const REF = [
+["kot", "koty", "masc. animal", "animal — non-personal in the plural"],
+["pies", "psy", "masc. animal", "animal; the <i>e</i> drops: psy"],
+["student", "studenci", "masc. person", "t → c: studenci"],
+["mężczyzna", "mężczyźni", "masc. person", "masculine in -a; stem changes"],
+["kolega", "koledzy", "masc. person", "masculine in -a; g → dz"],
+["tata", "tatowie", "masc. person", "masculine in -a"],
+["poeta", "poeci", "masc. person", "masculine in -a; t → c"],
+["sędzia", "sędziowie", "masc. person", "masculine in -a"],
+["hrabia", "hrabiowie", "masc. person", "masculine in -a"],
+["człowiek", "ludzie", "masc. person", "irregular: ludzie"],
+["brat", "bracia", "masc. person", "irregular: bracia"],
+["ksiądz", "księża", "masc. person", "irregular: księża"],
+["przyjaciel", "przyjaciele", "masc. person", ""],
+["pan", "panowie", "masc. person", "always -owie"],
+["syn", "synowie", "masc. person", "always -owie"],
+["ojciec", "ojcowie", "masc. person", "always -owie"],
+["chłopiec", "chłopcy", "masc. person", ""],
+["Polak", "Polacy", "masc. person", "k → c: Polacy"],
+["lekarz", "lekarze", "masc. person", "hardened stem, no change"],
+["gość", "goście", "masc. person", ""],
+["mąż", "mężowie", "masc. person", "always -owie"],
+["profesor", "profesorzy / profesorowie", "masc. person", "both -owie and -y"],
+["doktor", "doktorzy / doktorowie", "masc. person", "both -owie and -y"],
+["król", "królowie", "masc. person", "always -owie"],
+["dentysta", "dentyści", "masc. person", "masculine in -a; st → ść"],
+["kierowca", "kierowcy", "masc. person", "masculine in -a"],
+["wróg", "wrogowie", "masc. person", "-owie only; g stays hard"],
+["Amerykanin", "Amerykanie", "masc. person", ""],
+["Rosjanin", "Rosjanie", "masc. person", ""],
+["Włoch", "Włosi", "masc. person", "ch → si: Włosi"],
+["Francuz", "Francuzi", "masc. person", "stem unchanged"],
+["Niemiec", "Niemcy", "masc. person", "also the name of Germany"],
+["Czech", "Czesi", "masc. person", "ch → si: Czesi"],
+["Węgier", "Węgrzy", "masc. person", "irregular stem: Węgrzy"],
+["książę", "książęta", "masc. person", "irregular: książęta"],
+["rok", "lata", "masc. thing", "lata = years; roki = legal terms"],
+["dom", "domy", "masc. thing", ""],
+["stół", "stoły", "masc. thing", ""],
+["komputer", "komputery", "masc. thing", ""],
+["samochód", "samochody", "masc. thing", ""],
+["klucz", "klucze", "masc. thing", ""],
+["talerz", "talerze", "masc. thing", ""],
+["telefon", "telefony", "masc. thing", ""],
+["nauczyciel", "nauczyciele", "masc. person", "soft l: -e"],
+["pisarz", "pisarze", "masc. person", "hardened stem, no change"],
+["inżynier", "inżynierowie / inżynierzy", "masc. person", "both -owie and -y"],
+["gołąb", "gołębie", "masc. animal", "animal; ą → ę"],
+["wróbel", "wróble", "masc. animal", "animal; the <i>e</i> drops"],
+["koń", "konie", "masc. animal", "animal; soft stem"],
+["kraj", "kraje", "masc. thing", ""],
+["kobieta", "kobiety", "feminine", ""],
+["dziewczyna", "dziewczyny", "feminine", ""],
+["matka", "matki", "feminine", ""],
+["siostra", "siostry", "feminine", ""],
+["żona", "żony", "feminine", ""],
+["córka", "córki", "feminine", ""],
+["pani", "panie", "feminine", ""],
+["studentka", "studentki", "feminine", ""],
+["ulica", "ulice", "feminine", ""],
+["książka", "książki", "feminine", ""],
+["noga", "nogi", "feminine", ""],
+["ręka", "ręce", "feminine", "plural looks neuter: ręce"],
+["woda", "wody", "feminine", ""],
+["kawa", "kawy", "feminine", ""],
+["mysz", "myszy", "feminine", ""],
+["rzecz", "rzeczy", "feminine", ""],
+["noc", "noce", "feminine", ""],
+["twarz", "twarze", "feminine", ""],
+["kość", "kości", "feminine", ""],
+["miłość", "miłości", "feminine", ""],
+["sól", "sole", "feminine", "plural sole = different kinds of salt"],
+["krew", "krwie", "feminine", "plural only archaic; today singular only"],
+["łódź", "łodzie", "feminine", ""],
+["ziemia", "ziemie", "feminine", ""],
+["idea", "idee", "feminine", ""],
+["sala", "sale", "feminine", ""],
+["mama", "mamy", "feminine", ""],
+["okno", "okna", "neuter", ""],
+["drzewo", "drzewa", "neuter", ""],
+["dziecko", "dzieci", "neuter", "irregular: dzieci; non-personal"],
+["imię", "imiona", "neuter", ""],
+["ramię", "ramiona", "neuter", ""],
+["zwierzę", "zwierzęta", "neuter", ""],
+["cielę", "cielęta", "neuter", ""],
+["morze", "morza", "neuter", ""],
+["pole", "pola", "neuter", ""],
+["muzeum", "muzea", "neuter", ""],
+["kino", "kina", "neuter", ""],
+["jajko", "jajka", "neuter", ""],
+["jabłko", "jabłka", "neuter", ""],
+["oko", "oczy", "neuter", "irregular: oczy (oka = oil spots)"],
+["ucho", "uszy", "neuter", "irregular: uszy (ucha = handles)"],
+["śniadanie", "śniadania", "neuter", ""],
+["mieszkanie", "mieszkania", "neuter", ""],
+["pytanie", "pytania", "neuter", ""],
+["nazwisko", "nazwiska", "neuter", ""],
+["państwo", "państwa", "neuter", "as polite “you” it is masc. personal plural"],
+["Kowalski", "Kowalscy", "masc. person", "surname; -ski → -scy"]
+];
+
+/* ============================================================
+   THEME
+   ============================================================ */
+(function(){
+  const btn = document.getElementById("themeBtn");
+  const saved = localStorage.getItem("mian.theme");
+  if (saved) document.documentElement.setAttribute("data-theme", saved);
+  btn.addEventListener("click", function(){
+    const cur = document.documentElement.getAttribute("data-theme");
+    const sysDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const next = cur ? (cur === "dark" ? "light" : "dark") : (sysDark ? "light" : "dark");
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("mian.theme", next);
+  });
+})();
+
+/* ============================================================
+   SCROLL: progress bar + active nav
+   ============================================================ */
+(function(){
+  const bar = document.getElementById("scrollbar");
+  function onScroll(){
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + "%";
+  }
+  window.addEventListener("scroll", onScroll, {passive:true});
+  onScroll();
+
+  const links = Array.from(document.querySelectorAll("#nav a"));
+  const targets = links.map(a => document.querySelector(a.getAttribute("href"))).filter(Boolean);
+  if ("IntersectionObserver" in window){
+    const io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){
+          links.forEach(l => l.classList.toggle("on", l.getAttribute("href") === "#" + e.target.id));
+        }
+      });
+    }, {rootMargin:"-45% 0px -50% 0px"});
+    targets.forEach(t => io.observe(t));
+  }
+})();
+
+/* ============================================================
+   DRILL ENGINE
+   ============================================================ */
+(function(){
+  const grid = document.getElementById("setgrid");
+  const runner = document.getElementById("runner");
+  const summary = document.getElementById("summary");
+  const runTitle = document.getElementById("runTitle");
+  const runCount = document.getElementById("runCount");
+  const runScore = document.getElementById("runScore");
+  const pfill = document.getElementById("pfill");
+  const askLine = document.getElementById("askLine");
+  const qText = document.getElementById("qText");
+  const qHint = document.getElementById("qHint");
+  const optsEl = document.getElementById("opts");
+  const typebox = document.getElementById("typebox");
+  const answer = document.getElementById("answer");
+  const checkBtn = document.getElementById("checkBtn");
+  const fb = document.getElementById("fb");
+  const nextBtn = document.getElementById("nextBtn");
+  const quitBtn = document.getElementById("quitBtn");
+  const skipBtn = document.getElementById("skipBtn");
+
+  let S = { set:null, order:[], i:0, right:0, misses:[], done:false, retry:false };
+
+  const norm = s => s.toLowerCase().trim()
+      .replace(/[.,!?;:„”"()]/g,"")
+      .replace(/\s+/g," ");
+  const deacc = s => s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ł/g,"l");
+
+  function best(id){
+    try { return JSON.parse(localStorage.getItem("mian.best." + id) || "null"); } catch(e){ return null; }
+  }
+  function saveBest(id, r, t){
+    const b = best(id);
+    if (!b || r/t > b.r/b.t) localStorage.setItem("mian.best." + id, JSON.stringify({r:r, t:t}));
+  }
+
+  function buildGrid(){
+    grid.innerHTML = "";
+    SETS.forEach(function(s){
+      const b = best(s.id);
+      const btn = document.createElement("button");
+      btn.className = "setcard";
+      btn.innerHTML = '<div class="t">' + s.title + '</div><div class="m">' + s.meta + '</div>' +
+        (b ? '<div class="best">best ' + b.r + "/" + b.t + '</div>' : '');
+      btn.addEventListener("click", function(){ start(s.id); });
+      grid.appendChild(btn);
+    });
+  }
+
+  function start(id, onlyMisses){
+    const set = SETS.find(s => s.id === id);
+    S.set = set;
+    S.order = onlyMisses && onlyMisses.length ? onlyMisses.slice() : set.items.map((_, i) => i);
+    if (!onlyMisses) S.order = shuffle(S.order);
+    S.i = 0; S.right = 0; S.misses = []; S.done = false;
+    grid.classList.add("off");
+    summary.style.display = "none";
+    runner.classList.add("on");
+    runTitle.textContent = set.title;
+    askLine.textContent = onlyMisses ? "Reviewing your mistakes" : set.ask;
+    render();
+  }
+
+  function shuffle(a){
+    for (let i = a.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function render(){
+    const idx = S.order[S.i];
+    const item = S.set.items[idx];
+    S.cur = null;
+    fb.className = "fb";
+    fb.innerHTML = "";
+    nextBtn.disabled = true;
+    nextBtn.textContent = "Next";
+    skipBtn.style.display = "";
+    answer.classList.remove("right","wrong");
+    answer.value = "";
+    answer.disabled = false;
+    checkBtn.disabled = false;
+
+    runCount.textContent = (S.i + 1) + " / " + S.order.length;
+    runScore.textContent = S.right + " correct";
+    pfill.style.width = (S.i / S.order.length * 100) + "%";
+
+    qHint.textContent = item.hint ? "Hint: " + item.hint : "";
+
+    if (S.set.type === "choice"){
+      qText.textContent = item.q;
+      typebox.style.display = "none";
+      optsEl.style.display = "grid";
+      optsEl.innerHTML = "";
+      const shuffled = shuffle(item.opts.slice());
+      shuffled.forEach(function(o, i){
+        const b = document.createElement("button");
+        b.className = "opt";
+        b.innerHTML = '<span class="k">' + (i + 1) + '</span><span>' + o + '</span>';
+        b.dataset.val = o;
+        b.addEventListener("click", function(){ pick(b, item); });
+        optsEl.appendChild(b);
+      });
+    } else {
+      qText.innerHTML = item.q.replace("___", '<span class="gap"></span>');
+      optsEl.style.display = "none";
+      typebox.style.display = "flex";
+      setTimeout(function(){ answer.focus(); }, 40);
+    }
+  }
+
+  function markChoice(){
+    Array.from(optsEl.children).forEach(function(b){
+      b.disabled = true;
+      if (b.dataset.val === S.cur.a) b.classList.add("right");
+    });
+  }
+
+  function pick(btn, item){
+    if (btn.disabled) return;
+    S.cur = item;
+    const ok = btn.dataset.val === item.a;
+    if (!ok) btn.classList.add("wrong");
+    markChoice();
+    finishItem(ok, item.a);
+  }
+
+  function checkType(){
+    const item = S.set.items[S.order[S.i]];
+    const val = answer.value;
+    if (!val.trim()) { answer.focus(); return; }
+    const n = norm(val);
+    let ok = false, accentOnly = false;
+    item.a.forEach(function(c){
+      if (n === norm(c)) ok = true;
+      else if (deacc(n) === deacc(norm(c))) accentOnly = true;
+    });
+    answer.disabled = true;
+    checkBtn.disabled = true;
+    const counted = ok || accentOnly;
+    answer.classList.add(counted ? "right" : "wrong");
+    finishItem(counted, item.a, !ok && accentOnly);
+  }
+
+  function finishItem(ok, correct, accentOnly){
+    S.cur = S.cur || S.set.items[S.order[S.i]];
+    if (ok) S.right++; else S.misses.push(S.order[S.i]);
+    runScore.textContent = S.right + " correct";
+    fb.className = "fb on " + (ok ? "ok" : "no");
+    const head = ok ? (accentOnly ? "Right — mind the diacritics" : "Correct") : "Not quite";
+    fb.innerHTML = '<div class="v">' + head + '</div>' +
+      '<div class="a">' + [].concat(correct).join(" · ") + '</div>' +
+      '<div class="why">' + S.set.items[S.order[S.i]].why + '</div>';
+    nextBtn.disabled = false;
+    skipBtn.style.display = "none";
+    nextBtn.focus();
+  }
+
+  function next(){
+    if (S.i + 1 >= S.order.length){ end(); return; }
+    S.i++;
+    render();
+  }
+
+  function end(){
+    runner.classList.remove("on");
+    summary.style.display = "block";
+    const total = S.order.length;
+    document.getElementById("sumScore").textContent = S.right + " / " + total;
+    const pct = Math.round(S.right / total * 100);
+    let msg;
+    if (pct === 100) msg = "Clean sweep. Move to the next set, or come back tomorrow — spacing is what makes this stick.";
+    else if (pct >= 80) msg = "Solid. Reread the explanations for the ones you missed, then run them again.";
+    else if (pct >= 50) msg = "The pattern is there but not automatic yet. Run the mistakes again now, and the whole set tomorrow.";
+    else msg = "Go back to the section for this set, read the table once more, then retry. Nothing here needs to be memorised blind.";
+    document.getElementById("sumMsg").textContent = msg;
+    saveBest(S.set.id, S.right, total);
+
+    const btns = document.getElementById("sumBtns");
+    btns.innerHTML = "";
+    if (S.misses.length){
+      const b1 = document.createElement("button");
+      b1.className = "btn primary";
+      b1.textContent = "Review " + S.misses.length + " mistake" + (S.misses.length > 1 ? "s" : "");
+      b1.addEventListener("click", function(){ start(S.set.id, S.misses); });
+      btns.appendChild(b1);
+    }
+    const b2 = document.createElement("button");
+    b2.className = "btn ghost";
+    b2.textContent = "Run the set again";
+    b2.addEventListener("click", function(){ start(S.set.id); });
+    btns.appendChild(b2);
+    const b3 = document.createElement("button");
+    b3.className = "btn ghost";
+    b3.textContent = "Choose another set";
+    b3.addEventListener("click", backToGrid);
+    btns.appendChild(b3);
+  }
+
+  function backToGrid(){
+    runner.classList.remove("on");
+    summary.style.display = "none";
+    grid.classList.remove("off");
+    buildGrid();
+  }
+
+  nextBtn.addEventListener("click", next);
+  checkBtn.addEventListener("click", checkType);
+  quitBtn.addEventListener("click", backToGrid);
+  skipBtn.addEventListener("click", function(){
+    const item = S.set.items[S.order[S.i]];
+    if (S.set.type === "choice"){
+      S.cur = item;
+      Array.from(optsEl.children).forEach(function(b){ b.disabled = true; if (b.dataset.val === item.a) b.classList.add("right"); });
+    } else {
+      answer.value = item.a[0]; answer.disabled = true; checkBtn.disabled = true;
+    }
+    finishItem(false, item.a);
+  });
+
+  answer.addEventListener("keydown", function(e){
+    if (e.key === "Enter"){
+      e.preventDefault();
+      if (answer.disabled) next(); else checkType();
+    }
+  });
+
+  document.addEventListener("keydown", function(e){
+    if (!runner.classList.contains("on")) return;
+    if (e.target === answer) return;
+    if (e.key >= "1" && e.key <= "9" && S.set.type === "choice"){
+      const b = optsEl.children[Number(e.key) - 1];
+      if (b && !b.disabled) b.click();
+    }
+    if (e.key === "Enter" && !nextBtn.disabled){ e.preventDefault(); next(); }
+  });
+
+  buildGrid();
+  window.__startSet = start;
+})();
+
+/* ============================================================
+   REFERENCE TABLE
+   ============================================================ */
+(function(){
+  const tbody = document.querySelector("#reftable tbody");
+  const input = document.getElementById("refFilter");
+  const count = document.getElementById("refCount");
+
+  function row(r){
+    const tr = document.createElement("tr");
+    tr.innerHTML = '<td class="pl">' + r[0] + '</td><td class="pl">' + r[1] +
+      '</td><td class="small"><b>' + r[2] + '</b></td><td class="small">' + r[3] + '</td>';
+    tr.dataset.txt = r.join(" ").toLowerCase();
+    return tr;
+  }
+
+  REF.forEach(r => tbody.appendChild(row(r)));
+  count.textContent = REF.length + " entries";
+
+  input.addEventListener("input", function(){
+    const q = input.value.toLowerCase().trim();
+    let shown = 0;
+    Array.from(tbody.children).forEach(function(tr){
+      const hit = !q || tr.dataset.txt.indexOf(q) !== -1;
+      tr.style.display = hit ? "" : "none";
+      if (hit) shown++;
+    });
+    count.textContent = shown + " of " + REF.length;
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+# Cloudflare Pages headers
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+
+/site.css
+  Cache-Control: public, max-age=600, must-revalidate
+
+/app.js
+  Cache-Control: public, max-age=600, must-revalidate
+
+/catalog.js
+  Cache-Control: public, max-age=600, must-revalidate
+
+/favicon.svg
+  Cache-Control: public, max-age=86400
+
+/_functions/*
+  Cache-Control: no-store

@@ -1,0 +1,17 @@
+{
+  "name": "polski-cases",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "All seven Polish cases in one site: full reference pages plus 1,275 drills with progress saved.",
+  "scripts": {
+    "data": "node tools/build-catalog.mjs && node tools/extract-extras.mjs",
+    "build": "node tools/build-catalog.mjs && node tools/extract-extras.mjs && node tools/build.mjs",
+    "check": "node tools/check.mjs",
+    "serve": "node tools/serve.mjs",
+    "deploy": "npm run build && wrangler pages deploy dist --project-name polski-cases"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

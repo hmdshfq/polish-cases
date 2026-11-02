@@ -1,0 +1,2698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Miejscownik — the Polish locative, from zero to confident</title>
+<style>
+  :root{
+    --paper:#f7f3ea; --card:#fffdf7; --ink:#1b1915; --ink2:#4b443a; --muted:#7c7365;
+    --line:#e3dac9; --line2:#efe8da;
+    --accent:#a4361f; --accent-soft:#f6e4de;
+    --green:#1d5b45; --green-soft:#e3efe7;
+    --amber:#8a5a10; --amber-soft:#f7ebd4;
+    --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    --radius:14px; --maxw:1120px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#131210; --card:#1c1a16; --ink:#efe9dd; --ink2:#c6bdad; --muted:#948b7b;
+      --line:#302c24; --line2:#26231d;
+      --accent:#e6795f; --accent-soft:#3a211a;
+      --green:#7cc4a4; --green-soft:#17302a;
+      --amber:#d8a95c; --amber-soft:#33280f;
+    }
+  }
+  html[data-theme="dark"]{
+    --paper:#131210; --card:#1c1a16; --ink:#efe9dd; --ink2:#c6bdad; --muted:#948b7b;
+    --line:#302c24; --line2:#26231d; --accent:#e6795f; --accent-soft:#3a211a;
+    --green:#7cc4a4; --green-soft:#17302a; --amber:#d8a95c; --amber-soft:#33280f;
+  }
+  html[data-theme="light"]{
+    --paper:#f7f3ea; --card:#fffdf7; --ink:#1b1915; --ink2:#4b443a; --muted:#7c7365;
+    --line:#e3dac9; --line2:#efe8da; --accent:#a4361f; --accent-soft:#f6e4de;
+    --green:#1d5b45; --green-soft:#e3efe7; --amber:#8a5a10; --amber-soft:#f7ebd4;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth; scroll-padding-top:96px}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{animation:none!important; transition:none!important} }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--sans); font-size:17px; line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    background-color:var(--paper);
+  }
+  /* Decorative wash on its own fixed layer behind the content.
+     Kept off body's background-image with background-attachment:fixed,
+     which breaks full-page screenshots on a document this tall. */
+  body::before{
+    content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background-image:radial-gradient(circle at 12% 8%, color-mix(in oklab, var(--accent) 5%, transparent), transparent 42%),
+                     radial-gradient(circle at 88% 2%, color-mix(in oklab, var(--green) 5%, transparent), transparent 38%);
+  }
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px}
+  a{color:var(--accent); text-decoration-thickness:1px; text-underline-offset:3px}
+  a:hover{text-decoration-thickness:2px}
+  code, .mono{font-family:var(--mono); font-size:.94em}
+  .pl{font-family:var(--serif); font-size:1.04em; font-style:italic}
+  strong{font-weight:650}
+
+  /* ---------- progress + header ---------- */
+  #scrollbar{position:fixed; top:0; left:0; height:3px; width:0; background:var(--accent); z-index:60; transition:width .1s linear}
+  header.top{
+    position:sticky; top:0; z-index:50;
+    background:color-mix(in oklab, var(--paper) 94%, transparent);
+    border-bottom:1px solid var(--line);
+  }
+  .top-in{max-width:var(--maxw); margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:18px}
+  .brand{font-family:var(--serif); font-size:19px; letter-spacing:.01em; white-space:nowrap}
+  .brand b{color:var(--accent)}
+  nav.sections{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; flex:1}
+  nav.sections::-webkit-scrollbar{display:none}
+  nav.sections a{
+    color:var(--ink2); text-decoration:none; font-size:13.5px; padding:7px 11px; border-radius:99px;
+    white-space:nowrap; transition:background .15s, color .15s;
+  }
+  nav.sections a:hover{background:var(--line2); color:var(--ink)}
+  nav.sections a.on{background:var(--ink); color:var(--paper)}
+  .theme{
+    border:1px solid var(--line); background:var(--card); color:var(--ink2); width:36px; height:36px;
+    border-radius:99px; cursor:pointer; font-size:15px; line-height:1; display:grid; place-items:center;
+  }
+  .theme:hover{border-color:var(--ink2); color:var(--ink)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:74px 0 40px; border-bottom:1px solid var(--line)}
+  .kicker{font-size:12.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:650; margin:0 0 18px}
+  h1{font-family:var(--serif); font-weight:500; font-size:clamp(42px, 7vw, 74px); line-height:1.02; margin:0 0 6px; letter-spacing:-.02em}
+  h1 em{font-style:italic; color:var(--accent)}
+  .lede{font-size:clamp(18px,2.2vw,21px); color:var(--ink2); max-width:56ch; margin:18px 0 30px}
+  .facts{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:0 0 32px}
+  .fact{border:1px solid var(--line); background:var(--card); border-radius:var(--radius); padding:16px 18px}
+  .fact .n{font-family:var(--serif); font-size:26px; line-height:1.1; margin-bottom:4px}
+  .fact .l{font-size:13px; color:var(--muted); line-height:1.45}
+  .cta{display:flex; gap:10px; flex-wrap:wrap}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:12px 20px; border-radius:99px; font-size:15px;
+    font-weight:600; text-decoration:none; cursor:pointer; border:1px solid transparent; font-family:inherit;
+  }
+  .btn.primary{background:var(--ink); color:var(--paper)}
+  .btn.primary:hover{background:var(--accent)}
+  .btn.ghost{border-color:var(--line); color:var(--ink); background:var(--card)}
+  .btn.ghost:hover{border-color:var(--ink2)}
+
+  /* ---------- sections ---------- */
+  section{padding:64px 0; border-bottom:1px solid var(--line)}
+  section:last-of-type{border-bottom:none}
+  .shead{display:flex; gap:20px; align-items:baseline; margin-bottom:26px}
+  .snum{font-family:var(--serif); font-size:15px; color:var(--accent); font-variant-numeric:tabular-nums; padding-top:10px; min-width:34px}
+  h2{font-family:var(--serif); font-weight:500; font-size:clamp(28px,3.6vw,38px); line-height:1.1; margin:0; letter-spacing:-.01em}
+  h3{font-family:var(--serif); font-weight:600; font-size:22px; margin:36px 0 12px; letter-spacing:-.005em}
+  h4{font-size:15px; font-weight:700; margin:24px 0 8px; letter-spacing:.01em}
+  p{margin:0 0 14px; max-width:74ch}
+  .small{font-size:14.5px; color:var(--muted)}
+  ul,ol{margin:0 0 16px; padding-left:22px; max-width:74ch}
+  li{margin:5px 0}
+  li::marker{color:var(--muted)}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+  .card{border:1px solid var(--line); background:var(--card); border-radius:var(--radius); padding:20px 22px}
+  .card h4{margin-top:0}
+  .card p:last-child{margin-bottom:0}
+
+  .ex{font-family:var(--serif); font-size:18px; margin:2px 0}
+  .ex .g{color:var(--accent); font-weight:600}
+  .ex s{color:var(--muted)}
+  .tr{color:var(--muted); font-size:14px; font-style:italic}
+  .ex.say{cursor:pointer}
+  .ex.say::after{content:"🔉"; font-family:var(--sans); font-style:normal; font-size:11px; margin-left:8px; opacity:.4; vertical-align:2px}
+  .ex.say:hover{color:var(--accent)}
+  .ex.say:hover::after{opacity:.9}
+
+  .note{border-left:3px solid var(--amber); background:var(--amber-soft); padding:14px 18px; border-radius:0 10px 10px 0; margin:18px 0}
+  .note p:last-child{margin-bottom:0}
+  .note .lab{font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; font-weight:700; color:var(--amber); display:block; margin-bottom:4px}
+  .warn{border-left-color:var(--accent); background:var(--accent-soft)}
+  .warn .lab{color:var(--accent)}
+  .good{border-left-color:var(--green); background:var(--green-soft)}
+  .good .lab{color:var(--green)}
+
+  /* ---------- tables ---------- */
+  .tw{overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius); background:var(--card); margin:18px 0}
+  table{border-collapse:collapse; width:100%; font-size:15px; min-width:520px}
+  th,td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--line2); vertical-align:top}
+  thead th{background:color-mix(in oklab, var(--line2) 60%, transparent); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:700; position:sticky; top:0}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:color-mix(in oklab, var(--line2) 40%, transparent)}
+  tbody tr.hl{background:color-mix(in oklab, var(--accent-soft) 45%, transparent)}
+  td.pl, th.pl{font-family:var(--serif); font-size:16.5px; font-style:normal}
+  .end{color:var(--accent); font-weight:700}
+  .yes{color:var(--green); font-weight:600}
+  .no{color:var(--accent); font-weight:600; text-decoration:line-through; text-decoration-thickness:1px}
+  tr.trap td{background:color-mix(in oklab, var(--accent-soft) 55%, transparent)}
+
+  .chips{display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 6px}
+  .chip{font-size:13px; padding:5px 12px; border-radius:99px; border:1px solid var(--line); background:var(--card); color:var(--ink2)}
+  .chip b{color:var(--ink)}
+  button.chip{font-family:inherit; cursor:pointer}
+  button.chip:hover{border-color:var(--ink2)}
+  button.chip.on{background:var(--ink); color:var(--paper); border-color:var(--ink)}
+  button.chip.on b{color:inherit}
+
+  /* ---------- drills ---------- */
+  .drills{background:var(--card); border:1px solid var(--line); border-radius:20px; padding:26px; box-shadow:0 1px 0 var(--line2)}
+  .setgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(215px,1fr)); gap:12px; margin-top:18px}
+  .setcard{
+    text-align:left; border:1px solid var(--line); background:var(--paper); border-radius:12px; padding:14px 16px;
+    cursor:pointer; font-family:inherit; color:var(--ink); transition:border-color .15s, transform .15s;
+  }
+  .setcard:hover{border-color:var(--accent); transform:translateY(-1px)}
+  .setcard .t{font-weight:650; font-size:15px; margin-bottom:3px}
+  .setcard .m{font-size:12.5px; color:var(--muted)}
+  .setcard .best{font-size:12px; color:var(--green); margin-top:6px; font-variant-numeric:tabular-nums}
+  .runner{display:none}
+  .runner.on{display:block}
+  .setgrid.off{display:none}
+  .rhead{display:flex; align-items:center; gap:14px; margin-bottom:18px; flex-wrap:wrap}
+  .rhead .ttl{font-weight:700; font-size:15px}
+  .rhead .cnt{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .rhead .sp{flex:1}
+  .xbtn{border:1px solid var(--line); background:transparent; color:var(--ink2); border-radius:99px; padding:6px 13px; font-size:13px; cursor:pointer; font-family:inherit}
+  .xbtn:hover{border-color:var(--ink2); color:var(--ink)}
+  .pbar{height:4px; background:var(--line2); border-radius:99px; overflow:hidden; margin-bottom:22px}
+  .pbar i{display:block; height:100%; width:0; background:var(--accent); transition:width .25s ease}
+  .ask{font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:10px}
+  .q{font-family:var(--serif); font-size:clamp(22px,3vw,30px); line-height:1.25; margin:0 0 6px}
+  .q .gap{color:var(--accent); border-bottom:2px dashed var(--accent); padding:0 16px}
+  .q .tr{display:block; font-family:var(--sans); font-size:14px; margin-top:8px}
+  .qhint{font-size:14px; color:var(--muted); margin-bottom:20px}
+  .opts{display:grid; gap:9px; margin:0 0 16px}
+  .opt{
+    display:flex; align-items:center; gap:12px; width:100%; text-align:left; cursor:pointer;
+    border:1px solid var(--line); background:var(--paper); border-radius:10px; padding:12px 15px;
+    font-family:var(--serif); font-size:19px; color:var(--ink); transition:border-color .12s, background .12s;
+  }
+  .opt:hover:not(:disabled){border-color:var(--accent)}
+  .opt:disabled{cursor:default}
+  .opt .k{font-family:var(--sans); font-size:11px; color:var(--muted); border:1px solid var(--line); border-radius:5px; padding:1px 6px; line-height:1.5}
+  .opt.right{border-color:var(--green); background:var(--green-soft); color:var(--green)}
+  .opt.wrong{border-color:var(--accent); background:var(--accent-soft); color:var(--accent)}
+  .opt.wrong .k,.opt.right .k{border-color:currentColor; color:inherit}
+  .typebox{display:flex; gap:9px; margin:0 0 14px; flex-wrap:wrap}
+  .typebox input{
+    flex:1; min-width:220px; font-family:var(--serif); font-size:20px; padding:11px 15px; border-radius:10px;
+    border:1px solid var(--line); background:var(--paper); color:var(--ink);
+  }
+  .typebox input:focus{outline:2px solid var(--accent); outline-offset:1px; border-color:transparent}
+  .typebox input.right{border-color:var(--green); background:var(--green-soft)}
+  .typebox input.wrong{border-color:var(--accent); background:var(--accent-soft)}
+  .keys{display:flex; gap:6px; flex-wrap:wrap; margin:0 0 16px}
+  .keys button{font-family:var(--serif); font-size:16px; width:36px; height:34px; border:1px solid var(--line); background:var(--paper); color:var(--ink); border-radius:8px; cursor:pointer}
+  .keys button:hover{border-color:var(--accent); color:var(--accent)}
+  .fb{display:none; border-radius:10px; padding:13px 16px; margin:4px 0 16px; font-size:15px; line-height:1.55}
+  .fb.on{display:block}
+  .fb.ok{background:var(--green-soft); border:1px solid color-mix(in oklab, var(--green) 30%, transparent)}
+  .fb.no{background:var(--accent-soft); border:1px solid color-mix(in oklab, var(--accent) 30%, transparent)}
+  .fb .v{font-weight:700; margin-bottom:2px}
+  .fb .a{font-family:var(--serif); font-size:18px}
+  .fb .why{color:var(--ink2); margin-top:5px; font-size:14.5px}
+  .rfoot{display:flex; align-items:center; gap:12px}
+  .rfoot .sp{flex:1}
+  .score{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .summary{text-align:center; padding:26px 0}
+  .summary .big{font-family:var(--serif); font-size:52px; line-height:1; color:var(--accent); margin-bottom:8px}
+  .summary p{margin-left:auto; margin-right:auto}
+
+  /* ---------- reference ---------- */
+  .filter{display:flex; gap:10px; margin:16px 0; flex-wrap:wrap; align-items:center}
+  .filter input{
+    flex:1; min-width:240px; padding:10px 14px; border-radius:10px; border:1px solid var(--line);
+    background:var(--card); color:var(--ink); font-family:inherit; font-size:15px;
+  }
+  .filter input:focus{outline:2px solid var(--accent); outline-offset:1px}
+  .filter .n{font-size:13px; color:var(--muted)}
+
+  /* ---------- flashcards ---------- */
+  .fcgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px; margin-top:18px}
+  .fc{border:1px solid var(--line); background:var(--card); border-radius:12px; padding:14px 16px; cursor:pointer; position:relative; transition:border-color .15s, transform .15s}
+  .fc:hover{border-color:var(--accent); transform:translateY(-1px)}
+  .fc .p{font-family:var(--serif); font-size:19px; line-height:1.2; padding-right:56px}
+  .fc .lv{position:absolute; top:12px; right:12px; font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+  .fc .hint{font-size:12.5px; color:var(--muted); margin-top:6px}
+  .fc .m{display:none; color:var(--muted); font-size:14px; margin-top:6px}
+  .fc .exm{display:none; font-family:var(--serif); font-size:15.5px; margin-top:7px}
+  .fc.flipped .m,.fc.flipped .exm{display:block}
+  .fc.flipped .hint{display:none}
+  .fc .fcbtns{display:none; gap:8px; margin-top:10px}
+  .fc.flipped .fcbtns{display:flex}
+  .fc .fcbtns button{font-family:inherit; font-size:12.5px; border:1px solid var(--line); background:var(--paper); color:var(--ink2); border-radius:99px; padding:4px 11px; cursor:pointer}
+  .fc .fcbtns button:hover{border-color:var(--ink2); color:var(--ink)}
+  .fc.known{border-color:color-mix(in oklab, var(--green) 45%, var(--line)); background:var(--green-soft)}
+  .fc.known .p{color:var(--green)}
+
+  /* ---------- plan ---------- */
+  .plan{display:grid; gap:12px; margin-top:18px}
+  .plan-day{border:1px solid var(--line); background:var(--card); border-radius:12px; padding:14px 18px}
+  .plan-day .dt{font-family:var(--serif); font-size:18px; margin-bottom:6px}
+  .plan-day label{display:flex; gap:10px; align-items:flex-start; font-size:15px; margin:6px 0; cursor:pointer; color:var(--ink2)}
+  .plan-day input{accent-color:var(--accent); width:17px; height:17px; margin-top:4px; flex:none}
+
+  /* ---------- advanced details ---------- */
+  details.adv{border:1px solid var(--line); background:var(--card); border-radius:12px; margin:12px 0; overflow:hidden}
+  details.adv summary{cursor:pointer; padding:14px 18px; font-weight:650; font-size:15.5px; list-style:none; display:flex; justify-content:space-between; gap:14px; align-items:baseline}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::after{content:"+"; color:var(--accent); font-family:var(--serif); font-size:20px; line-height:1}
+  details.adv[open] summary::after{content:"–"}
+  details.adv[open] summary{border-bottom:1px solid var(--line2)}
+  .advbody{padding:16px 18px}
+  .advbody > :first-child{margin-top:0}
+  .advbody > :last-child{margin-bottom:0}
+
+  /* ---------- steps ---------- */
+  .step{border-left:2px solid var(--accent); padding:2px 0 2px 16px; margin:16px 0}
+  .step .n{font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); font-weight:700; display:block; margin-bottom:2px}
+
+  kbd{font-family:var(--mono); font-size:12.5px; border:1px solid var(--line); border-radius:5px; padding:1px 6px; background:var(--card)}
+  .tag{display:inline-block; font-size:10.5px; letter-spacing:.07em; text-transform:uppercase; font-weight:700; padding:1px 8px; border-radius:99px; border:1px solid var(--line); color:var(--muted); vertical-align:1px}
+  .tag.g{color:var(--green); border-color:color-mix(in oklab, var(--green) 35%, var(--line))}
+  .tag.a{color:var(--accent); border-color:color-mix(in oklab, var(--accent) 35%, var(--line))}
+
+  footer{padding:44px 0 70px; color:var(--muted); font-size:13.5px}
+  footer p{max-width:70ch}
+
+  @media (max-width:700px){
+    table{min-width:0}
+    th,td{padding:9px 10px; font-size:14px}
+    td{overflow-wrap:break-word}
+    th{overflow-wrap:normal}
+    td:first-child, th:first-child{white-space:nowrap}
+    td.pl, th.pl{font-size:15px}
+    thead th{position:static; font-size:11px}
+    .tw{margin:14px 0}
+    .q .gap{padding:0 8px}
+  }
+  @media (max-width:860px){
+    .facts{grid-template-columns:1fr}
+    .grid2,.grid3{grid-template-columns:1fr}
+    .hero{padding:52px 0 34px}
+    section{padding:48px 0}
+    .shead{gap:12px}
+    .snum{padding-top:6px}
+    .drills{padding:18px}
+    .top-in{gap:10px}
+    .brand{font-size:17px}
+    /* the nav scrolls sideways here: fade its right edge so a cut-off
+       label reads as "more to scroll" rather than as a broken layout */
+    nav.sections{
+      -webkit-mask-image:linear-gradient(to right, #000 0, #000 calc(100% - 30px), transparent 100%);
+      mask-image:linear-gradient(to right, #000 0, #000 calc(100% - 30px), transparent 100%);
+    }
+    .theme{margin-left:2px}
+  }
+  @media print{
+    header.top,#scrollbar,.drills,.cta,.theme{display:none!important}
+    body{background:#fff; color:#000; font-size:11pt}
+    section{page-break-inside:avoid; padding:18px 0}
+    .card,.tw{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div id="scrollbar"></div>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">miejscownik <b>·</b></div>
+    <nav class="sections" id="nav">
+      <a href="#przypadek">Case</a>
+      <a href="#sciaga">Cheat sheet</a>
+      <a href="#kiedy">Jobs</a>
+      <a href="#formy1">Singular</a>
+      <a href="#formy2">Plural</a>
+      <a href="#wyjatki">Irregulars</a>
+      <a href="#wymiany">Sound shifts</a>
+      <a href="#przymiotnik">Adjectives</a>
+      <a href="#przyimki">Prepositions</a>
+      <a href="#czasowniki">Verbs</a>
+      <a href="#pulapki">Traps</a>
+      <a href="#cwiczenia">Drills</a>
+      <a href="#fiszki">Cards</a>
+      <a href="#plan">Plan</a>
+      <a href="#tablica">Table</a>
+    </nav>
+    <button class="theme" id="themeBtn" aria-label="Switch light or dark theme" title="Light / dark">◐</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============ HERO ============ -->
+<div class="hero" id="top">
+  <p class="kicker">Polish cases · 6 of 7</p>
+  <h1>Miejscownik<br><em>the case that always has a preposition</em></h1>
+  <p class="lede">
+    The locative answers <b>o kim? o czym? w czym? gdzie?</b> — “about whom? about what? where?”.
+    It is the only Polish case that <b>cannot stand alone</b>: it is always governed by one of five prepositions —
+    <b>na, o, po, przy, w</b>. That single fact makes it the easiest case to recognise and, because of the sound
+    shifts it triggers, one of the harder ones to spell. Every rule and every form on this page was checked against
+    the PWN language clinic and against dictionary declension tables.
+  </p>
+  <div class="facts">
+    <div class="fact"><div class="n">5 prepositions</div><div class="l">Only <b>na, o, po, przy, w</b>. No preposition, no locative — ever.</div></div>
+    <div class="fact"><div class="n">4 endings</div><div class="l">Singular <b>-e, -u, -i, -y</b>; plural <b>-ach</b>, with exactly three country exceptions.</div></div>
+    <div class="fact"><div class="n">8 sets</div><div class="l">Drills with instant feedback, an explanation for every answer, and a “review my mistakes” pass.</div></div>
+  </div>
+  <div class="cta">
+    <a class="btn primary" href="#cwiczenia">Start drilling</a>
+    <a class="btn ghost" href="#sciaga">One-page cheat sheet</a>
+  </div>
+</div>
+
+<!-- ============ 01 THE CASE ============ -->
+<section id="przypadek">
+  <div class="shead"><div class="snum">01</div><h2>What the locative is</h2></div>
+
+  <p>The locative — <span class="pl">miejscownik</span>, in Latin <i>locativus</i>, which is why Polish grammars
+  abbreviate it <b>Ms.</b> — is the <b>sixth</b> of the seven Polish cases. In the traditional school order it comes
+  after the instrumental: <span class="pl">mianownik, dopełniacz, celownik, biernik, narzędnik, miejscownik, wołacz</span>.</p>
+
+  <p>Its defining property is that it is <b>never bare</b>. Every noun, adjective, pronoun and numeral in the locative
+  stands behind one of exactly five prepositions:</p>
+
+  <div class="chips" style="margin:14px 0">
+    <span class="chip"><b>na</b></span>
+    <span class="chip"><b>o</b></span>
+    <span class="chip"><b>po</b></span>
+    <span class="chip"><b>przy</b></span>
+    <span class="chip"><b>w</b> (and its variant <b>we</b>)</span>
+  </div>
+
+  <p>That is the whole list. If you see a noun after any other preposition — <span class="pl">do, z, przez, dla, bez,
+  nad, pod, przed, za, między, ku, od, sprzed</span> — it is <i>not</i> in the locative, whatever it looks like.
+  This is why the locative is the easiest case to spot in a real sentence: you never have to guess, you look at the
+  word in front of it.</p>
+
+  <div class="note">
+    <div class="lab">Note</div>
+    <p>The same preposition can take a different case with a different meaning, and that difference is the heart of
+    this case. <b>na</b> takes the locative for a <i>place where</i> (<span class="pl">na poczcie</span> — at the post
+    office) and the accusative for a <i>place to which</i> (<span class="pl">na pocztę</span> — to the post office).
+    <b>o</b> takes the locative when you talk <i>about</i> something (<span class="pl">o filmie</span>) and the
+    accusative when you ask <i>for</i> something (<span class="pl">o film</span>). The preposition alone does not
+    decide; the meaning does. Section 9 takes each one apart.</p>
+  </div>
+
+  <h3>Where the name comes from — and why it is misleading</h3>
+
+  <p>“Locative” suggests location, and location is indeed its most common job. But the name is a poor description of
+  the whole case. The locative also marks the object of dozens of everyday verbs that have nothing to do with place —
+  <span class="pl">mówić o kimś</span> (to talk about someone), <span class="pl">polegać na kimś</span> (to rely on
+  someone), <span class="pl">obstawać przy czymś</span> (to insist on something) — and it can express time and even
+  manner. Polish grammars therefore call it by its shape, not its function: the case that appears in a certain set of
+  prepositional phrases.</p>
+
+  <p class="small">The classification of its functions below follows Hanna Jadacka’s entry “Miejscownik” in the PWN
+  <i>Poradnia Językowa</i> (8 April 2025).</p>
+</section>
+
+<!-- ============ 02 CHEAT SHEET ============ -->
+<section id="sciaga">
+  <div class="shead"><div class="snum">02</div><h2>The cheat sheet</h2></div>
+
+  <p>If you learn one thing from this page, learn this table. Everything else is detail and exception.</p>
+
+  <div class="tw">
+    <table>
+      <thead>
+        <tr><th>Noun type</th><th>Stem ends in</th><th>Ending</th><th>Examples</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td rowspan="2"><b>masculine &amp; neuter</b></td>
+          <td>a hard consonant, <b>except</b> k, g, ch, l</td>
+          <td><b>-e</b> <span class="small">(+ softening)</span></td>
+          <td class="pl">standardzie · banale · głazie · cieście · mieście · kinie</td>
+        </tr>
+        <tr>
+          <td>a soft or hardened consonant, or <b>k, g, ch, l</b></td>
+          <td><b>-u</b></td>
+          <td class="pl">śniegu · piachu · kowalu · cieniu · liściu · graczu · banku · polu</td>
+        </tr>
+        <tr>
+          <td rowspan="3"><b>feminine</b></td>
+          <td>a hard consonant, <b>except</b> l</td>
+          <td><b>-e</b> <span class="small">(+ softening)</span></td>
+          <td class="pl">szkole · kobiecie · drodze · poczcie · książce</td>
+        </tr>
+        <tr>
+          <td>a soft consonant or <b>l</b></td>
+          <td><b>-i</b></td>
+          <td class="pl">stali · kąpieli · tradycji · miłości · gałęzi · armii · ziemi</td>
+        </tr>
+        <tr>
+          <td>a <b>hardened</b> consonant (c, cz, dz, dż, rz, sz, ż)</td>
+          <td><b>-y</b></td>
+          <td class="pl">cieczy · niszy · macy · pracy · ulicy · nocy · plaży · twarzy</td>
+        </tr>
+        <tr>
+          <td><b>all genders</b></td>
+          <td>plural</td>
+          <td><b>-ach</b></td>
+          <td class="pl">butach · krowach · bagnach · domach · miastach</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warn">
+    <div class="lab">The three exceptions to <span class="pl">-ach</span></div>
+    <p>Three country names take <b>-ech</b> instead: <span class="pl">w Niemczech</span> (in Germany),
+    <span class="pl">na Węgrzech</span> (in Hungary), <span class="pl">we Włoszech</span> (in Italy).
+    Every other country is regular: <span class="pl">w Czechach, w Indiach, w Chinach, we Francji, w Polsce,
+    w Anglii</span>. This is the single most quoted exception in Polish grammar, so learn the three together
+    as a chant.</p>
+  </div>
+
+  <div class="grid3" style="margin-top:20px">
+    <div class="card">
+      <h4>The -e group</h4>
+      <p>Masculine and neuter hard stems (not k, g, ch, l), and feminine hard stems (not l). The ending
+      <b>-e</b> softens the last consonant of the stem, which is where all the spelling difficulty lives:
+      <span class="pl">miasto → mieście</span>, <span class="pl">droga → drodze</span>.</p>
+    </div>
+    <div class="card">
+      <h4>The -u group</h4>
+      <p>Masculine and neuter stems that are already soft or hardened, plus every stem in <b>k, g, ch, l</b>.
+      No softening happens — the stem is already where it needs to be:
+      <span class="pl">koń → koniu</span>, <span class="pl">bank → banku</span>, <span class="pl">hotel → hotelu</span>.</p>
+    </div>
+    <div class="card">
+      <h4>The -i / -y split</h4>
+      <p>Feminine only. Soft stems and <b>l</b> take <b>-i</b>; hardened stems (c, cz, dz, dż, rz, sz, ż) take
+      <b>-y</b>. The choice is not free and not a matter of taste:
+      <span class="pl">tradycji</span> but <span class="pl">pracy</span>, <span class="pl">soli</span> but
+      <span class="pl">nocy</span>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 THE JOBS ============ -->
+<section id="kiedy">
+  <div class="shead"><div class="snum">03</div><h2>What the locative is used for</h2></div>
+
+  <p>The case has four jobs, in sharply falling order of frequency. Recognising which one you are looking at tells you
+  which preposition to expect, and the preposition is usually the only cue you need.</p>
+
+  <h3>1. The object of a prepositional verb — <span class="pl">dopełnienie dalsze</span></h3>
+
+  <p>This is the largest group by far, and the one learners underestimate. Polish has a large family of verbs and
+  expressions that require a fixed preposition plus the locative. You do not choose the case; the verb does.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Pattern</th><th>Verbs</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>o</b> + Ms.</td>
+          <td class="small">mówić, opowiadać, przypominać, rozmawiać, wspominać, myśleć, marzyć, wiedzieć, zapomnieć</td>
+          <td class="pl">Rozmawiamy o pracy.</td>
+        </tr>
+        <tr>
+          <td><b>na</b> + Ms.</td>
+          <td class="small">polegać, wzorować się, koncentrować się, opierać się, siedzieć, skupiać się, zasadzać się, znać się</td>
+          <td class="pl">Polegam na tobie.</td>
+        </tr>
+        <tr>
+          <td><b>przy</b> + Ms.</td>
+          <td class="small">obstawać, upierać się, stać, mieszkać (rare), pracować</td>
+          <td class="pl">Upieram się przy swoim zdaniu.</td>
+        </tr>
+        <tr>
+          <td><b>po</b> + Ms.</td>
+          <td class="small">biegać, chodzić, deptać, jeździć, spacerować, stąpać</td>
+          <td class="pl">Spacerujemy po parku.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <div class="lab">Note</div>
+    <p>Two of these deserve a warning. <b>Myśleć o czymś</b> is locative (<span class="pl">Myślę o tobie</span>), but
+    <b>myśleć, że…</b> takes a whole clause. And <b>znać się na czymś</b> (to know about something, to be good at it)
+    is locative, while plain <b>znać kogoś</b> is accusative: <span class="pl">Znam się na komputerach</span> but
+    <span class="pl">Znam tego człowieka</span>.</p>
+  </div>
+
+  <h3>2. Place where — <span class="pl">okolicznik miejsca</span></h3>
+
+  <p>The function the case is named after, and the one you will meet in your first week of Polish:
+  <span class="pl">mieszkać w małym miasteczku</span>, <span class="pl">przebywać w więzieniu</span>,
+  <span class="pl">przechowywać biżuterię w sejfie</span>, <span class="pl">zagubić się w kniei</span>,
+  <span class="pl">zasiadać w radzie nadzorczej</span>.</p>
+
+  <p>The prepositions here are <b>w</b> (inside, in) and <b>na</b> (on, at, in — for surfaces, open spaces and a
+  fixed list of places), plus <b>przy</b> (by, next to) and <b>po</b> (around, over an area).</p>
+
+  <h3>3. Time — <span class="pl">okolicznik czasu</span> — much rarer than you would think</h3>
+
+  <p>Polish has no general “at” for clock time in the locative. The genuinely locative time expressions are a short,
+  fixed list, all of them idiomatic:</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Expression</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">wrócić o zmroku</td><td>to come back at dusk</td></tr>
+        <tr><td class="pl">zapalić po wyjściu</td><td>to light up after leaving</td></tr>
+        <tr><td class="pl">załatwić przy okazji</td><td>to sort out while at it, on occasion</td></tr>
+        <tr><td class="pl">we dnie i w nocy</td><td>by day and by night <span class="small">(a fixed phrase — see section 6)</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>But do not conclude that the locative is <i>the</i> case of time — it is not. Days of the week take the
+  accusative after <b>w</b>: <span class="pl">w poniedziałek</span>, <span class="pl">we wtorek</span> (never
+  <i>*w poniedziałku</i>). Clock time uses <b>o</b> plus the locative of an ordinal, which is a numeral rather than a
+  noun: <span class="pl">o trzeciej</span>, <span class="pl">o wpół do piątej</span>. Months <i>are</i> locative and
+  perfectly regular — <span class="pl">w styczniu, w lutym, w marcu, w kwietniu, w maju, w czerwcu, w lipcu,
+  w sierpniu, we wrześniu, w październiku, w listopadzie, w grudniu</span> — and so is the word for year in
+  <span class="pl">w 2026 roku</span>. What matters is this: when a time expression happens to be locative, it is
+  because a noun is standing behind <b>w</b>, not because time as such belongs to this case.</p>
+
+  <h3>4. Manner and condition — a handful of idioms</h3>
+
+  <p>Genuinely sporadic, and best learned as phrases rather than as rules:</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Expression</th><th>Meaning</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">przeżyć o chlebie i wodzie</td><td>to live on bread and water</td><td class="small">manner / means</td></tr>
+        <tr><td class="pl">zwyciężyć przy odrobinie szczęścia</td><td>to win with a bit of luck</td><td class="small">condition</td></tr>
+        <tr><td class="pl">zaryzykować w sprzyjających okolicznościach</td><td>to take a risk in favourable circumstances</td><td class="small">condition</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tip">
+    <div class="lab">How to use this section</div>
+    <p>Do not memorise the four functions as a taxonomy. Use them as a diagnostic. If you can ask
+    <b>o kim? o czym?</b>, the verb is governing the locative — learn the verb. If you can ask <b>gdzie?</b>, you are
+    in the place function — learn the w/na contrast. Everything else is a phrase to collect.</p>
+  </div>
+</section>
+
+<!-- ============ 04 SINGULAR ============ -->
+<section id="formy1">
+  <div class="shead"><div class="snum">04</div><h2>Singular endings</h2></div>
+
+  <p>Four endings, and the choice between them is decided by two things and two things only: the <b>gender</b> of the
+  noun and the <b>final consonant of its stem</b>. Not the meaning, not the nominative ending. Get those two facts and
+  the rule is deterministic.</p>
+
+  <div class="note">
+    <div class="lab">Vocabulary for the rule</div>
+    <p><b>Hard</b> consonants: <span class="pl">p b t d f w s z m n r</span> and <span class="pl">k g ch</span>
+    (these three are velar, and they behave specially). <b>Soft</b>: <span class="pl">ś ź ć dź ń j l</span>.
+    <b>Hardened</b> (historically soft, now hard): <span class="pl">c cz dz dż rz sz ż</span>.
+    The four endings below are driven by exactly these three groups.</p>
+  </div>
+
+  <h3>Masculine and neuter: <span class="pl">-e</span> or <span class="pl">-u</span></h3>
+
+  <p>The rule has one shape with one carve-out. A masculine or neuter stem ending in a <b>hard</b> consonant takes
+  <b>-e</b> — <i>unless</i> that consonant is <b>k, g, ch</b> or <b>l</b>. A stem ending in a <b>soft</b> or
+  <b>hardened</b> consonant, or in <b>k, g, ch, l</b>, takes <b>-u</b>.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Stem ends in</th><th>Ending</th><th>Why</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="pl">-p -b -t -d -f -w -s -z -m -n -r</td>
+          <td><b>-e</b></td>
+          <td class="small">hard</td>
+          <td class="pl">trafie (traf) · arabie (arab) · buncie (bunt) · śladzie (ślad) · tronie (tron) · sznurze (sznur)</td>
+        </tr>
+        <tr>
+          <td class="pl">-k -g -ch</td>
+          <td><b>-u</b></td>
+          <td class="small">velar — the carve-out</td>
+          <td class="pl">banku · języku · pociągu · dachu · piachu · roku · mleku</td>
+        </tr>
+        <tr>
+          <td class="pl">-l</td>
+          <td><b>-u</b></td>
+          <td class="small">the carve-out</td>
+          <td class="pl">hotelu · kowalu · nauczycielu · polu · fotelu</td>
+        </tr>
+        <tr>
+          <td class="pl">-c -cz -dz -dż -rz -sz -ż</td>
+          <td><b>-u</b></td>
+          <td class="small">hardened</td>
+          <td class="pl">ojcu · graczu · mistrzu · lekarzu · haszyszu · łożu</td>
+        </tr>
+        <tr>
+          <td class="pl">-ś -ź -ć -dź -ń -j</td>
+          <td><b>-u</b></td>
+          <td class="small">soft</td>
+          <td class="pl">liściu (liść) · koniu (koń) · cieniu (cień) · gościu (gość) · kraju (kraj) · pokoju (pokój)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>The <b>-e</b> ending is not a passive suffix. It <b>softens</b> whatever consonant it lands on, and that is why the
+  spelling changes on the way in. This is the single most common source of mistakes in the whole case, so section 7
+  gives it a table of its own. For now, the pattern:</p>
+
+  <div class="ex">miasto → mieście &nbsp;·&nbsp; las → lesie &nbsp;·&nbsp; wiatr → wietrze &nbsp;·&nbsp; kocioł → kotle &nbsp;·&nbsp; cokół → cokole</div>
+
+  <div class="good">
+    <div class="lab">Worked examples</div>
+    <p><span class="pl">standard</span> ends in <b>d</b>, hard → <span class="pl">standardzie</span>.
+    <span class="pl">głaz</span> ends in <b>z</b>, hard → <span class="pl">głazie</span>.
+    <span class="pl">malkontent</span> ends in <b>t</b>, hard → <span class="pl">malkontencie</span>.
+    <span class="pl">mieszczanin</span> ends in <b>n</b>, hard → <span class="pl">mieszczaninie</span>.
+    <span class="pl">piętno</span> → <span class="pl">piętnie</span>.
+    <span class="pl">ciasto</span> → <span class="pl">cieście</span>.</p>
+  </div>
+
+  <div class="warn">
+    <div class="lab">No “-ek exception” exists</div>
+    <p>Learners often invent a rule that words ending in <b>-ek</b> behave differently. They do not. What matters is the
+    consonant that actually closes the stem after any fleeting vowel has done its work:
+    <span class="pl">miasteczko → miasteczku</span> (k), <span class="pl">mleko → mleku</span> (k),
+    <span class="pl">bank → banku</span> (k). So the <b>-u</b> rule applies for one reason and one reason only —
+    the stem ends in <b>k</b>. There is nothing extra to memorise.</p>
+  </div>
+
+  <h3>Feminine: <span class="pl">-e</span>, <span class="pl">-i</span> or <span class="pl">-y</span></h3>
+
+  <p>Feminine nouns split three ways, and this is where most learners go wrong, because the popular shortcut
+  “soft → <b>-i</b>” is only half the truth. The correct rule:</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Stem ends in</th><th>Ending</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>a <b>hard</b> consonant, <b>except l</b></td>
+          <td><b>-e</b> <span class="small">(+ softening)</span></td>
+          <td class="pl">słocie (słota) · lamie (lama) · stodole (stodoła) · urodzie (uroda) · metaforze (metafora) · kolebie (koleba) · tapioce (tapioka) · altanie (altana) · szkole · kobiecie · drodze · poczcie</td>
+        </tr>
+        <tr>
+          <td>a <b>soft</b> consonant, or <b>l</b></td>
+          <td><b>-i</b></td>
+          <td class="pl">stali (stal) · kąpieli (kąpiel) · nosogardzieli · tradycji · posesji · monarchini · miłości · gałęzi · armii · ziemi · kuchni · jesieni</td>
+        </tr>
+        <tr>
+          <td>a <b>hardened</b> consonant (c, cz, dz, dż, rz, sz, ż)</td>
+          <td><b>-y</b></td>
+          <td class="pl">cieczy · niszy · łupieży · macierzy · macy · miedzy · pracy · ulicy · nocy · plaży · twarzy</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warn">
+    <div class="lab">The rule most courses get wrong</div>
+    <p>A feminine stem in <b>c, cz, dz, dż, rz, sz, ż</b> takes <b>-y</b>, <b>not -i</b>. So:
+    <span class="pl">praca → pracy</span>, <span class="pl">ulica → ulicy</span>, <span class="pl">noc → nocy</span>,
+    <span class="pl">plaża → plaży</span>, <span class="pl">twarz → twarzy</span>, <span class="pl">miedza → miedzy</span>.
+    These consonants are historically soft but are now pronounced hard, and the spelling follows the pronunciation.
+    If you have been taught “soft stem → <b>-i</b>” as a blanket rule, this is the correction: <b>-i</b> is for
+    genuinely soft consonants and <b>l</b>; hardened ones take <b>-y</b>.</p>
+  </div>
+
+  <div class="note">
+    <div class="lab">Why <span class="pl">l</span> is on the soft side for feminine nouns</div>
+    <p>Polish <b>l</b> is a peculiar consonant: hard in pronunciation, but it behaves as soft in the feminine locative.
+    So <span class="pl">sól → soli</span>, <span class="pl">stal → stali</span>, <span class="pl">kąpiel → kąpieli</span>,
+    <span class="pl">nosogardziel → nosogardzieli</span>. But in <b>masculine and neuter</b> nouns,
+    <b>l</b> takes <b>-u</b>: <span class="pl">hotel → hotelu</span>, <span class="pl">kowal → kowalu</span>,
+    <span class="pl">pole → polu</span>. Same consonant, opposite behaviour, because the gender groups differ.
+    Keep those two facts in separate boxes in your head.</p>
+  </div>
+
+  <h3>Feminine nouns whose stem ends in a vowel letter</h3>
+
+  <p>Nouns in <b>-ia</b>, <b>-ja</b>, <b>-ość</b>, <b>-ść</b> and the like are all soft stems and take
+  <b>-i</b>, which combines with the preceding vowel into a single sound and a single spelling. This is where the
+  double letters come from:</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Nominative</th><th>Locative</th><th>What happened</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">Anglia</td><td class="pl">Anglii</td><td class="small">-ia + -i → -ii</td></tr>
+        <tr><td class="pl">Hiszpania</td><td class="pl">Hiszpanii</td><td class="small">-ia + -i → -ii</td></tr>
+        <tr><td class="pl">Armenia</td><td class="pl">Armenii</td><td class="small">-ia + -i → -ii</td></tr>
+        <tr><td class="pl">historia</td><td class="pl">historii</td><td class="small">-ia + -i → -ii</td></tr>
+        <tr><td class="pl">tradycja</td><td class="pl">tradycji</td><td class="small">-ja + -i → -ji</td></tr>
+        <tr><td class="pl">restauracja</td><td class="pl">restauracji</td><td class="small">-ja + -i → -ji</td></tr>
+        <tr><td class="pl">Rosja</td><td class="pl">Rosji</td><td class="small">-ja + -i → -ji</td></tr>
+        <tr><td class="pl">ziemia</td><td class="pl">ziemi</td><td class="small">-ia + -i → -i (one i only)</td></tr>
+        <tr><td class="pl">kuchnia</td><td class="pl">kuchni</td><td class="small">-ia + -i → -i</td></tr>
+        <tr><td class="pl">miłość</td><td class="pl">miłości</td><td class="small">-ść + -i → -ści</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warn">
+    <div class="lab">The <span class="pl">-ii</span> vs <span class="pl">-i</span> trap</div>
+    <p>Both <span class="pl">historii</span> and <span class="pl">ziemi</span> are correct, and the difference is not
+    arbitrary — but it is also not worth deriving from a rule in the middle of a sentence. The safe method: if the
+    nominative ends in <b>-ia</b> and the <b>i</b> is preceded by a consonant that stays, you normally get
+    <b>-ii</b> (<span class="pl">Anglia → Anglii, Hiszpania → Hiszpanii, Armenia → Armenii, linia → linii</span>);
+    when the <b>-ia</b> is a softening of a softer stem, you get a single <b>-i</b>
+    (<span class="pl">ziemia → ziemi, kuchnia → kuchni, studnia → studni</span>).
+    When in doubt, check the dictionary — this is a spelling question, not a grammar one, and native speakers check it too.</p>
+  </div>
+
+  <h3>The summary you can act on</h3>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Gender</th><th>Hard stem</th><th>Soft stem</th><th>Hardened stem</th><th>k g ch</th><th>l</th></tr></thead>
+      <tbody>
+        <tr><td><b>masculine</b></td><td class="pl">-e<br><span class="small">standardzie</span></td><td class="pl">-u<br><span class="small">koniu</span></td><td class="pl">-u<br><span class="small">lekarzu</span></td><td class="pl">-u<br><span class="small">banku</span></td><td class="pl">-u<br><span class="small">hotelu</span></td></tr>
+        <tr><td><b>neuter</b></td><td class="pl">-e<br><span class="small">mieście</span></td><td class="pl">-u<br><span class="small">morzu</span></td><td class="pl">-u<br><span class="small">słońcu</span></td><td class="pl">-u<br><span class="small">mleku</span></td><td class="pl">-u<br><span class="small">polu</span></td></tr>
+        <tr><td><b>feminine</b></td><td class="pl">-e<br><span class="small">szkole</span></td><td class="pl">-i<br><span class="small">stali</span></td><td class="pl">-y<br><span class="small">pracy</span></td><td class="pl">-e<br><span class="small">tapioce</span></td><td class="pl">-i<br><span class="small">soli</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="small">Every form in this section was checked against the declension tables of Polish Wiktionary and against
+  the examples in Jadacka’s PWN entry.</p>
+</section>
+
+<!-- ============ 05 PLURAL ============ -->
+<section id="formy2">
+  <div class="shead"><div class="snum">05</div><h2>Plural: one ending, three exceptions</h2></div>
+
+  <p>The plural is the easy part. Every noun of every gender takes <b>-ach</b> in the locative plural. There is no
+  gender split, no softening, no choice.</p>
+
+  <div class="ex">butach · krowach · bagnach · domach · miastach · kotach · psach · kobietach · książkach · oknach · dzieciach</div>
+
+  <p>And then there are three words. Three country names take <b>-ech</b> instead of <b>-ach</b>:</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Country</th><th>Locative plural</th><th>Full phrase</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">Niemcy</td><td class="pl">Niemczech</td><td class="pl">w Niemczech</td></tr>
+        <tr><td class="pl">Węgry</td><td class="pl">Węgrzech</td><td class="pl">na Węgrzech</td></tr>
+        <tr><td class="pl">Włochy</td><td class="pl">Włoszech</td><td class="pl">we Włoszech</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>It is worth seeing how narrowly the exception is drawn. Every other plural country name is completely regular:</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Regular <span class="pl">-ach</span></th><th>Locative</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">Czechy</td><td class="pl">w Czechach</td></tr>
+        <tr><td class="pl">Indie</td><td class="pl">w Indiach</td></tr>
+        <tr><td class="pl">Chiny</td><td class="pl">w Chinach</td></tr>
+        <tr><td class="pl">Katowice</td><td class="pl">w Katowicach</td></tr>
+        <tr><td class="pl">Tatry</td><td class="pl">w Tatrach</td></tr>
+        <tr><td class="pl">Mazury</td><td class="pl">na Mazurach</td></tr>
+        <tr><td class="pl">Kielce</td><td class="pl">w Kielcach</td></tr>
+        <tr><td class="pl">drzwi</td><td class="pl">w drzwiach</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="good">
+    <div class="lab">A mnemonic that actually works</div>
+    <p>The three exceptions are all <b>plurals of historically dual or tribal names</b> — they decline as if their stem
+    ended in a soft consonant, which is exactly the environment where <b>-ach</b> became <b>-ech</b>. Rather than
+    remember the history, chant the phrase as a unit: <b>w Niemczech, na Węgrzech, we Włoszech</b>. Three items,
+    one breath, and the preposition is part of the phrase because each country has its own preferred one.</p>
+  </div>
+
+  <div class="note">
+    <div class="lab">Which preposition for which country?</div>
+    <p><b>w</b> for most countries (<span class="pl">w Polsce, w Czechach, w Chinach, w Indiach</span>).
+    <b>na</b> for a fixed historical list that includes <span class="pl">Węgry, Włochy, Ukrainę, Litwę, Łotwę,
+    Białoruś, Słowację, Kubę, Sycylię</span> — and also for regions and islands
+    (<span class="pl">na Śląsku, na Mazowszu, na Podhalu, na Helu</span>).
+    <b>we / w</b> before a word starting with <b>w</b> or <b>f</b>: <span class="pl">we Włoszech, we Francji,
+    we Wrocławiu</span>. The preposition choice is a separate question from the ending, but since the two are learned
+    together, this page keeps them together.</p>
+  </div>
+
+  <div class="warn">
+    <div class="lab">On <span class="pl">na Ukrainie</span> and <span class="pl">w Ukrainie</span></div>
+    <p>Both are correct. The Rada Języka Polskiego stated on 25 July 2022 that either pairing is acceptable, and
+    encouraged the <b>w Ukrainie / do Ukrainy</b> type — especially in official texts — because <b>w</b> is the
+    preposition used with the names of independent states. The <b>na Ukrainie</b> form is older and deeply established
+    in the tradition. You will not be wrong with either; you may be judged for the company you keep. This is a
+    stylistic and political choice, not a grammatical error.</p>
+  </div>
+</section>
+
+<!-- ============ 06 IRREGULARS ============ -->
+<section id="wyjatki">
+  <div class="shead"><div class="snum">06</div><h2>The nouns that break the rule</h2></div>
+
+  <p>PWN lists exactly three groups of exceptions to the singular rules, and they are worth knowing precisely, because
+  every Polish course tests them.</p>
+
+  <h3>1. <span class="pl">dom</span>, <span class="pl">pan</span>, <span class="pl">syn</span> take <span class="pl">-u</span></h3>
+
+  <p>All three end in a hard consonant, so the rule predicts <b>-e</b> — and all three take <b>-u</b> anyway.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Noun</th><th>Rule would give</th><th>Actually</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">dom</td><td class="pl">*domie</td><td class="pl">domu</td><td class="pl">Mieszkam w domu.</td></tr>
+        <tr><td class="pl">pan</td><td class="pl">*panie</td><td class="pl">panu</td><td class="pl">Mówię o panu.</td></tr>
+        <tr><td class="pl">syn</td><td class="pl">*synie</td><td class="pl">synu</td><td class="pl">Myślę o synu.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warn">
+    <div class="lab">Mind the collision with the vocative</div>
+    <p><span class="pl">panie</span> is a real word — it is the <b>vocative</b> of <span class="pl">pan</span>, used
+    when you address someone: <span class="pl">Panie Marku!</span> It is never the locative. So
+    <span class="pl">Mówię o panu</span> (about Mr X) but <span class="pl">Panie Marku, mówię o panu</span>
+    (Mr Mark, I am talking about you). The same shape-doubling happens with <span class="pl">syn</span>: the vocative
+    is <span class="pl">synu</span> too, which is why this trio is so memorable.</p>
+  </div>
+
+  <h3>2. <span class="pl">dzień</span> has two locatives</h3>
+
+  <p><span class="pl">dzień</span> accepts <b>both</b> <span class="pl">(w) dniu</span> and <span class="pl">(we) dnie</span>.
+  They are not interchangeable in every context, though, because one of them is fossilised inside a fixed expression:</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Form</th><th>Where it is used</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">w dniu</td><td>the normal modern form: <span class="pl">w dniu wczorajszym</span>, <span class="pl">w dniu urodzin</span>, and in officialese <span class="pl">w dniu 28 października</span></td></tr>
+        <tr><td class="pl">we dnie</td><td>an <b>obligatory</b> part of <span class="pl">we dnie i w nocy</span> — “by day and by night”. This is the one place you must use it.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>PWN’s wording is exact on this: the second form is an <i>obligatory component</i> of that expression. So
+  <span class="pl">we dnie i w nocy</span> is correct and <span class="pl">*w dniu i w nocy</span> is not the idiom.</p>
+
+  <h3>3. <span class="pl">ręka</span> has two locatives, both correct</h3>
+
+  <p>This is a genuine free choice, not a mistake:</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Form</th><th>Status</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">w ręce</td><td>the <b>regular</b> form (hard stem → -e)</td><td class="pl">Mam klucz w ręce.</td></tr>
+        <tr><td class="pl">w ręku</td><td>the <b>irregular</b> form, equally correct</td><td class="pl">Trzymam kubek w ręku.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>You will hear <span class="pl">w ręku</span> more often in speech and <span class="pl">w ręce</span> more often in
+  writing, but neither is an error. Note the contrast with the plural, which is regular:
+  <span class="pl">w rękach</span>.</p>
+
+  <div class="note">
+    <div class="lab">A fourth group worth adding, though PWN does not list it</div>
+    <p>Nouns in <b>-anin</b> (nationalities and inhabitants) lose the <b>-in-</b> in the plural, and that carries into the
+    locative plural: <span class="pl">mieszczanin → mieszczaninie</span> in the singular, but
+    <span class="pl">mieszczanie → mieszczanach</span> in the plural. The singular is perfectly regular
+    (<span class="pl">n</span> is hard → <b>-e</b>); only the plural stem is shortened. The same pattern gives
+    <span class="pl">Amerykanin → Amerykanach</span>, <span class="pl">Rosjanin → Rosjanach</span>.</p>
+  </div>
+
+  <div class="warn">
+    <div class="lab">Genuinely irregular plurals you will meet</div>
+    <p>These are not locative irregularities — they are irregular plural <i>stems</i>, and the <b>-ach</b> ending is
+    still regular once you have the stem:</p>
+    <p><span class="pl">człowiek → ludziach</span> · <span class="pl">dziecko → dzieciach</span> ·
+    <span class="pl">oko → oczach</span> · <span class="pl">ucho → uszach</span> ·
+    <span class="pl">ręka → rękach</span> · <span class="pl">przyjaciel → przyjaciołach</span> ·
+    <span class="pl">ksiądz → księżach</span> · <span class="pl">książę → książętach</span>.</p>
+  </div>
+</section>
+
+<!-- ============ 07 SOUND SHIFTS ============ -->
+<section id="wymiany">
+  <div class="shead"><div class="snum">07</div><h2>The sound shifts — why the spelling changes</h2></div>
+
+  <p>PWN calls the locative of hard-stem nouns the form “in which the greatest number of sound alternations occurs”.
+  That is a warning worth taking seriously: the <b>-e</b> ending does not simply attach, it <b>softens</b> the final
+  consonant, and Polish spelling records that softening. If you know the alternations, the spelling becomes
+  predictable instead of arbitrary.</p>
+
+  <h3>Consonant alternations before <span class="pl">-e</span></h3>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Change</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td><b>t → ci</b> <span class="small">(written -cie)</span></td><td class="pl">bunt → buncie · knut → knucie · student → studencie · kot → kocie</td></tr>
+        <tr><td><b>d → dzi</b> <span class="small">(written -dzie)</span></td><td class="pl">ślad → śladzie · ogród → ogrodzie · sąsiad → sąsiedzie · władca → władcy <span class="small">(fem.)</span></td></tr>
+        <tr><td><b>r → rz</b></td><td class="pl">sznur → sznurze · wieczór → wieczorze · cukier → cukrze · biuro → biurze</td></tr>
+        <tr><td><b>ł → l</b></td><td class="pl">kocioł → kotle · cokół → cokole · stół → stole · kościół → kościele · szkoła → szkole</td></tr>
+        <tr><td><b>k → c</b></td><td class="pl">mąka → mące · rzeka → rzece · tapioka → tapioce · matka → matce</td></tr>
+        <tr><td><b>g → dz</b></td><td class="pl">droga → drodze · noga → nodze · kolega → koledze</td></tr>
+        <tr><td><b>ch → sz</b></td><td class="pl">mucha → musze · dach → dachu <span class="small">(k/g/ch take -u, so no shift)</span></td></tr>
+        <tr><td><b>st → ść</b> <span class="small">(written -ście)</span></td><td class="pl">miasto → mieście · ciasto → cieście · list → liście</td></tr>
+        <tr><td><b>sł → śl</b></td><td class="pl">masło → maśle · Wisła → Wiśle · krzesło → krześle</td></tr>
+        <tr><td><b>sn → śn</b></td><td class="pl">sen → śnie · jesień → jesieni <span class="small">(fem.)</span></td></tr>
+        <tr><td><b>p → pi</b> <span class="small">(written -pie)</span></td><td class="pl">traf → trafie · cep → cepie · klub → klubie</td></tr>
+        <tr><td><b>b → bi</b>, <b>w → wi</b>, <b>m → mi</b></td><td class="pl">arab → arabie · staw → stawie · tron → tronie <span class="small">(n unchanged)</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Note what does <b>not</b> change. Stems ending in <b>p, b, w, m, n, f</b> normally just add the ending with no
+  visible consonant change at all: <span class="pl">klub → klubie</span>, <span class="pl">staw → stawie</span>,
+  <span class="pl">szef → szefie</span>, <span class="pl">sejf → sejfie</span>, <span class="pl">tron → tronie</span>.
+  The softening is phonetic, not always orthographic.</p>
+
+  <h3>Vowel alternations</h3>
+
+  <p>PWN explicitly notes that the <b>-e</b> ending triggers vowel changes in many words, not only consonant ones.
+  These are the historical <i>przegłos</i> (ablaut) patterns, and they are the other half of the spelling difficulty:</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Change</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td><b>a → e</b></td><td class="pl">las → lesie · miasto → mieście · wiara → wierze · jazda → jeździe · sąsiad → sąsiedzie</td></tr>
+        <tr><td><b>ą → ę</b></td><td class="pl">ząb → zębie · dąb → dębie · mąka → mące <span class="small">(ą + k → ę + c)</span></td></tr>
+        <tr><td><b>ó → o</b> <span class="small">(before a hard stem)</span></td><td class="pl">dróżka → dróżce · wódka → wódce <span class="small">(ó stays before c)</span></td></tr>
+        <tr><td><b>e → ∅</b> <span class="small">(fleeting e)</span></td><td class="pl">kocioł → kotle · cokół → cokole · ojciec → ojcu · chłopiec → chłopcu · pies → psie</td></tr>
+        <tr><td><b>ó → o</b></td><td class="pl">cokół → cokole · kościół → kościele · ogród → ogrodzie · wieczór → wieczorze · pokój → pokoju <span class="small">(but -u, see note)</span></td></tr>
+        <tr><td><b>i / y → ∅</b></td><td class="pl">pies → psie · sen → śnie</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <div class="lab">The two mechanisms, side by side</div>
+    <p>The cleanest illustration of the whole section is one pair of words:</p>
+    <p><span class="pl">miasto → mieście</span>: the <b>st</b> becomes <b>ść</b> (consonant shift) <i>and</i> the
+    <b>a</b> becomes <b>e</b> (vowel shift). Both happen at once, because the ending <b>-e</b> forces the softening
+    and the softening drags the vowel with it.</p>
+    <p><span class="pl">kocioł → kotle</span>: the <b>ł</b> becomes <b>l</b> (consonant), the <b>o</b> disappears
+    entirely (fleeting vowel), and the result has one syllable fewer than the nominative.</p>
+    <p>If you can see those two words as normal rather than bizarre, you have understood the section.</p>
+  </div>
+
+  <h3>When the stem is already soft, nothing happens</h3>
+
+  <p>This is the compensating good news. Nouns in the <b>-u</b> group do not soften, because they are already soft or
+  hardened, so their locative is usually easy to predict from the nominative:</p>
+
+  <div class="ex">bank → banku · hotel → hotelu · koń → koniu · gość → gościu · liść → liściu · gracz → graczu · kraj → kraju · pokój → pokoju · muzeum → muzeum · centrum → centrum</div>
+
+  <div class="good">
+    <div class="lab">The three groups in one line each</div>
+    <p><b>Hard stem → -e, and everything moves.</b> <span class="pl">miasto → mieście</span></p>
+    <p><b>k g ch l → -u, nothing moves.</b> <span class="pl">bank → banku · hotel → hotelu</span></p>
+    <p><b>Soft or hardened stem → -u, nothing moves.</b> <span class="pl">koń → koniu · gracz → graczu</span></p>
+  </div>
+
+  <p>This is why the notorious “hard” words — the ones with three sound changes in them — are all in the same group:
+  they are the hard-stem <b>-e</b> words. Once you can tell hard from soft, you can predict both the ending and
+  whether the spelling will surprise you.</p>
+</section>
+
+<!-- ============ 08 ADJECTIVES ============ -->
+<section id="przymiotnik">
+  <div class="shead"><div class="snum">08</div><h2>Adjectives, pronouns and numerals</h2></div>
+
+  <p>The good news about modifiers: the locative is one of the few places where Polish is <b>simpler</b> than you
+  expect. Adjectives do not care whether the noun's stem is hard, soft or hardened. They care only about gender, and
+  they have exactly four forms in the singular and two in the plural.</p>
+
+  <h3>Adjectives</h3>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th></th><th>masculine</th><th>feminine</th><th>neuter</th><th>plural (all)</th></tr></thead>
+      <tbody>
+        <tr><td><b>ending</b></td><td class="pl">-im / -ym</td><td class="pl">-ej</td><td class="pl">-im / -ym</td><td class="pl">-ich / -ych</td></tr>
+        <tr><td class="pl">dobry</td><td class="pl">dobrym</td><td class="pl">dobrej</td><td class="pl">dobrym</td><td class="pl">dobrych</td></tr>
+        <tr><td class="pl">nowy</td><td class="pl">nowym</td><td class="pl">nowej</td><td class="pl">nowym</td><td class="pl">nowych</td></tr>
+        <tr><td class="pl">duży</td><td class="pl">dużym</td><td class="pl">dużej</td><td class="pl">dużym</td><td class="pl">dużych</td></tr>
+        <tr><td class="pl">tani</td><td class="pl">tanim</td><td class="pl">taniej</td><td class="pl">tanim</td><td class="pl">tanich</td></tr>
+        <tr><td class="pl">polski</td><td class="pl">polskim</td><td class="pl">polskiej</td><td class="pl">polskim</td><td class="pl">polskich</td></tr>
+        <tr><td class="pl">wysoki</td><td class="pl">wysokim</td><td class="pl">wysokiej</td><td class="pl">wysokim</td><td class="pl">wysokich</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>PWN writes the singular ending as <b>-im ǁ -ym</b> — two spellings of one ending. Where you write <b>i</b> and
+  where you write <b>y</b> is pure Polish spelling: <b>-im</b> after a soft stem
+  (<span class="pl">tani → tanim</span>, <span class="pl">polski → polskim</span>) <b>and after k and g</b>, because
+  Polish spells the softened k and g with an <b>i</b> (<span class="pl">wysoki → wysokim</span>,
+  <span class="pl">drogi → drogim</span>, <span class="pl">długi → długim</span>). Everywhere else it is <b>-ym</b>
+  (<span class="pl">dobry → dobrym</span>, <span class="pl">nowy → nowym</span>, <span class="pl">duży → dużym</span>).
+  The plural mirrors it exactly: <b>-ich</b> after soft stems and after k, g — <b>-ych</b> everywhere else.</p>
+
+  <div class="warn">
+    <div class="lab">The <span class="pl">-em</span> mistake</div>
+    <p>PWN singles out one error by name. Some speakers — under southern-Polish influence — extend the locative to
+    <b>*-em</b>: <span class="pl">*tamtem</span>, <span class="pl">*dobrem</span>. These are <b>wrong</b>. The locative
+    singular of an adjective is <span class="pl">tanim</span>, <span class="pl">dobrym</span> — never
+    <i>tamtem</i>, <i>dobrem</i>.</p>
+    <p>There is exactly one legitimate home for such a form: <b>geographical names used as nouns</b>, where you will
+    see <span class="pl">w Kieleckiem</span>, <span class="pl">w Lubelskiem</span>, <span class="pl">w Poznańskiem</span>
+    (in the Kielce / Lublin / Poznań region). Those are nouns in their own right, not adjectives agreeing with anything.</p>
+  </div>
+
+  <div class="good">
+    <div class="lab">Agreement in practice</div>
+    <p><span class="pl">Mieszkam w małym miasteczku.</span> <span class="small">(neuter: -ym)</span><br>
+    <span class="pl">Rozmawiamy o nowej książce.</span> <span class="small">(feminine: -ej)</span><br>
+    <span class="pl">Myślę o dobrym człowieku.</span> <span class="small">(masculine: -ym)</span><br>
+    <span class="pl">Mówimy o polskich miastach.</span> <span class="small">(plural: -ich)</span></p>
+  </div>
+
+  <h3>Pronouns</h3>
+
+  <p>The locative of pronouns is not one paradigm but several, because Polish pronouns come from different historical
+  types. PWN notes this directly: “the pronominal declension has separate locative endings for the individual types of
+  lexeme”. Here are the ones you actually need.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Nominative</th><th>Locative</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">ja</td><td class="pl">mnie</td><td class="pl">Mówią o mnie.</td></tr>
+        <tr><td class="pl">ty</td><td class="pl">tobie</td><td class="pl">Myślę o tobie.</td></tr>
+        <tr><td class="pl">on</td><td class="pl">nim</td><td class="pl">Rozmawiamy o nim.</td></tr>
+        <tr><td class="pl">ona</td><td class="pl">niej</td><td class="pl">Mówię o niej.</td></tr>
+        <tr><td class="pl">ono</td><td class="pl">nim</td><td class="pl">Myślę o nim.</td></tr>
+        <tr><td class="pl">my</td><td class="pl">nas</td><td class="pl">Mówią o nas.</td></tr>
+        <tr><td class="pl">wy</td><td class="pl">was</td><td class="pl">Mówią o was.</td></tr>
+        <tr><td class="pl">oni / one</td><td class="pl">nich</td><td class="pl">Rozmawiamy o nich.</td></tr>
+        <tr><td class="pl">się / siebie</td><td class="pl">sobie</td><td class="pl">Myśli tylko o sobie.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <div class="lab">Why there is an <span class="pl">n-</span> in <span class="pl">nim, niej, nich</span></div>
+    <p>After a preposition, the third-person pronouns take an <b>n-</b>: <span class="pl">o nim, o niej, o nich</span>.
+    Without a preposition there is no <b>n-</b>, which is why the genitive and accusative are
+    <span class="pl">go, jej, ich</span>. Since the locative <b>always</b> has a preposition, the third person
+    <b>always</b> shows the <b>n-</b> — the one case where you can rely on it without thinking.</p>
+  </div>
+
+  <p>The demonstrative <b>ten, ta, to</b> and the relative <b>który</b> decline like hard-stem adjectives:</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th></th><th>masculine</th><th>feminine</th><th>neuter</th><th>plural</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">ten / ta / to</td><td class="pl">tym</td><td class="pl">tej</td><td class="pl">tym</td><td class="pl">tych</td></tr>
+        <tr><td class="pl">tamten</td><td class="pl">tamtym</td><td class="pl">tamtej</td><td class="pl">tamtym</td><td class="pl">tamtych</td></tr>
+        <tr><td class="pl">taki</td><td class="pl">takim</td><td class="pl">takiej</td><td class="pl">takim</td><td class="pl">takich</td></tr>
+        <tr><td class="pl">który</td><td class="pl">którym</td><td class="pl">której</td><td class="pl">którym</td><td class="pl">których</td></tr>
+        <tr><td class="pl">czyj</td><td class="pl">czyim</td><td class="pl">czyjej</td><td class="pl">czyim</td><td class="pl">czyich</td></tr>
+        <tr><td class="pl">mój</td><td class="pl">moim</td><td class="pl">mojej</td><td class="pl">moim</td><td class="pl">moich</td></tr>
+        <tr><td class="pl">twój</td><td class="pl">twoim</td><td class="pl">twojej</td><td class="pl">twoim</td><td class="pl">twoich</td></tr>
+        <tr><td class="pl">nasz</td><td class="pl">naszym</td><td class="pl">naszej</td><td class="pl">naszym</td><td class="pl">naszych</td></tr>
+        <tr><td class="pl">swój</td><td class="pl">swoim</td><td class="pl">swojej</td><td class="pl">swoim</td><td class="pl">swoich</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Numerals: the <span class="pl">-u</span> rule</h3>
+
+  <p>PWN is unusually blunt here: in the declension of numerals a <b>single ending <span class="pl">-u</span></b> is
+  used, <b>without exception</b>. Not <b>-ym</b>, not <b>-ej</b>, not <b>-ach</b>. A numeral in the locative simply ends
+  in <b>-u</b> (spelled <b>-u</b>, <b>-iu</b> or <b>-gu</b> depending on the stem).</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Numeral</th><th>Locative</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">jeden</td><td class="pl">jednym / jednej</td><td class="pl">o jednym człowieku · o jednej sprawie</td></tr>
+        <tr><td class="pl">dwa</td><td class="pl">dwu / dwóch</td><td class="pl">o dwóch ludziach</td></tr>
+        <tr><td class="pl">trzy</td><td class="pl">trzech</td><td class="pl">o trzech osobach</td></tr>
+        <tr><td class="pl">cztery</td><td class="pl">czterech</td><td class="pl">o czterech porach roku</td></tr>
+        <tr><td class="pl">pięć</td><td class="pl">pięciu</td><td class="pl">o pięciu minutach</td></tr>
+        <tr><td class="pl">siedem</td><td class="pl">siedmiu</td><td class="pl">o siedmiu dniach</td></tr>
+        <tr><td class="pl">dziesięć</td><td class="pl">dziesięciu</td><td class="pl">o dziesięciu latach</td></tr>
+        <tr><td class="pl">dwadzieścia</td><td class="pl">dwudziestu</td><td class="pl">o dwudziestu latach</td></tr>
+        <tr><td class="pl">dwoje</td><td class="pl">dwojgu</td><td class="pl">o dwojgu dzieciach</td></tr>
+        <tr><td class="pl">oboje</td><td class="pl">obojgu</td><td class="pl">o obojgu rodzicach</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <div class="lab">Ordinals are adjectives, not numerals</div>
+    <p><span class="pl">jeden</span> is the exception that proves the rule — it is really an adjective, which is why it
+    has <span class="pl">jednym / jednej / jednych</span>. And <b>ordinals</b> such as
+    <span class="pl">pierwszy, drugi, trzeci</span> decline as adjectives, so they take the adjective endings:
+    <span class="pl">o pierwszym, o drugiej, o trzecich</span>. That is what makes
+    <span class="pl">o trzeciej</span> (at three o'clock) work — it is an ordinal feminine locative, not a numeral.</p>
+  </div>
+
+  <div class="ex">o pierwszym dniu · o drugiej godzinie · o trzeciej po południu · o czwartej · o piątej · o szóstej</div>
+
+  <p class="small">All adjective, pronoun and numeral forms in this section were checked against the declension tables of
+  Polish Wiktionary; the <b>-u</b> rule for numerals and the <b>-im ǁ -ym</b> adjective ending are taken verbatim from
+  Jadacka’s PWN entry.</p>
+</section>
+
+<!-- ============ 09 PREPOSITIONS ============ -->
+<section id="przyimki">
+  <div class="shead"><div class="snum">09</div><h2>The five prepositions, one by one</h2></div>
+
+  <p>Each of the five governs the locative in some meanings and something else in others. This is the section that
+  separates people who “know the locative” from people who can use it.</p>
+
+  <h3><span class="pl">w / we</span> — inside, in</h3>
+
+  <p><b>w</b> + locative answers <b>gdzie?</b> — where something is. With the accusative it answers <b>dokąd?</b> —
+  where something is going.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Locative — where?</th><th>Accusative — where to?</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">Jestem w domu.</td><td class="pl">Idę do domu.</td></tr>
+        <tr><td class="pl">Mieszkam w Warszawie.</td><td class="pl">Jadę do Warszawy.</td></tr>
+        <tr><td class="pl">Jestem w sklepie.</td><td class="pl">Idę do sklepu.</td></tr>
+        <tr><td class="pl">Pracuję w biurze.</td><td class="pl">Idę do biura.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Notice that for “going to a place”, Polish normally uses <b>do</b> + genitive, not <b>w</b> + accusative. The
+  <b>w</b> + accusative pattern appears when you cross into something:
+  <span class="pl">Wchodzę w wodę</span> (I am walking into the water), <span class="pl">Wsiadam w samochód</span>.</p>
+
+  <p><b>we</b> is the same preposition, inserted before a word that begins with <b>w</b> or <b>f</b> to make it
+  pronounceable: <span class="pl">we Włoszech, we Francji, we Wrocławiu, we wtorek</span>.</p>
+
+  <h3><span class="pl">na</span> — on, at, in (a fixed list)</h3>
+
+  <p><b>na</b> + locative is the partner of <b>na</b> + accusative, and the same where/where-to logic applies:</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Locative — where?</th><th>Accusative — where to?</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">Jestem na poczcie.</td><td class="pl">Idę na pocztę.</td></tr>
+        <tr><td class="pl">Książka leży na stole.</td><td class="pl">Kładę książkę na stół.</td></tr>
+        <tr><td class="pl">Jestem na lotnisku.</td><td class="pl">Jadę na lotnisko.</td></tr>
+        <tr><td class="pl">Mieszkam na Śląsku.</td><td class="pl">Jadę na Śląsk.</td></tr>
+        <tr><td class="pl">Jestem na koncercie.</td><td class="pl">Idę na koncert.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Which places take <b>na</b> rather than <b>w</b> is not a rule but a list, and it must be learned word by word.
+  The main groups: open spaces and surfaces (<span class="pl">na ulicy, na rynku, na plaży, na górze</span>),
+  islands and peninsulas (<span class="pl">na Helu, na Kubie, na Sycylii</span>), regions
+  (<span class="pl">na Śląsku, na Mazowszu, na Podhalu, na Mazurach</span>), and a set of institutions and events
+  (<span class="pl">na poczcie, na lotnisku, na dworcu, na uniwersytecie, na koncercie, na weselu</span>).</p>
+
+  <h3><span class="pl">o</span> — about</h3>
+
+  <p><b>o</b> + locative is the “about” preposition, and it is the one that makes the locative unavoidable in
+  conversation:</p>
+
+  <div class="ex">mówić o pogodzie · myśleć o tobie · marzyć o wakacjach · rozmawiać o pracy · opowiadać o filmie · wiedzieć o wszystkim · zapomnieć o spotkaniu · pamiętać o urodzinach</div>
+
+  <div class="warn">
+    <div class="lab">Two <span class="pl">o</span>s that take the accusative instead</div>
+    <p><b>pytać o</b> (to ask about / for) and <b>prosić o</b> (to ask for) take the <b>accusative</b>:
+    <span class="pl">Pytam o film</span>, <span class="pl">Proszę o pomoc</span>. And <b>o</b> + accusative also marks
+    clock time and quantity: <span class="pl">o trzeciej</span> is locative, but <span class="pl">o godzinę za
+    wcześnie</span> is accusative. The verb or the meaning decides, never the preposition alone.</p>
+  </div>
+
+  <h3><span class="pl">po</span> — around, over, after</h3>
+
+  <p><b>po</b> + locative means movement across or around an area, and it is the case of walking, wandering and
+  travelling within a place:</p>
+
+  <div class="ex">chodzić po pokoju · spacerować po parku · jeździć po mieście · biegać po lesie · pływać po jeziorze · szukać po kątach</div>
+
+  <div class="note">
+    <div class="lab">Three <span class="pl">po</span>s, three cases</div>
+    <p><b>po</b> + locative = around an area (<span class="pl">chodzę po parku</span>).
+    <b>po</b> + accusative = up to a limit, or go and fetch (<span class="pl">po kolana</span> — up to the knees;
+    <span class="pl">iść po chleb</span> — to go for bread).
+    <b>po</b> + genitive = after, in sequence (<span class="pl">po obiedzie</span> — after lunch;
+    <span class="pl">po pracy</span> — after work). The locative is only the first of the three.</p>
+  </div>
+
+  <h3><span class="pl">przy</span> — by, next to, at</h3>
+
+  <p>Physically beside something, and metaphorically “in the presence of” or “while occupied with”:</p>
+
+  <div class="ex">przy stole · przy oknie · przy drzwiach · przy komputerze · przy pracy · przy kolacji · przy okazji · obstawać przy swoim zdaniu</div>
+
+  <p><b>przy</b> is one of the few prepositions that takes the locative and <b>nothing else</b> in modern Polish, so
+  it is always safe: if you know the word after <b>przy</b> is a noun you decline, decline it as locative.</p>
+
+  <h3>The five prepositions as one picture</h3>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Preposition</th><th>Locative meaning</th><th>Other cases it takes</th></tr></thead>
+      <tbody>
+        <tr><td><b>w / we</b></td><td>inside, in: <span class="pl">w domu, we Włoszech</span></td><td>accusative: <span class="pl">wchodzę w wodę</span></td></tr>
+        <tr><td><b>na</b></td><td>on, at: <span class="pl">na stole, na poczcie</span></td><td>accusative: <span class="pl">na stół, na pocztę</span></td></tr>
+        <tr><td><b>o</b></td><td>about: <span class="pl">o filmie</span></td><td>accusative: <span class="pl">pytam o film</span></td></tr>
+        <tr><td><b>po</b></td><td>around: <span class="pl">po parku</span></td><td>accusative: <span class="pl">po chleb</span>; genitive: <span class="pl">po pracy</span></td></tr>
+        <tr><td><b>przy</b></td><td>by, next to: <span class="pl">przy stole</span></td><td class="small">locative only</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 10 VERBS ============ -->
+<section id="czasowniki">
+  <div class="shead"><div class="snum">10</div><h2>Verbs that demand the locative</h2></div>
+
+  <p>This is the section to return to. Polish has a large set of verbs that require a fixed preposition plus the
+  locative, and no rule generates them — you learn them as vocabulary, verb by verb. The compensation is that once
+  you know the verb, the case is automatic: there is no choice to make.</p>
+
+  <div class="filter">
+    <input id="verbSearch" type="search" placeholder="Filter: mówić, about, się, myśleć…" aria-label="Filter the verb list">
+    <span class="n" id="verbCount"></span>
+  </div>
+
+  <div class="chips" id="verbChips">
+    <button class="chip on" data-vf="all">All</button>
+    <button class="chip" data-vf="o">o + Ms.</button>
+    <button class="chip" data-vf="na">na + Ms.</button>
+    <button class="chip" data-vf="przy">przy + Ms.</button>
+    <button class="chip" data-vf="po">po + Ms.</button>
+    <button class="chip" data-vf="w">w + Ms.</button>
+  </div>
+
+  <div class="tw">
+    <table id="verbTable">
+      <thead><tr><th>Verb</th><th>English</th><th>Pattern</th><th>Example</th></tr></thead>
+      <tbody id="verbBody"></tbody>
+    </table>
+  </div>
+
+  <div class="warn">
+    <div class="lab">The five verbs learners get wrong most often</div>
+    <p><b>Myśleć o</b> + Ms. — not accusative. <span class="pl">Myślę o tobie.</span><br>
+    <b>Polegać na</b> + Ms. — not <i>w</i>. <span class="pl">Polegam na tobie.</span><br>
+    <b>Upierać się przy</b> + Ms. — not <i>na</i>. <span class="pl">Upieram się przy swoim.</span><br>
+    <b>Znać się na</b> + Ms. — versus <b>znać</b> + accusative. <span class="pl">Znam się na komputerach</span> but
+    <span class="pl">Znam ten komputer</span>.<br>
+    <b>Skupiać się na</b> + Ms. <span class="pl">Skupiam się na pracy.</span></p>
+  </div>
+
+  <div class="note">
+    <div class="lab">Reflexive verbs: the <span class="pl">się</span> changes nothing</div>
+    <p>Many of these verbs are reflexive — <span class="pl">koncentrować się, opierać się, upierać się, wzorować się,
+    znać się</span>. The <span class="pl">się</span> does not affect the case at all; it is part of the verb.
+    <span class="pl">Koncentruję się na zadaniu</span> — same locative with or without the reflexive particle.</p>
+  </div>
+</section>
+
+<!-- ============ 11 TRAPS ============ -->
+<section id="pulapki">
+  <div class="shead"><div class="snum">11</div><h2>The traps</h2></div>
+
+  <h3>Trap 1 — Using <span class="pl">-u</span> after a soft consonant that is really hardened</h3>
+
+  <p>The single most common error in this case is putting <b>-i</b> where <b>-y</b> belongs in feminine nouns:
+  <span class="pl">*pracy</span> written as <span class="pl">*praci</span>. The hardened consonants
+  <b>c, cz, dz, dż, rz, sz, ż</b> take <b>-y</b>. Say the word aloud: if the final consonant sounds hard, the ending letter is
+  <b>y</b>.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Noun</th><th>Wrong</th><th>Right</th><th>Final consonant</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">praca</td><td class="pl">*praci</td><td class="pl">pracy</td><td class="small">c — hardened → -y</td></tr>
+        <tr><td class="pl">noc</td><td class="pl">*noci</td><td class="pl">nocy</td><td class="small">c → -y</td></tr>
+        <tr><td class="pl">twarz</td><td class="pl">*twarzi</td><td class="pl">twarzy</td><td class="small">rz → -y</td></tr>
+        <tr><td class="pl">plaża</td><td class="pl">*plaży</td><td class="pl">plaży</td><td class="small">ż → -y; the only -y in the word is the ending</td></tr>
+        <tr><td class="pl">ulica</td><td class="pl">*ulici</td><td class="pl">ulicy</td><td class="small">c → -y</td></tr>
+        <tr><td class="pl">moc</td><td class="pl">*moci</td><td class="pl">mocy</td><td class="small">c → -y</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Trap 2 — <span class="pl">dom</span>, <span class="pl">pan</span>, <span class="pl">syn</span></h3>
+
+  <p>Hard stems, so the rule says <b>-e</b>; the language says <b>-u</b>. Three words, no logic, learn them.
+  <span class="pl">w domu, o panu, o synu</span>. The <b>-e</b> forms <span class="pl">*domie, *panie, *synie</span> are
+  wrong in the locative (<span class="pl">panie</span> exists, but as the vocative).</p>
+
+  <h3>Trap 3 — Confusing locative with instrumental after <span class="pl">z</span> and <span class="pl">nad</span></h3>
+
+  <p><b>z</b> + instrumental is “with” (<span class="pl">z kolegą</span>); <b>z</b> + genitive is “from”
+  (<span class="pl">z Polski</span>). Neither is locative, and <b>z</b> never takes the locative at all.</p>
+
+  <p>The positional prepositions <b>pod, nad, przed, za</b> are the trap next door, and the reason the five-preposition
+  rule needs a footnote. They take the <b>instrumental</b> for a static position
+  (<span class="pl">nad morzem, pod stołem, przed domem, za rogiem</span>) and the <b>accusative</b> for movement
+  towards (<span class="pl">nad morze, pod stół, przed dom, za róg</span>). They never take the locative — so the
+  five-preposition list stays true, but “pod is instrumental” is only half the sentence. <b>między</b> works the same way
+  (<span class="pl">między nami</span> for position, <span class="pl">między okno a drzwi</span> for direction).</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Phrase</th><th>Case</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">nad morzem</td><td>instrumental</td><td class="small"><b>nad</b> is not a locative preposition</td></tr>
+        <tr><td class="pl">w morzu</td><td>locative</td><td class="small"><b>w</b> is</td></tr>
+        <tr><td class="pl">za rogiem</td><td>instrumental</td><td class="small"><b>za</b> + position = instrumental</td></tr>
+        <tr><td class="pl">o rogu</td><td>locative</td><td class="small"><b>o</b> + Ms.</td></tr>
+        <tr><td class="pl">przed domem</td><td>instrumental</td><td class="small"><b>przed</b> is not locative</td></tr>
+        <tr><td class="pl">przy domu</td><td>locative</td><td class="small"><b>przy</b> is</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Trap 4 — <span class="pl">w</span> versus <span class="pl">na</span> with places</h3>
+
+  <p>Both are locative, so the case is not the problem — the preposition is. There is no rule; there is a list.
+  The ones that surprise learners most: <span class="pl">na poczcie, na dworcu, na lotnisku, na uniwersytecie,
+  na koncercie, na weselu, na targu, na rynku, na ulicy</span>, but <span class="pl">w sklepie, w banku, w kinie,
+  w teatrze, w restauracji, w muzeum, w szpitalu, w więzieniu</span>.</p>
+
+  <div class="note">
+    <div class="lab">A workable intuition</div>
+    <p><b>w</b> tends to mean “inside an enclosed space”, <b>na</b> tends to mean “on a surface or in an open space”.
+    That gets you <span class="pl">w sklepie</span> (inside) and <span class="pl">na rynku</span> (open square) right.
+    It fails for institutions that historically were open marketplaces or gathering points —
+    <span class="pl">na poczcie, na uniwersytecie, na targu</span> — which you simply have to learn.</p>
+  </div>
+
+  <h3>Trap 5 — Forgetting the softening in <span class="pl">-e</span> words</h3>
+
+  <p>Writing <span class="pl">*miasto → miastoe</span> or <span class="pl">*las → lase</span> is the beginner version;
+  the intermediate version is writing <span class="pl">*miaste</span> (correct softening of <b>st</b>, but the vowel
+  shift forgotten). <span class="pl">miasto → mieście</span> needs both: <b>a → e</b> and <b>st → ść</b>. When a
+  word has an <b>a</b> before the final consonant, expect it to become <b>e</b>.</p>
+
+  <h3>Trap 6 — The <span class="pl">-ii</span> spelling</h3>
+
+  <p><span class="pl">Anglia → Anglii</span> (two i), but <span class="pl">ziemia → ziemi</span> (one i).
+  This is a spelling question rather than a grammatical one, and it is genuinely inconsistent across words. When a
+  country or a word in <b>-ia</b> matters to you, check the dictionary once and then trust your memory of that word.</p>
+
+  <h3>Trap 7 — <span class="pl">-ach</span> in the plural, not <span class="pl">-ech</span></h3>
+
+  <p>Only three words take <b>-ech</b>: <span class="pl">Niemczech, Węgrzech, Włoszech</span>. Everything else takes
+  <b>-ach</b>, including the other plural countries (<span class="pl">w Czechach, w Indiach, w Chinach</span>). If you
+  have learned the three as a chant, this trap is closed.</p>
+
+  <div class="good">
+    <div class="lab">The four things that cause 90% of mistakes</div>
+    <p><b>1.</b> Feminine hardened stems take <b>-y</b>, not <b>-i</b>.<br>
+    <b>2.</b> <span class="pl">dom, pan, syn</span> take <b>-u</b>.<br>
+    <b>3.</b> Only <span class="pl">na, o, po, przy, w</span> are locative prepositions.<br>
+    <b>4.</b> Plural is <b>-ach</b> except <span class="pl">Niemczech, Węgrzech, Włoszech</span>.</p>
+  </div>
+</section>
+
+<!-- ============ 12 DRILLS ============ -->
+<section id="cwiczenia">
+  <div class="shead"><div class="snum">12</div><h2>Drills</h2></div>
+  <p id="drillIntro">Eight sets, 198 items. Every answer comes with the reason. Use <b>1–9</b> to pick an option, <b>Enter</b> to check or continue. Your best score per set is kept on this device.</p>
+
+  <div class="drills">
+    <div class="setgrid" id="setgrid"></div>
+
+    <div class="runner" id="runner">
+      <div class="rhead">
+        <span class="ttl" id="runTitle"></span>
+        <span class="cnt" id="runCount"></span>
+        <span class="sp"></span>
+        <span class="score" id="runScore"></span>
+        <button class="xbtn" id="quitBtn">Change set</button>
+      </div>
+      <div class="pbar"><i id="pfill"></i></div>
+
+      <div class="ask" id="askLine"></div>
+      <p class="q" id="qText"></p>
+      <p class="qhint" id="qHint"></p>
+
+      <div class="opts" id="opts"></div>
+      <div class="typebox" id="typebox" style="display:none">
+        <input id="answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Your answer">
+        <button class="btn primary" id="checkBtn">Check</button>
+      </div>
+      <div class="keys" id="keys" style="display:none"></div>
+
+      <div class="fb" id="fb" aria-live="polite"></div>
+
+      <div class="rfoot">
+        <button class="btn primary" id="nextBtn" disabled>Next</button>
+        <span class="sp"></span>
+        <button class="xbtn" id="skipBtn">Skip?</button>
+      </div>
+    </div>
+
+    <div class="summary" id="summary" style="display:none">
+      <div class="big" id="sumScore">0 / 0</div>
+      <p id="sumMsg"></p>
+      <div class="cta" style="justify-content:center" id="sumBtns"></div>
+    </div>
+  </div>
+
+  <div class="chips" id="progressChips" style="margin-top:20px"></div>
+  <p class="small"><button class="xbtn" id="resetProgress">Reset all progress</button></p>
+</section>
+
+<!-- ============ 13 FLASHCARDS ============ -->
+<section id="fiszki">
+  <div class="shead"><div class="snum">13</div><h2>Flashcards</h2></div>
+  <p>One card, one decision. Click to turn a card over; mark it known or mark it for another pass. The
+  cards remember what you marked.</p>
+
+  <div class="chips" id="fcFilters">
+    <button class="chip on" data-fclv="all">All</button>
+    <button class="chip" data-fclv="basic">Basic</button>
+    <button class="chip" data-fclv="adv">Advanced</button>
+    <span class="chip">Known: <b id="fcKnown">0</b> / <span id="fcTotal">0</span></span>
+  </div>
+
+  <div class="fcgrid" id="fcGrid"></div>
+</section>
+
+<!-- ============ 14 PLAN ============ -->
+<section id="plan">
+  <div class="shead"><div class="snum">14</div><h2>A 7-day plan</h2></div>
+  <p>Fifteen focused minutes a day beats three hours on Sunday. Tick the boxes as you go — the ticks are saved too.</p>
+  <div class="plan" id="planRoot"></div>
+</section>
+
+<!-- ============ 15 TABLE ============ -->
+<section id="tablica">
+  <div class="shead"><div class="snum">15</div><h2>Reference: verified forms</h2></div>
+  <p>Every form below was checked against the declension tables of Polish Wiktionary and the rules of the PWN language
+  clinic. Type to filter by noun, ending, gender or note.</p>
+
+  <div class="filter">
+    <input id="refFilter" type="search" placeholder="Filter: dom, -u, feminine, hardened…" aria-label="Filter the reference table">
+    <span class="n" id="refCount"></span>
+  </div>
+
+  <div class="tw">
+    <table id="reftable">
+      <thead><tr><th>Nominative</th><th>Locative singular</th><th>Locative plural</th><th>Why</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <h3>Sources</h3>
+  <div class="note">
+    <div class="lab">What was checked, and where</div>
+    <p><b>Hanna Jadacka, “Miejscownik”, Poradnia Językowa PWN, 8 April 2025</b> —
+    <a href="https://sjp.pwn.pl/poradnia/artykul/miejscownik;4800002.html" target="_blank" rel="noopener">sjp.pwn.pl/poradnia/artykul/miejscownik;4800002.html</a>.
+    The source for: the five prepositions, the four functions, the singular and plural rules, the three country
+    exceptions, the <span class="pl">dom/pan/syn</span> exception, <span class="pl">dzień</span> and
+    <span class="pl">ręka</span>, the adjective ending <b>-im ǁ -ym</b> and the <b>*-em</b> error, and the
+    <b>-u</b> rule for numerals.</p>
+    <p><b>Polish Wiktionary declension tables</b> — every noun, adjective, pronoun and numeral form in the reference
+    table and in the drills was taken from the Polish section of its entry on
+    <a href="https://pl.wiktionary.org" target="_blank" rel="noopener">pl.wiktionary.org</a> and compared with the rule
+    before being written here.</p>
+    <p><b>Rada Języka Polskiego, opinion of 25 July 2022</b> on <span class="pl">w Ukrainie</span> /
+    <span class="pl">na Ukrainie</span> — both accepted, the <b>w</b> type encouraged in official texts.</p>
+    <p><b>PWN Poradnia, “We Francji” (27 October 2026)</b> — on repeating the preposition when it changes form inside
+    a list.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p><b>miejscownik</b> — the Polish locative. Built with every rule checked against PWN and every form against
+    dictionary declension tables. Part of a series with <i>mianownik, dopełniacz, celownik, biernik, narzędnik</i>
+    and <i>wołacz</i>.</p>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function norm(s){
+  return String(s).toLowerCase().trim()
+    .replace(/[,.!?;:…"'„”()]/g, " ")
+    .replace(/\s+/g, " ").trim();
+}
+function stripDi(s){
+  return String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\u0142/g, "l");
+}
+function phraseIn(text, phrase){
+  var esc = phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp("(^|\\s)" + esc + "(?=\\s|$)").test(text);
+}
+var POLISH_LETTERS = ["ą","ć","ę","ł","ń","ó","ś","ź","ż"];
+function shuffle(a){
+  for (var i = a.length - 1; i > 0; i--){
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+var KEY = "miejscownik.progress.v1";
+function loadAll(){ try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ return {}; } }
+function saveAll(o){ try { localStorage.setItem(KEY, JSON.stringify(o)); } catch(e){} }
+function getP(k, dflt){ var o = loadAll(); return (k in o) ? o[k] : dflt; }
+function setP(k, v){ var o = loadAll(); o[k] = v; saveAll(o); }
+
+/* ============================================================
+   ITEM BANKS
+   Every correct answer below was checked against the declension
+   tables of Polish Wiktionary, or taken verbatim from
+   Hanna Jadacka's PWN entry on the miejscownik.
+   ============================================================ */
+
+/* ---------- SET 1 · which ending? ---------- */
+var E1 = [
+ {q:"w ___ (bank)", hint:"masculine · stem ends in k", opts:["banku","bankowi","bankiem"], a:"banku", why:"k, g, ch and l take -u in masculine nouns: w banku. (bankowi is dative, bankiem instrumental.)"},
+ {q:"w ___ (hotel)", hint:"masculine · stem ends in l", opts:["hotelu","hotelie","hotelowi"], a:"hotelu", why:"l takes -u in masculine and neuter: w hotelu. In feminine nouns l takes -i instead: sól → soli."},
+ {q:"w ___ (miasto)", hint:"neuter · hard stem", opts:["mieście","miastu","miastem"], a:"mieście", why:"Hard stem takes -e, and -e softens: st → ść and a → e together. w mieście."},
+ {q:"w ___ (las)", hint:"masculine · hard stem s", opts:["lesie","lasie","lasu"], a:"lesie", why:"s takes -e, with the vowel shift a → e: w lesie."},
+ {q:"na ___ (stół)", hint:"masculine · ł", opts:["stole","stołu","stóle"], a:"stole", why:"ł becomes l before -e: na stole. It takes -e even though it looks like an -l stem, because that l is a softened ł."},
+ {q:"w ___ (praca)", hint:"feminine · stem ends in c", opts:["pracy","praci","pracu"], a:"pracy", why:"c is hardened, so feminine nouns take -y, not -i: w pracy. This is the trap that catches almost everyone."},
+ {q:"o ___ (tradycja)", hint:"feminine · ends in -ja", opts:["tradycji","tradycję","tradycją"], a:"tradycji", why:"-ja + -i → -ji: o tradycji."},
+ {q:"o ___ (sól)", hint:"feminine · stem ends in l", opts:["soli","solu","solą"], a:"soli", why:"In feminine nouns l behaves as soft and takes -i: o soli. Compare masculine hotel → hotelu."},
+ {q:"w ___ (noc)", hint:"feminine · stem ends in c", opts:["nocy","noci","nocu"], a:"nocy", why:"Hardened c takes -y: w nocy."},
+ {q:"na ___ (plaża)", hint:"feminine · stem ends in ż", opts:["plaży","plażu","plażą"], a:"plaży", why:"ż is hardened, so -y: na plaży."},
+ {q:"o ___ (koń)", hint:"masculine · soft stem", opts:["koniu","konie","koniowi"], a:"koniu", why:"A soft stem takes -u: o koniu. No softening is needed because the stem is already soft."},
+ {q:"o ___ (gracz)", hint:"masculine · hardened stem cz", opts:["graczu","graczy","graczem"], a:"graczu", why:"Hardened cz takes -u in masculine nouns: o graczu. Feminine hardened stems take -y instead — the genders differ."},
+ {q:"w ___ (morze)", hint:"neuter · soft stem", opts:["morzu","morze","morzem"], a:"morzu", why:"A soft stem takes -u: w morzu."},
+ {q:"o ___ (dziecko)", hint:"neuter · stem ends in k", opts:["dziecku","dziecka","dzieckiem"], a:"dziecku", why:"k takes -u: o dziecku. The plural is irregular: o dzieciach."},
+ {q:"w ___ (sklep)", hint:"masculine · hard stem p", opts:["sklepie","sklepu","sklepiu"], a:"sklepie", why:"A hard stem other than k, g, ch, l takes -e: w sklepie."},
+ {q:"w ___ (chleb)", hint:"masculine · hard stem b", opts:["chlebie","chlebu","chlebiu"], a:"chlebie", why:"Hard b takes -e: w chlebie."},
+ {q:"w ___ (las) · plural", hint:"plural of a masculine noun", opts:["lasach","lesiech","lasom"], a:"lasach", why:"Every regular plural takes -ach: w lasach."},
+ {q:"w ___ (kino)", hint:"neuter · hard stem n", opts:["kinie","kinu","kiniem"], a:"kinie", why:"n softens to ni before -e: w kinie."},
+ {q:"o ___ (biuro)", hint:"neuter · stem ends in r", opts:["biurze","biurzu","biura"], a:"biurze", why:"r softens to rz before -e: o biurze."},
+ {q:"w ___ (Lublin)", hint:"masculine · hard stem n", opts:["Lublinie","Lublinu","Lublinem"], a:"Lublinie", why:"n softens to ni: w Lublinie."},
+ {q:"w ___ (Kraków)", hint:"masculine · ends in -ów", opts:["Krakowie","Krakowiu","Krakówie"], a:"Krakowie", why:"-ów becomes -ow- and w behaves as soft: w Krakowie."},
+ {q:"w ___ (Gdańsk)", hint:"masculine · stem ends in k", opts:["Gdańsku","Gdańskowi","Gdańskiem"], a:"Gdańsku", why:"k takes -u: w Gdańsku."},
+ {q:"w ___ (Poznań)", hint:"masculine · soft stem", opts:["Poznaniu","Poznanie","Poznaniowi"], a:"Poznaniu", why:"A soft stem takes -u, and the spelling n + i keeps it soft: w Poznaniu."},
+ {q:"w ___ (Wrocław)", hint:"masculine · stem ends in w", opts:["Wrocławiu","Wrocławie","Wrocławiem"], a:"Wrocławiu", why:"w behaves as soft, so -u is spelled -iu: we Wrocławiu."}
+];
+
+/* ---------- SET 2 · plural and the three country exceptions ---------- */
+var E2 = [
+ {q:"w ___ (Niemcy)", hint:"the country exception", opts:["Niemczech","Niemcach","Niemcy"], a:"Niemczech", why:"One of exactly three countries that take -ech instead of -ach: w Niemczech."},
+ {q:"we ___ (Włochy)", hint:"the country exception", opts:["Włoszech","Włochach","Włochy"], a:"Włoszech", why:"The second of the three: we Włoszech. Note the preposition becomes we before the W- cluster."},
+ {q:"na ___ (Węgry)", hint:"the country exception", opts:["Węgrzech","Węgrach","Węgry"], a:"Węgrzech", why:"The third of the three: na Węgrzech."},
+ {q:"w ___ (Czechy)", hint:"looks like an exception — it is not", opts:["Czechach","Czeszech","Czechy"], a:"Czechach", why:"Czechy is completely regular: w Czechach. Only Niemcy, Włochy and Węgry take -ech."},
+ {q:"w ___ (Indie)", hint:"regular plural", opts:["Indiach","Indiech","Indie"], a:"Indiach", why:"Regular -ach: w Indiach."},
+ {q:"w ___ (Chiny)", hint:"regular plural", opts:["Chinach","Chiniech","Chiny"], a:"Chinach", why:"Regular -ach: w Chinach. Compare the trap: Niemcy → Niemczech."},
+ {q:"w ___ (drzwi)", hint:"plural only", opts:["drzwiach","drzwiami","drzwi"], a:"drzwiach", why:"A plural-only noun: w drzwiach (in the doorway)."},
+ {q:"w ___ (Katowice)", hint:"plural-only city name", opts:["Katowicach","Katowicami","Katowic"], a:"Katowicach", why:"Regular -ach: w Katowicach."},
+ {q:"w ___ (Tatry)", hint:"plural-only mountain name", opts:["Tatrach","Tatrami","Tatr"], a:"Tatrach", why:"Regular -ach: w Tatrach."},
+ {q:"na ___ (Mazury)", hint:"plural-only region", opts:["Mazurach","Mazurami","Mazur"], a:"Mazurach", why:"Regular -ach: na Mazurach."},
+ {q:"w ___ (Kielce)", hint:"plural-only city name", opts:["Kielcach","Kielcami","Kielc"], a:"Kielcach", why:"Regular -ach: w Kielcach."},
+ {q:"w ___ (wakacje)", hint:"plural only", opts:["wakacjach","wakacjami","wakacji"], a:"wakacjach", why:"Regular -ach: w wakacjach. For 'on holiday' Polish prefers na wakacjach."},
+ {q:"na ___ (urodziny)", hint:"plural only", opts:["urodzinach","urodzinami","urodzin"], a:"urodzinach", why:"Regular -ach: na urodzinach."},
+ {q:"w ___ (góry)", hint:"plural of góra", opts:["górach","górami","gór"], a:"górach", why:"Regular -ach: w górach."},
+ {q:"w ___ (miasta)", hint:"plural of miasto", opts:["miastach","miastami","miast"], a:"miastach", why:"Regular -ach: w miastach."},
+ {q:"o ___ (ludzie)", hint:"people — an irregular plural stem", opts:["ludziach","ludziech","ludzi"], a:"ludziach", why:"ludzie → o ludziach. The stem looks irregular, but the plural ending is the ordinary -ach."},
+ {q:"o ___ (dzieci)", hint:"children — the trickiest plural", opts:["dzieciach","dzieciech","dziećmi"], a:"dzieciach", why:"o dzieciach. Note that dziecko → o dziecku in the singular but o dzieciach in the plural."},
+ {q:"o ___ (bracia)", hint:"brothers", opts:["braciach","braciech","braćmi"], a:"braciach", why:"o braciach."},
+ {q:"___ Włoszech", hint:"before W- + consonant", opts:["we","w"], a:"we", why:"we (not w) before a W followed by a consonant: we Włoszech, we Francji, we Wrocławiu."},
+ {q:"___ Francji", hint:"before the fr- cluster", opts:["we","w"], a:"we", why:"The cluster fr- takes we: we Francji. When the cluster cannot be pronounced without it, Polish inserts e."},
+ {q:"w ___ (Polska) · and the preposition", hint:"watch w / we", opts:["w Polsce","we Polsce","w Polscę"], a:"w Polsce", why:"k → c, and the preposition stays w because Polska does not begin with a consonant cluster: w Polsce."}
+];
+
+/* ---------- SET 3 · adjectives, pronouns, numerals ---------- */
+var E3 = [
+ {q:"w ___ mieście (duży)", hint:"neuter adjective", opts:["dużym","dużej","dużych"], a:"dużym", why:"Neuter singular takes -ym after a hard stem: w dużym mieście."},
+ {q:"w ___ szkole (nowy)", hint:"feminine adjective", opts:["nowej","nowym","nowych"], a:"nowej", why:"Every feminine singular adjective takes -ej: w nowej szkole."},
+ {q:"o ___ ludziach (dobry)", hint:"plural adjective", opts:["dobrych","dobrym","dobrej"], a:"dobrych", why:"The plural takes -ych after a hard stem: o dobrych ludziach."},
+ {q:"o ___ człowieku (tani)", hint:"soft stem adjective", opts:["tanim","tanym","taniej"], a:"tanim", why:"Soft stems take -im: o tanim człowieku."},
+ {q:"w ___ kraju (polski)", hint:"k is spelled with i", opts:["polskim","polskym","polskiej"], a:"polskim", why:"After k Polish writes -im: w polskim kraju."},
+ {q:"w ___ pokoju (wysoki)", hint:"k again", opts:["wysokim","wysokym","wysokiej"], a:"wysokim", why:"After k: -im. w wysokim pokoju."},
+ {q:"o ___ sprawie (ten)", hint:"feminine demonstrative", opts:["tej","tym","tych"], a:"tej", why:"ten → tym (m/n), tej (f), tych (pl): o tej sprawie."},
+ {q:"o ___ dniu (który)", hint:"masculine relative pronoun", opts:["którym","której","których"], a:"którym", why:"który behaves like a hard-stem adjective: o którym dniu."},
+ {q:"o ___ książce (mój)", hint:"feminine possessive", opts:["mojej","moim","moich"], a:"mojej", why:"mój → moim / mojej / moich: o mojej książce."},
+ {q:"w ___ domu (nasz)", hint:"masculine possessive", opts:["naszym","naszej","naszych"], a:"naszym", why:"nasz behaves like a hard-stem adjective: w naszym domu."},
+ {q:"w ___ mieszkaniu (swój)", hint:"neuter possessive", opts:["swoim","swojej","swoich"], a:"swoim", why:"swój → swoim / swojej / swoich: w swoim mieszkaniu."},
+ {q:"o ___ osobach (trzy)", hint:"numeral", opts:["trzech","trzema","trzy"], a:"trzech", why:"Numerals take -u, here spelled -ech on the soft stem: o trzech osobach."},
+ {q:"o ___ minutach (pięć)", hint:"numeral", opts:["pięciu","pięć","pięcioma"], a:"pięciu", why:"o pięciu minutach."},
+ {q:"o ___ latach (dziesięć)", hint:"numeral", opts:["dziesięciu","dziesięć","dziesięcioma"], a:"dziesięciu", why:"o dziesięciu latach."},
+ {q:"o ___ latach (dwadzieścia)", hint:"numeral", opts:["dwudziestu","dwadzieścia","dwudziestoma"], a:"dwudziestu", why:"o dwudziestu latach."},
+ {q:"o ___ dzieciach (dwoje)", hint:"collective numeral", opts:["dwojgu","dwoje","dwojgiem"], a:"dwojgu", why:"The collective numerals take -gu: o dwojgu dzieciach."},
+ {q:"o ___ ludziach (dwa)", hint:"numeral two", opts:["dwóch","dwa","dwoma"], a:"dwóch", why:"dwa has two accepted locative forms, dwu and dwóch: o dwóch ludziach."},
+ {q:"o ___ (ja)", hint:"first person pronoun", opts:["mnie","mi","mną"], a:"mnie", why:"ja → mnie in the locative: mówią o mnie."},
+ {q:"o ___ (ty)", hint:"second person pronoun", opts:["tobie","ci","tobą"], a:"tobie", why:"ty → tobie: myślę o tobie."},
+ {q:"o ___ (on)", hint:"third person, with the n-", opts:["nim","go","jemu"], a:"nim", why:"After a preposition the third person takes n-: o nim. (go is genitive/accusative, jemu is dative.)"},
+ {q:"o ___ (ona)", hint:"third person feminine", opts:["niej","ją","jej"], a:"niej", why:"o niej. The n- appears because a preposition stands in front; jej is the form without n-."},
+ {q:"o ___ (oni)", hint:"third person plural", opts:["nich","ich","nimi"], a:"nich", why:"o nich. (nimi is the instrumental.)"},
+ {q:"o ___ (my)", hint:"first person plural", opts:["nas","nami","nam"], a:"nas", why:"my → nas in the locative: mówią o nas. (nami is the instrumental, nam the dative.)"},
+ {q:"o ___ (siebie)", hint:"reflexive pronoun", opts:["sobie","sobą","się"], a:"sobie", why:"The reflexive locative is sobie: myśli tylko o sobie."}
+];
+
+/* ---------- SET 4 · which preposition? ---------- */
+var E4 = [
+ {q:"Rozmawiamy ___ pracy.", hint:"to talk about", opts:["o","na","przy"], a:"o", why:"mówić / rozmawiać o + locative: rozmawiamy o pracy."},
+ {q:"Polegam ___ tobie.", hint:"to rely on", opts:["na","w","po"], a:"na", why:"polegać na + locative — never w: polegam na tobie."},
+ {q:"Upieram się ___ swoim zdaniu.", hint:"to insist on", opts:["przy","na","o"], a:"przy", why:"upierać się przy + locative: upieram się przy swoim zdaniu."},
+ {q:"Spacerujemy ___ parku.", hint:"around an area", opts:["po","przy","w"], a:"po", why:"po + locative for movement around or over an area: spacerujemy po parku."},
+ {q:"Mieszkam ___ Krakowie.", hint:"inside a city", opts:["w","na","przy"], a:"w", why:"w + locative for being inside: mieszkam w Krakowie."},
+ {q:"Jestem ___ koncercie.", hint:"at an event", opts:["na","w","przy"], a:"na", why:"na + locative for events and open spaces: jestem na koncercie."},
+ {q:"Siedzę ___ stole.", hint:"next to, at a table", opts:["przy","na","po"], a:"przy", why:"przy + locative means beside, at: siedzę przy stole."},
+ {q:"Myślę ___ tobie.", hint:"to think about", opts:["o","na","w"], a:"o", why:"myśleć o + locative: myślę o tobie."},
+ {q:"Znam się ___ komputerach.", hint:"to know about a subject", opts:["na","w","o"], a:"na", why:"znać się na + locative. Plain znać takes the accusative: znam ten komputer."},
+ {q:"Koncentruję się ___ zadaniu.", hint:"to focus on", opts:["na","o","przy"], a:"na", why:"koncentrować się na + locative: koncentruję się na zadaniu."},
+ {q:"Biegam ___ lesie.", hint:"around, through an area", opts:["po","w","przy"], a:"po", why:"po + locative: biegam po lesie."},
+ {q:"Pracuję ___ komputerze.", hint:"at a device", opts:["przy","na","w"], a:"przy", why:"pracować przy + locative when you mean at the machine: pracuję przy komputerze. pracować w + locative means to work in a place: pracuję w biurze."},
+ {q:"Zapomniałem ___ spotkaniu.", hint:"to forget about", opts:["o","na","przy"], a:"o", why:"zapomnieć o + locative: zapomniałem o spotkaniu."},
+ {q:"Opowiadam ___ wakacjach.", hint:"to tell about", opts:["o","na","po"], a:"o", why:"opowiadać o + locative: opowiadam o wakacjach."},
+ {q:"Zależy mi ___ tobie.", hint:"it matters to me", opts:["na","o","przy"], a:"na", why:"zależeć na + locative: zależy mi na tobie."},
+ {q:"Rozmawialiśmy ___ pogodzie.", hint:"about the weather", opts:["o","na","po"], a:"o", why:"o + locative: o pogodzie."},
+ {q:"Ona stoi ___ oknie.", hint:"beside the window", opts:["przy","na","po"], a:"przy", why:"przy + locative: przy oknie."},
+ {q:"Szukam kluczy ___ kątach.", hint:"to search all over", opts:["po","w","przy"], a:"po", why:"szukać po + locative: szukać po kątach."},
+ {q:"Zostaliśmy ___ domu.", hint:"at home", opts:["w","na","przy"], a:"w", why:"w domu = at home. Note that dom takes -u despite a hard stem."},
+ {q:"Byliśmy ___ wakacjach.", hint:"on holiday", opts:["na","w","po"], a:"na", why:"na wakacjach is the idiomatic phrase."}
+];
+
+/* ---------- SET 5 · place or movement? (locative against accusative) ---------- */
+var E5 = [
+ {q:"Kot śpi ___ stołem. <span class=\"tr\">(under the table — no movement)</span>", hint:"static position", opts:["pod","przed","za"], a:"pod", why:"Static position with pod takes the <b>instrumental</b>, not the locative: kot śpi pod stołem. This item tests the preposition; the case follows from the verb."},
+ {q:"Siedzimy ___ telewizorem.", hint:"in front of", opts:["przed","pod","nad"], a:"przed", why:"przed + <b>instrumental</b> for a static position: przed telewizorem. With movement it would take the accusative: stanął przed telewizor."},
+ {q:"Park jest ___ szkołą.", hint:"behind", opts:["za","pod","przy"], a:"za", why:"za + <b>instrumental</b> = behind (static): park jest za szkołą. za + accusative = to behind (movement)."},
+ {q:"___ łóżkiem wisi lampa.", hint:"above", opts:["Nad","Pod","Za"], a:"Nad", why:"nad + <b>instrumental</b> for a static position: nad łóżkiem wisi lampa."},
+ {q:"Między ___ mówiąc, masz rację.", hint:"between us (a fixed phrase)", opts:["nami","nas","nam"], a:"nami", why:"między + <b>instrumental</b>: między nami mówiąc."},
+ {q:"Lecę ___ morze.", hint:"movement towards", opts:["nad","na","w"], a:"nad", why:"A warning, not a locative example: movement towards takes the accusative — lecę nad morze. Staying there is nad morzem."},
+ {q:"Spędziliśmy wakacje ___ morzem.", hint:"staying there", opts:["nad","na","przy"], a:"nad", why:"Static, so the <b>instrumental</b>: nad morzem. Movement towards would give nad morze with the accusative."},
+ {q:"Zadzwonię ___ obiadem.", hint:"before dinner — time", opts:["przed","po","przy"], a:"przed", why:"przed + <b>instrumental</b> also covers time: przed obiadem."},
+ {q:"Wrócę ___ obiedzie.", hint:"after dinner — time", opts:["po","przy","przed"], a:"po", why:"po + locative for time after: po obiedzie."},
+ {q:"Mieszkam ___ Warszawie.", hint:"inside a city", opts:["w","na","przy"], a:"w", why:"w + locative for cities: w Warszawie."},
+ {q:"Mieszkam ___ Śląsku.", hint:"a region that takes na", opts:["na","w","przy"], a:"na", why:"Regions and islands take na: na Śląsku, na Mazowszu, na Podhalu, na Węgrzech, na Kubie."},
+ {q:"Jestem ___ Słowacji.", hint:"Slovakia takes na", opts:["na","w","przy"], a:"na", why:"na Słowacji is the standard form. (For Ukraine both na Ukrainie and w Ukrainie are correct — the Rada Języka Polskiego accepts both since 2022.)"},
+ {q:"Uczymy się ___ szkole.", hint:"inside a building", opts:["w","na","przy"], a:"w", why:"w + locative: w szkole."},
+ {q:"Jestem ___ uniwersytecie.", hint:"a fixed na-phrase", opts:["na","w","przy"], a:"na", why:"na uniwersytecie — universities, like many institutions and events, take na."},
+ {q:"Pracuję ___ biurze.", hint:"inside an office", opts:["w","na","przy"], a:"w", why:"w + locative: w biurze."},
+ {q:"Stoję ___ drzwiach.", hint:"in the doorway", opts:["w","na","przy"], a:"w", why:"w drzwiach = in the doorway. drzwi is plural-only: w drzwiach."},
+ {q:"Rozmawiamy ___ nowym projekcie.", hint:"about", opts:["o","na","w"], a:"o", why:"o + locative: o nowym projekcie."},
+ {q:"Ona myśli tylko ___ sobie.", hint:"only about herself", opts:["o","na","przy"], a:"o", why:"o + locative with the reflexive sobie: myśli tylko o sobie."},
+ {q:"Zatrzymaliśmy się ___ hotelu.", hint:"inside a hotel", opts:["w","na","przy"], a:"w", why:"w + locative: w hotelu."},
+ {q:"Ten zwyczaj istnieje ___ Polsce.", hint:"in Poland", opts:["w","na","przy"], a:"w", why:"w + locative for Poland: w Polsce. Countries normally take w; the plural exceptions are Niemcy, Włochy and Węgry, and a few countries take na (Ukraina, Słowacja, Węgry)."}
+];
+
+/* ---------- SET 6 · type the form ---------- */
+var E6 = [
+ {q:"w [[bank]]", hint:"bank — masculine, k", accept:["banku"], display:"banku", why:"k takes -u: w banku."},
+ {q:"w [[miasto]]", hint:"miasto — neuter, hard stem", accept:["mieście"], display:"mieście", why:"st → ść and a → e: w mieście."},
+ {q:"w [[las]]", hint:"las — masculine, hard s", accept:["lesie"], display:"lesie", why:"s takes -e with a → e: w lesie."},
+ {q:"w [[praca]]", hint:"praca — feminine, hardened c", accept:["pracy"], display:"pracy", why:"Hardened c takes -y: w pracy."},
+ {q:"o [[sól]]", hint:"sól — feminine, l", accept:["soli"], display:"soli", why:"In feminine nouns l takes -i: o soli."},
+ {q:"o [[gracz]]", hint:"gracz — masculine, hardened cz", accept:["graczu"], display:"graczu", why:"Hardened cz takes -u in the masculine: o graczu."},
+ {q:"w [[morze]]", hint:"morze — neuter, soft", accept:["morzu"], display:"morzu", why:"Soft stems take -u: w morzu."},
+ {q:"w [[kino]]", hint:"kino — neuter, hard n", accept:["kinie"], display:"kinie", why:"n → ni before -e: w kinie."},
+ {q:"w [[hotel]]", hint:"hotel — masculine, l", accept:["hotelu"], display:"hotelu", why:"l takes -u in the masculine: w hotelu."},
+ {q:"w [[szkoła]]", hint:"szkoła — feminine, ł", accept:["szkole"], display:"szkole", why:"ł → l before -e: w szkole."},
+ {q:"w [[noga]]", hint:"noga — feminine, g", accept:["nodze"], display:"nodze", why:"g → dz: w nodze."},
+ {q:"w [[mucha]]", hint:"mucha — feminine, ch", accept:["musze"], display:"musze", why:"ch → sz: w musze."},
+ {q:"o [[siostra]]", hint:"siostra — feminine, r", accept:["siostrze"], display:"siostrze", why:"r → rz: o siostrze."},
+ {q:"w [[Warszawa]]", hint:"Warszawa — feminine", accept:["Warszawie"], display:"Warszawie", why:"w behaves as soft: w Warszawie."},
+ {q:"w [[Polska]]", hint:"Polska — feminine, k", accept:["Polsce"], display:"Polsce", why:"k → c: w Polsce."},
+ {q:"w [[Niemcy]]", hint:"the country exception", accept:["Niemczech"], display:"Niemczech", why:"One of the three -ech countries: w Niemczech."},
+ {q:"we [[Włochy]]", hint:"the country exception", accept:["Włoszech"], display:"Włoszech", why:"we Włoszech."},
+ {q:"na [[Węgry]]", hint:"the country exception", accept:["Węgrzech"], display:"Węgrzech", why:"na Węgrzech."},
+ {q:"w [[Czechy]]", hint:"regular, despite looking like the others", accept:["Czechach"], display:"Czechach", why:"Regular: w Czechach."},
+ {q:"w [[Chiny]]", hint:"regular", accept:["Chinach"], display:"Chinach", why:"Regular: w Chinach."},
+ {q:"w [[drzwi]]", hint:"plural only", accept:["drzwiach"], display:"drzwiach", why:"w drzwiach."},
+ {q:"w [[Kraków]]", hint:"Kraków — ends in -ów", accept:["Krakowie"], display:"Krakowie", why:"-ów → -ow-: w Krakowie."},
+ {q:"w [[Gdańsk]]", hint:"Gdańsk — k", accept:["Gdańsku"], display:"Gdańsku", why:"k takes -u: w Gdańsku."},
+ {q:"w [[dziecko]]", hint:"dziecko — neuter, k", accept:["dziecku"], display:"dziecku", why:"k takes -u: w dziecku."},
+ {q:"o [[dzieci]]", hint:"the plural of dziecko", accept:["dzieciach"], display:"dzieciach", why:"The plural is regular -ach: o dzieciach."},
+ {q:"w [[oko]]", hint:"oko — neuter", accept:["oku"], display:"oku", why:"oko → w oku. The plural is irregular: w oczach."},
+ {q:"w [[ucho]]", hint:"ucho — neuter", accept:["uchu"], display:"uchu", why:"ucho → w uchu. The plural is irregular: w uszach."},
+ {q:"w [[imię]]", hint:"imię — neuter, and a fixed phrase", accept:["imieniu"], display:"imieniu", why:"imię → w imieniu. The phrase w imieniu means on behalf of."},
+ {q:"w [[muzeum]]", hint:"muzeum — ends in -um", accept:["muzeum"], display:"muzeum", why:"-um nouns keep -um in the singular: w muzeum."},
+ {q:"w [[centrum]]", hint:"centrum — ends in -um", accept:["centrum"], display:"centrum", why:"w centrum — unchanged in the singular."},
+ {q:"w [[wieś]]", hint:"wieś — irregular", accept:["wsi"], display:"wsi", why:"wieś → wsi. The final ś becomes si."},
+ {q:"o [[kość]]", hint:"kość — soft stem", accept:["kości"], display:"kości", why:"o kości."},
+ {q:"o [[jesień]]", hint:"jesień — soft n", accept:["jesieni"], display:"jesieni", why:"o jesieni."},
+ {q:"o [[pani]]", hint:"pani — soft stem", accept:["pani"], display:"pani", why:"pani is unchanged: o pani."},
+ {q:"w [[ziemia]]", hint:"ziemia — soft mi", accept:["ziemi"], display:"ziemi", why:"w ziemi."},
+ {q:"o [[historia]]", hint:"historia — ends in -ia", accept:["historii"], display:"historii", why:"-ia + -i → -ii: o historii."},
+ {q:"na [[lekcja]]", hint:"lekcja — ends in -ja", accept:["lekcji"], display:"lekcji", why:"-ja + -i → -ji: na lekcji."},
+ {q:"w [[Wisła]]", hint:"Wisła — s and ł", accept:["Wiśle"], display:"Wiśle", why:"s → ś and ł → l: w Wiśle."},
+ {q:"w [[Ukraina]]", hint:"Ukraina — n", accept:["Ukrainie"], display:"Ukrainie", why:"n → ni: w Ukrainie. The older na Ukrainie is also correct."},
+ {q:"o [[miłość]]", hint:"miłość — soft ś", accept:["miłości"], display:"miłości", why:"o miłości."},
+ {q:"w [[twarz]]", hint:"twarz — hardened rz", accept:["twarzy"], display:"twarzy", why:"Hardened rz takes -y in the feminine: w twarzy."},
+ {q:"w [[ręka]]", hint:"ręka — k", accept:["ręce","ręku"], display:"ręce", why:"k → c: w ręce. The form w ręku is also correct — PWN accepts both."},
+ {q:"o [[przyjaciel]]", hint:"przyjaciel — singular", accept:["przyjacielu"], display:"przyjacielu", why:"The singular is regular: o przyjacielu. The plural stem is different: o przyjaciołach."},
+ {q:"o [[przyjaciele]]", hint:"the plural of przyjaciel", accept:["przyjaciołach"], display:"przyjaciołach", why:"The plural uses the stem przyjaciol-: o przyjaciołach."},
+ {q:"w [[tydzień]]", hint:"tydzień — stem changes", accept:["tygodniu"], display:"tygodniu", why:"tydzień → tygodniu, and the plural is o tygodniach."}
+];
+
+/* ---------- SET 7 · translate ---------- */
+var E7 = [
+ {q:"I live in a small town.", hint:"mieszkać w + locative", accept:["mieszkam w małym miasteczku"], display:"Mieszkam w małym miasteczku.", why:"w + locative, and the adjective agrees: w małym miasteczku."},
+ {q:"We are talking about work.", hint:"rozmawiać o + locative", accept:["rozmawiamy o pracy"], display:"Rozmawiamy o pracy.", why:"o + locative: o pracy."},
+ {q:"I am thinking about you.", hint:"myśleć o + locative", accept:["myślę o tobie"], display:"Myślę o tobie.", why:"ty → tobie: o tobie."},
+ {q:"She works in an office.", hint:"pracować w + locative", accept:["pracuje w biurze","ona pracuje w biurze"], display:"Pracuje w biurze.", why:"w + locative: w biurze."},
+ {q:"We live in Warsaw.", hint:"w + locative", accept:["mieszkamy w Warszawie"], display:"Mieszkamy w Warszawie.", why:"w Warszawie."},
+ {q:"I am at a concert.", hint:"na + locative", accept:["jestem na koncercie"], display:"Jestem na koncercie.", why:"Events take na: na koncercie."},
+ {q:"He is good at computers.", hint:"znać się na + locative", accept:["zna się na komputerach"], display:"Zna się na komputerach.", why:"znać się na + locative: na komputerach."},
+ {q:"We are walking around the park.", hint:"po + locative", accept:["spacerujemy po parku"], display:"Spacerujemy po parku.", why:"po + locative: po parku."},
+ {q:"I am sitting at the table.", hint:"przy + locative", accept:["siedzę przy stole"], display:"Siedzę przy stole.", why:"przy + locative: przy stole."},
+ {q:"This happened in Germany.", hint:"in Germany — the -ech exception", accept:["to się stało w Niemczech","stało się to w Niemczech"], display:"To się stało w Niemczech.", why:"w Niemczech — one of the three -ech countries."},
+ {q:"I have never been to Italy.", hint:"in Italy — the -ech exception", accept:["nigdy nie byłem we Włoszech","nigdy nie byłam we Włoszech"], display:"Nigdy nie byłem we Włoszech.", why:"we Włoszech — note both the irregular ending and the we."},
+ {q:"They live in the mountains.", hint:"w górach", accept:["mieszkają w górach","oni mieszkają w górach"], display:"Mieszkają w górach.", why:"w górach."},
+ {q:"I forgot about the meeting.", hint:"zapomnieć o + locative", accept:["zapomniałem o spotkaniu","zapomniałam o spotkaniu"], display:"Zapomniałem o spotkaniu.", why:"o + locative: o spotkaniu."},
+ {q:"The book is on the table.", hint:"na + locative", accept:["książka jest na stole"], display:"Książka jest na stole.", why:"na + locative for a static position: na stole."},
+ {q:"I am focusing on the task.", hint:"koncentrować się na + locative", accept:["koncentruję się na zadaniu"], display:"Koncentruję się na zadaniu.", why:"na + locative: na zadaniu."},
+ {q:"She thinks only about herself.", hint:"o + sobie", accept:["myśli tylko o sobie","ona myśli tylko o sobie"], display:"Myśli tylko o sobie.", why:"The reflexive locative is sobie: o sobie."},
+ {q:"In the evening I read books.", hint:"wieczorem is instrumental, not locative", accept:["wieczorem czytam książki","czytam książki wieczorem"], display:"Wieczorem czytam książki.", why:"wieczorem ('in the evening') is an instrumental time expression with no preposition — a useful contrast with w + locative."},
+ {q:"We talked about the weather.", hint:"o + locative", accept:["rozmawialiśmy o pogodzie"], display:"Rozmawialiśmy o pogodzie.", why:"o pogodzie."},
+ {q:"I live in Poland.", hint:"w + locative", accept:["mieszkam w Polsce"], display:"Mieszkam w Polsce.", why:"k → c: w Polsce."},
+ {q:"He lives in the countryside.", hint:"na wsi", accept:["mieszka na wsi"], display:"Mieszka na wsi.", why:"na wsi = in the countryside. wieś → wsi."}
+];
+
+/* ---------- SET 8 · final test ---------- */
+var E8 = [
+ {q:"w ___ (bank) · which ending?", hint:"k", opts:["banku","bankowi","bankiem"], a:"banku", why:"k takes -u: w banku."},
+ {q:"w ___ (praca)", hint:"hardened c", opts:["pracy","pracu","pracie"], a:"pracy", why:"Hardened c takes -y in the feminine: w pracy."},
+ {q:"o ___ (gracz)", hint:"hardened cz, masculine", opts:["graczu","graczy","graczach"], a:"graczu", why:"Hardened cz takes -u in the masculine: o graczu. The plural is o graczach."},
+ {q:"w ___ (miasto)", hint:"st", opts:["mieście","miastu","miastem"], a:"mieście", why:"st → ść: w mieście."},
+ {q:"o ___ (sól)", hint:"feminine l", opts:["soli","solu","solą"], a:"soli", why:"Feminine l takes -i: o soli."},
+ {q:"w ___ (Niemcy)", hint:"the exception", opts:["Niemczech","Niemcach","Niemcy"], a:"Niemczech", why:"w Niemczech."},
+ {q:"w ___ (Czechy)", hint:"regular, unlike Niemcy", opts:["Czechach","Czeszech","Czechy"], a:"Czechach", why:"w Czechach — fully regular."},
+ {q:"we ___ (Włochy)", hint:"the exception, and the preposition", opts:["Włoszech","Włochach","Włochy"], a:"Włoszech", why:"we Włoszech."},
+ {q:"o ___ ludziach (dobry)", hint:"plural adjective", opts:["dobrych","dobrym","dobrej"], a:"dobrych", why:"Hard-stem plural takes -ych: o dobrych ludziach."},
+ {q:"w ___ kraju (polski)", hint:"k", opts:["polskim","polskym","polskiej"], a:"polskim", why:"After k write -im: w polskim kraju."},
+ {q:"o ___ osobach (trzy)", hint:"numeral", opts:["trzech","trzema","trzy"], a:"trzech", why:"o trzech osobach."},
+ {q:"o ___ (on)", hint:"third person, n-", opts:["nim","go","jemu"], a:"nim", why:"o nim."},
+ {q:"o ___ (oni)", hint:"third person plural", opts:["nich","ich","nimi"], a:"nich", why:"o nich."},
+ {q:"Rozmawiamy ___ pracy.", hint:"about", opts:["o","na","przy"], a:"o", why:"o + locative: o pracy."},
+ {q:"Polegam ___ tobie.", hint:"to rely on", opts:["na","w","po"], a:"na", why:"polegać na: na tobie."},
+ {q:"Spacerujemy ___ parku.", hint:"around", opts:["po","przy","w"], a:"po", why:"po + locative: po parku."},
+ {q:"Mieszkam ___ Warszawie.", hint:"inside a city", opts:["w","na","przy"], a:"w", why:"w + locative: w Warszawie."},
+ {q:"Jestem ___ koncercie.", hint:"at an event", opts:["na","w","przy"], a:"na", why:"Events take na: na koncercie."},
+ {q:"Siedzę ___ stole.", hint:"beside", opts:["przy","na","po"], a:"przy", why:"przy + locative: przy stole."},
+ {q:"w [[Gdańsk]]", hint:"type it", accept:["Gdańsku"], display:"Gdańsku", why:"k takes -u: w Gdańsku."},
+ {q:"o [[dzieci]]", hint:"type it", accept:["dzieciach"], display:"dzieciach", why:"o dzieciach."},
+ {q:"w [[muzeum]]", hint:"type it", accept:["muzeum"], display:"muzeum", why:"-um nouns are unchanged: w muzeum."},
+ {q:"w [[wieś]]", hint:"type it", accept:["wsi"], display:"wsi", why:"wieś → wsi."},
+ {q:"w [[Kraków]]", hint:"type it", accept:["Krakowie"], display:"Krakowie", why:"w Krakowie."}
+];
+
+/* ---------- SETS ---------- */
+var SETS = [
+ { id:"e1", title:"Which ending?", meta:"24 items · the core rule", ask:"Which is the correct locative singular?", type:"choice", items:E1 },
+ { id:"e2", title:"Plural and the exceptions", meta:"21 items · -ach, -ech and the prepositions", ask:"Which is the correct locative?", type:"choice", items:E2 },
+ { id:"e3", title:"Adjectives, pronouns, numerals", meta:"24 items · -ym / -ej / -ych and the -u rule", ask:"Which is the correct locative?", type:"choice", items:E3 },
+ { id:"e4", title:"Which preposition?", meta:"20 items · o, na, przy, po, w", ask:"Choose the preposition the verb needs.", type:"choice", items:E4 },
+ { id:"e5", title:"Place or movement?", meta:"20 items · w and na with the locative, pod and nad with the instrumental", ask:"Choose the right preposition — and watch the case.", type:"choice", items:E5 },
+ { id:"e6", title:"Type the form", meta:"45 items · spelling under pressure", ask:"Type the locative form.", type:"type", items:E6 },
+ { id:"e7", title:"Translate", meta:"20 items · whole sentences", ask:"Translate into Polish.", type:"type", items:E7 },
+ { id:"e8", title:"Final test", meta:"24 items · everything at once", ask:"Which is the correct locative?", type:"choice", items:E8 }
+];
+var REF=[
+{a:"bank", s:"banku", p:"bankach", g:"masculine, hardened/soft stem → -u", why:"k takes -u"},
+{a:"pociąg", s:"pociągu", p:"pociągach", g:"masculine, hardened/soft stem → -u", why:"g takes -u"},
+{a:"dach", s:"dachu", p:"dachach", g:"masculine, hardened/soft stem → -u", why:"ch takes -u"},
+{a:"hotel", s:"hotelu", p:"hotelach", g:"masculine, hardened/soft stem → -u", why:"l takes -u in masculine"},
+{a:"język", s:"języku", p:"językach", g:"masculine, hardened/soft stem → -u", why:"k takes -u"},
+{a:"nauczyciel", s:"nauczycielu", p:"nauczycielach", g:"masculine, hardened/soft stem → -u", why:"l takes -u"},
+{a:"koń", s:"koniu", p:"koniach", g:"masculine, hardened/soft stem → -u", why:"soft stem"},
+{a:"gość", s:"gościu", p:"gościach", g:"masculine, hardened/soft stem → -u", why:"soft stem"},
+{a:"liść", s:"liściu", p:"liściach", g:"masculine, hardened/soft stem → -u", why:"soft stem"},
+{a:"mistrz", s:"mistrzu", p:"mistrzach", g:"masculine, hardened/soft stem → -u", why:"hardened rz takes -u"},
+{a:"lekarz", s:"lekarzu", p:"lekarzach", g:"masculine, hardened/soft stem → -u", why:"hardened rz takes -u"},
+{a:"kraj", s:"kraju", p:"krajach", g:"masculine, hardened/soft stem → -u", why:"soft j"},
+{a:"pokój", s:"pokoju", p:"pokojach", g:"masculine, hardened/soft stem → -u", why:"soft j, ó → o"},
+{a:"ojciec", s:"ojcu", p:"ojcach", g:"masculine, hardened/soft stem → -u", why:"soft c"},
+{a:"chłopiec", s:"chłopcu", p:"chłopcach", g:"masculine, hardened/soft stem → -u", why:"soft c"},
+{a:"miesiąc", s:"miesiącu", p:"miesiącach", g:"masculine, hardened/soft stem → -u", why:"soft c"},
+{a:"gracz", s:"graczu", p:"graczach", g:"masculine, hardened/soft stem → -u", why:"hardened cz takes -u"},
+{a:"rynek", s:"rynku", p:"rynkach", g:"masculine, hardened/soft stem → -u", why:"k takes -u, e drops"},
+{a:"Bóg", s:"Bogu", p:"bogach", g:"masculine, hardened/soft stem → -u", why:"the only -óg word that keeps o"},
+{a:"ogień", s:"ogniu", p:"ogniach", g:"masculine, hardened/soft stem → -u", why:"e drops, n softens"},
+{a:"kamień", s:"kamieniu", p:"kamieniach", g:"masculine, hardened/soft stem → -u", why:"n softens to ni"},
+{a:"przyjaciel", s:"przyjacielu", p:"przyjaciołach", g:"masculine, hardened/soft stem → -u", why:"plural stem przyjaciol-"},
+{a:"kościół", s:"kościele", p:"kościołach", g:"masculine, hard stem → -e", why:"exception: ł → l, but takes -e, not -u"},
+{a:"stół", s:"stole", p:"stołach", g:"masculine, hard stem → -e", why:"exception: ł → l, but takes -e, not -u"},
+{a:"pies", s:"psie", p:"psach", g:"masculine, hard stem → -e", why:"e drops, s softens"},
+{a:"cukier", s:"cukrze", p:"cukrach", g:"masculine, hard stem → -e", why:"r → rz"},
+{a:"sklep", s:"sklepie", p:"sklepach", g:"masculine, hard stem → -e", why:"hard stem takes -e"},
+{a:"chleb", s:"chlebie", p:"chlebach", g:"masculine, hard stem → -e", why:"hard stem takes -e"},
+{a:"klub", s:"klubie", p:"klubach", g:"masculine, hard stem → -e", why:"hard stem takes -e"},
+{a:"staw", s:"stawie", p:"stawach", g:"masculine, hard stem → -e", why:"w is soft here"},
+{a:"szef", s:"szefie", p:"szefach", g:"masculine, hard stem → -e", why:"hard stem takes -e"},
+{a:"sejf", s:"sejfie", p:"sejfach", g:"masculine, hard stem → -e", why:"hard stem takes -e"},
+{a:"las", s:"lesie", p:"lasach", g:"masculine, hard stem → -e", why:"a → e before -e"},
+{a:"mech", s:"mchu", p:"mechach", g:"masculine, hardened/soft stem → -u", why:"fleeting e drops, ch takes -u like dach"},
+{a:"ogród", s:"ogrodzie", p:"ogrodach", g:"masculine, hard stem → -e", why:"d → dz, ó → o"},
+{a:"wieczór", s:"wieczorze", p:"wieczorach", g:"masculine, hard stem → -e", why:"r → rz, ó → o"},
+{a:"bunt", s:"buncie", p:"buntach", g:"masculine, hard stem → -e", why:"t → ci"},
+{a:"ślad", s:"śladzie", p:"śladach", g:"masculine, hard stem → -e", why:"d → dzi"},
+{a:"tron", s:"tronie", p:"tronach", g:"masculine, hard stem → -e", why:"n → ni"},
+{a:"sznur", s:"sznurze", p:"sznurach", g:"masculine, hard stem → -e", why:"r → rz"},
+{a:"ząb", s:"zębie", p:"zębach", g:"masculine, hard stem → -e", why:"ą → ę"},
+{a:"dąb", s:"dębie", p:"dębach", g:"masculine, hard stem → -e", why:"ą → ę"},
+{a:"świt", s:"świcie", p:"świtach", g:"masculine, hard stem → -e", why:"t → ci"},
+{a:"standard", s:"standardzie", p:"standardach", g:"masculine, hard stem → -e", why:"d → dzi"},
+{a:"banał", s:"banale", p:"banałach", g:"masculine, hard stem → -e", why:"ł → l"},
+{a:"głaz", s:"głazie", p:"głazach", g:"masculine, hard stem → -e", why:"z → zi"},
+{a:"gniew", s:"gniewie", p:"gniewach", g:"masculine, hard stem → -e", why:"w is soft here"},
+{a:"piach", s:"piachu", p:"piachach", g:"masculine, hardened/soft stem → -u", why:"ch takes -u"},
+{a:"kowal", s:"kowalu", p:"kowalach", g:"masculine, hardened/soft stem → -u", why:"l takes -u"},
+{a:"cień", s:"cieniu", p:"cieniach", g:"masculine, hardened/soft stem → -u", why:"n softens to ni"},
+{a:"malkontent", s:"malkontencie", p:"malkontentach", g:"masculine, hard stem → -e", why:"t → ci"},
+{a:"mieszczanin", s:"mieszczaninie", p:"mieszczanach", g:"masculine, hard stem → -e", why:"plural drops -in"},
+{a:"dom", s:"domu", p:"domach", g:"masculine, hardened/soft stem → -u", why:"exception: hard stem but -u"},
+{a:"pan", s:"panu", p:"panach", g:"masculine, hardened/soft stem → -u", why:"exception: hard stem but -u"},
+{a:"syn", s:"synu", p:"synach", g:"masculine, hardened/soft stem → -u", why:"exception: hard stem but -u"},
+{a:"rok", s:"roku", p:"latach", g:"masculine, hardened/soft stem → -u", why:"suppletive plural"},
+{a:"dzień", s:"dniu", p:"dniach", g:"masculine, hardened/soft stem → -u", why:"exception: e drops"},
+{a:"tydzień", s:"tygodniu", p:"tygodniach", g:"masculine, hardened/soft stem → -u", why:"stem changes in both numbers"},
+{a:"cmentarz", s:"cmentarzu", p:"cmentarzach", g:"masculine, hardened/soft stem → -u", why:"hardened rz takes -u"},
+{a:"szpital", s:"szpitalu", p:"szpitalach", g:"masculine, hardened/soft stem → -u", why:"l takes -u"},
+{a:"urząd", s:"urzędzie", p:"urzędach", g:"masculine, hard stem → -e", why:"d → dzi, ą → ę"},
+{a:"sąd", s:"sądzie", p:"sądach", g:"masculine, hard stem → -e", why:"d → dzi"},
+{a:"dworzec", s:"dworcu", p:"dworcach", g:"masculine, hardened/soft stem → -u", why:"soft c"},
+{a:"przystanek", s:"przystanku", p:"przystankach", g:"masculine, hardened/soft stem → -u", why:"k takes -u, e drops"},
+{a:"balkon", s:"balkonie", p:"balkonach", g:"masculine, hard stem → -e", why:"n → ni"},
+{a:"korytarz", s:"korytarzu", p:"korytarzach", g:"masculine, hardened/soft stem → -u", why:"hardened rz takes -u"},
+{a:"gabinet", s:"gabinecie", p:"gabinetach", g:"masculine, hard stem → -e", why:"t → ci"},
+{a:"szkoła", s:"szkole", p:"szkołach", g:"feminine, hard stem → -e", why:"ł → l before -e"},
+{a:"noga", s:"nodze", p:"nogach", g:"feminine, hard stem → -e", why:"g → dz"},
+{a:"mucha", s:"musze", p:"muchach", g:"feminine, hard stem → -e", why:"ch → sz"},
+{a:"kobieta", s:"kobiecie", p:"kobietach", g:"feminine, hard stem → -e", why:"t → ci"},
+{a:"siostra", s:"siostrze", p:"siostrach", g:"feminine, hard stem → -e", why:"r → rz"},
+{a:"mama", s:"mamie", p:"mamach", g:"feminine, hard stem → -e", why:"hard stem takes -e"},
+{a:"żona", s:"żonie", p:"żonach", g:"feminine, hard stem → -e", why:"n → ni"},
+{a:"Warszawa", s:"Warszawie", p:"Warszawach", g:"feminine, hard stem → -e", why:"w is soft here"},
+{a:"Polska", s:"Polsce", p:"Polskach", g:"feminine, hard stem → -e", why:"k → c"},
+{a:"Afryka", s:"Afryce", p:"Afrykach", g:"feminine, hard stem → -e", why:"k → c"},
+{a:"Ameryka", s:"Ameryce", p:"Amerykach", g:"feminine, hard stem → -e", why:"k → c"},
+{a:"kuchnia", s:"kuchni", p:"kuchniach", g:"feminine, soft stem → -i", why:"soft ni takes -i"},
+{a:"łazienka", s:"łazience", p:"łazienkach", g:"feminine, hard stem → -e", why:"k → c"},
+{a:"restauracja", s:"restauracji", p:"restauracjach", g:"feminine, soft stem → -i", why:"-ja → -ji"},
+{a:"kawiarnia", s:"kawiarni", p:"kawiarniach", g:"feminine, soft stem → -i", why:"soft ni takes -i"},
+{a:"droga", s:"drodze", p:"drogach", g:"feminine, hard stem → -e", why:"g → dz"},
+{a:"wieś", s:"wsi", p:"wsiach", g:"feminine, soft stem → -i", why:"irregular: final ś → si"},
+{a:"kość", s:"kości", p:"kościach", g:"feminine, soft stem → -i", why:"soft stem takes -i"},
+{a:"jesień", s:"jesieni", p:"jesieniach", g:"feminine, soft stem → -i", why:"soft n takes -i"},
+{a:"pani", s:"pani", p:"paniach", g:"feminine, soft stem → -i", why:"soft stem takes -i"},
+{a:"ziemia", s:"ziemi", p:"ziemiach", g:"feminine, soft stem → -i", why:"soft mi takes -i"},
+{a:"armia", s:"armii", p:"armiach", g:"feminine, soft stem → -i", why:"-ia → -ii"},
+{a:"historia", s:"historii", p:"historiach", g:"feminine, soft stem → -i", why:"-ia → -ii"},
+{a:"stacja", s:"stacji", p:"stacjach", g:"feminine, soft stem → -i", why:"-ja → -ji"},
+{a:"poczta", s:"poczcie", p:"pocztach", g:"feminine, hard stem → -e", why:"t → ci"},
+{a:"apteka", s:"aptece", p:"aptekach", g:"feminine, hard stem → -e", why:"k → c"},
+{a:"woda", s:"wodzie", p:"wodach", g:"feminine, hard stem → -e", why:"d → dzi"},
+{a:"rada", s:"radzie", p:"radach", g:"feminine, hard stem → -e", why:"d → dzi"},
+{a:"Wisła", s:"Wiśle", p:"Wisłach", g:"feminine, hard stem → -e", why:"s → ś, ł → l"},
+{a:"Ukraina", s:"Ukrainie", p:"Ukrainach", g:"feminine, hard stem → -e", why:"n → ni"},
+{a:"Słowacja", s:"Słowacji", p:"Słowacjach", g:"feminine, soft stem → -i", why:"-ja → -ji"},
+{a:"Litwa", s:"Litwie", p:"Litwach", g:"feminine, hard stem → -e", why:"w is soft here"},
+{a:"Łotwa", s:"Łotwie", p:"Łotwach", g:"feminine, hard stem → -e", why:"w is soft here"},
+{a:"Białoruś", s:"Białorusi", p:"Białorusiach", g:"feminine, soft stem → -i", why:"soft ś → si"},
+{a:"Sycylia", s:"Sycylii", p:"Sycyliach", g:"feminine, soft stem → -i", why:"-ia → -ii"},
+{a:"Kuba", s:"Kubie", p:"Kubach", g:"feminine, hard stem → -e", why:"hard stem takes -e"},
+{a:"Japonia", s:"Japonii", p:"Japoniach", g:"feminine, soft stem → -i", why:"-ia → -ii"},
+{a:"sobota", s:"sobocie", p:"sobotach", g:"feminine, hard stem → -e", why:"t → ci"},
+{a:"rzeka", s:"rzece", p:"rzekach", g:"feminine, hard stem → -e", why:"k → c"},
+{a:"matka", s:"matce", p:"matkach", g:"feminine, hard stem → -e", why:"k → c"},
+{a:"dróżka", s:"dróżce", p:"dróżkach", g:"feminine, hard stem → -e", why:"k → c"},
+{a:"rura", s:"rurze", p:"rurach", g:"feminine, hard stem → -e", why:"r → rz"},
+{a:"knieja", s:"kniei", p:"kniejach", g:"feminine, soft stem → -i", why:"-ja → -i after a vowel"},
+{a:"sól", s:"soli", p:"solach", g:"feminine, soft stem → -i", why:"l takes -i in feminine"},
+{a:"noc", s:"nocy", p:"nocach", g:"feminine, hardened stem → -y", why:"hardened c takes -y"},
+{a:"moc", s:"mocy", p:"mocach", g:"feminine, hardened stem → -y", why:"hardened c takes -y"},
+{a:"praca", s:"pracy", p:"pracach", g:"feminine, hardened stem → -y", why:"hardened c takes -y"},
+{a:"ulica", s:"ulicy", p:"ulicach", g:"feminine, hardened stem → -y", why:"hardened c takes -y"},
+{a:"książka", s:"książce", p:"książkach", g:"feminine, hard stem → -e", why:"k → c"},
+{a:"ręka", s:"ręce", p:"rękach", g:"feminine, hard stem → -e", why:"k → c; w ręce and w ręku both correct"},
+{a:"twarz", s:"twarzy", p:"twarzach", g:"feminine, hardened stem → -y", why:"hardened rz takes -y"},
+{a:"miłość", s:"miłości", p:"miłościach", g:"feminine, soft stem → -i", why:"soft ś → si"},
+{a:"plaża", s:"plaży", p:"plażach", g:"feminine, hardened stem → -y", why:"hardened ż takes -y"},
+{a:"łąka", s:"łące", p:"łąkach", g:"feminine, hard stem → -e", why:"k → c"},
+{a:"góra", s:"górze", p:"górach", g:"feminine, hard stem → -e", why:"r → rz"},
+{a:"wyspa", s:"wyspie", p:"wyspach", g:"feminine, hard stem → -e", why:"hard stem takes -e"},
+{a:"pustynia", s:"pustyni", p:"pustyniach", g:"feminine, soft stem → -i", why:"soft ni takes -i"},
+{a:"aleja", s:"alei", p:"alejach", g:"feminine, soft stem → -i", why:"-ja → -i after a vowel"},
+{a:"lekcja", s:"lekcji", p:"lekcjach", g:"feminine, soft stem → -i", why:"-ja → -ji"},
+{a:"geografia", s:"geografii", p:"geografiach", g:"feminine, soft stem → -i", why:"-ia → -ii"},
+{a:"kolacja", s:"kolacji", p:"kolacjach", g:"feminine, soft stem → -i", why:"-ja → -ji"},
+{a:"Rosja", s:"Rosji", p:"Rosjach", g:"feminine, soft stem → -i", why:"-ja → -ji"},
+{a:"piwnica", s:"piwnicy", p:"piwnicach", g:"feminine, hardened stem → -y", why:"hardened c takes -y"},
+{a:"dzielnica", s:"dzielnicy", p:"dzielnicach", g:"feminine, hardened stem → -y", why:"hardened c takes -y"},
+{a:"stolica", s:"stolicy", p:"stolicach", g:"feminine, hardened stem → -y", why:"hardened c takes -y"},
+{a:"tablica", s:"tablicy", p:"tablicach", g:"feminine, hardened stem → -y", why:"hardened c takes -y"},
+{a:"granica", s:"granicy", p:"granicach", g:"feminine, hardened stem → -y", why:"hardened c takes -y"},
+{a:"sala", s:"sali", p:"salach", g:"feminine, soft stem → -i", why:"l takes -i in feminine"},
+{a:"winda", s:"windzie", p:"windach", g:"feminine, hard stem → -e", why:"d → dzi"},
+{a:"fabryka", s:"fabryce", p:"fabrykach", g:"feminine, hard stem → -e", why:"k → c"},
+{a:"biblioteka", s:"bibliotece", p:"bibliotekach", g:"feminine, hard stem → -e", why:"k → c"},
+{a:"morze", s:"morzu", p:"morzach", g:"neuter, soft or k/g/ch stem → -u", why:"soft stem takes -u"},
+{a:"pole", s:"polu", p:"polach", g:"neuter, soft or k/g/ch stem → -u", why:"l takes -u in neuter"},
+{a:"słońce", s:"słońcu", p:"słońcach", g:"neuter, soft or k/g/ch stem → -u", why:"soft c takes -u"},
+{a:"serce", s:"sercu", p:"sercach", g:"neuter, soft or k/g/ch stem → -u", why:"soft c takes -u"},
+{a:"imię", s:"imieniu", p:"imionach", g:"neuter, soft or k/g/ch stem → -u", why:"stem imion- in the plural"},
+{a:"zwierzę", s:"zwierzęciu", p:"zwierzętach", g:"neuter, soft or k/g/ch stem → -u", why:"t-stem in the plural"},
+{a:"muzeum", s:"muzeum", p:"muzeach", g:"neuter, soft or k/g/ch stem → -u", why:"-lum nouns keep -um in the singular"},
+{a:"centrum", s:"centrum", p:"centrach", g:"neuter, soft or k/g/ch stem → -u", why:"-lum nouns keep -um in the singular"},
+{a:"dziecko", s:"dziecku", p:"dzieciach", g:"neuter, soft or k/g/ch stem → -u", why:"irregular plural"},
+{a:"mieszkanie", s:"mieszkaniu", p:"mieszkaniach", g:"neuter, soft or k/g/ch stem → -u", why:"soft n takes -u"},
+{a:"zdjęcie", s:"zdjęciu", p:"zdjęciach", g:"neuter, soft or k/g/ch stem → -u", why:"soft t takes -u"},
+{a:"jezioro", s:"jeziorze", p:"jeziorach", g:"neuter, hard stem → -e", why:"hard r softens to rz before -e"},
+{a:"mleko", s:"mleku", p:"mlekach", g:"neuter, soft or k/g/ch stem → -u", why:"k takes -u"},
+{a:"oko", s:"oku", p:"oczach", g:"neuter, soft or k/g/ch stem → -u", why:"irregular plural"},
+{a:"ucho", s:"uchu", p:"uszach", g:"neuter, soft or k/g/ch stem → -u", why:"irregular plural"},
+{a:"śniadanie", s:"śniadaniu", p:"śniadaniach", g:"neuter, soft or k/g/ch stem → -u", why:"soft n takes -u"},
+{a:"zdrowie", s:"zdrowiu", p:"zdrowiach", g:"neuter, soft or k/g/ch stem → -u", why:"soft w takes -u"},
+{a:"więzienie", s:"więzieniu", p:"więzieniach", g:"neuter, soft or k/g/ch stem → -u", why:"soft n takes -u"},
+{a:"wyjście", s:"wyjściu", p:"wyjściach", g:"neuter, soft or k/g/ch stem → -u", why:"soft stem takes -u"},
+{a:"miasteczko", s:"miasteczku", p:"miasteczkach", g:"neuter, soft or k/g/ch stem → -u", why:"k takes -u"},
+{a:"kino", s:"kinie", p:"kinach", g:"neuter, hard stem → -e", why:"n → ni before -e"},
+{a:"miasto", s:"mieście", p:"miastach", g:"neuter, hard stem → -e", why:"st → ść and a → e"},
+{a:"niebo", s:"niebie", p:"niebach", g:"neuter, hard stem → -e", why:"b → bi"},
+{a:"lato", s:"lecie", p:"latach", g:"neuter, hard stem → -e", why:"t → ci, a → e"},
+{a:"piętno", s:"piętnie", p:"piętnach", g:"neuter, hard stem → -e", why:"n → ni"},
+{a:"ciasto", s:"cieście", p:"ciastach", g:"neuter, hard stem → -e", why:"st → ść, a → e"},
+{a:"łoże", s:"łożu", p:"łożach", g:"neuter, soft or k/g/ch stem → -u", why:"soft stem takes -u"},
+{a:"liceum", s:"liceum", p:"liceach", g:"neuter, soft or k/g/ch stem → -u", why:"-eum nouns keep -um in the singular"},
+{a:"przedszkole", s:"przedszkolu", p:"przedszkolach", g:"neuter, soft or k/g/ch stem → -u", why:"l takes -u in neuter"},
+{a:"podwórko", s:"podwórku", p:"podwórkach", g:"neuter, soft or k/g/ch stem → -u", why:"k takes -u"},
+{a:"boisko", s:"boisku", p:"boiskach", g:"neuter, soft or k/g/ch stem → -u", why:"k takes -u"},
+{a:"lotnisko", s:"lotnisku", p:"lotniskach", g:"neuter, soft or k/g/ch stem → -u", why:"k takes -u"},
+{a:"Zakopane", s:"Zakopanem", p:"Zakopanach", g:"adjectival place name → -em", why:"adjectival place name takes -em"},
+{a:"Wilno", s:"Wilnie", p:"Wilnach", g:"neuter, hard stem → -e", why:"n → ni"},
+{a:"Kraków", s:"Krakowie", p:"Krakowach", g:"masculine, hard stem → -e", why:"ów → ow, w softens to wi before -e"},
+{a:"Gdańsk", s:"Gdańsku", p:"Gdańskach", g:"masculine, hardened/soft stem → -u", why:"k takes -u"},
+{a:"Wrocław", s:"Wrocławiu", p:"Wrocławiach", g:"masculine, hardened/soft stem → -u", why:"w is soft here"},
+{a:"Poznań", s:"Poznaniu", p:"Poznaniach", g:"masculine, hardened/soft stem → -u", why:"n softens to ni"},
+{a:"Lublin", s:"Lublinie", p:"Lublinach", g:"masculine, hard stem → -e", why:"n → ni"},
+{a:"Berlin", s:"Berlinie", p:"Berlinach", g:"masculine, hard stem → -e", why:"n → ni"},
+{a:"Londyn", s:"Londynie", p:"Londynach", g:"masculine, hard stem → -e", why:"n → ni"},
+{a:"Lwów", s:"Lwowie", p:"Lwowach", g:"masculine, hard stem → -e", why:"ów → ow, w softens to wi before -e"},
+{a:"Rzym", s:"Rzymie", p:"Rzymach", g:"masculine, hard stem → -e", why:"m is soft here"},
+{a:"Paryż", s:"Paryżu", p:"Paryżach", g:"masculine, hardened/soft stem → -u", why:"hardened ż takes -u"},
+{a:"Śląsk", s:"Śląsku", p:"Śląskach", g:"masculine, hardened/soft stem → -u", why:"k takes -u"},
+{a:"Mazowsze", s:"Mazowszu", p:"Mazowszach", g:"neuter, soft or k/g/ch stem → -u", why:"hardened sz takes -u"},
+{a:"Podhale", s:"Podhalu", p:"Podhalach", g:"neuter, soft or k/g/ch stem → -u", why:"l takes -u in neuter"},
+{a:"Hel", s:"Helu", p:"Helach", g:"masculine, hardened/soft stem → -u", why:"l takes -u"},
+{a:"Bytom", s:"Bytomiu", p:"Bytomiach", g:"masculine, hardened/soft stem → -u", why:"m softens to mi"},
+{a:"Rzeszów", s:"Rzeszowie", p:"Rzeszowach", g:"masculine, hard stem → -e", why:"ów → ow, w softens to wi before -e"},
+{a:"drzwi", s:"drzwiach", p:"drzwiach", g:"plural only", why:"plural only"},
+{a:"Katowice", s:"Katowicach", p:"Katowicach", g:"plural only", why:"plural only"},
+{a:"Tatry", s:"Tatrach", p:"Tatrach", g:"plural only", why:"plural only"},
+{a:"Mazury", s:"Mazurach", p:"Mazurach", g:"plural only", why:"plural only"},
+{a:"Kielce", s:"Kielcach", p:"Kielcach", g:"plural only", why:"plural only"},
+{a:"Chiny", s:"Chinach", p:"Chinach", g:"plural only", why:"regular -ach"},
+{a:"Indie", s:"Indiach", p:"Indiach", g:"plural only", why:"regular -ach"},
+{a:"Czechy", s:"Czechach", p:"Czechach", g:"plural only", why:"regular -ach"},
+{a:"Niemcy", s:"Niemczech", p:"Niemczech", g:"plural only", why:"exception: -ech"},
+{a:"Włochy", s:"Włoszech", p:"Włoszech", g:"plural only", why:"exception: -ech"},
+{a:"Węgry", s:"Węgrzech", p:"Węgrzech", g:"plural only", why:"exception: -ech"},
+{a:"urodziny", s:"urodzinach", p:"urodzinach", g:"plural only", why:"plural only"},
+{a:"imieniny", s:"imieninach", p:"imieninach", g:"plural only", why:"plural only"},
+{a:"wakacje", s:"wakacjach", p:"wakacjach", g:"plural only", why:"plural only"}
+];
+
+var CARDS = [
+ {p:"-u after k, g, ch, l", m:"Masculine and neuter nouns whose stem ends in <b>k, g, ch</b> or <b>l</b> take <b>-u</b>, never -e.", ex:"bank → w banku · pociąg → w pociągu · dach → na dachu · hotel → w hotelu · dziecko → o dziecku", lv:"basic"},
+ {p:"-e after other hard consonants", m:"Every other hard stem takes <b>-e</b>, and that -e softens the consonant in front of it.", ex:"sklep → w sklepie · chleb → w chlebie · las → w lesie · miasto → w mieście", lv:"basic"},
+ {p:"-u after soft and hardened stems", m:"Masculine and neuter nouns with a soft stem, or a hardened one (c, cz, dz, dż, rz, sz, ż), take <b>-u</b>.", ex:"koń → o koniu · morze → w morzu · gracz → o graczu · lekarz → o lekarzu · Paryż → w Paryżu", lv:"basic"},
+ {p:"The feminine -e / -i / -y split", m:"Feminine nouns take <b>-e</b> after a hard stem, <b>-i</b> after a soft one or l, and <b>-y</b> after a hardened one.", ex:"szkoła → w szkole · sól → o soli · kuchnia → w kuchni · praca → w pracy · plaża → na plaży", lv:"basic"},
+ {p:"Feminine hardened stems take -y, not -i", m:"This is the single most common error in the case. After c, cz, dz, dż, rz, sz, ż a feminine noun takes <b>-y</b>.", ex:"praca → w pracy · noc → w nocy · ulica → na ulicy · twarz → w twarzy · plaża → na plaży", lv:"basic"},
+ {p:"-im or -ym? It is spelling, not grammar", m:"Adjectives take one ending, written <b>-im</b> after a soft stem and after k, g, and <b>-ym</b> everywhere else.", ex:"tani → tanim · polski → polskim · wysoki → wysokim · dobry → dobrym · nowy → nowym", lv:"basic"},
+ {p:"Feminine adjectives: always -ej", m:"No exceptions, whatever the stem. The plural is -ych or -ich.", ex:"nowa → w nowej szkole · duża → w dużej sali · dobra → o dobrej książce", lv:"basic"},
+ {p:"The plural: -ach, with three exceptions", m:"Every regular plural takes <b>-ach</b>. Exactly three countries take <b>-ech</b>.", ex:"w miastach · w lasach · w kinach — but w Niemczech, we Włoszech, na Węgrzech", lv:"basic"},
+ {p:"Czechy, Indie, Chiny are regular", m:"Learners over-apply the exception. These three take the ordinary -ach.", ex:"w Czechach · w Indiach · w Chinach — compare w Niemczech", lv:"basic"},
+ {p:"w or we?", m:"Use <b>we</b> when the next word starts with a consonant cluster that w alone cannot open, especially w + consonant.", ex:"we Włoszech · we Francji · we Wrocławiu — but w Warszawie, w Polsce", lv:"basic"},
+ {p:"The five prepositions", m:"Only <b>w, na, o, po, przy</b> govern the locative. Nothing else does.", ex:"w domu · na stole · o tobie · po parku · przy oknie", lv:"basic"},
+ {p:"Third person pronouns always take n-", m:"Because the locative always has a preposition, on / ona / oni always show <b>n-</b> here.", ex:"o nim · o niej · o nich — never *o im", lv:"basic"},
+ {p:"dom, pan, syn take -u", m:"Three hard-stem masculine nouns that break the rule and take -u.", ex:"w domu · o panu · o synu", lv:"basic"},
+ {p:"The locative never stands alone", m:"No preposition, no locative. This is what separates it from every other Polish case.", ex:"Correct: Myślę o pracy. Wrong: *Myślę pracę / *Myślę pracą.", lv:"basic"},
+ {p:"Numerals take -u", m:"PWN states it without exception: numerals end in <b>-u</b> (spelled -u, -iu or -gu).", ex:"o trzech · o pięciu · o dziesięciu · o dwudziestu · o dwojgu", lv:"adv"},
+ {p:"The k → c and g → dz shifts", m:"Before the feminine -e, k becomes c and g becomes dz.", ex:"Polska → w Polsce · rzeka → w rzece · noga → w nodze · droga → w drodze", lv:"adv"},
+ {p:"ch → sz before feminine -e", m:"The only shift learners forget, because ch looks like it should stay.", ex:"mucha → w musze · ropucha → o ropusze", lv:"adv"},
+ {p:"t → ci and d → dzi", m:"Before -e, t and d soften to ci and dzi (with an i that is not pronounced separately).", ex:"kobieta → o kobiecie · świat → na świecie · ogród → w ogrodzie · ślad → na śladzie", lv:"adv"},
+ {p:"r → rz and ł → l", m:"Two shifts that change the spelling without changing the sound much.", ex:"siostra → o siostrze · biuro → w biurze · stół → na stole · szkoła → w szkole", lv:"adv"},
+ {p:"-ów becomes -ow-", m:"City names and nouns in -ów drop the accent and take a soft w.", ex:"Kraków → w Krakowie · Lwów → we Lwowie · Rzeszów → w Rzeszowie", lv:"adv"},
+ {p:"-um nouns do not decline in the singular", m:"Nouns in -um keep their ending in the locative singular.", ex:"w muzeum · w centrum · w liceum — but the plural does change: w muzeach", lv:"adv"},
+ {p:"wieś → wsi", m:"A genuinely irregular form, worth memorising whole.", ex:"Mieszkam na wsi. (na, not w)", lv:"adv"},
+ {p:"ręka: w ręce and w ręku", m:"PWN accepts both. Neither is an error.", ex:"Trzymam to w ręce. / Trzymam to w ręku.", lv:"adv"},
+ {p:"dzień → dniu, but we dnie i w nocy", m:"The ordinary form is w dniu. The fixed phrase keeps the older dnie.", ex:"w dniu · we dnie i w nocy (obligatory in the phrase)", lv:"adv"},
+ {p:"The *-em error", m:"Forms like *tamtem and *dobrem are wrong. The locative adjective ends in -im or -ym.", ex:"Correct: o tamtym, o dobrym. Wrong: *o tamtem, *o dobrem.", lv:"adv"},
+ {p:"w Kieleckiem is legitimate", m:"The one real home of the -em ending: geographical names used as nouns.", ex:"w Kieleckiem · w Lubelskiem · w Poznańskiem", lv:"adv"},
+ {p:"dziecko → dzieciach, oko → oczach, ucho → uszach", m:"Three neuter nouns with irregular plural stems. The singular is regular.", ex:"o dziecku / o dzieciach · w oku / w oczach · w uchu / w uszach", lv:"adv"},
+ {p:"ludzie → ludziach", m:"The stem looks irregular, but the plural ending is the ordinary -ach.", ex:"o ludziach", lv:"adv"},
+ {p:"imię → imieniu, plural imionach", m:"One of the -ę neuter nouns that swap the stem between numbers.", ex:"w imieniu (also = on behalf of) · o imionach", lv:"adv"},
+ {p:"zwierzę → zwierzęciu, plural zwierzętach", m:"The -ę neuters take a -t- stem in the plural.", ex:"o zwierzęciu · o zwierzętach", lv:"adv"},
+ {p:"-ja → -ji, but -ja after a vowel → -i", m:"The spelling of the feminine -i depends on what stands before the j.", ex:"tradycja → o tradycji · stacja → na stacji; aleja → w alei · knieja → w kniei", lv:"adv"},
+ {p:"-ia → -ii", m:"Feminine nouns in -ia take a double i.", ex:"historia → o historii · armia → w armii · geografia → o geografii", lv:"adv"},
+ {p:"Ukraine: na and w are both correct", m:"The Rada Języka Polskiego accepted both in 2022 and recommends w in official texts.", ex:"na Ukrainie / w Ukrainie — both correct", lv:"adv"},
+ {p:"w domu, na wsi, na Śląsku", m:"The w/na contrast is lexical, not logical. These are the high-frequency ones.", ex:"w domu · na wsi · na Śląsku · na Mazurach · na Podhalu · na Kubie · na Węgrzech", lv:"adv"},
+ {p:"Place vs movement: pod, nad, przed, za", m:"These positional prepositions take the <b>instrumental</b> for a static position and the accusative for movement towards. They never take the locative — that is what keeps the five-preposition rule safe.", ex:"Kot śpi pod stołem. (N.) / Kot wbiegł pod stół. (B.) · nad morzem (N.) / nad morze (B.)", lv:"adv"},
+ {p:"wieczorem is not locative", m:"Time expressions without a preposition are instrumental, not locative. Do not force the locative on them.", ex:"wieczorem · latem · zimą · wiosną · jesienią", lv:"adv"},
+ {p:"w poniedziałek is accusative", m:"Days of the week take the accusative after w. Months take the locative. This asymmetry is real.", ex:"w poniedziałek (B.) — but w styczniu (Ms.)", lv:"adv"},
+ {p:"o + locative for clock time", m:"Clock time uses o plus the feminine locative of an ordinal, which is an adjective, not a numeral.", ex:"o trzeciej · o piątej · o wpół do szóstej", lv:"adv"},
+ {p:"przy okazji, o zmroku", m:"A handful of idiomatic locative phrases that are not about place at all.", ex:"przy okazji (on occasion) · o zmroku (at dusk) · po wyjściu (after leaving)", lv:"adv"}
+];
+
+var PLAN = [
+ {t:"Day 1 · The rule", items:[
+   {k:"p1a", en:"Read sections 1–4: what the case is, its jobs, and the singular endings."},
+   {k:"p1b", en:"Say the four endings out loud until they feel like one system: -e, -u, -i, -y."},
+   {k:"p1c", en:"Run drill set 1 (Which ending?) once. Do not aim for 100% yet."}
+ ]},
+ {t:"Day 2 · The shifts", items:[
+   {k:"p2a", en:"Read section 7 on sound shifts. Learn the pairs, not the words."},
+   {k:"p2b", en:"Cover the right-hand column and predict each form before you look."},
+   {k:"p2c", en:"Run drill set 6 (Type the form) — typing forces the spelling."}
+ ]},
+ {t:"Day 3 · Plural", items:[
+   {k:"p3a", en:"Read section 5 on the plural, then the three exceptions in section 6."},
+   {k:"p3b", en:"Repeat out loud: w Niemczech, we Włoszech, na Węgrzech — and w Czechach, w Indiach, w Chinach."},
+   {k:"p3c", en:"Run drill set 2 (Plural and the exceptions)."}
+ ]},
+ {t:"Day 4 · Adjectives and pronouns", items:[
+   {k:"p4a", en:"Read section 8. Focus on -ym / -ej / -ych and the n- of the third person."},
+   {k:"p4b", en:"Run drill set 3 (Adjectives, pronouns, numerals)."},
+   {k:"p4c", en:"Mark ten flashcards as known — only the ones you did not have to think about."}
+ ]},
+ {t:"Day 5 · Prepositions", items:[
+   {k:"p5a", en:"Read section 9, one preposition at a time, and section 10 on verb patterns."},
+   {k:"p5b", en:"Run drill set 4 (Which preposition?) and set 5 (Place or movement?)."},
+   {k:"p5c", en:"Pick five verbs from the table and write one sentence with each."}
+ ]},
+ {t:"Day 6 · Traps and translation", items:[
+   {k:"p6a", en:"Read section 11 on the traps — especially the hardened-stem one."},
+   {k:"p6b", en:"Run drill set 7 (Translate). Write the sentences by hand first if typing is easy."},
+   {k:"p6c", en:"Review every mistake from the week using the Review button in each set."}
+ ]},
+ {t:"Day 7 · Consolidate", items:[
+   {k:"p7a", en:"Run the final test (set 8) without looking anything up."},
+   {k:"p7b", en:"Go through the flashcards you marked as not known, and retire the ones you now know."},
+   {k:"p7c", en:"Come back in a week and run set 8 again. Spacing is the whole point of the plan."}
+ ]}
+];
+
+
+/* ============================================================
+   VERB TABLE
+   ============================================================ */
+var VERBS = [
+ {v:"mówić o", en:"to talk about", pat:"o + Ms.", ex:"Mówię o pracy.", f:"o", lv:"basic"},
+ {v:"rozmawiać o", en:"to talk about, to discuss", pat:"o + Ms.", ex:"Rozmawiamy o pogodzie.", f:"o", lv:"basic"},
+ {v:"opowiadać o", en:"to tell about", pat:"o + Ms.", ex:"Opowiadam o wakacjach.", f:"o", lv:"basic"},
+ {v:"myśleć o", en:"to think about", pat:"o + Ms.", ex:"Myślę o tobie.", f:"o", lv:"basic"},
+ {v:"marzyć o", en:"to dream of", pat:"o + Ms.", ex:"Marzę o podróżach.", f:"o", lv:"basic"},
+ {v:"wiedzieć o", en:"to know about", pat:"o + Ms.", ex:"Wiem o tym.", f:"o", lv:"basic"},
+ {v:"pamiętać o", en:"to remember about", pat:"o + Ms.", ex:"Pamiętam o urodzinach.", f:"o", lv:"basic"},
+ {v:"zapomnieć o", en:"to forget about", pat:"o + Ms.", ex:"Zapomniałem o spotkaniu.", f:"o", lv:"basic"},
+ {v:"przypominać o", en:"to remind about", pat:"o + Ms.", ex:"Przypominam ci o obiedzie.", f:"o", lv:"adv"},
+ {v:"wspominać o", en:"to mention, to recall", pat:"o + Ms.", ex:"Wspominam o dzieciństwie.", f:"o", lv:"adv"},
+ {v:"polegać na", en:"to rely on", pat:"na + Ms.", ex:"Polegam na tobie.", f:"na", lv:"basic"},
+ {v:"znać się na", en:"to know about a subject", pat:"na + Ms.", ex:"Znam się na komputerach.", f:"na", lv:"basic"},
+ {v:"koncentrować się na", en:"to focus on", pat:"na + Ms.", ex:"Koncentruję się na zadaniu.", f:"na", lv:"basic"},
+ {v:"skupiać się na", en:"to concentrate on", pat:"na + Ms.", ex:"Skupiam się na pracy.", f:"na", lv:"basic"},
+ {v:"opierać się na", en:"to be based on", pat:"na + Ms.", ex:"Opieram się na faktach.", f:"na", lv:"adv"},
+ {v:"wzorować się na", en:"to model oneself on", pat:"na + Ms.", ex:"Wzoruję się na ojcu.", f:"na", lv:"adv"},
+ {v:"zależeć na", en:"to depend on, to matter to", pat:"na + Ms.", ex:"Zależy mi na tobie.", f:"na", lv:"adv"},
+ {v:"zasadzać się na", en:"to be founded on", pat:"na + Ms.", ex:"Zasada zasadza się na prostocie.", f:"na", lv:"adv"},
+ {v:"upierać się przy", en:"to insist on", pat:"przy + Ms.", ex:"Upieram się przy swoim zdaniu.", f:"przy", lv:"basic"},
+ {v:"obstawać przy", en:"to stand by, to insist on", pat:"przy + Ms.", ex:"Obstaję przy swoim.", f:"przy", lv:"adv"},
+ {v:"stać przy", en:"to stand by", pat:"przy + Ms.", ex:"Stoję przy oknie.", f:"przy", lv:"basic"},
+ {v:"pracować przy", en:"to work at (a machine, a desk)", pat:"przy + Ms.", ex:"Pracuję przy komputerze.", f:"przy", lv:"basic"},
+ {v:"chodzić po", en:"to walk around", pat:"po + Ms.", ex:"Chodzę po pokoju.", f:"po", lv:"basic"},
+ {v:"spacerować po", en:"to stroll around", pat:"po + Ms.", ex:"Spaceruję po parku.", f:"po", lv:"basic"},
+ {v:"biegać po", en:"to run around", pat:"po + Ms.", ex:"Biegam po lesie.", f:"po", lv:"basic"},
+ {v:"jeździć po", en:"to drive around", pat:"po + Ms.", ex:"Jeżdżę po mieście.", f:"po", lv:"basic"},
+ {v:"szukać po", en:"to search all over", pat:"po + Ms.", ex:"Szukam po kątach.", f:"po", lv:"adv"},
+ {v:"mieszkać w", en:"to live in", pat:"w + Ms.", ex:"Mieszkam w Krakowie.", f:"w", lv:"basic"},
+ {v:"pracować w", en:"to work in", pat:"w + Ms.", ex:"Pracuję w biurze.", f:"w", lv:"basic"},
+ {v:"być w", en:"to be in / at", pat:"w + Ms.", ex:"Jestem w domu.", f:"w", lv:"basic"},
+ {v:"uczyć się w", en:"to study at", pat:"w + Ms.", ex:"Uczę się w szkole.", f:"w", lv:"basic"},
+ {v:"wierzyć w", en:"to believe in", pat:"w + B. (accusative!)", ex:"Wierzę w ciebie.", f:"w", lv:"adv"}
+];
+
+(function(){
+  var body = document.getElementById("verbBody");
+  var input = document.getElementById("verbSearch");
+  var count = document.getElementById("verbCount");
+  if (!body) return;
+  var chips = document.querySelectorAll("#verbChips button");
+  var filter = "all";
+
+  function render(){
+    var q = (input.value || "").toLowerCase().trim();
+    var html = "", n = 0;
+    for (var i = 0; i < VERBS.length; i++){
+      var v = VERBS[i];
+      if (filter !== "all" && v.f !== filter) continue;
+      if (q && (v.v + " " + v.en + " " + v.pat + " " + v.ex).toLowerCase().indexOf(q) === -1) continue;
+      n++;
+      html += '<tr><td class="pl">' + v.v + '</td><td class="small">' + v.en +
+        '</td><td class="small">' + v.pat + '</td><td class="pl">' + v.ex + '</td></tr>';
+    }
+    body.innerHTML = html;
+    count.textContent = n + " of " + VERBS.length;
+  }
+  input.addEventListener("input", render);
+  for (var c = 0; c < chips.length; c++){
+    chips[c].addEventListener("click", function(){
+      for (var j = 0; j < chips.length; j++) chips[j].classList.remove("on");
+      this.classList.add("on");
+      filter = this.getAttribute("data-vf");
+      render();
+    });
+  }
+  render();
+})();
+
+/* ============================================================
+   REFERENCE TABLE  (generated from the verified form list)
+   ============================================================ */
+
+
+
+(function(){
+  var body = document.querySelector("#reftable tbody");
+  var input = document.getElementById("refFilter");
+  var count = document.getElementById("refCount");
+  if (!body) return;
+  function render(){
+    var q = (input.value || "").toLowerCase().trim();
+    var html = "", n = 0;
+    for (var i = 0; i < REF.length; i++){
+      var r = REF[i];
+      var hay = (r.a + " " + r.s + " " + r.p + " " + r.g + " " + r.why).toLowerCase();
+      if (q && hay.indexOf(q) === -1) continue;
+      n++;
+      html += '<tr><td class="pl">' + r.a + '</td><td class="pl">' + r.s + '</td><td class="pl">' + r.p +
+        '</td><td class="small">' + r.g + ' — ' + r.why + '</td></tr>';
+    }
+    body.innerHTML = html;
+    count.textContent = n + " of " + REF.length;
+  }
+  input.addEventListener("input", render);
+  render();
+})();
+
+/* ============================================================
+   DRILL ENGINE
+   ============================================================ */
+(function(){
+  var grid = document.getElementById("setgrid");
+  var runner = document.getElementById("runner");
+  var summary = document.getElementById("summary");
+  if (!grid || !runner) return;
+  var runTitle = document.getElementById("runTitle");
+  var runCount = document.getElementById("runCount");
+  var runScore = document.getElementById("runScore");
+  var pfill = document.getElementById("pfill");
+  var askLine = document.getElementById("askLine");
+  var qText = document.getElementById("qText");
+  var qHint = document.getElementById("qHint");
+  var optsEl = document.getElementById("opts");
+  var typebox = document.getElementById("typebox");
+  var answer = document.getElementById("answer");
+  var checkBtn = document.getElementById("checkBtn");
+  var keysEl = document.getElementById("keys");
+  var fb = document.getElementById("fb");
+  var nextBtn = document.getElementById("nextBtn");
+  var quitBtn = document.getElementById("quitBtn");
+  var skipBtn = document.getElementById("skipBtn");
+
+  var S = { set:null, order:[], i:0, right:0, misses:[], cur:null };
+
+  function best(id){
+    var b = getP(id, null);
+    return b && typeof b.best === "number" ? b : null;
+  }
+  function saveBest(id, r, t){
+    var b = best(id);
+    if (!b) setP(id, {best:r, total:t});
+    else if (r / t > b.best / b.total) setP(id, {best:r, total:t});
+    if (typeof refreshChips === "function") refreshChips();
+  }
+
+  function buildGrid(){
+    grid.innerHTML = "";
+    for (var i = 0; i < SETS.length; i++){
+      (function(s){
+        var b = best(s.id);
+        var btn = document.createElement("button");
+        btn.className = "setcard";
+        btn.innerHTML = '<div class="t">' + s.title + '</div><div class="m">' + s.meta + '</div>' +
+          (b ? '<div class="best">best ' + b.best + " / " + b.total + '</div>' : '');
+        btn.addEventListener("click", function(){ start(s.id); });
+        grid.appendChild(btn);
+      })(SETS[i]);
+    }
+  }
+
+  function start(id, onlyMisses){
+    var set = null;
+    for (var i = 0; i < SETS.length; i++) if (SETS[i].id === id) set = SETS[i];
+    if (!set) return;
+    S.set = set;
+    S.order = (onlyMisses && onlyMisses.length) ? onlyMisses.slice() : set.items.map(function(_, i){ return i; });
+    if (!onlyMisses) shuffle(S.order);
+    S.i = 0; S.right = 0; S.misses = []; S.cur = null;
+    grid.classList.add("off");
+    summary.style.display = "none";
+    runner.classList.add("on");
+    runTitle.textContent = set.title;
+    askLine.textContent = onlyMisses ? "Reviewing your mistakes" : set.ask;
+    render();
+  }
+
+  function render(){
+    var item = S.set.items[S.order[S.i]];
+    S.cur = item;
+    fb.className = "fb";
+    fb.innerHTML = "";
+    nextBtn.disabled = true;
+    nextBtn.textContent = "Next";
+    skipBtn.style.display = "";
+    answer.classList.remove("right", "wrong");
+    answer.value = "";
+    answer.disabled = false;
+    checkBtn.disabled = false;
+
+    runCount.textContent = (S.i + 1) + " / " + S.order.length;
+    runScore.textContent = S.right + " correct";
+    pfill.style.width = (S.i / S.order.length * 100) + "%";
+    qHint.textContent = item.hint ? "Hint: " + item.hint : "";
+
+    if (isChoice(item)){
+      qText.innerHTML = String(item.q).replace(/___/g, '<span class="gap"></span>');
+      typebox.style.display = "none";
+      if (keysEl) keysEl.style.display = "none";
+      optsEl.style.display = "grid";
+      optsEl.innerHTML = "";
+      var order = shuffle(item.opts.slice());
+      for (var i = 0; i < order.length; i++){
+        (function(o, n){
+          var b = document.createElement("button");
+          b.className = "opt";
+          b.innerHTML = '<span class="k">' + (n + 1) + '</span><span>' + o + '</span>';
+          b.dataset.ok = (o === item.a) ? "1" : "0";
+          b.dataset.txt = o;
+          b.addEventListener("click", function(){ pick(b); });
+          optsEl.appendChild(b);
+        })(order[i], i);
+      }
+    } else {
+      qText.innerHTML = String(item.q).replace(/\[\[(.*?)\]\]/g, '<span class="gap">$1</span>');
+      optsEl.style.display = "none";
+      typebox.style.display = "flex";
+      if (keysEl){
+        keysEl.style.display = "flex";
+        if (!keysEl.children.length){
+          for (var k = 0; k < POLISH_LETTERS.length; k++){
+            (function(ch){
+              var b = document.createElement("button");
+              b.type = "button";
+              b.textContent = ch;
+              b.addEventListener("mousedown", function(ev){
+                ev.preventDefault();
+                var s = answer.selectionStart, e = answer.selectionEnd, v = answer.value;
+                answer.value = v.slice(0, s) + ch + v.slice(e);
+                answer.selectionStart = answer.selectionEnd = s + 1;
+                answer.focus();
+              });
+              keysEl.appendChild(b);
+            })(POLISH_LETTERS[k]);
+          }
+        }
+      }
+      setTimeout(function(){ answer.focus(); }, 40);
+    }
+  }
+
+  function isChoice(item){ return !!(item && item.opts && item.opts.length); }
+  function correctOf(item){ return item.a || (item.accept || [])[0] || ""; }
+
+  function pick(btn){
+    if (btn.disabled) return;
+    var item = S.cur;
+    var ok = btn.dataset.ok === "1";
+    var all = optsEl.children;
+    for (var i = 0; i < all.length; i++){
+      all[i].disabled = true;
+      if (all[i].dataset.ok === "1") all[i].classList.add("right");
+    }
+    if (!ok) btn.classList.add("wrong");
+    finishItem(ok, correctOf(item), item.why, false);
+  }
+
+  function checkType(){
+    if (answer.disabled) return;
+    var item = S.cur;
+    if (!item || isChoice(item)) return;   /* choice items are scored by pick(), never here */
+    var raw = (answer.value || "").trim();
+    if (!raw){ answer.focus(); return; }
+    var n = norm(raw), nd = stripDi(n), ok = false, diacOnly = false;
+    var acc = item.accept || [];
+    for (var i = 0; i < acc.length; i++){
+      if (norm(acc[i]) === n){ ok = true; break; }
+    }
+    if (!ok){
+      for (var j = 0; j < acc.length; j++){
+        if (stripDi(norm(acc[j])) === nd){ ok = true; diacOnly = true; break; }
+      }
+    }
+    var negated = /(^|\s)nie(\s|$)/.test(n);
+    if (!ok && !negated){
+      for (var k = 0; k < acc.length; k++){
+        var a2 = norm(acc[k]);
+        if (a2.indexOf(" ") !== -1 && phraseIn(n, a2)){ ok = true; break; }
+      }
+    }
+    if (!ok && !negated){
+      for (var m = 0; m < acc.length; m++){
+        var d = stripDi(norm(acc[m]));
+        if (d.indexOf(" ") !== -1 && phraseIn(nd, d)){ ok = true; diacOnly = true; break; }
+      }
+    }
+    answer.disabled = true;
+    checkBtn.disabled = true;
+    answer.classList.add(ok ? "right" : "wrong");
+    finishItem(ok, item.display || acc[0], item.why, diacOnly);
+  }
+
+  function finishItem(ok, correct, why, diacOnly){
+    if (ok) S.right++; else S.misses.push(S.order[S.i]);
+    runScore.textContent = S.right + " correct";
+    fb.className = "fb on " + (ok ? "ok" : "no");
+    var head = ok ? (diacOnly ? "Right — mind the diacritics" : "Correct") : "Not quite";
+    fb.innerHTML = '<div class="v">' + head + '</div>' +
+      '<div class="a">' + correct + '</div>' +
+      '<div class="why">' + (why || "") + '</div>';
+    nextBtn.disabled = false;
+    skipBtn.style.display = "none";
+    nextBtn.focus();
+  }
+
+  function next(){
+    if (S.i + 1 >= S.order.length){ end(); return; }
+    S.i++;
+    render();
+  }
+
+  function end(){
+    runner.classList.remove("on");
+    summary.style.display = "block";
+    var total = S.order.length;
+    document.getElementById("sumScore").textContent = S.right + " / " + total;
+    var pct = Math.round(S.right / total * 100);
+    var msg;
+    if (pct === 100) msg = "Clean sweep. Move to the next set, or come back tomorrow — spacing is what makes this stick.";
+    else if (pct >= 80) msg = "Solid. Reread the explanations for the ones you missed, then run them again.";
+    else if (pct >= 50) msg = "The pattern is there but not automatic yet. Run the mistakes now, the whole set tomorrow.";
+    else msg = "Go back to the section for this set, read the table once more, then retry. Nothing here needs to be memorised blind.";
+    document.getElementById("sumMsg").textContent = msg;
+    saveBest(S.set.id, S.right, total);
+
+    var btns = document.getElementById("sumBtns");
+    btns.innerHTML = "";
+    if (S.misses.length){
+      var b1 = document.createElement("button");
+      b1.className = "btn primary";
+      b1.textContent = "Review " + S.misses.length + " mistake" + (S.misses.length > 1 ? "s" : "");
+      b1.addEventListener("click", function(){ start(S.set.id, S.misses); });
+      btns.appendChild(b1);
+    }
+    var b2 = document.createElement("button");
+    b2.className = "btn ghost";
+    b2.textContent = "Run the set again";
+    b2.addEventListener("click", function(){ start(S.set.id); });
+    btns.appendChild(b2);
+    var b3 = document.createElement("button");
+    b3.className = "btn ghost";
+    b3.textContent = "Choose another set";
+    b3.addEventListener("click", backToGrid);
+    btns.appendChild(b3);
+  }
+
+  function backToGrid(){
+    runner.classList.remove("on");
+    summary.style.display = "none";
+    grid.classList.remove("off");
+    buildGrid();
+  }
+
+  nextBtn.addEventListener("click", next);
+  checkBtn.addEventListener("click", checkType);
+  quitBtn.addEventListener("click", backToGrid);
+  skipBtn.addEventListener("click", function(){
+    var item = S.cur;
+    if (isChoice(item)){
+      var all = optsEl.children;
+      for (var i = 0; i < all.length; i++){
+        all[i].disabled = true;
+        if (all[i].dataset.ok === "1") all[i].classList.add("right");
+      }
+      finishItem(false, correctOf(item), item.why, false);
+    } else {
+      answer.value = item.display || (item.accept || [])[0] || "";
+      answer.disabled = true;
+      checkBtn.disabled = true;
+      answer.classList.add("wrong");
+      finishItem(false, item.display || (item.accept || [])[0], item.why, false);
+    }
+  });
+
+  answer.addEventListener("keydown", function(e){
+    if (e.key === "Enter"){
+      e.preventDefault();
+      if (answer.disabled) next(); else checkType();
+    }
+  });
+
+  document.addEventListener("keydown", function(e){
+    if (!runner.classList.contains("on")) return;
+    if (e.target === answer) return;
+    if (e.key >= "1" && e.key <= "9" && S.cur && isChoice(S.cur)){
+      var b = optsEl.children[Number(e.key) - 1];
+      if (b && !b.disabled) b.click();
+    }
+    if (e.key === "Enter" && !nextBtn.disabled){ e.preventDefault(); next(); }
+  });
+
+  buildGrid();
+})();
+
+/* ============================================================
+   FLASHCARDS
+   ============================================================ */
+(function(){
+  var grid = document.getElementById("fcGrid");
+  var knownEl = document.getElementById("fcKnown");
+  var totalEl = document.getElementById("fcTotal");
+  var chips = document.querySelectorAll("#fcFilters button");
+  var filter = "all";
+  if (!grid) return;
+  function knownSet(){ return getP("fcKnownList", []); }
+  function render(){
+    var known = knownSet(), html = "";
+    for (var i = 0; i < CARDS.length; i++){
+      var c = CARDS[i];
+      if (filter !== "all" && c.lv !== filter) continue;
+      var isKnown = known.indexOf(c.p) !== -1;
+      html += '<div class="fc' + (isKnown ? ' known' : '') + '" data-p="' + c.p + '">' +
+        '<span class="lv">' + (c.lv === "basic" ? "basic" : "advanced") + '</span>' +
+        '<div class="p">' + c.p + '</div>' +
+        '<div class="hint">click to turn over</div>' +
+        '<div class="m">' + c.m + '</div>' +
+        '<div class="exm">' + c.ex + '</div>' +
+        '<div class="fcbtns"><button data-umiem>✔ I know it</button><button data-powtorze>↻ Again</button></div>' +
+      '</div>';
+    }
+    grid.innerHTML = html;
+    var cards = grid.querySelectorAll(".fc");
+    for (var k = 0; k < cards.length; k++){
+      cards[k].addEventListener("click", function(ev){
+        var b = ev.target;
+        if (b.hasAttribute && (b.hasAttribute("data-umiem") || b.hasAttribute("data-powtorze"))){
+          var set = knownSet(), p = this.getAttribute("data-p");
+          if (b.hasAttribute("data-umiem")){ if (set.indexOf(p) === -1) set.push(p); }
+          else { var ix = set.indexOf(p); if (ix !== -1) set.splice(ix, 1); }
+          setP("fcKnownList", set);
+          render();
+          refreshChips();
+          return;
+        }
+        this.classList.toggle("flipped");
+      });
+    }
+    knownEl.textContent = known.length;
+    totalEl.textContent = CARDS.length;
+  }
+  for (var c = 0; c < chips.length; c++){
+    chips[c].addEventListener("click", function(){
+      for (var j = 0; j < chips.length; j++) chips[j].classList.remove("on");
+      this.classList.add("on");
+      filter = this.getAttribute("data-fclv");
+      render();
+    });
+  }
+  render();
+})();
+
+/* ============================================================
+   PLAN
+   ============================================================ */
+(function(){
+  var root = document.getElementById("planRoot");
+  if (!root) return;
+  var html = "";
+  for (var i = 0; i < PLAN.length; i++){
+    var d = PLAN[i];
+    html += '<div class="plan-day"><div class="dt">' + d.t + '</div>';
+    for (var j = 0; j < d.items.length; j++){
+      var it = d.items[j];
+      html += '<label><input type="checkbox" class="planbox" data-k="' + it.k + '"><span>' + it.en + '</span></label>';
+    }
+    html += '</div>';
+  }
+  root.innerHTML = html;
+  var saved = getP("plan", {});
+  var boxes = root.querySelectorAll(".planbox");
+  for (var b = 0; b < boxes.length; b++){
+    boxes[b].checked = !!saved[boxes[b].getAttribute("data-k")];
+    boxes[b].addEventListener("change", function(){
+      var s = getP("plan", {});
+      s[this.getAttribute("data-k")] = this.checked;
+      setP("plan", s);
+      refreshChips();
+    });
+  }
+})();
+
+/* ============================================================
+   PROGRESS CHIPS + RESET
+   ============================================================ */
+function refreshChips(){
+  var root = document.getElementById("progressChips");
+  if (!root) return;
+  var html = "";
+  for (var i = 0; i < SETS.length; i++){
+    var s = SETS[i], b = getP(s.id, null);
+    html += '<span class="chip">' + s.title + ': ' +
+      (b && typeof b.best === "number" ? '<b>' + b.best + " / " + b.total + '</b>' : '—') + '</span>';
+  }
+  var known = getP("fcKnownList", []).length;
+  html += '<span class="chip">Cards known: <b>' + known + " / " + CARDS.length + '</b></span>';
+  var plan = getP("plan", {}), cnt = 0, tot = 0;
+  for (var key in plan) if (plan[key]) cnt++;
+  for (var d = 0; d < PLAN.length; d++) tot += PLAN[d].items.length;
+  html += '<span class="chip">7-day plan: <b>' + cnt + " / " + tot + '</b></span>';
+  root.innerHTML = html;
+}
+(function(){
+  var b = document.getElementById("resetProgress");
+  if (!b) return;
+  b.addEventListener("click", function(){
+    if (window.confirm("Clear all progress — scores, flashcards and the plan?")){
+      try { localStorage.removeItem(KEY); } catch(e){}
+      window.location.reload();
+    }
+  });
+})();
+refreshChips();
+
+/* ============================================================
+   SPEECH — click any example to hear it
+   ============================================================ */
+(function(){
+  if (!("speechSynthesis" in window)) return;
+  var exs = document.querySelectorAll(".ex");
+  for (var i = 0; i < exs.length; i++) exs[i].classList.add("say");
+  document.addEventListener("click", function(ev){
+    var t = ev.target;
+    while (t && t !== document){
+      if (t.classList && t.classList.contains("say") && t.tagName !== "BUTTON"){ speak(t); return; }
+      t = t.parentNode;
+    }
+  });
+  function speak(el){
+    var clone = el.cloneNode(true);
+    var trs = clone.querySelectorAll(".tr");
+    for (var i = 0; i < trs.length; i++) trs[i].parentNode.removeChild(trs[i]);
+    var txt = clone.textContent.replace(/[\u2014\u2013\-]\s*$/, "").trim();
+    if (!txt) return;
+    try { window.speechSynthesis.cancel(); } catch(e){}
+    var u = new SpeechSynthesisUtterance(txt);
+    u.lang = "pl-PL"; u.rate = 0.88;
+    var vs = window.speechSynthesis.getVoices() || [];
+    for (var j = 0; j < vs.length; j++){ if (/^pl/i.test(vs[j].lang)){ u.voice = vs[j]; break; } }
+    window.speechSynthesis.speak(u);
+  }
+})();
+
+/* ============================================================
+   THEME
+   ============================================================ */
+(function(){
+  var btn = document.getElementById("themeBtn");
+  if (!btn) return;
+  var saved = null;
+  try { saved = localStorage.getItem("miejsc.theme"); } catch(e){}
+  if (saved) document.documentElement.setAttribute("data-theme", saved);
+  btn.addEventListener("click", function(){
+    var cur = document.documentElement.getAttribute("data-theme");
+    var sysDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    var next = cur ? (cur === "dark" ? "light" : "dark") : (sysDark ? "light" : "dark");
+    document.documentElement.setAttribute("data-theme", next);
+    try { localStorage.setItem("miejsc.theme", next); } catch(e){}
+  });
+})();
+
+/* ============================================================
+   SCROLL: progress bar + active nav
+   ============================================================ */
+(function(){
+  var bar = document.getElementById("scrollbar");
+  if (!bar) return;
+  function onScroll(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + "%";
+  }
+  window.addEventListener("scroll", onScroll, {passive:true});
+  onScroll();
+  var links = [].slice.call(document.querySelectorAll("#nav a"));
+  var targets = links.map(function(a){ return document.querySelector(a.getAttribute("href")); }).filter(Boolean);
+  if ("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){
+          links.forEach(function(l){ l.classList.toggle("on", l.getAttribute("href") === "#" + e.target.id); });
+        }
+      });
+    }, {rootMargin:"-45% 0px -50% 0px"});
+    targets.forEach(function(t){ io.observe(t); });
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wołacz — the Polish vocative, from zero to confident</title>
+<style>
+  :root{
+    --paper:#f7f3ea; --card:#fffdf7; --ink:#1b1915; --ink2:#4b443a; --muted:#7c7365;
+    --line:#e3dac9; --line2:#efe8da;
+    --accent:#a4361f; --accent-soft:#f6e4de;
+    --green:#1d5b45; --green-soft:#e3efe7;
+    --amber:#8a5a10; --amber-soft:#f7ebd4;
+    --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    --radius:14px; --maxw:1120px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#131210; --card:#1c1a16; --ink:#efe9dd; --ink2:#c6bdad; --muted:#948b7b;
+      --line:#302c24; --line2:#26231d;
+      --accent:#e6795f; --accent-soft:#3a211a;
+      --green:#7cc4a4; --green-soft:#17302a;
+      --amber:#d8a95c; --amber-soft:#33280f;
+    }
+  }
+  html[data-theme="dark"]{
+    --paper:#131210; --card:#1c1a16; --ink:#efe9dd; --ink2:#c6bdad; --muted:#948b7b;
+    --line:#302c24; --line2:#26231d; --accent:#e6795f; --accent-soft:#3a211a;
+    --green:#7cc4a4; --green-soft:#17302a; --amber:#d8a95c; --amber-soft:#33280f;
+  }
+  html[data-theme="light"]{
+    --paper:#f7f3ea; --card:#fffdf7; --ink:#1b1915; --ink2:#4b443a; --muted:#7c7365;
+    --line:#e3dac9; --line2:#efe8da; --accent:#a4361f; --accent-soft:#f6e4de;
+    --green:#1d5b45; --green-soft:#e3efe7; --amber:#8a5a10; --amber-soft:#f7ebd4;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth; scroll-padding-top:96px}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{animation:none!important; transition:none!important} }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--sans); font-size:17px; line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(circle at 12% 8%, color-mix(in oklab, var(--accent) 5%, transparent), transparent 42%),
+                     radial-gradient(circle at 88% 2%, color-mix(in oklab, var(--green) 5%, transparent), transparent 38%);
+    background-attachment:fixed;
+  }
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px}
+  a{color:var(--accent); text-decoration-thickness:1px; text-underline-offset:3px}
+  a:hover{text-decoration-thickness:2px}
+  code, .pl{font-family:var(--mono); font-size:.94em}
+  .pl{font-family:var(--serif); font-size:1.04em; font-style:italic}
+  strong{font-weight:650}
+
+  /* ---------- progress + header ---------- */
+  #scrollbar{position:fixed; top:0; left:0; height:3px; width:0; background:var(--accent); z-index:60; transition:width .1s linear}
+  header.top{
+    position:sticky; top:0; z-index:50; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    background:color-mix(in oklab, var(--paper) 86%, transparent);
+    border-bottom:1px solid var(--line);
+  }
+  .top-in{max-width:var(--maxw); margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:18px}
+  .brand{font-family:var(--serif); font-size:19px; letter-spacing:.01em; white-space:nowrap}
+  .brand b{color:var(--accent)}
+  nav.sections{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; flex:1}
+  nav.sections::-webkit-scrollbar{display:none}
+  nav.sections a{
+    color:var(--ink2); text-decoration:none; font-size:13.5px; padding:7px 11px; border-radius:99px;
+    white-space:nowrap; transition:background .15s, color .15s;
+  }
+  nav.sections a:hover{background:var(--line2); color:var(--ink)}
+  nav.sections a.on{background:var(--ink); color:var(--paper)}
+  .theme{
+    border:1px solid var(--line); background:var(--card); color:var(--ink2); width:36px; height:36px;
+    border-radius:99px; cursor:pointer; font-size:15px; line-height:1; display:grid; place-items:center;
+  }
+  .theme:hover{border-color:var(--ink2); color:var(--ink)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:74px 0 40px; border-bottom:1px solid var(--line)}
+  .kicker{font-size:12.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:650; margin:0 0 18px}
+  h1{font-family:var(--serif); font-weight:500; font-size:clamp(42px, 7vw, 74px); line-height:1.02; margin:0 0 6px; letter-spacing:-.02em}
+  h1 em{font-style:italic; color:var(--accent)}
+  .lede{font-size:clamp(18px,2.2vw,21px); color:var(--ink2); max-width:56ch; margin:18px 0 30px}
+  .facts{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:0 0 32px}
+  .fact{border:1px solid var(--line); background:var(--card); border-radius:var(--radius); padding:16px 18px}
+  .fact .n{font-family:var(--serif); font-size:26px; line-height:1.1; margin-bottom:4px}
+  .fact .l{font-size:13px; color:var(--muted); line-height:1.45}
+  .cta{display:flex; gap:10px; flex-wrap:wrap}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:12px 20px; border-radius:99px; font-size:15px;
+    font-weight:600; text-decoration:none; cursor:pointer; border:1px solid transparent; font-family:inherit;
+  }
+  .btn.primary{background:var(--ink); color:var(--paper)}
+  .btn.primary:hover{background:var(--accent)}
+  .btn.ghost{border-color:var(--line); color:var(--ink); background:var(--card)}
+  .btn.ghost:hover{border-color:var(--ink2)}
+
+  /* ---------- sections ---------- */
+  section{padding:64px 0; border-bottom:1px solid var(--line)}
+  section:last-of-type{border-bottom:none}
+  .shead{display:flex; gap:20px; align-items:baseline; margin-bottom:26px}
+  .snum{font-family:var(--serif); font-size:15px; color:var(--accent); font-variant-numeric:tabular-nums; padding-top:10px; min-width:34px}
+  h2{font-family:var(--serif); font-weight:500; font-size:clamp(28px,3.6vw,38px); line-height:1.1; margin:0; letter-spacing:-.01em}
+  h3{font-family:var(--serif); font-weight:600; font-size:22px; margin:36px 0 12px; letter-spacing:-.005em}
+  h4{font-size:15px; font-weight:700; margin:24px 0 8px; letter-spacing:.01em}
+  p{margin:0 0 14px; max-width:74ch}
+  .small{font-size:14.5px; color:var(--muted)}
+  ul,ol{margin:0 0 16px; padding-left:22px; max-width:74ch}
+  li{margin:5px 0}
+  li::marker{color:var(--muted)}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+  .card{border:1px solid var(--line); background:var(--card); border-radius:var(--radius); padding:20px 22px}
+  .card h4{margin-top:0}
+  .card p:last-child{margin-bottom:0}
+
+  .ex{font-family:var(--serif); font-size:18px; margin:2px 0}
+  .ex .g{color:var(--accent); font-weight:600}
+  .tr{color:var(--muted); font-size:14px; font-style:italic}
+
+  .note{border-left:3px solid var(--amber); background:var(--amber-soft); padding:14px 18px; border-radius:0 10px 10px 0; margin:18px 0}
+  .note p:last-child{margin-bottom:0}
+  .note .lab{font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; font-weight:700; color:var(--amber); display:block; margin-bottom:4px}
+  .warn{border-left-color:var(--accent); background:var(--accent-soft)}
+  .warn .lab{color:var(--accent)}
+  .good{border-left-color:var(--green); background:var(--green-soft)}
+  .good .lab{color:var(--green)}
+
+  /* ---------- tables ---------- */
+  .tw{overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius); background:var(--card); margin:18px 0}
+  table{border-collapse:collapse; width:100%; font-size:15px; min-width:520px}
+  th,td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--line2); vertical-align:top}
+  thead th{background:color-mix(in oklab, var(--line2) 60%, transparent); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:700; position:sticky; top:0}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:color-mix(in oklab, var(--line2) 40%, transparent)}
+  td.pl, th.pl{font-family:var(--serif); font-size:16.5px; font-style:normal}
+  .end{color:var(--accent); font-weight:700}
+  .yes{color:var(--green); font-weight:600}
+  .no{color:var(--accent); font-weight:600; text-decoration:line-through; text-decoration-thickness:1px}
+
+  .chips{display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 6px}
+  .chip{font-size:13px; padding:5px 12px; border-radius:99px; border:1px solid var(--line); background:var(--card); color:var(--ink2)}
+  .chip b{color:var(--ink)}
+
+  /* ---------- drills ---------- */
+  .drills{background:var(--card); border:1px solid var(--line); border-radius:20px; padding:26px; box-shadow:0 1px 0 var(--line2)}
+  .setgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(215px,1fr)); gap:12px; margin-top:18px}
+  .setcard{
+    text-align:left; border:1px solid var(--line); background:var(--paper); border-radius:12px; padding:14px 16px;
+    cursor:pointer; font-family:inherit; color:var(--ink); transition:border-color .15s, transform .15s;
+  }
+  .setcard:hover{border-color:var(--accent); transform:translateY(-1px)}
+  .setcard .t{font-weight:650; font-size:15px; margin-bottom:3px}
+  .setcard .m{font-size:12.5px; color:var(--muted)}
+  .setcard .best{font-size:12px; color:var(--green); margin-top:6px; font-variant-numeric:tabular-nums}
+  .runner{display:none}
+  .runner.on{display:block}
+  .setgrid.off{display:none}
+  .rhead{display:flex; align-items:center; gap:14px; margin-bottom:18px; flex-wrap:wrap}
+  .rhead .ttl{font-weight:700; font-size:15px}
+  .rhead .cnt{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .rhead .sp{flex:1}
+  .xbtn{border:1px solid var(--line); background:transparent; color:var(--ink2); border-radius:99px; padding:6px 13px; font-size:13px; cursor:pointer; font-family:inherit}
+  .xbtn:hover{border-color:var(--ink2); color:var(--ink)}
+  .pbar{height:4px; background:var(--line2); border-radius:99px; overflow:hidden; margin-bottom:22px}
+  .pbar i{display:block; height:100%; width:0; background:var(--accent); transition:width .25s ease}
+  .ask{font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:10px}
+  .q{font-family:var(--serif); font-size:clamp(22px,3vw,30px); line-height:1.25; margin:0 0 6px}
+  .q .gap{color:var(--accent); border-bottom:2px dashed var(--accent); padding:0 18px}
+  .qhint{font-size:14px; color:var(--muted); margin-bottom:20px}
+  .opts{display:grid; gap:9px; margin:0 0 16px}
+  .opt{
+    display:flex; align-items:center; gap:12px; width:100%; text-align:left; cursor:pointer;
+    border:1px solid var(--line); background:var(--paper); border-radius:10px; padding:12px 15px;
+    font-family:var(--serif); font-size:19px; color:var(--ink); transition:border-color .12s, background .12s;
+  }
+  .opt:hover:not(:disabled){border-color:var(--accent)}
+  .opt:disabled{cursor:default}
+  .opt .k{font-family:var(--sans); font-size:11px; color:var(--muted); border:1px solid var(--line); border-radius:5px; padding:1px 6px; line-height:1.5}
+  .opt.right{border-color:var(--green); background:var(--green-soft); color:var(--green)}
+  .opt.wrong{border-color:var(--accent); background:var(--accent-soft); color:var(--accent)}
+  .opt.wrong .k,.opt.right .k{border-color:currentColor; color:inherit}
+  .typebox{display:flex; gap:9px; margin:0 0 14px; flex-wrap:wrap}
+  .typebox input{
+    flex:1; min-width:220px; font-family:var(--serif); font-size:20px; padding:11px 15px; border-radius:10px;
+    border:1px solid var(--line); background:var(--paper); color:var(--ink);
+  }
+  .typebox input:focus{outline:2px solid var(--accent); outline-offset:1px; border-color:transparent}
+  .typebox input.right{border-color:var(--green); background:var(--green-soft)}
+  .typebox input.wrong{border-color:var(--accent); background:var(--accent-soft)}
+  .fb{display:none; border-radius:10px; padding:13px 16px; margin:4px 0 16px; font-size:15px; line-height:1.55}
+  .fb.on{display:block}
+  .fb.ok{background:var(--green-soft); border:1px solid color-mix(in oklab, var(--green) 30%, transparent)}
+  .fb.no{background:var(--accent-soft); border:1px solid color-mix(in oklab, var(--accent) 30%, transparent)}
+  .fb .v{font-weight:700; margin-bottom:2px}
+  .fb .a{font-family:var(--serif); font-size:18px}
+  .fb .why{color:var(--ink2); margin-top:5px; font-size:14.5px}
+  .rfoot{display:flex; align-items:center; gap:12px}
+  .rfoot .sp{flex:1}
+  .score{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .summary{text-align:center; padding:26px 0}
+  .summary .big{font-family:var(--serif); font-size:52px; line-height:1; color:var(--accent); margin-bottom:8px}
+  .summary p{margin-left:auto; margin-right:auto}
+
+  /* ---------- reference ---------- */
+  .filter{display:flex; gap:10px; margin:16px 0; flex-wrap:wrap; align-items:center}
+  .filter input{
+    flex:1; min-width:240px; padding:10px 14px; border-radius:10px; border:1px solid var(--line);
+    background:var(--card); color:var(--ink); font-family:inherit; font-size:15px;
+  }
+  .filter input:focus{outline:2px solid var(--accent); outline-offset:1px}
+  .filter .n{font-size:13px; color:var(--muted)}
+
+  footer{padding:44px 0 70px; color:var(--muted); font-size:13.5px}
+  footer p{max-width:70ch}
+
+  @media (max-width:700px){
+    table{min-width:0}
+    th,td{padding:9px 10px; font-size:14px}
+    td{overflow-wrap:break-word}
+    th{overflow-wrap:normal}
+    td:first-child, th:first-child{white-space:nowrap}
+    td.pl, th.pl{font-size:15px}
+    thead th{position:static; font-size:11px}
+    .tw{margin:14px 0}
+  }
+  @media (max-width:860px){
+    .facts{grid-template-columns:1fr}
+    .grid2,.grid3{grid-template-columns:1fr}
+    .hero{padding:52px 0 34px}
+    section{padding:48px 0}
+    .shead{gap:12px}
+    .snum{padding-top:6px}
+    .drills{padding:18px}
+  }
+  @media print{
+    header.top,#scrollbar,.drills,.cta,.theme{display:none!important}
+    body{background:#fff; color:#000; font-size:11pt}
+    section{page-break-inside:avoid; padding:18px 0}
+    .card,.tw{break-inside:avoid}
+  }
+</style>
+<style>
+  /* small additions for this page */
+  .dlg{margin:12px 0 18px; padding:0; list-style:none; max-width:74ch}
+  .dlg li{margin:6px 0; padding-left:0}
+  .dlg .who{display:inline-block; min-width:72px; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:700}
+  .dlg .ln{font-family:var(--serif); font-size:18px}
+  .qa{margin:14px 0; max-width:74ch}
+  .qa .row{display:grid; grid-template-columns:1fr 1fr; gap:14px; padding:8px 0; border-bottom:1px solid var(--line2)}
+  .qa .row:last-child{border-bottom:none}
+  .qa .bad{font-family:var(--serif); font-size:17px; color:var(--accent)}
+  .qa .ok{font-family:var(--serif); font-size:17px; color:var(--green)}
+  .qa .bad s{text-decoration-thickness:1px}
+  .rule{display:flex; gap:14px; align-items:flex-start; padding:14px 16px; border:1px solid var(--line); background:var(--card); border-radius:12px; margin:10px 0}
+  .rule .num{font-family:var(--serif); font-size:22px; color:var(--accent); line-height:1; min-width:26px}
+  .rule .bd{font-size:15.5px}
+  .rule .bd b{display:block; font-size:15px; margin-bottom:2px}
+  .lit{font-family:var(--serif); font-size:19px; font-style:italic; margin:6px 0 2px}
+  .litattr{font-size:13.5px; color:var(--muted); margin:0 0 16px}
+  @media (max-width:700px){
+    td:first-child, th:first-child{white-space:normal}
+    table{table-layout:auto}
+    td, th{word-break:normal; overflow-wrap:break-word}
+    thead th{letter-spacing:0; font-size:10.5px}
+    #reftable th, #reftable td{padding:8px 7px; font-size:13.5px}
+    #reftable td.pl{font-size:15px}
+  }
+  .casechip{display:inline-block; font-size:11px; letter-spacing:.1em; text-transform:uppercase; font-weight:700; color:var(--muted); border:1px solid var(--line); border-radius:5px; padding:2px 6px; margin-right:6px; vertical-align:2px}
+</style>
+</head>
+<body>
+<div id="scrollbar"></div>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">wołacz <b>·</b></div>
+    <nav class="sections" id="nav">
+      <a href="#basics">Basics</a>
+      <a href="#address">Address</a>
+      <a href="#masc">Masculine</a>
+      <a href="#fem">Feminine</a>
+      <a href="#rest">Neuter &amp; plural</a>
+      <a href="#names">Names</a>
+      <a href="#titles">Titles</a>
+      <a href="#exclaim">Exclamations</a>
+      <a href="#letters">Letters</a>
+      <a href="#change">Shifting norm</a>
+      <a href="#traps">Traps</a>
+      <a href="#drills">Drills</a>
+      <a href="#reference">Reference</a>
+      <a href="#cheat">Cheat sheet</a>
+    </nav>
+    <button class="theme" id="themeBtn" aria-label="Switch light or dark theme" title="Light / dark">◐</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============ HERO ============ -->
+<div class="hero" id="top">
+  <p class="kicker">Polish cases · 7 of 7</p>
+  <h1>Wołacz<br><em>the case you speak in</em></h1>
+  <p class="lede">
+    Six cases tell you what a noun is doing in a sentence. The seventh tells you
+    <b>who you are talking to</b>. It is the only case in Polish with no question word, the only one that stands
+    outside the sentence instead of inside it — and the one you use every single day, usually without noticing.
+  </p>
+  <div class="facts">
+    <div class="fact"><div class="n">no question</div><div class="l">Every other case answers <b>kto? co? kogo? czemu?</b>. The vocative answers nothing — it calls.</div></div>
+    <div class="fact"><div class="n">2 of 3 genders</div><div class="l">Only masculine and feminine singular nouns have forms of their own. Neuter, and every plural, equals the nominative.</div></div>
+    <div class="fact"><div class="n">0 adjectives</div><div class="l">Adjectives, pronouns and numerals never change: <b>Drogi Marku</b>, <b>Kochana Mamo</b>, <b>Mój Boże</b>.</div></div>
+  </div>
+  <div class="cta">
+    <a class="btn primary" href="#drills">Start drilling</a>
+    <a class="btn ghost" href="#cheat">One-page cheat sheet</a>
+  </div>
+</div>
+
+<!-- ============ 01 BASICS ============ -->
+<section id="basics">
+  <div class="shead"><div class="snum">01</div><h2>What the vocative is</h2></div>
+
+  <p>
+    <b>Wołacz</b> (from <i>wołać</i>, “to call”) is the case of direct address. You use it when the noun names
+    the person or thing you are speaking <i>to</i>: <span class="pl">Marku, zamknij okno.</span> — “Marek, close the window.”
+    The form <b>Marku</b> has no grammatical link to the verb; it floats outside the clause, set off by commas.
+  </p>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>It is not part of the sentence</h4>
+      <p class="ex">Marku, <span class="g">zamknij</span> okno.</p>
+      <p class="ex">Zamknij okno, <span class="g">Marku</span>.</p>
+      <p class="tr">Both mean the same. <b>Marku</b> is not the subject and not the object — it is a loose, extra element. That is why some grammars count Polish as having six cases and treat the vocative as a separate “form of address” rather than a case at all.</p>
+    </div>
+    <div class="card">
+      <h4>It has no question</h4>
+      <p>You cannot ask a question that the vocative answers. The traditional school hint <b>O!</b> is misleading: it suggests you can simply put <b>O</b> in front of the dictionary form — <i>O, samolot!</i> — when the noun still has to be in the vocative: <i>O, samolocie!</i> The <b>O</b> is only an interjection; it marks nothing.</p>
+      <p class="small">What the vocative does is called <b>apostrophe</b> (Polish: <i>apostrofa</i>) — turning to address someone, or something, directly.</p>
+    </div>
+  </div>
+
+  <h3>The seven cases, and where the vocative sits</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>#</th><th>Case</th><th>Question</th><th>What it marks</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td class="pl">mianownik</td><td>kto? co?</td><td>the subject, the dictionary form</td></tr>
+        <tr><td>2</td><td class="pl">dopełniacz</td><td>kogo? czego?</td><td>possession, quantity, negation</td></tr>
+        <tr><td>3</td><td class="pl">celownik</td><td>komu? czemu?</td><td>the receiver, the indirect object</td></tr>
+        <tr><td>4</td><td class="pl">biernik</td><td>kogo? co?</td><td>the direct object</td></tr>
+        <tr><td>5</td><td class="pl">narzędnik</td><td>z kim? z czym?</td><td>instrument, means, “with”</td></tr>
+        <tr><td>6</td><td class="pl">miejscownik</td><td>o kim? o czym?</td><td>location, topic — always with a preposition</td></tr>
+        <tr><td><b>7</b></td><td class="pl"><b>wołacz</b></td><td><b>—</b></td><td><b>the person spoken to</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">
+    Some textbooks list the vocative as case five, some as seven; the number is a convention, not a fact about the language.
+    What matters is the behaviour: it is the only case that never joins the syntax of the clause.
+  </p>
+
+  <h3>What it is for</h3>
+  <div class="grid3">
+    <div class="card">
+      <h4>Calling and addressing</h4>
+      <p class="ex">Aniu, chodź tu!</p>
+      <p class="ex">Panie Marku, mam pytanie.</p>
+      <p class="tr">Calling someone over, opening a conversation, getting attention in a shop or an office.</p>
+    </div>
+    <div class="card">
+      <h4>Emotion and exclamation</h4>
+      <p class="ex">O Boże! Matko kochana!</p>
+      <p class="ex">Ty idioto!</p>
+      <p class="tr">Surprise, despair, anger. Insults and endearments almost always come in the vocative.</p>
+    </div>
+    <div class="card">
+      <h4>Literature and rhetoric</h4>
+      <p class="ex">Litwo! Ojczyzno moja!</p>
+      <p class="ex">Polsko, nie jesteś ty już niewolnicą.</p>
+      <p class="tr">Addressing a country, an idea, a dead person — the classic <i>apostrofa</i> of poetry and speeches.</p>
+    </div>
+  </div>
+
+  <div class="note good">
+    <span class="lab">The one-line summary</span>
+    <p>A noun goes into the vocative when it names <b>the addressee</b> — the person the sentence is aimed at. Nothing else in the phrase moves.</p>
+  </div>
+</section>
+
+<!-- ============ 02 ADDRESS SYSTEM ============ -->
+<section id="address">
+  <div class="shead"><div class="snum">02</div><h2>The Polish address system</h2></div>
+
+  <p>
+    Before the endings, the bigger picture: <b>how Poles actually call each other</b>. The vocative is the backbone of it,
+    because almost every address formula contains a noun that has to be in this case.
+  </p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Formula</th><th>Example</th><th>When</th></tr></thead>
+      <tbody>
+        <tr><td><b>Pan / Pani</b> + first name in vocative</td><td class="pl">Panie Marku! Pani Anno!</td><td>The everyday polite form. Name in the vocative, title stays <i>pan/pani</i>.</td></tr>
+        <tr><td><b>Pan / Pani</b> + title in vocative</td><td class="pl">Panie doktorze! Pani doktor!</td><td>Doctors, professors, managers, officials. Note: the female title does not change.</td></tr>
+        <tr><td><b>Pan / Pani</b> alone</td><td class="pl">Panie! Pani!</td><td>A stranger in the street. Slightly blunt; <i>Proszę pana</i> is softer.</td></tr>
+        <tr><td><b>Państwo</b></td><td class="pl">Drodzy Państwo! Szanowni Państwo!</td><td>A mixed group, or an audience. Unchanged — <i>państwo</i> is already plural.</td></tr>
+        <tr><td>First name alone</td><td class="pl">Marku! Aniu!</td><td>Friends, family, colleagues of your age.</td></tr>
+        <tr><td>Diminutive alone</td><td class="pl">Tomku! Kasiu!</td><td>Warm, close, everyday. This is the most common way to call a friend.</td></tr>
+        <tr><td>Surname</td><td class="pl">Panie Nowak!</td><td>Rare, and never warm. See <a href="#names">Names</a>.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>The same person in all seven cases</h3>
+  <p>This is the whole case system on one noun — useful to see what the vocative is <i>not</i> doing:</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Case</th><th>Form</th><th>In a sentence</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">mianownik</td><td class="pl">pan Marek</td><td class="pl">Pan Marek jest w domu.</td></tr>
+        <tr><td class="pl">dopełniacz</td><td class="pl">pana Marka</td><td class="pl">Nie ma pana Marka.</td></tr>
+        <tr><td class="pl">celownik</td><td class="pl">panu Markowi</td><td class="pl">Daję to panu Markowi.</td></tr>
+        <tr><td class="pl">biernik</td><td class="pl">pana Marka</td><td class="pl">Widzę pana Marka.</td></tr>
+        <tr><td class="pl">narzędnik</td><td class="pl">panem Markiem</td><td class="pl">Rozmawiam z panem Markiem.</td></tr>
+        <tr><td class="pl">miejscownik</td><td class="pl">panu Marku</td><td class="pl">Myślę o panu Marku.</td></tr>
+        <tr><td class="pl"><b>wołacz</b></td><td class="pl"><b>panie Marku</b></td><td class="pl"><b>Panie Marku, mam pytanie.</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note warn">
+    <span class="lab">Watch out</span>
+    <p>
+      <b>Panie Marku</b> (vocative, you are speaking to him) and <b>o panu Marku</b> (locative, you are speaking about him)
+      look almost the same but are different cases. The vocative never has a preposition in front of it;
+      the locative almost always does.
+    </p>
+  </div>
+
+  <h3>Addressing vs. mentioning</h3>
+  <div class="qa">
+    <div class="row"><div class="ok">Panie Marku, proszę usiąść.</div><div class="tr">Vocative — you are talking to him.</div></div>
+    <div class="row"><div class="ok">Przepraszam pana, gdzie jest dworzec?</div><div class="tr">Accusative — the standard polite opener. Not <s>Przepraszam panie</s>.</div></div>
+    <div class="row"><div class="ok">Proszę pana, to moje miejsce.</div><div class="tr">Fixed expression. Not <s>Proszę panie</s>.</div></div>
+    <div class="row"><div class="ok">Dzień dobry panu.</div><div class="tr">Dative — “good day to you”. Common in shops, and it is <i>not</i> a vocative.</div></div>
+  </div>
+</section>
+
+<!-- ============ 03 MASCULINE ============ -->
+<section id="masc">
+  <div class="shead"><div class="snum">03</div><h2>Masculine: the engine</h2></div>
+
+  <p>
+    Nearly all masculine nouns end in a consonant, and they split into two groups: those whose stem ends in a
+    <b>hard</b> consonant, which take <b>-e</b>, and those whose stem ends in a <b>soft or hardened</b> one,
+    which take <b>-u</b>. That single division explains almost every form you will meet.
+  </p>
+
+  <div class="rule">
+    <div class="num">1</div>
+    <div class="bd"><b>The shortcut that does the work for you</b>
+      For a masculine noun ending in a consonant, the vocative singular has <b>the same shape as the locative singular</b>.
+      <span class="pl">o panu → panie</span>, <span class="pl">o królu → królu</span>, <span class="pl">o Tomaszu → Tomaszu</span>,
+      <span class="pl">o psie → psie</span>. PWN states the hard-stem rule exactly this way: the ending is the locative’s.
+      If you know <i>w domu</i>, you know <i>domu!</i>; if you know <i>o synu</i>, you know <i>synu!</i>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="num">2</div>
+    <div class="bd"><b>Four exceptions to that shortcut</b>
+      <b>Bóg → Boże</b> (not “Bogu”), <b>ksiądz → księże</b> (not “księdzu”), <b>chłopiec → chłopcze</b> (not “chłopcu”),
+      <b>ojciec → ojcze</b> (not “ojcu”). Four words, all of them common — learn them as a set.
+    </div>
+  </div>
+
+  <h3>The endings by final consonant</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Final consonant</th><th>Ending</th><th>Examples and what changes</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">k, g, ch</td><td class="end">-u</td><td class="pl">Marek → Marku · wróg → wrogu · duch → duchu<br><span class="tr">nothing changes</span></td></tr>
+        <tr><td class="pl">c, dz, cz, dż, sz, ż, rz</td><td class="end">-u</td><td class="pl">palec → palcu · klucz → kluczu · lekarz → lekarzu<br><span class="tr">nothing changes</span></td></tr>
+        <tr><td class="pl">l</td><td class="end">-u</td><td class="pl">król → królu · Karol → Karolu · przyjaciel → przyjacielu<br><span class="tr">nothing changes</span></td></tr>
+        <tr><td class="pl">j, ś, ć, ń, ź</td><td class="end">-u</td><td class="pl">kraj → kraju · gość → gościu · uczeń → uczniu<br><span class="tr">nothing changes</span></td></tr>
+        <tr><td class="pl">b, p, w, f, m, n, s, z</td><td class="end">-e</td><td class="pl">chleb → chlebie · chłop → chłopie · lew → lwie · pan → panie · las → lesie<br><span class="tr">the consonant softens: b→bi, p→pi, w→wi, f→fi, m→mi, n→ni, s→si, z→zi</span></td></tr>
+        <tr><td class="pl">t, d</td><td class="end">-e</td><td class="pl">kot → kocie · student → studencie · sąsiad → sąsiedzie<br><span class="tr">t→ci, d→dzi</span></td></tr>
+        <tr><td class="pl">r</td><td class="end">-e</td><td class="pl">profesor → profesorze · Piotr → Piotrze · bohater → bohaterze<br><span class="tr">r→rz</span></td></tr>
+        <tr><td class="pl">ł</td><td class="end">-e</td><td class="pl">Michał → Michale · anioł → aniele · stół → stole<br><span class="tr">ł→l</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="small">
+    Two of those also change the vowel, exactly as in the locative: <b>las → lesie</b>, <b>czas → czasie</b> (a → e), and
+    <b>stół → stole</b> (ó → o). If the locative form surprises you, the vocative will surprise you the same way — they are the same word.
+  </p>
+
+  <div class="note">
+    <span class="lab">Why “Adamie” but “sąsiedzie”?</span>
+    <p>
+      Both end in <b>d</b>, but only one softens to <b>dzi</b>. The spelling follows the history of each word, not a rule you can
+      apply blind. Learn the pairs that matter: <b>dziad → dziadzie</b>, <b>sąsiad → sąsiedzie</b>,
+      <b>samochód → samochodzie</b>, <b>Dawid → Dawidzie</b> — but <b>Adam → Adamie</b>.
+    </p>
+  </div>
+
+  <h3>The -ec group: two endings, one nuance</h3>
+  <p>
+    Masculine personal nouns in <b>-ec</b> can take either <b>-u</b> or <b>-e</b> (with <i>c → cz</i>).
+    The <b>-u</b> form is the neutral, everyday one; the <b>-e</b> form sounds elevated, bookish, slightly archaic —
+    PWN calls it a mark of “stylizacja podniosła”.
+  </p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Neutral (-u)</th><th>Elevated (-e)</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">mieszkańcu!</td><td class="pl">mieszkańcze!</td><td>both correct; <i>-u</i> is what people say</td></tr>
+        <tr><td class="pl">młodzieńcu!</td><td class="pl">młodzieńcze!</td><td>the <i>-e</i> form belongs to poetry and rhetoric</td></tr>
+        <tr><td class="pl">rewolwerowcu!</td><td class="pl">rewolwerowcze!</td><td>same pattern</td></tr>
+        <tr><td class="pl">—</td><td class="pl">chłopcze!</td><td><b>only</b> this form. <s>chłopcu</s> does not exist.</td></tr>
+        <tr><td class="pl">—</td><td class="pl">ojcze!</td><td><b>only</b> this form. <s>ojcu</s> does not exist.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">
+    A related relic: <b>człowiek → człowieku!</b> in speech, with the poetic <b>człowiecze!</b> preserved in old texts, and
+    <b>Bóg → Boże!</b> — the same elevated <i>-e</i> that survived as the only form for that word.
+  </p>
+
+  <h3>Masculine nouns in -a</h3>
+  <p>
+    A small but important group: masculine nouns for people that end in <b>-a</b>. They take <b>-o</b>, exactly like feminine
+    nouns in <b>-a</b>.
+  </p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Nominative</th><th>Vocative</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">tata</td><td class="pl">tato!</td><td>dad</td></tr>
+        <tr><td class="pl">kolega</td><td class="pl">kolego!</td><td>mate, colleague</td></tr>
+        <tr><td class="pl">mężczyzna</td><td class="pl">mężczyzno!</td><td>man</td></tr>
+        <tr><td class="pl">kierowca</td><td class="pl">kierowco!</td><td>driver</td></tr>
+        <tr><td class="pl">sędzia</td><td class="pl">sędzio!</td><td>judge</td></tr>
+        <tr><td class="pl">hrabia</td><td class="pl">hrabio!</td><td>count (noble)</td></tr>
+        <tr><td class="pl">artysta</td><td class="pl">artysto!</td><td>artist</td></tr>
+        <tr><td class="pl">poeta</td><td class="pl">poeto!</td><td>poet</td></tr>
+        <tr><td class="pl">zdrajca</td><td class="pl">zdrajco!</td><td>traitor</td></tr>
+        <tr><td class="pl">idiota</td><td class="pl">idioto!</td><td>idiot</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Two small groups that never change</h3>
+  <ul>
+    <li><b>Names in -y / -i</b> decline like adjectives, so the vocative equals the nominative: <span class="pl">Jerzy → Jerzy!</span>, <span class="pl">Antoni → Antoni!</span>.</li>
+    <li><b>Names in -o</b> take <b>-u</b>: <span class="pl">Mieszko → Mieszku!</span></li>
+  </ul>
+</section>
+
+<!-- ============ 04 FEMININE ============ -->
+<section id="fem">
+  <div class="shead"><div class="snum">04</div><h2>Feminine: -o, -u, -i</h2></div>
+
+  <p>
+    Feminine nouns are easier, because the default is loud and unmistakable: <b>-a becomes -o</b>. There are two smaller
+    groups — diminutives with a soft stem, and nouns that end in a consonant.
+  </p>
+
+  <div class="rule">
+    <div class="num">1</div>
+    <div class="bd"><b>-a → -o</b>
+      <span class="pl">kobieta → kobieto!</span> · <span class="pl">mama → mamo!</span> · <span class="pl">Anna → Anno!</span> ·
+      <span class="pl">Warszawa → Warszawo!</span> · <span class="pl">ziemia → ziemio!</span> · <span class="pl">ulica → ulico!</span>.
+      No softening, no vowel changes — just swap the vowel.
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="num">2</div>
+    <div class="bd"><b>Soft-stem diminutives and pet names → -u</b>
+      <span class="pl">Ania → Aniu!</span> · <span class="pl">Kasia → Kasiu!</span> · <span class="pl">Zosia → Zosiu!</span> ·
+      <span class="pl">ciocia → ciociu!</span> · <span class="pl">babcia → babciu!</span> · <span class="pl">babunia → babuniu!</span>
+      · <span class="pl">Ola → Olu!</span> · <span class="pl">Ula → Ulu!</span>
+      <br><span class="small">This is what makes <b>Aniu!</b> sound warm and <b>Anno!</b> sound like a school register or a formal letter. Both are correct; they do different work.</span>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="num">3</div>
+    <div class="bd"><b>Consonant-final feminine → -i or -y</b>
+      Same shape as the locative, as with masculine nouns: <span class="pl">noc → nocy!</span> · <span class="pl">miłość → miłości!</span> ·
+      <span class="pl">sól → soli!</span> · <span class="pl">krew → krwi!</span> · <span class="pl">jesień → jesieni!</span> ·
+      <span class="pl">wieś → wsi!</span> · <span class="pl">rzecz → rzeczy!</span> · <span class="pl">odpowiedź → odpowiedzi!</span>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="num">4</div>
+    <div class="bd"><b>Feminine nouns in -i never change</b>
+      <span class="pl">pani → pani!</span> · <span class="pl">gospodyni → gospodyni!</span> · <span class="pl">bogini → bogini!</span>
+    </div>
+  </div>
+
+  <h3>The full feminine table</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Type</th><th>Ending</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td>in <b>-a</b>, hard stem</td><td class="end">-o</td><td class="pl">kobieta → kobieto · Anna → Anno · Magda → Magdo · Agnieszka → Agnieszko</td></tr>
+        <tr><td>in <b>-a</b>, soft stem, ordinary noun</td><td class="end">-o</td><td class="pl">ziemia → ziemio · poezja → poezjo · róża → różo · ulica → ulico</td></tr>
+        <tr><td>in <b>-a</b>, soft stem, diminutive or pet name</td><td class="end">-u</td><td class="pl">Ania → Aniu · Kasia → Kasiu · Marysia → Marysiu · ciocia → ciociu</td></tr>
+        <tr><td>consonant-final, soft stem</td><td class="end">-i</td><td class="pl">miłość → miłości · jesień → jesieni · sól → soli · krew → krwi</td></tr>
+        <tr><td>consonant-final, hardened stem</td><td class="end">-y</td><td class="pl">noc → nocy · rzecz → rzeczy · twarz → twarzy · młodzież → młodzieży</td></tr>
+        <tr><td>in <b>-i</b></td><td class="end">—</td><td class="pl">pani → pani · gospodyni → gospodyni</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="lab">The -a trap</span>
+    <p>
+      Note that <b>ulica → ulico</b> and <b>róża → różo</b>, even though the stems end in hardened consonants — the
+      <b>-y</b> ending belongs only to consonant-final feminine nouns. And <b>Agnieszka → Agnieszko</b>, not “Agnieszku”:
+      only diminutives and pet names go to <b>-u</b>.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 05 THE REST ============ -->
+<section id="rest">
+  <div class="shead"><div class="snum">05</div><h2>Neuter, plural, adjectives</h2></div>
+
+  <p>
+    Here the good news is total: <b>nothing changes</b>. This is not a simplification — it is the rule. Neuter singular
+    nouns, all plural nouns, and every adjective, pronoun and numeral have a vocative identical to the nominative.
+  </p>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>Neuter: identical</h4>
+      <p class="ex">dziecko → dziecko!</p>
+      <p class="ex">okno → okno! · imię → imię!</p>
+      <p class="ex">zwierzę → zwierzę! · słońce → słońce!</p>
+      <p class="tr">You will rarely address a neuter noun, but when you personify one — <i>Okno, zamknij się!</i> — the form does not move.</p>
+    </div>
+    <div class="card">
+      <h4>Plural: identical</h4>
+      <p class="ex">studenci → studenci!</p>
+      <p class="ex">kobiety → kobiety! · dzieci → dzieci!</p>
+      <p class="ex">Panowie! Panie! Państwo!</p>
+      <p class="tr">Polish has no separate vocative plural at all. The nominative does the job.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h4>Adjectives, pronouns, numerals: identical</h4>
+    <p class="ex">Drogi Marku, …</p>
+    <p class="ex">Kochana Mamo, …</p>
+    <p class="ex">Mój Boże! · Ty kłamczuchu! · Nasz drogi Panie!</p>
+    <p class="tr">
+      Only the noun carries the case. <b>Drogi</b> stays <b>drogi</b>, not “drogiego”; <b>mój</b> stays <b>mój</b>, not “mojego”.
+      This is why the vocative is much less work than it looks: in <i>Kochana Mamo</i>, half the phrase is already correct.
+    </p>
+  </div>
+
+  <h3>Greeting a group</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Polish</th><th>English</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">Drodzy Państwo!</td><td>Ladies and gentlemen</td><td>the standard opener for an audience</td></tr>
+        <tr><td class="pl">Szanowni Państwo!</td><td>Dear all (formal)</td><td>letters, emails, announcements</td></tr>
+        <tr><td class="pl">Koleżanki i koledzy!</td><td>Colleagues</td><td>workplace, trade unions, meetings</td></tr>
+        <tr><td class="pl">Drodzy Czytelnicy!</td><td>Dear readers</td><td>plural, unchanged</td></tr>
+        <tr><td class="pl">Panowie! Panie!</td><td>Gentlemen! Ladies!</td><td>separately, to men and to women</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 06 NAMES ============ -->
+<section id="names">
+  <div class="shead"><div class="snum">06</div><h2>Names: the ones you will actually use</h2></div>
+
+  <p>
+    Ninety per cent of the vocatives you produce in Poland will be names. They follow the rules you have just read,
+    but they are worth seeing in a list, because the softening is invisible in the nominative and the pairs have to
+    become automatic.
+  </p>
+
+  <h3>Men’s names</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Nominative</th><th>Vocative</th><th>What changed</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">Adam</td><td class="pl">Adamie!</td><td>-e, d stays d</td></tr>
+        <tr><td class="pl">Andrzej</td><td class="pl">Andrzeju!</td><td>-u after j</td></tr>
+        <tr><td class="pl">Antoni</td><td class="pl">Antoni!</td><td>unchanged</td></tr>
+        <tr><td class="pl">Bartosz</td><td class="pl">Bartoszu!</td><td>-u after sz</td></tr>
+        <tr><td class="pl">Dawid</td><td class="pl">Dawidzie!</td><td>-e, d→dzi</td></tr>
+        <tr><td class="pl">Daniel</td><td class="pl">Danielu!</td><td>-u after l</td></tr>
+        <tr><td class="pl">Filip</td><td class="pl">Filipie!</td><td>-e, p→pi</td></tr>
+        <tr><td class="pl">Grzegorz</td><td class="pl">Grzegorzu!</td><td>-u after rz</td></tr>
+        <tr><td class="pl">Jacek</td><td class="pl">Jacku!</td><td>-u after k</td></tr>
+        <tr><td class="pl">Jakub</td><td class="pl">Jakubie!</td><td>-e, b→bi</td></tr>
+        <tr><td class="pl">Jan</td><td class="pl">Janie!</td><td>-e, n→ni</td></tr>
+        <tr><td class="pl">Jerzy</td><td class="pl">Jerzy!</td><td>unchanged</td></tr>
+        <tr><td class="pl">Józef</td><td class="pl">Józefie!</td><td>-e, f→fi</td></tr>
+        <tr><td class="pl">Kamil</td><td class="pl">Kamilu!</td><td>-u after l</td></tr>
+        <tr><td class="pl">Karol</td><td class="pl">Karolu!</td><td>-u after l</td></tr>
+        <tr><td class="pl">Krzysztof</td><td class="pl">Krzysztofie!</td><td>-e, f→fi</td></tr>
+        <tr><td class="pl">Łukasz</td><td class="pl">Łukaszu!</td><td>-u after sz</td></tr>
+        <tr><td class="pl">Maciej</td><td class="pl">Macieju!</td><td>-u after j</td></tr>
+        <tr><td class="pl">Marcin</td><td class="pl">Marcinie!</td><td>-e, n→ni</td></tr>
+        <tr><td class="pl">Marek</td><td class="pl">Marku!</td><td>-u after k</td></tr>
+        <tr><td class="pl">Mateusz</td><td class="pl">Mateuszu!</td><td>-u after sz</td></tr>
+        <tr><td class="pl">Michał</td><td class="pl">Michale!</td><td>-e, ł→l</td></tr>
+        <tr><td class="pl">Patryk</td><td class="pl">Patryku!</td><td>-u after k</td></tr>
+        <tr><td class="pl">Paweł</td><td class="pl">Pawle!</td><td>-e, ł→l</td></tr>
+        <tr><td class="pl">Piotr</td><td class="pl">Piotrze!</td><td>-e, r→rz</td></tr>
+        <tr><td class="pl">Rafał</td><td class="pl">Rafale!</td><td>-e, ł→l</td></tr>
+        <tr><td class="pl">Robert</td><td class="pl">Robercie!</td><td>-e, t→ci</td></tr>
+        <tr><td class="pl">Szymon</td><td class="pl">Szymonie!</td><td>-e, n→ni</td></tr>
+        <tr><td class="pl">Tomasz</td><td class="pl">Tomaszu!</td><td>-u after sz</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Men’s diminutives</h3>
+  <p>These are the forms friends actually shout across a street. Note that <b>-ek</b> always becomes <b>-ku</b>.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Nominative</th><th>Vocative</th><th>From</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">Tomek</td><td class="pl">Tomku!</td><td>Tomasz</td></tr>
+        <tr><td class="pl">Piotrek</td><td class="pl">Piotrku!</td><td>Piotr</td></tr>
+        <tr><td class="pl">Bartek</td><td class="pl">Bartku!</td><td>Bartosz</td></tr>
+        <tr><td class="pl">Maciek</td><td class="pl">Maćku!</td><td>Maciej</td></tr>
+        <tr><td class="pl">Kuba</td><td class="pl">Kubo!</td><td>Jakub</td></tr>
+        <tr><td class="pl">Staś</td><td class="pl">Stasiu!</td><td>Stanisław</td></tr>
+        <tr><td class="pl">Jaś</td><td class="pl">Jasiu!</td><td>Jan</td></tr>
+        <tr><td class="pl">Krzyś</td><td class="pl">Krzysiu!</td><td>Krzysztof</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Women’s names</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Nominative</th><th>Vocative</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">Anna</td><td class="pl">Anno!</td><td>full name → -o</td></tr>
+        <tr><td class="pl">Ania</td><td class="pl">Aniu!</td><td>diminutive, soft → -u</td></tr>
+        <tr><td class="pl">Agnieszka</td><td class="pl">Agnieszko!</td><td>full name → -o, even after sz</td></tr>
+        <tr><td class="pl">Aleksandra</td><td class="pl">Aleksandro!</td><td>-o</td></tr>
+        <tr><td class="pl">Barbara</td><td class="pl">Barbaro!</td><td>-o</td></tr>
+        <tr><td class="pl">Beata</td><td class="pl">Beato!</td><td>-o</td></tr>
+        <tr><td class="pl">Dorota</td><td class="pl">Doroto!</td><td>-o</td></tr>
+        <tr><td class="pl">Ewa</td><td class="pl">Ewo!</td><td>-o</td></tr>
+        <tr><td class="pl">Halina</td><td class="pl">Halino!</td><td>-o</td></tr>
+        <tr><td class="pl">Iwona</td><td class="pl">Iwono!</td><td>-o</td></tr>
+        <tr><td class="pl">Joanna</td><td class="pl">Joanno!</td><td>-o</td></tr>
+        <tr><td class="pl">Julia</td><td class="pl">Julio!</td><td>-o</td></tr>
+        <tr><td class="pl">Karolina</td><td class="pl">Karolino!</td><td>-o</td></tr>
+        <tr><td class="pl">Katarzyna</td><td class="pl">Katarzyno!</td><td>-o</td></tr>
+        <tr><td class="pl">Kinga</td><td class="pl">Kingo!</td><td>-o, even after g</td></tr>
+        <tr><td class="pl">Magda</td><td class="pl">Magdo!</td><td>-o</td></tr>
+        <tr><td class="pl">Maria</td><td class="pl">Mario!</td><td>hard r → -o</td></tr>
+        <tr><td class="pl">Monika</td><td class="pl">Moniko!</td><td>-o</td></tr>
+        <tr><td class="pl">Natalia</td><td class="pl">Natalio!</td><td>-o</td></tr>
+        <tr><td class="pl">Weronika</td><td class="pl">Weroniko!</td><td>-o</td></tr>
+        <tr><td class="pl">Zofia</td><td class="pl">Zofio!</td><td>-o</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Women’s diminutives</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Nominative</th><th>Vocative</th><th>From</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">Kasia</td><td class="pl">Kasiu!</td><td>Katarzyna</td></tr>
+        <tr><td class="pl">Asia</td><td class="pl">Asiu!</td><td>Joanna</td></tr>
+        <tr><td class="pl">Basia</td><td class="pl">Basiu!</td><td>Barbara</td></tr>
+        <tr><td class="pl">Zosia</td><td class="pl">Zosiu!</td><td>Zofia</td></tr>
+        <tr><td class="pl">Marysia</td><td class="pl">Marysiu!</td><td>Maria</td></tr>
+        <tr><td class="pl">Ola</td><td class="pl">Olu!</td><td>Aleksandra</td></tr>
+        <tr><td class="pl">Ula</td><td class="pl">Ulu!</td><td>Urszula</td></tr>
+        <tr><td class="pl">Ela</td><td class="pl">Elu!</td><td>Elżbieta</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Surnames — and why you should almost never use them</h3>
+  <p>
+    Polish culture does not address people by surname. It is not rude in the way a swear word is rude; it is cold,
+    officious, the way a clerk calls a number. The good news is that this makes the grammar easy: <b>the vocative of a
+    surname equals the nominative</b>.
+  </p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Surname</th><th>Address</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">Kowalski</td><td class="pl">Panie Kowalski!</td><td>adjectival surname — unchanged</td></tr>
+        <tr><td class="pl">Kowalska</td><td class="pl">Pani Kowalska!</td><td>unchanged; <s>Kowalsko</s> is wrong</td></tr>
+        <tr><td class="pl">Nowak</td><td class="pl">Panie Nowak!</td><td>unchanged, per PWN</td></tr>
+        <tr><td class="pl">Kowalska + first name</td><td class="pl">Anno Kowalska!</td><td>only the first name goes into the vocative</td></tr>
+        <tr><td class="pl">Wieczorek + first name</td><td class="pl">Tomaszu Wieczorek!</td><td>same principle</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note warn">
+    <span class="lab">A genuine disagreement</span>
+    <p>
+      PWN’s current rule (Hanna Jadacka) is flat: surnames have a vocative equal to the nominative, so <b>Panie Nowak!</b>,
+      not <s>Panie Nowaku!</s> But PWN’s own <i>Wielki słownik poprawnej polszczyzny</i> contains a second entry
+      (Danuta Zdunkiewicz-Jedynak) calling <b>Nowaku!</b> “theoretically possible, though slightly pretentious, sometimes
+      elevated”, and treating the nominative version as “very colloquial”. So: the traditional form exists, the modern
+      recommendation avoids it. For a learner the answer is the same either way — <b>use the first name, or no name at all</b>.
+    </p>
+  </div>
+
+  <div class="note good">
+    <span class="lab">What to say instead</span>
+    <p>
+      <b>Panie Marku!</b> · <b>Pani Anno!</b> · <b>Panie doktorze!</b> · <b>Proszę pana!</b> · <b>Przepraszam!</b>
+      — every one of these is warmer and more idiomatic than a surname.
+    </p>
+  </div>
+
+  <h3>Foreign names</h3>
+  <p>
+    Names ending in a consonant behave like Polish ones, with softening that surprises English speakers:
+    <span class="pl">Robert → Robercie!</span>, <span class="pl">Dawid → Dawidzie!</span>, <span class="pl">Daniel → Danielu!</span>,
+    <span class="pl">Krzysztof → Krzysztofie!</span>
+  </p>
+  <p>
+    Where a name would become unrecognisable, Polish often declines it less, and usage varies from speaker to speaker.
+    This is one of the few places where you are allowed to dodge: say <b>Panie Kevin</b> / <b>Pani Sarah</b> with the name
+    left in its base form, or drop the name and use <b>Panie</b> / <b>Pani</b> alone. Nobody will call that a mistake.
+  </p>
+</section>
+
+<!-- ============ 07 TITLES ============ -->
+<section id="titles">
+  <div class="shead"><div class="snum">07</div><h2>Titles, ranks and religion</h2></div>
+
+  <p>
+    This is where the vocative is <b>obligatory</b> even in casual speech, and where it is doing real grammatical work:
+    the ending <b>-e</b> marks a man, and its absence marks a woman.
+  </p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>To a man</th><th>To a woman</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">Panie doktorze!</td><td class="pl">Pani doktor!</td><td>doctor</td></tr>
+        <tr><td class="pl">Panie profesorze!</td><td class="pl">Pani profesor!</td><td>professor</td></tr>
+        <tr><td class="pl">Panie dyrektorze!</td><td class="pl">Pani dyrektor!</td><td>director</td></tr>
+        <tr><td class="pl">Panie prezesie!</td><td class="pl">Pani prezes!</td><td>president, CEO</td></tr>
+        <tr><td class="pl">Panie inżynierze!</td><td class="pl">Pani inżynier!</td><td>engineer</td></tr>
+        <tr><td class="pl">Panie mecenasie!</td><td class="pl">Pani mecenas!</td><td>barrister, attorney</td></tr>
+        <tr><td class="pl">Panie ministrze!</td><td class="pl">Pani minister!</td><td>minister</td></tr>
+        <tr><td class="pl">Panie kapitanie!</td><td class="pl">Pani kapitan!</td><td>captain</td></tr>
+        <tr><td class="pl">Panie majorze!</td><td class="pl">Pani major!</td><td>major</td></tr>
+        <tr><td class="pl">Panie burmistrzu!</td><td class="pl">Pani burmistrz!</td><td>mayor</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">
+    The female forms are unchanged because Polish feminine titles of profession are indeclinable — <i>pani profesor</i> is the
+    same in every case. That is precisely why the masculine vocative survives so stubbornly: <b>panie doktorze</b> vs
+    <b>pani doktor</b> tells you the sex of the person, and the nominative <i>panie doktor</i> would not.
+  </p>
+
+  <h3>Religion — the densest cluster of vocatives in the language</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Nominative</th><th>Vocative</th><th>Where you hear it</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">Bóg</td><td class="pl">Boże!</td><td>O Boże! Boże święty! — the irregular <i>-e</i></td></tr>
+        <tr><td class="pl">Pan (Bóg)</td><td class="pl">Panie!</td><td>Panie, zmiłuj się</td></tr>
+        <tr><td class="pl">Jezus</td><td class="pl">Jezu!</td><td>O Jezu! — alongside the regular <i>Jezusie!</i></td></tr>
+        <tr><td class="pl">Chrystus</td><td class="pl">Chryste!</td><td>Chryste, Panie miłosierny</td></tr>
+        <tr><td class="pl">Duch Święty</td><td class="pl">Duchu Święty!</td><td>prayers — <i>-u</i> after ch</td></tr>
+        <tr><td class="pl">ojciec</td><td class="pl">Ojcze!</td><td>Ojcze nasz, któryś jest w niebie</td></tr>
+        <tr><td class="pl">matka</td><td class="pl">Matko!</td><td>Matko Boska! Matko kochana!</td></tr>
+        <tr><td class="pl">ksiądz</td><td class="pl">księże!</td><td>Księże proboszczu!</td></tr>
+        <tr><td class="pl">biskup</td><td class="pl">biskupie!</td><td>Księże biskupie!</td></tr>
+        <tr><td class="pl">papież</td><td class="pl">papieżu!</td><td>Ojcze Święty! is the usual address, though</td></tr>
+        <tr><td class="pl">brat</td><td class="pl">bracie!</td><td>Bracie! — to a monk, or warmly to a friend</td></tr>
+        <tr><td class="pl">siostra</td><td class="pl">siostro!</td><td>Siostro! — to a nun</td></tr>
+        <tr><td class="pl">święty</td><td class="pl">święty!</td><td>Święty Jacku! — adjective unchanged, name in vocative</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 08 EXCLAMATIONS ============ -->
+<section id="exclaim">
+  <div class="shead"><div class="snum">08</div><h2>Exclamations, insults, and addressing the sky</h2></div>
+
+  <p>
+    The vocative is the case of strong feeling. When a Pole is exasperated, the noun that comes out is almost always in
+    this case — and this is also the one context where the vocative is never replaced by the nominative.
+  </p>
+
+  <h3>Fixed exclamations</h3>
+  <div class="grid2">
+    <div class="card">
+      <h4>Despair, surprise, relief</h4>
+      <p class="ex">O Boże! · Mój Boże!</p>
+      <p class="ex">Boże święty! · Boże drogi!</p>
+      <p class="ex">O Jezu! · Jezu, co się stało?</p>
+      <p class="ex">Matko kochana! · Matko Boska!</p>
+      <p class="ex">O rany! <span class="tr">(no vocative — a fixed phrase)</span></p>
+    </div>
+    <div class="card">
+      <h4>Getting attention</h4>
+      <p class="ex">Kolego, co ty robisz?</p>
+      <p class="ex">Człowieku, ogarnij się!</p>
+      <p class="ex">Słuchaj, stary! <span class="tr">(nominative, very colloquial)</span></p>
+      <p class="ex">Panie! Pani! — to a stranger</p>
+      <p class="tr">Kolego and Człowieku are not neutral: they carry impatience, a raised eyebrow, a challenge.</p>
+    </div>
+  </div>
+
+  <h3>Insults — the vocative is compulsory</h3>
+  <p>
+    A noun used as an insult is being used as an address, so it takes the vocative without exception. This is worth
+    drilling, because the forms are irregular in exactly the way the rules predict.
+  </p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Nominative</th><th>Vocative</th><th>In a sentence</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">idiota</td><td class="pl">idioto!</td><td class="pl">Zostaw mnie, idioto!</td></tr>
+        <tr><td class="pl">debil</td><td class="pl">debilu!</td><td class="pl">Nie tak, debilu!</td></tr>
+        <tr><td class="pl">frajer</td><td class="pl">frajerze!</td><td class="pl">Znów ci się nie udało, frajerze!</td></tr>
+        <tr><td class="pl">głupek</td><td class="pl">głupku!</td><td class="pl">Ty głupku!</td></tr>
+        <tr><td class="pl">kłamczuch</td><td class="pl">kłamczuchu!</td><td class="pl">Ty kłamczuchu!</td></tr>
+        <tr><td class="pl">drań</td><td class="pl">draniu!</td><td class="pl">Ty draniu!</td></tr>
+        <tr><td class="pl">łotr</td><td class="pl">łotrze!</td><td class="pl">Ty łotrze!</td></tr>
+        <tr><td class="pl">zdrajca</td><td class="pl">zdrajco!</td><td class="pl">Zdrajco!</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">
+    Note <b>Ty</b> in front. After the pronoun <i>ty</i> the vocative is unavoidable — <b>Ty kłamczuchu!</b> is correct,
+    “Ty kłamczuch!” is not. English has nothing like this construction; it is closer to “you, the liar”.
+  </p>
+
+  <h3>Addressing things: the literary apostrophe</h3>
+  <p>
+    Polish happily addresses countries, cities, rivers, ideas and the dead. This is the vocative at its most visible,
+    and every Polish child learns the two most famous examples by heart.
+  </p>
+  <p class="lit">Litwo! Ojczyzno moja! Ty jesteś jak zdrowie.</p>
+  <p class="litattr">Adam Mickiewicz, <i>Pan Tadeusz</i> — the opening line. <b>Litwo</b> from <i>Litwa</i>, <b>Ojczyzno</b> from <i>ojczyzna</i>.</p>
+  <p class="lit">Polsko, nie jesteś ty już niewolnicą!</p>
+  <p class="litattr">The national anthem, <i>Mazurek Dąbrowskiego</i>. <b>Polsko</b> from <i>Polska</i>.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Nominative</th><th>Vocative</th><th>Line or context</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">Litwa</td><td class="pl">Litwo!</td><td>Mickiewicz</td></tr>
+        <tr><td class="pl">ojczyzna</td><td class="pl">Ojczyzno!</td><td>Ojczyzno moja!</td></tr>
+        <tr><td class="pl">Polska</td><td class="pl">Polsko!</td><td>the anthem</td></tr>
+        <tr><td class="pl">Warszawa</td><td class="pl">Warszawo!</td><td>Warszawo, moja Warszawo!</td></tr>
+        <tr><td class="pl">ziemia</td><td class="pl">ziemio!</td><td>O ziemio ojczysta!</td></tr>
+        <tr><td class="pl">Europa</td><td class="pl">Europo!</td><td>Europo, obudź się!</td></tr>
+        <tr><td class="pl">Kraków</td><td class="pl">Krakowie!</td><td>Krakowie, miasto królów!</td></tr>
+        <tr><td class="pl">Wrocław</td><td class="pl">Wrocławiu!</td><td>Wrocławiu, jesteś piękny!</td></tr>
+        <tr><td class="pl">Łódź</td><td class="pl">Łodzi!</td><td>Łodzi, moje miasto!</td></tr>
+        <tr><td class="pl">Gdańsk</td><td class="pl">Gdańsku!</td><td>Gdańsku, perło Bałtyku!</td></tr>
+        <tr><td class="pl">Poznań</td><td class="pl">Poznaniu!</td><td>Poznaniu, witaj!</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 09 LETTERS ============ -->
+<section id="letters">
+  <div class="shead"><div class="snum">09</div><h2>Letters, emails, messages</h2></div>
+
+  <p>
+    Written Polish is conservative: here the vocative is not optional. Every salutation in a letter is an address,
+    so the name has to be in this case.
+  </p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Salutation</th><th>To whom</th><th>Register</th></tr></thead>
+      <tbody>
+        <tr><td class="pl">Szanowny Panie Marku,</td><td>a man you know by name</td><td>formal, standard</td></tr>
+        <tr><td class="pl">Szanowna Pani Anno,</td><td>a woman you know by name</td><td>formal, standard</td></tr>
+        <tr><td class="pl">Szanowny Panie,</td><td>a man, name unknown</td><td>formal</td></tr>
+        <tr><td class="pl">Szanowna Pani,</td><td>a woman, name unknown</td><td>formal</td></tr>
+        <tr><td class="pl">Szanowni Państwo,</td><td>a company, a group, an unknown recipient</td><td>formal, the safest default</td></tr>
+        <tr><td class="pl">Drogi Tomku,</td><td>a friend, a colleague</td><td>warm, semi-formal</td></tr>
+        <tr><td class="pl">Droga Aniu,</td><td>a friend</td><td>warm, semi-formal</td></tr>
+        <tr><td class="pl">Kochana Mamo,</td><td>family</td><td>intimate</td></tr>
+        <tr><td class="pl">Cześć Aniu!</td><td>a friend, on Messenger</td><td>informal</td></tr>
+        <tr><td class="pl">Panie Prezesie,</td><td>a titled person</td><td>formal, business</td></tr>
+        <tr><td class="pl">Księże Proboszczu,</td><td>a priest</td><td>formal, church</td></tr>
+        <tr><td class="pl">Drodzy Czytelnicy,</td><td>readers</td><td>editorial</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="lab">A small but constant detail</span>
+    <p>
+      In a Polish letter the salutation ends with a <b>comma</b>, and the next line starts with a lower-case letter:
+    </p>
+    <p class="ex" style="margin-top:8px">Szanowny Panie Marku,<br>dziękuję za szybką odpowiedź.</p>
+  </div>
+
+  <h3>How it sounds when it goes wrong</h3>
+  <div class="qa">
+    <div class="row"><div class="bad"><s>Szanowny Panie Marek,</s></div><div class="ok">Szanowny Panie Marku,</div></div>
+    <div class="row"><div class="bad"><s>Szanowna Pani Ania,</s></div><div class="ok">Szanowna Pani Anno,</div></div>
+    <div class="row"><div class="bad"><s>Cześć Ania!</s> <span class="small">(in writing)</span></div><div class="ok">Cześć Aniu!</div></div>
+    <div class="row"><div class="bad"><s>Drogi Tomek,</s></div><div class="ok">Drogi Tomku,</div></div>
+  </div>
+  <p class="small">
+    The last one is the single most common mistake foreigners make in Polish email. <b>Drogi</b> is fine — it is the
+    noun that has to move.
+  </p>
+</section>
+
+<!-- ============ 10 SHIFTING NORM ============ -->
+<section id="change">
+  <div class="shead"><div class="snum">10</div><h2>The case that is quietly retreating</h2></div>
+
+  <p>
+    You will hear Poles say <b>Marek, chodź tu!</b> — nominative, no vocative at all. This is real, it is common, and it is
+    worth understanding rather than correcting.
+  </p>
+
+  <p>
+    PWN describes “a strong tendency in contemporary Polish, especially spoken, to replace vocative forms with nominative
+    forms”, and gives exactly this kind of example: <span class="pl">Andrzej, kiedy wrócisz?</span>,
+    <span class="pl">Krzysztof, daj mu spokój!</span>, <span class="pl">Marek, gdzie kupiłeś ten słownik?</span> —
+    where tradition would want <span class="pl">Andrzeju…</span>, <span class="pl">Krzysztofie…</span>, <span class="pl">Marku…</span>.
+  </p>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>Where the nominative has won</h4>
+      <ul>
+        <li>Men’s first names in fast, casual speech — especially shouted across a room.</li>
+        <li>Nicknames and one-syllable names.</li>
+        <li>Loose, emotional, unplanned utterances.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Where the vocative holds firm</h4>
+      <ul>
+        <li>Titles: <b>panie doktorze</b>, <b>panie profesorze</b> — the ending marks gender.</li>
+        <li>Anything written: letters, emails, announcements, journalism.</li>
+        <li>Insults and exclamations: <b>ty idioto!</b></li>
+        <li>After <b>ty</b>, and after an adjective: <b>drogi Marku</b>.</li>
+        <li>Women’s names, which are far more resistant than men’s.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note warn">
+    <span class="lab">What this means for you</span>
+    <p>
+      Never copy the retreat. <b>Using the vocative is never wrong</b>; using the nominative is wrong in writing and merely
+      casual in speech. A learner who says <b>Marku!</b> and <b>Pani Anno!</b> everywhere sounds correct and slightly careful —
+      which is exactly the impression you want.
+    </p>
+  </div>
+
+  <h3>The opposite drift: vocative forms used as nominatives</h3>
+  <p>
+    There is a charming counter-current. A few masculine names ending in <b>-ś</b> or <b>-sio</b> have taken their vocative
+    form into the nominative, so people say:
+  </p>
+  <div class="ex">Krzysiu przyszedł. <span class="tr">— instead of “Krzyś przyszedł”</span></div>
+  <div class="ex">Józiu powiedział, że przyjdzie jutro.</div>
+  <div class="ex">Mój wuju to najlepszy człowiek. <span class="tr">— “wuju” as a nominative, from the vocative of “wuj”</span></div>
+  <p>
+    These are called <b>wołaczowe mianowniki</b> — “vocative nominatives”. They are colloquial and regional, not a licence to
+    put any vocative in the subject position. Learn to recognise them; do not produce them.
+  </p>
+</section>
+
+<!-- ============ 11 TRAPS ============ -->
+<section id="traps">
+  <div class="shead"><div class="snum">11</div><h2>Twelve traps, in the order you will hit them</h2></div>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Trap</th><th>Wrong → right</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Forgetting the softening</td><td><span class="no">Kot!</span> → <span class="pl">Kocie!</span></td><td>hard <i>t</i> → <i>ci</i> before <b>-e</b></td></tr>
+        <tr><td>Nominative to family</td><td><span class="no">Mama, chodź!</span> → <span class="pl">Mamo, chodź!</span></td><td>addressing a person = vocative</td></tr>
+        <tr><td>Name after <i>pan</i> left alone</td><td><span class="no">Panie Marek!</span> → <span class="pl">Panie Marku!</span></td><td><i>panie</i> is vocative, so is the name</td></tr>
+        <tr><td>Same with <i>pani</i></td><td><span class="no">Pani Ania!</span> → <span class="pl">Pani Anno!</span></td><td>full names take <b>-o</b></td></tr>
+        <tr><td>Making a surname vocative</td><td><span class="no">Panie Kowalsku!</span> → <span class="pl">Panie Kowalski!</span></td><td>surnames stay unchanged</td></tr>
+        <tr><td>Softening a diminutive the wrong way</td><td><span class="no">Tomkie!</span> → <span class="pl">Tomku!</span></td><td><b>-ek</b> always → <b>-ku</b></td></tr>
+        <tr><td>Giving a pet name <b>-o</b></td><td><span class="no">Anio!</span> → <span class="pl">Aniu!</span></td><td>soft-stem diminutives take <b>-u</b></td></tr>
+        <tr><td>Giving a full name <b>-u</b></td><td><span class="no">Agnieszku!</span> → <span class="pl">Agnieszko!</span></td><td>full names take <b>-o</b>, even after <i>sz</i></td></tr>
+        <tr><td>Changing the adjective too</td><td><span class="no">Drogiego Marka!</span> → <span class="pl">Drogi Marku!</span></td><td>adjectives never change</td></tr>
+        <tr><td>Addressing with the accusative</td><td><span class="no">Przepraszam panie!</span> → <span class="pl">Przepraszam pana!</span></td><td>fixed expressions keep their own case</td></tr>
+        <tr><td>“Bogu!” instead of “Boże!”</td><td><span class="no">O Bogu!</span> → <span class="pl">O Boże!</span></td><td>irregular; <i>Bogu</i> is dative and locative</td></tr>
+        <tr><td>Nominative after <i>ty</i></td><td><span class="no">Ty kłamczuch!</span> → <span class="pl">Ty kłamczuchu!</span></td><td>after <i>ty</i> the vocative is compulsory</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">And the reassurance the list leaves out: plurals, neuters, adjectives and pronouns need nothing from you at all — half the system is already correct.</p>
+</section>
+
+<!-- ============ 12 DRILLS ============ -->
+<section id="drills">
+  <div class="shead"><div class="snum">12</div><h2>Drills</h2></div>
+  <p id="drillIntro">
+    Nine sets, 200 items. Every answer comes with the reason it is right. Use <b>1–9</b> to pick an option,
+    <b>Enter</b> to check or continue. Your best score per set stays on this device.
+  </p>
+
+  <div class="drills">
+    <div class="setgrid" id="setgrid"></div>
+
+    <div class="runner" id="runner">
+      <div class="rhead">
+        <span class="ttl" id="runTitle"></span>
+        <span class="cnt" id="runCount"></span>
+        <span class="sp"></span>
+        <span class="score" id="runScore"></span>
+        <button class="xbtn" id="quitBtn">Change set</button>
+      </div>
+      <div class="pbar"><i id="pfill"></i></div>
+
+      <div class="ask" id="askLine"></div>
+      <p class="q" id="qText"></p>
+      <p class="qhint" id="qHint"></p>
+
+      <div class="opts" id="opts"></div>
+      <div class="typebox" id="typebox" style="display:none">
+        <input id="answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Your answer">
+        <button class="btn primary" id="checkBtn">Check</button>
+      </div>
+
+      <div class="fb" id="fb" aria-live="polite"></div>
+
+      <div class="rfoot">
+        <button class="btn primary" id="nextBtn" disabled>Next</button>
+        <span class="sp"></span>
+        <button class="xbtn" id="skipBtn">Show me</button>
+      </div>
+    </div>
+
+    <div class="summary" id="summary" style="display:none">
+      <div class="big" id="sumScore">0 / 0</div>
+      <p id="sumMsg"></p>
+      <div class="cta" style="justify-content:center" id="sumBtns"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 13 REFERENCE ============ -->
+<section id="reference">
+  <div class="shead"><div class="snum">13</div><h2>Reference: 132 forms, verified</h2></div>
+  <p class="small">
+    Every form here was checked against the Polish Wiktionary inflection tables (which follow SGJP) and the rules in
+    PWN’s grammar entry. Filter by any part of a word, or by a type: <i>masculine, feminine, neuter, name, title, place,
+    religion, irregular</i>.
+  </p>
+  <div class="filter">
+    <input id="refFilter" type="search" placeholder="Filter: kot, -u, feminine, irregular…" aria-label="Filter the reference table">
+    <span class="n" id="refCount"></span>
+  </div>
+  <div class="tw">
+    <table id="reftable">
+      <thead><tr><th>Nominative</th><th>Vocative</th><th>Type and rule</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 14 CHEAT SHEET ============ -->
+<section id="cheat">
+  <div class="shead"><div class="snum">14</div><h2>One-page cheat sheet</h2></div>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>The five rules</h4>
+      <p><b>1.</b> Masculine, consonant-final → <b>same shape as the locative</b>.<br>
+         <span class="small">pan → panie · król → królu · Tomasz → Tomaszu · pies → psie</span></p>
+      <p><b>2.</b> Masculine in <b>-a</b> → <b>-o</b>.<br>
+         <span class="small">tata → tato · kolega → kolego · sędzia → sędzio</span></p>
+      <p><b>3.</b> Feminine in <b>-a</b> → <b>-o</b>; soft-stem diminutives → <b>-u</b>.<br>
+         <span class="small">Anna → Anno · Ania → Aniu · ciocia → ciociu</span></p>
+      <p><b>4.</b> Feminine, consonant-final → <b>-i / -y</b>, again like the locative.<br>
+         <span class="small">noc → nocy · miłość → miłości · krew → krwi</span></p>
+      <p><b>5.</b> Neuter, all plurals, all adjectives and pronouns → <b>identical to the nominative</b>.<br>
+         <span class="small">dziecko → dziecko · studenci → studenci · drogi → drogi</span></p>
+    </div>
+    <div class="card">
+      <h4>The four exceptions</h4>
+      <p class="ex">Bóg → <b>Boże!</b></p>
+      <p class="ex">ksiądz → <b>księże!</b></p>
+      <p class="ex">chłopiec → <b>chłopcze!</b></p>
+      <p class="ex">ojciec → <b>ojcze!</b></p>
+      <p class="tr">All four are <b>-e</b> forms where the locative would give <b>-u</b>. Learn them as one set: God, priest, boy, father.</p>
+      <hr style="border:none; border-top:1px solid var(--line2); margin:16px 0">
+      <h4>The one-line test</h4>
+      <p>Is the noun the person you are <b>talking to</b>? If yes, it takes the vocative. If you are talking <b>about</b> them, it almost certainly does not.</p>
+    </div>
+  </div>
+
+  <h3>The whole system at a glance</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Gender</th><th>Nominative ends in</th><th>Vocative</th><th>Model</th></tr></thead>
+      <tbody>
+        <tr><td>masculine</td><td>hard consonant</td><td class="end">-e</td><td class="pl">pan → panie · kot → kocie · Michał → Michale</td></tr>
+        <tr><td>masculine</td><td>k, g, ch, l, c, cz, sz, ż, rz, soft</td><td class="end">-u</td><td class="pl">Marek → Marku · król → królu · klucz → kluczu</td></tr>
+        <tr><td>masculine</td><td>-a</td><td class="end">-o</td><td class="pl">kolega → kolego · sędzia → sędzio</td></tr>
+        <tr><td>feminine</td><td>-a</td><td class="end">-o</td><td class="pl">kobieta → kobieto · Anna → Anno</td></tr>
+        <tr><td>feminine</td><td>-a, soft, diminutive</td><td class="end">-u</td><td class="pl">Ania → Aniu · ciocia → ciociu</td></tr>
+        <tr><td>feminine</td><td>consonant</td><td class="end">-i / -y</td><td class="pl">noc → nocy · miłość → miłości</td></tr>
+        <tr><td>neuter</td><td>anything</td><td>same</td><td class="pl">dziecko → dziecko</td></tr>
+        <tr><td>all plurals</td><td>anything</td><td>same</td><td class="pl">studenci → studenci · Państwo → Państwo</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="chips">
+    <span class="chip"><b>Vocative survives longest in:</b> titles</span>
+    <span class="chip"><b>Never changes:</b> adjectives</span>
+    <span class="chip"><b>No plural form:</b> at all</span>
+    <span class="chip"><b>Surnames:</b> unchanged</span>
+    <span class="chip"><b>Letters:</b> always vocative</span>
+  </div>
+
+  <h3>Sources</h3>
+  <ul class="small">
+    <li>Hanna Jadacka, <i>WOŁACZ</i>, Poradnia Językowa PWN, 8 April 2025 — the normative rules, the -ec variants, the retreat of the case, the indeclinable feminine titles.</li>
+    <li><i>Wołacz</i>, Wikipedia (Polish) — the functions, the four-way ending table, the colloquial replacement by the nominative, the reverse “vocative nominatives”.</li>
+    <li><i>Polish grammar</i>, Wikipedia (English) — the ending table across genders, including the feminine -u / -y / -i split.</li>
+    <li>Jan Grzenia, <i>wołacz od nazwisk</i>, Poradnia PWN, 2008; <i>Wołacz od nazwisk</i>, Dobry słownik rule 318 — the surname question and the disagreement inside PWN’s own dictionary.</li>
+    <li>Polish Wiktionary inflection tables (SGJP-based) — the 130+ individual forms checked for this page.</li>
+  </ul>
+</section>
+
+</main>
+
+<footer class="wrap">
+  <p>
+    Wołacz · built for a learner in Poland. Every form checked against PWN and the SGJP-based inflection tables.
+    Print it: the drills hide themselves and the tables stay.
+  </p>
+</footer>
+
+<script>
+/* ============================================================
+   DATA — drills
+   ============================================================ */
+const SETS = [
+{
+  id:"masc", title:"Kogo wołasz? Masculine", meta:"24 items · pick the form",
+  ask:"Which is the vocative?",
+  type:"choice",
+  items:[
+    {q:"kot", hint:"masculine · animal · final t", opts:["kocie","kotu","kota"], a:"kocie", l:"kot", why:"Hard t softens to ci before -e: kot → kocie. Same shape as the locative, o kocie."},
+    {q:"pies", hint:"masculine · animal · final s", opts:["psie","piesu","psu"], a:"psie", l:"pies", why:"The fleeting e drops and s stays hard: pies → psie. Compare the genitive psa."},
+    {q:"pan", hint:"masculine · person · final n", opts:["panie","panu","pana"], a:"panie", l:"pan", why:"n → ni before -e: pan → panie. Panu is the dative."},
+    {q:"stół", hint:"masculine · thing · final ł", opts:["stole","stołu","stołem"], a:"stole", l:"stół", why:"ł becomes l and takes -e: stół → stole. The ó returns to o."},
+    {q:"Marek", hint:"name · final k", opts:["Marku","Mareku","Marka"], a:"Marku", l:"Marek", why:"k takes -u and the e drops: Marek → Marku. Never Mareku."},
+    {q:"Michał", hint:"name · final ł", opts:["Michale","Michału","Michalem"], a:"Michale", l:"Michał", why:"ł → l plus -e: Michał → Michale."},
+    {q:"Piotr", hint:"name · final r", opts:["Piotrze","Piotru","Piotre"], a:"Piotrze", l:"Piotr", why:"r → rz plus -e: Piotr → Piotrze."},
+    {q:"Tomasz", hint:"name · final sz", opts:["Tomaszu","Tomasze","Tomasza"], a:"Tomaszu", l:"Tomasz", why:"Hardened sz takes -u with no softening: Tomasz → Tomaszu."},
+    {q:"król", hint:"masculine · person · final l", opts:["królu","króle","króla"], a:"królu", l:"król", why:"l is functionally soft, so it takes -u: król → królu. Compare Michał → Michale, where ł → l plus -e."},
+    {q:"lekarz", hint:"masculine · person · final rz", opts:["lekarzu","lekarze","lekarza"], a:"lekarzu", l:"lekarz", why:"Hardened rz → -u: lekarz → lekarzu."},
+    {q:"klucz", hint:"masculine · thing · final cz", opts:["kluczu","klucze","klucza"], a:"kluczu", l:"klucz", why:"cz → -u: klucz → kluczu. Klucze is the plural."},
+    {q:"gość", hint:"masculine · person · soft final", opts:["gościu","goście","gościem"], a:"gościu", l:"gość", why:"Soft ć → -u: gość → gościu."},
+    {q:"uczeń", hint:"masculine · person · final ń", opts:["uczniu","uczeniu","ucznie"], a:"uczniu", l:"uczeń", why:"Soft ń → -u and the e drops: uczeń → uczniu."},
+    {q:"chłopiec", hint:"masculine · person · -ec exception", opts:["chłopcze","chłopcu","chłopce"], a:"chłopcze", l:"chłopiec", why:"One of the four exceptions: chłopiec → chłopcze, with c → cz. Chłopcu does not exist."},
+    {q:"ojciec", hint:"masculine · person · -ec exception", opts:["ojcze","ojcu","ojce"], a:"ojcze", l:"ojciec", why:"Another of the four: ojciec → ojcze. Ojcu would be the locative of a different pattern, and is wrong here."},
+    {q:"Bóg", hint:"irregular · the famous one", opts:["Boże","Bogu","Boga"], a:"Boże", l:"Bóg", why:"Bóg → Boże, the relic -e form. Bogu is dative and locative, never the vocative."},
+    {q:"ksiądz", hint:"irregular · religion", opts:["księże","księdzu","ksiądzu"], a:"księże", l:"ksiądz", why:"ksiądz → księże: the nasal ą becomes ę and dz becomes ż. Księdzu is the locative."},
+    {q:"syn", hint:"masculine · family", opts:["synu","synie","syna"], a:"synu", l:"syn", why:"syn → synu, the relic of the old u-stems. It happens to match the locative, o synu."},
+    {q:"człowiek", hint:"masculine · person · final k", opts:["człowieku","człowiecze","człowieka"], a:"człowieku", l:"człowiek", why:"k → -u: człowieku. The poetic człowiecze belongs to old literature."},
+    {q:"palec", hint:"masculine · body part · -ec", opts:["palcu","palcze","palca"], a:"palcu", l:"palec", why:"An inanimate -ec noun: the neutral form is palcu. Palcze is not used."},
+    {q:"taniec", hint:"masculine · thing · -ec", opts:["tańcu","tańcze","tańce"], a:"tańcu", l:"taniec", why:"taniec → tańcu, with ń before c. The -e variant would be elevated, and is not used for dancing."},
+    {q:"samochód", hint:"masculine · thing · final d", opts:["samochodzie","samochodzu","samochodem"], a:"samochodzie", l:"samochód", why:"d → dzi and ó → o: samochód → samochodzie."},
+    {q:"sąsiad", hint:"masculine · person · final d", opts:["sąsiedzie","sąsiadzie","sąsiadu"], a:"sąsiedzie", l:"sąsiad", why:"d → dzi with the vowel change ą → ę: sąsiad → sąsiedzie."},
+    {q:"komputer", hint:"masculine · thing · final r", opts:["komputerze","komputeru","komputerem"], a:"komputerze", l:"komputer", why:"r → rz plus -e: komputer → komputerze."}
+  ]
+},
+{
+  id:"fem", title:"Feminine: -o, -u, -i", meta:"22 items · pick the form",
+  ask:"Which is the vocative?",
+  type:"choice",
+  items:[
+    {q:"mama", hint:"feminine · -a", opts:["mamo","mamu","mama"], a:"mamo", l:"mama", why:"Every feminine in -a takes -o: mama → mamo."},
+    {q:"kobieta", hint:"feminine · -a", opts:["kobieto","kobietu","kobieta"], a:"kobieto", l:"kobieta", why:"-a → -o, no softening: kobieto."},
+    {q:"Anna", hint:"female name · full name", opts:["Anno","Annu","Anna"], a:"Anno", l:"Anna", why:"Full names in -a take -o: Anno. Formal or neutral in tone."},
+    {q:"Ania", hint:"female name · diminutive", opts:["Aniu","Anio","Ania"], a:"Aniu", l:"Ania", why:"A soft-stem diminutive takes -u: Aniu. This is the warm everyday form."},
+    {q:"Kasia", hint:"female name · diminutive", opts:["Kasiu","Kasio","Kasi"], a:"Kasiu", l:"Kasia", why:"Soft ś → -iu: Kasiu."},
+    {q:"Agnieszka", hint:"female name · full name", opts:["Agnieszko","Agnieszku","Agnieszka"], a:"Agnieszko", l:"Agnieszka", why:"A full name, so -o, even though the stem ends in hardened sz: Agnieszko."},
+    {q:"Magda", hint:"female name · short form", opts:["Magdo","Magdu","Magda"], a:"Magdo", l:"Magda", why:"Hard d, no diminutive suffix → -o: Magdo."},
+    {q:"Ola", hint:"female name · diminutive", opts:["Olu","Olo","Ola"], a:"Olu", l:"Ola", why:"l behaves as soft in pet names: Olu."},
+    {q:"ciocia", hint:"feminine · family · soft", opts:["ciociu","ciocio","cioci"], a:"ciociu", l:"ciocia", why:"A soft-stem personal noun → -u: ciociu."},
+    {q:"babcia", hint:"feminine · family · soft", opts:["babciu","babcio","babci"], a:"babciu", l:"babcia", why:"Soft ci → -u: babciu."},
+    {q:"noc", hint:"feminine · consonant-final", opts:["nocy","noco","nocu"], a:"nocy", l:"noc", why:"Consonant-final feminine → -y after hardened c: nocy. Same as the locative, w nocy."},
+    {q:"miłość", hint:"feminine · consonant-final, soft", opts:["miłości","miłość","miłościu"], a:"miłości", l:"miłość", why:"Soft ć → -i: miłości."},
+    {q:"krew", hint:"feminine · irregular", opts:["krwi","krwie","krwio"], a:"krwi", l:"krew", why:"krew → krwi, with the e dropping. The same form serves the locative and genitive."},
+    {q:"sól", hint:"feminine · consonant-final", opts:["soli","solo","sólu"], a:"soli", l:"sól", why:"l → -i and ó → o: soli."},
+    {q:"jesień", hint:"feminine · consonant-final, soft", opts:["jesieni","jesienio","jesieniu"], a:"jesieni", l:"jesień", why:"Soft ń → -i: jesieni."},
+    {q:"wieś", hint:"feminine · consonant-final, soft", opts:["wsi","wiesi","wsiu"], a:"wsi", l:"wieś", why:"wieś → wsi, with the e dropping and ś → s."},
+    {q:"odpowiedź", hint:"feminine · consonant-final, soft", opts:["odpowiedzi","odpowiedź","odpowiedziu"], a:"odpowiedzi", l:"odpowiedź", why:"Soft ź → -i: odpowiedzi."},
+    {q:"Warszawa", hint:"place name · -a", opts:["Warszawo","Warszawiu","Warszawa"], a:"Warszawo", l:"Warszawa", why:"-a → -o: Warszawo. Cities are addressed like people."},
+    {q:"Polska", hint:"place name · -a", opts:["Polsko","Polsku","Polska"], a:"Polsko", l:"Polska", why:"Polsko! — the anthem line. Polsku would be the locative, w Polsku? no: w Polsce."},
+    {q:"ulica", hint:"feminine · -a, hardened stem", opts:["ulico","ulicy","ulicą"], a:"ulico", l:"ulica", why:"A noun in -a always takes -o: ulico. The -y ending belongs only to consonant-final nouns."},
+    {q:"róża", hint:"feminine · -a, hardened stem", opts:["różo","róży","różu"], a:"różo", l:"róża", why:"Again -o: różo. Róży is the genitive and dative."},
+    {q:"pani", hint:"feminine · ends in -i", opts:["pani","panio","paniu"], a:"pani", l:"pani", why:"Feminine nouns in -i never change: pani."}
+  ]
+},
+{
+  id:"endings", title:"-e, -u or -o?", meta:"22 items · the ending only",
+  ask:"Which ending does the vocative take?",
+  type:"choice",
+  items:[
+    {q:"kot", hint:"masculine · hard t", opts:["-e","-u","-o"], a:"-e", l:"kot", why:"Hard t → -e, with t → ci: kocie."},
+    {q:"Marek", hint:"masculine · final k", opts:["-u","-e","-o"], a:"-u", l:"Marek", why:"k, g and ch take -u: Marku."},
+    {q:"król", hint:"masculine · final l", opts:["-u","-e","-o"], a:"-u", l:"król", why:"l takes -u: królu. Only ł goes to -e, as in Michale."},
+    {q:"Michał", hint:"masculine · final ł", opts:["-e","-u","-o"], a:"-e", l:"Michał", why:"ł → l plus -e: Michale."},
+    {q:"klucz", hint:"masculine · final cz", opts:["-u","-e","-o"], a:"-u", l:"klucz", why:"Hardened cz → -u: kluczu."},
+    {q:"pan", hint:"masculine · final n", opts:["-e","-u","-o"], a:"-e", l:"pan", why:"Hard n → -e, with n → ni: panie."},
+    {q:"student", hint:"masculine · final t", opts:["-e","-u","-o"], a:"-e", l:"student", why:"t → ci plus -e: studencie."},
+    {q:"profesor", hint:"masculine · final r", opts:["-e","-u","-o"], a:"-e", l:"profesor", why:"r → rz plus -e: profesorze."},
+    {q:"kolega", hint:"masculine · ends in -a", opts:["-o","-u","-e"], a:"-o", l:"kolega", why:"Masculine nouns in -a take -o: kolego."},
+    {q:"tata", hint:"masculine · ends in -a", opts:["-o","-u","-e"], a:"-o", l:"tata", why:"tata → tato."},
+    {q:"kobieta", hint:"feminine · -a", opts:["-o","-u","-i"], a:"-o", l:"kobieta", why:"Feminine -a → -o: kobieto."},
+    {q:"Ania", hint:"feminine · soft diminutive", opts:["-u","-o","-i"], a:"-u", l:"Ania", why:"Soft-stem diminutives take -u: Aniu."},
+    {q:"noc", hint:"feminine · consonant-final", opts:["-y","-o","-u"], a:"-y", l:"noc", why:"Consonant-final after hardened c → -y: nocy."},
+    {q:"miłość", hint:"feminine · consonant-final, soft", opts:["-i","-y","-o"], a:"-i", l:"miłość", why:"Soft stem → -i: miłości."},
+    {q:"pani", hint:"feminine · ends in -i", opts:["no ending","-u","-o"], a:"no ending", l:"pani", why:"Feminine nouns in -i are unchanged: pani."},
+    {q:"dziecko", hint:"neuter", opts:["no ending","-o","-u"], a:"no ending", l:"dziecko", why:"Neuter nouns are unchanged: dziecko."},
+    {q:"studenci", hint:"plural", opts:["no ending","-owie","-u"], a:"no ending", l:"studenci", why:"There is no separate vocative plural: studenci."},
+    {q:"Bóg", hint:"irregular", opts:["-e","-u","-o"], a:"-e", l:"Bóg", why:"Boże — an irregular -e where you would expect -u."},
+    {q:"ksiądz", hint:"irregular", opts:["-e","-u","-o"], a:"-e", l:"ksiądz", why:"księże — also irregular -e."},
+    {q:"gość", hint:"masculine · soft final", opts:["-u","-e","-o"], a:"-u", l:"gość", why:"Soft ć → -u: gościu."},
+    {q:"sędzia", hint:"masculine · ends in -a", opts:["-o","-u","-e"], a:"-o", l:"sędzia", why:"sędzia → sędzio."},
+    {q:"sól", hint:"feminine · consonant-final", opts:["-i","-y","-o"], a:"-i", l:"sól", why:"l → -i: soli."}
+  ]
+},
+{
+  id:"typenouns", title:"Type the vocative — nouns", meta:"30 items · typed answers",
+  ask:"Type the vocative (the word alone, no exclamation mark).",
+  type:"type",
+  items:[
+    {q:"___ (kot)", hint:"masculine · animal", a:["kocie"], l:"kot", why:"t → ci plus -e: kocie."},
+    {q:"___ (pies)", hint:"masculine · animal", a:["psie"], l:"pies", why:"Fleeting e drops: psie."},
+    {q:"___ (pan)", hint:"masculine · person", a:["panie"], l:"pan", why:"n → ni: panie."},
+    {q:"___ (chleb)", hint:"masculine · thing", a:["chlebie"], l:"chleb", why:"b → bi plus -e: chlebie."},
+    {q:"___ (chłop)", hint:"masculine · person", a:["chłopie"], l:"chłop", why:"p → pi: chłopie."},
+    {q:"___ (lew)", hint:"masculine · animal", a:["lwie"], l:"lew", why:"w → wi: lwie."},
+    {q:"___ (las)", hint:"masculine · place", a:["lesie"], l:"las", why:"s → si and a → e: lesie. Same as the locative."},
+    {q:"___ (czas)", hint:"masculine · abstract", a:["czasie"], l:"czas", why:"s → si and a → e: czasie."},
+    {q:"___ (duch)", hint:"masculine · ch", a:["duchu"], l:"duch", why:"ch takes -u: duchu. Duchu Święty!"},
+    {q:"___ (kraj)", hint:"masculine · j", a:["kraju"], l:"kraj", why:"j takes -u: kraju."},
+    {q:"___ (rok)", hint:"masculine · k", a:["roku"], l:"rok", why:"k takes -u: roku. Nowy Roku!"},
+    {q:"___ (dom)", hint:"masculine · irregular-looking", a:["domu"], l:"dom", why:"domu, the same as the locative w domu."},
+    {q:"___ (syn)", hint:"masculine · family", a:["synu"], l:"syn", why:"synu — the old u-stem, matching o synu."},
+    {q:"___ (brat)", hint:"masculine · family", a:["bracie"], l:"brat", why:"t → ci: bracie."},
+    {q:"___ (mąż)", hint:"masculine · family", a:["mężu"], l:"mąż", why:"ą → ę and ż takes -u: mężu."},
+    {q:"___ (mistrz)", hint:"masculine · person", a:["mistrzu"], l:"mistrz", why:"rz takes -u: mistrzu."},
+    {q:"___ (tancerz)", hint:"masculine · person", a:["tancerzu"], l:"tancerz", why:"rz takes -u: tancerzu."},
+    {q:"___ (uczeń)", hint:"masculine · person", a:["uczniu"], l:"uczeń", why:"ń takes -u and the e drops: uczniu."},
+    {q:"___ (papież)", hint:"masculine · religion", a:["papieżu"], l:"papież", why:"ż takes -u: papieżu."},
+    {q:"___ (dziadek)", hint:"masculine · family", a:["dziadku"], l:"dziadek", why:"-ek becomes -ku: dziadku."},
+    {q:"___ (mama)", hint:"feminine · family", a:["mamo"], l:"mama", why:"-a → -o: mamo."},
+    {q:"___ (siostra)", hint:"feminine · family", a:["siostro"], l:"siostra", why:"-a → -o: siostro."},
+    {q:"___ (córka)", hint:"feminine · family", a:["córko"], l:"córka", why:"-a → -o: córko."},
+    {q:"___ (matka)", hint:"feminine · family", a:["matko"], l:"matka", why:"-a → -o: matko."},
+    {q:"___ (ziemia)", hint:"feminine · soft stem", a:["ziemio"], l:"ziemia", why:"An ordinary noun in -a keeps -o even on a soft stem: ziemio."},
+    {q:"___ (róża)", hint:"feminine · hardened stem", a:["różo"], l:"róża", why:"Still -o: różo."},
+    {q:"___ (noc)", hint:"feminine · consonant-final", a:["nocy"], l:"noc", why:"-y after hardened c: nocy."},
+    {q:"___ (rzecz)", hint:"feminine · consonant-final", a:["rzeczy"], l:"rzecz", why:"-y after hardened cz: rzeczy."},
+    {q:"___ (twarz)", hint:"feminine · consonant-final", a:["twarzy"], l:"twarz", why:"-y after hardened rz: twarzy."},
+    {q:"___ (odpowiedź)", hint:"feminine · soft final", a:["odpowiedzi"], l:"odpowiedź", why:"-i after soft ź: odpowiedzi."}
+  ]
+},
+{
+  id:"typenames", title:"Type the vocative — names", meta:"30 items · typed answers",
+  ask:"Type the vocative of the name.",
+  type:"type",
+  items:[
+    {q:"___ (Marek)", hint:"male name · k", a:["marku"], l:"Marek", why:"Marku — k takes -u, the e drops."},
+    {q:"___ (Piotr)", hint:"male name · r", a:["piotrze"], l:"Piotr", why:"Piotrze — r → rz."},
+    {q:"___ (Michał)", hint:"male name · ł", a:["michale"], l:"Michał", why:"Michale — ł → l."},
+    {q:"___ (Paweł)", hint:"male name · ł", a:["pawle"], l:"Paweł", why:"Pawle — ł → l, and the e drops."},
+    {q:"___ (Andrzej)", hint:"male name · j", a:["andrzeju"], l:"Andrzej", why:"Andrzeju — j takes -u."},
+    {q:"___ (Krzysztof)", hint:"male name · f", a:["krzysztofie"], l:"Krzysztof", why:"Krzysztofie — f → fi."},
+    {q:"___ (Tomasz)", hint:"male name · sz", a:["tomaszu"], l:"Tomasz", why:"Tomaszu — sz takes -u."},
+    {q:"___ (Łukasz)", hint:"male name · sz", a:["łukaszu"], l:"Łukasz", why:"Łukaszu — sz takes -u."},
+    {q:"___ (Maciej)", hint:"male name · j", a:["macieju"], l:"Maciej", why:"Macieju — j takes -u."},
+    {q:"___ (Jakub)", hint:"male name · b", a:["jakubie"], l:"Jakub", why:"Jakubie — b → bi."},
+    {q:"___ (Jan)", hint:"male name · n", a:["janie"], l:"Jan", why:"Janie — n → ni."},
+    {q:"___ (Szymon)", hint:"male name · n", a:["szymonie"], l:"Szymon", why:"Szymonie — n → ni."},
+    {q:"___ (Adam)", hint:"male name · d", a:["adamie"], l:"Adam", why:"Adamie — here d stays d. Compare Dawidzie."},
+    {q:"___ (Dawid)", hint:"male name · d", a:["dawidzie"], l:"Dawid", why:"Dawidzie — here d → dzi. These two have to be learned."},
+    {q:"___ (Tomek)", hint:"diminutive · -ek", a:["tomku"], l:"Tomek", why:"Tomku — -ek always becomes -ku."},
+    {q:"___ (Piotrek)", hint:"diminutive · -ek", a:["piotrku"], l:"Piotrek", why:"Piotrku — -ek → -ku."},
+    {q:"___ (Maciek)", hint:"diminutive · -ek", a:["maćku"], l:"Maciek", why:"Maćku — the ć is already there; -ek → -ku."},
+    {q:"___ (Kuba)", hint:"male name · -a", a:["kubo"], l:"Kuba", why:"Kubo — masculine -a takes -o."},
+    {q:"___ (Staś)", hint:"diminutive · -ś", a:["stasiu"], l:"Staś", why:"Stasiu — ś → si plus -u."},
+    {q:"___ (Krzyś)", hint:"diminutive · -ś", a:["krzysiu"], l:"Krzyś", why:"Krzysiu — the same pattern."},
+    {q:"___ (Anna)", hint:"female name · full", a:["anno"], l:"Anna", why:"Anno — full name in -a takes -o."},
+    {q:"___ (Ania)", hint:"female name · diminutive", a:["aniu"], l:"Ania", why:"Aniu — soft diminutive takes -u."},
+    {q:"___ (Katarzyna)", hint:"female name · full", a:["katarzyno"], l:"Katarzyna", why:"Katarzyno — -a → -o."},
+    {q:"___ (Kasia)", hint:"female name · diminutive", a:["kasiu"], l:"Kasia", why:"Kasiu — soft ś → -u."},
+    {q:"___ (Zofia)", hint:"female name · full", a:["zofio"], l:"Zofia", why:"Zofio — -a → -o."},
+    {q:"___ (Zosia)", hint:"female name · diminutive", a:["zosiu"], l:"Zosia", why:"Zosiu — soft ś → -u."},
+    {q:"___ (Basia)", hint:"female name · diminutive", a:["basiu"], l:"Basia", why:"Basiu — soft ś → -u."},
+    {q:"___ (Magda)", hint:"female name · short form", a:["magdo"], l:"Magda", why:"Magdo — hard d, so -o."},
+    {q:"___ (Ola)", hint:"female name · diminutive", a:["olu"], l:"Ola", why:"Olu — l behaves as soft in pet names."},
+    {q:"___ (Ewa)", hint:"female name · full", a:["ewo"], l:"Ewa", why:"Ewo — -a → -o."}
+  ]
+},
+{
+  id:"titles", title:"Titles & address formulas", meta:"18 items · what do you actually say",
+  ask:"Which is correct?",
+  type:"choice",
+  items:[
+    {q:"You are speaking to your doctor, a man.", hint:"title · masculine", opts:["Panie doktorze","Panie doktor","Panie doktoru"], a:"Panie doktorze", why:"Masculine titles take the vocative: panie doktorze. The ending also marks that the doctor is a man."},
+    {q:"You are speaking to your doctor, a woman.", hint:"title · feminine", opts:["Pani doktor","Pani doktorze","Pani doktorka"], a:"Pani doktor", why:"Feminine titles of profession are indeclinable, so the form stays pani doktor."},
+    {q:"You are speaking to your professor, a man.", hint:"title · masculine", opts:["Panie profesorze","Panie profesor","Panie profesoru"], a:"Panie profesorze", why:"profesor → profesorze, with r → rz."},
+    {q:"You are speaking to your professor, a woman.", hint:"title · feminine", opts:["Pani profesor","Pani profesorze","Pani profesoro"], a:"Pani profesor", why:"Unchanged: pani profesor."},
+    {q:"You are speaking to your boss, a man (prezes).", hint:"title · masculine", opts:["Panie prezesie","Panie prezes","Panie prezesu"], a:"Panie prezesie", why:"prezes → prezesie, with s → si."},
+    {q:"You want a stranger’s attention in the street.", hint:"formula", opts:["Przepraszam pana","Przepraszam panie","Przepraszam panu"], a:"Przepraszam pana", why:"A fixed expression with the accusative. The vocative panie is not used after przepraszam."},
+    {q:"You want to ask a stranger for help politely.", hint:"formula", opts:["Proszę pana","Proszę panie","Proszę panu"], a:"Proszę pana", why:"Another fixed accusative phrase: proszę pana."},
+    {q:"You greet a customer as a shop assistant.", hint:"formula · dative", opts:["Dzień dobry panu","Dzień dobry panie","Dzień dobry pana"], a:"Dzień dobry panu", why:"The dative — good day to you. It looks like a vocative but is not one."},
+    {q:"You address a group of mixed men and women.", hint:"plural", opts:["Drodzy Państwo","Drodzy Panowie","Drodzy Państwu"], a:"Drodzy Państwo", why:"Państwo covers a mixed group. It is already plural, so it does not change."},
+    {q:"You greet a priest.", hint:"religion", opts:["Księże proboszczu","Ksiądz proboszcz","Księdzu proboszczu"], a:"Księże proboszczu", why:"Both words are in the vocative: księże (irregular) and proboszczu."},
+    {q:"You call to a nun.", hint:"religion", opts:["Siostro","Siostra","Siostrze"], a:"Siostro", why:"siostra → siostro, the ordinary feminine -a rule."},
+    {q:"You call to a monk, warmly.", hint:"religion", opts:["Bracie","Brat","Bratu"], a:"Bracie", why:"brat → bracie, with t → ci."},
+    {q:"You want to say “O my God!”", hint:"exclamation", opts:["O mój Boże","O mój Bóg","O mojego Boga"], a:"O mój Boże", why:"Boże is the irregular vocative; mój does not change."},
+    {q:"You address a man whose surname is Nowak.", hint:"surname · PWN rule", opts:["Panie Nowak","Panie Nowaku","Panie Nowaka"], a:"Panie Nowak", why:"PWN: surnames have a vocative equal to the nominative. (Nowaku exists traditionally but is marked.)"},
+    {q:"You address a woman whose surname is Kowalska.", hint:"surname · PWN rule", opts:["Pani Kowalska","Pani Kowalsko","Pani Kowalsku"], a:"Pani Kowalska", why:"Unchanged — and Kowalsko is the classic error PWN warns about."},
+    {q:"You write an email opening to a man you know, Marek.", hint:"letter", opts:["Szanowny Panie Marku","Szanowny Panie Marek","Szanowny Pan Marek"], a:"Szanowny Panie Marku", why:"Both pan and the name go into the vocative."},
+    {q:"You write to a woman you know, Anna.", hint:"letter", opts:["Szanowna Pani Anno","Szanowna Pani Anna","Szanowna Pani Aniu"], a:"Szanowna Pani Anno", why:"Formal letters use the full name in -o, not the diminutive."},
+    {q:"You greet a friend, Kasia, in a message.", hint:"informal", opts:["Cześć Kasiu","Cześć Kasia","Cześć Kasio"], a:"Cześć Kasiu", why:"The diminutive in -u is the warm everyday form."}
+  ]
+},
+{
+  id:"norm", title:"Vocative or nominative?", meta:"18 items · the shifting norm",
+  ask:"Which is correct here?",
+  type:"choice",
+  items:[
+    {q:"A formal letter to Marek opens with…", hint:"written, formal", opts:["Szanowny Panie Marku","Szanowny Panie Marek"], a:"Szanowny Panie Marku", why:"In writing the vocative is obligatory. The nominative here is an error, not a style."},
+    {q:"You shout to a friend across the street.", hint:"spoken, casual", opts:["Marek, chodź tu!","Marku, chodź tu!"], a:"Marku, chodź tu!", why:"Both are heard, but Marku is the traditional and always-correct form. Marek is the modern colloquial drift."},
+    {q:"You address your doctor.", hint:"title · obligatory", opts:["Panie doktorze","Panie doktor"], a:"Panie doktorze", why:"Titles keep the vocative most stubbornly, because the ending signals the gender."},
+    {q:"You insult someone, using ty.", hint:"after ty", opts:["Ty kłamczuchu!","Ty kłamczuch!"], a:"Ty kłamczuchu!", why:"After the pronoun ty the vocative is unavoidable."},
+    {q:"You address your mother.", hint:"family", opts:["Mamo, pomóż mi!","Mama, pomóż mi!"], a:"Mamo, pomóż mi!", why:"Family terms are never left in the nominative when addressed."},
+    {q:"You call your colleague Krzysztof in the office.", hint:"spoken, semi-formal", opts:["Krzysztofie, masz chwilę?","Krzysztof, masz chwilę?"], a:"Krzysztofie, masz chwilę?", why:"The traditional form. The nominative is spreading, but the vocative is never wrong."},
+    {q:"A newspaper headline addresses the readers.", hint:"written, public", opts:["Drodzy Czytelnicy!","Drodzy Czytelnik!"], a:"Drodzy Czytelnicy!", why:"Plural — and the plural vocative equals the nominative."},
+    {q:"You address a woman you do not know, in a shop.", hint:"stranger", opts:["Pani, czy mogę zapłacić?","Paniu, czy mogę zapłacić?"], a:"Pani, czy mogę zapłacić?", why:"pani ends in -i and never changes."},
+    {q:"You address your aunt, warmly.", hint:"family · soft", opts:["Ciociu, pomóż!","Ciocia, pomóż!"], a:"Ciociu, pomóż!", why:"A soft-stem personal noun takes -u."},
+    {q:"You speak to a judge in court.", hint:"title", opts:["Wysoki Sądzie!","Wysoki Sędzio!"], a:"Wysoki Sądzie!", why:"The fixed formula uses sąd, not sędzia: Wysoki Sądzie."},
+    {q:"You address a group of students.", hint:"plural", opts:["Studenci, uwaga!","Studenciu, uwaga!"], a:"Studenci, uwaga!", why:"Plural vocative = nominative. There is no plural ending."},
+    {q:"You write a card to your grandmother.", hint:"family · diminutive", opts:["Kochana Babciu!","Kochana Babcia!"], a:"Kochana Babciu!", why:"babcia → babciu; the adjective stays kochana."},
+    {q:"You address God in a prayer.", hint:"religion", opts:["Boże mój!","Bogu mój!"], a:"Boże mój!", why:"The irregular vocative Boże; Bogu is dative or locative."},
+    {q:"You call your son.", hint:"family", opts:["Synu, chodź!","Syn, chodź!"], a:"Synu, chodź!", why:"synu — the relic -u form."},
+    {q:"You address a police officer, a man.", hint:"title · formal", opts:["Panie władzo!","Panie władza!"], a:"Panie władzo!", why:"A colloquial set phrase: władza → władzo, masculine in -a."},
+    {q:"You address your teacher, a woman.", hint:"title · school", opts:["Pani profesor!","Pani profesorze!"], a:"Pani profesor!", why:"Feminine titles stay unchanged."},
+    {q:"You address your teacher, a man.", hint:"title · school", opts:["Panie profesorze!","Panie profesor!"], a:"Panie profesorze!", why:"Masculine titles take the vocative."},
+    {q:"You address the reader of a manual, one person, formally.", hint:"written, singular", opts:["Szanowny Czytelniku!","Szanowny Czytelnik!"], a:"Szanowny Czytelniku!", why:"czytelnik → czytelniku, the ordinary masculine -u after k."}
+  ]
+},
+{
+  id:"sentence", title:"In the sentence", meta:"20 items · fill the address",
+  ask:"Complete the sentence with the right form.",
+  type:"type",
+  items:[
+    {q:"___ (Marek), zamknij okno!", hint:"a man called Marek", a:["marku"], l:"Marek", why:"Marku — the address, set off by the comma."},
+    {q:"___ (Ania), chodź tu!", hint:"a girl called Ania", a:["aniu"], l:"Ania", why:"Aniu — soft diminutive."},
+    {q:"___ (mama), gdzie jest mój telefon?", hint:"your mother", a:["mamo"], l:"mama", why:"Mamo — feminine -a → -o."},
+    {q:"___ (tata), pomóż mi!", hint:"your father", a:["tato"], l:"tata", why:"Tato — masculine -a → -o."},
+    {q:"Przepraszam, ___ (pan), gdzie jest dworzec?", hint:"a stranger — fixed formula", a:["pana"], l:"pan", why:"This one is not the vocative: przepraszam takes the accusative, pana."},
+    {q:"___ (Piotr), masz chwilę?", hint:"a colleague", a:["piotrze"], l:"Piotr", why:"Piotrze — r → rz."},
+    {q:"___ (Kasia), idziemy na kawę?", hint:"a friend", a:["kasiu"], l:"Kasia", why:"Kasiu — soft diminutive."},
+    {q:"___ (doktor) Marku, mam pytanie.", hint:"a doctor, a man, called Marek", a:["panie doktorze","doktorze"], l:"doktor", why:"Panie doktorze — the title takes the vocative, and the name Marku follows it. In practice Poles would just say Panie Marku."},
+    {q:"___ (Bóg), co się stało?", hint:"an exclamation", a:["boże"], l:"Bóg", why:"O Boże! — the irregular vocative."},
+    {q:"___ (sąsiad), czy może pan ściszyć muzykę?", hint:"the man next door", a:["sąsiedzie"], l:"sąsiad", why:"Sąsiedzie — d → dzi and ą → ę."},
+    {q:"___ (kolega), nie rób tego.", hint:"a male colleague", a:["kolego"], l:"kolega", why:"Kolego — masculine -a → -o."},
+    {q:"___ (Ania) i ___ (Marek), zapraszam!", hint:"two people", a:["aniu i marku"], l:"Ania", why:"Each address takes its own vocative: Aniu i Marku."},
+    {q:"___ (pani), czy to pani torebka?", hint:"a woman, politely", a:["pani"], l:"pani", why:"Pani never changes."},
+    {q:"___ (profesor), dziękuję za wykład.", hint:"to a man", a:["panie profesorze","profesorze"], l:"profesor", why:"Panie profesorze — r → rz."},
+    {q:"___ (Bóg) mój, ale gorąco!", hint:"an exclamation", a:["boże"], l:"Bóg", why:"Boże mój! — vocative plus unchanged mój."},
+    {q:"___ (dziecko), chodź do mamy!", hint:"to a small child", a:["dziecko"], l:"dziecko", why:"Neuter — identical to the nominative."},
+    {q:"___ (studenci), proszę o ciszę!", hint:"to a group", a:["studenci"], l:"studenci", why:"Plural — identical to the nominative."},
+    {q:"___ (Zosia), zostaw to!", hint:"a girl called Zosia", a:["zosiu"], l:"Zosia", why:"Zosiu — soft diminutive."},
+    {q:"___ (Warszawa), moje miasto!", hint:"apostrophe to a city", a:["warszawo"], l:"Warszawa", why:"Warszawo — places are addressed like people."},
+    {q:"___ (Pan), proszę o ciszę!", hint:"to God, in a prayer", a:["panie"], l:"Pan", why:"Panie — from Pan, used for God and for a gentleman alike."}
+  ]
+},
+{
+  id:"exclaim", title:"Exclamations & fixed phrases", meta:"16 items · what people actually shout",
+  ask:"Which is the correct form?",
+  type:"choice",
+  items:[
+    {q:"“Oh my God!”", hint:"exclamation", opts:["O Boże!","O Bóg!","O Bogu!"], a:"O Boże!", why:"Boże is the irregular vocative of Bóg."},
+    {q:"“Mother of God!”", hint:"exclamation", opts:["Matko Boska!","Matka Boska!","Matce Boskiej!"], a:"Matko Boska!", why:"Matko — feminine -a → -o. Matka Boska is the nominative, used when talking about her."},
+    {q:"“You idiot!”", hint:"after ty", opts:["Ty idioto!","Ty idiota!","Ty idiotą!"], a:"Ty idioto!", why:"Masculine in -a → -o, and the vocative is compulsory after ty."},
+    {q:"“Leave me alone, you fool!”", hint:"insult", opts:["Zostaw mnie, głupku!","Zostaw mnie, głupek!"], a:"Zostaw mnie, głupku!", why:"głupek → głupku, the -ek rule."},
+    {q:"“Don’t do that, you idiot!”", hint:"insult · -a", opts:["Nie rób tego, idioto!","Nie rób tego, idiota!"], a:"Nie rób tego, idioto!", why:"Again -o for a masculine in -a."},
+    {q:"“You liar!”", hint:"after ty", opts:["Ty kłamczuchu!","Ty kłamczuch!"], a:"Ty kłamczuchu!", why:"ch takes -u: kłamczuchu."},
+    {q:"“You traitor!”", hint:"insult", opts:["Zdrajco!","Zdrajca!"], a:"Zdrajco!", why:"zdrajca → zdrajco."},
+    {q:"“Oh Jesus!”", hint:"exclamation", opts:["O Jezu!","O Jezus!","O Jezusie!"], a:"O Jezu!", why:"Jezu is the fixed exclamatory form. Jezusie also exists, but O Jezu! is the idiom."},
+    {q:"“Christ!”", hint:"exclamation", opts:["Chryste!","Chrystus!","Chrystusie!"], a:"Chryste!", why:"Chryste — the old vocative, kept in exclamations."},
+    {q:"“Holy Spirit!”", hint:"prayer", opts:["Duchu Święty!","Duch Święty!","Ducha Świętego!"], a:"Duchu Święty!", why:"duch → duchu; the adjective święty stays."},
+    {q:"“My dear friend!” — to a man", hint:"warm", opts:["Mój drogi przyjacielu!","Mój drogi przyjaciel!"], a:"Mój drogi przyjacielu!", why:"przyjaciel → przyjacielu; mój and drogi stay unchanged."},
+    {q:"“Dear colleagues!” — to a mixed group", hint:"plural", opts:["Drodzy koledzy!","Drodzy kolego!"], a:"Drodzy koledzy!", why:"Plural vocative = nominative, and drodzy agrees with the masculine-personal plural."},
+    {q:"“Sir!” — calling a man in the street", hint:"formula", opts:["Panie!","Pan!"], a:"Panie!", why:"pan → panie. Pan! alone sounds like a bark."},
+    {q:"“Ma’am!” — calling a woman", hint:"formula", opts:["Pani!","Paniu!"], a:"Pani!", why:"pani never changes."},
+    {q:"“God, give me strength!”", hint:"exclamation", opts:["Boże, daj mi siłę!","Bóg, daj mi siłę!"], a:"Boże, daj mi siłę!", why:"Boże, the irregular vocative."},
+    {q:"“You scoundrel!”", hint:"insult", opts:["Ty łotrze!","Ty łotr!"], a:"Ty łotrze!", why:"łotr → łotrze, r → rz."}
+  ]
+}
+];
+
+/* ============================================================
+   DATA — reference table
+   ============================================================ */
+const REF = [
+["kot","kocie","masculine","t → ci plus -e"],
+["pies","psie","masculine","fleeting e drops"],
+["pan","panie","masculine","n → ni"],
+["chłop","chłopie","masculine","p → pi"],
+["chleb","chlebie","masculine","b → bi"],
+["lew","lwie","masculine","w → wi"],
+["las","lesie","masculine","s → si, a → e"],
+["czas","czasie","masculine","s → si, a → e"],
+["stół","stole","masculine","ł → l, ó → o"],
+["anioł","aniele","masculine","ł → l"],
+["duch","duchu","masculine","ch takes -u"],
+["grzech","grzechu","masculine","ch takes -u"],
+["kraj","kraju","masculine","j takes -u"],
+["rok","roku","masculine","k takes -u"],
+["dom","domu","masculine","matches the locative"],
+["syn","synu","masculine","old u-stem relic"],
+["człowiek","człowieku","masculine","k takes -u"],
+["król","królu","masculine","l takes -u"],
+["lekarz","lekarzu","masculine","rz takes -u"],
+["mistrz","mistrzu","masculine","rz takes -u"],
+["klucz","kluczu","masculine","cz takes -u"],
+["gość","gościu","masculine","soft ć takes -u"],
+["uczeń","uczniu","masculine","ń takes -u, e drops"],
+["palec","palcu","masculine","-ec, neutral form"],
+["widelec","widelcu","masculine","-ec, neutral form"],
+["taniec","tańcu","masculine","-ec, neutral form"],
+["miesiąc","miesiącu","masculine","-ec, neutral form"],
+["mieszkaniec","mieszkańcu","masculine","-ec, neutral; mieszkańcze is elevated"],
+["student","studencie","masculine","t → ci"],
+["profesor","profesorze","masculine","r → rz"],
+["samochód","samochodzie","masculine","d → dzi, ó → o"],
+["sąsiad","sąsiedzie","masculine","d → dzi, ą → ę"],
+["komputer","komputerze","masculine","r → rz"],
+["mąż","mężu","masculine","ą → ę, ż takes -u"],
+["ojciec","ojcze","irregular","one of the four exceptions"],
+["chłopiec","chłopcze","irregular","one of the four exceptions"],
+["ksiądz","księże","irregular","one of the four exceptions"],
+["Bóg","Boże","irregular","one of the four exceptions"],
+["człowiek (poetic)","człowiecze","irregular","archaic, literary"],
+["tata","tato","masculine in -a","-a → -o"],
+["kolega","kolego","masculine in -a","-a → -o"],
+["mężczyzna","mężczyzno","masculine in -a","-a → -o"],
+["kierowca","kierowco","masculine in -a","-a → -o"],
+["sędzia","sędzio","masculine in -a","-a → -o"],
+["hrabia","hrabio","masculine in -a","-a → -o"],
+["artysta","artysto","masculine in -a","-a → -o"],
+["idiota","idioto","masculine in -a","-a → -o"],
+["Jerzy","Jerzy","name","ends in -y, unchanged"],
+["Antoni","Antoni","name","ends in -i, unchanged"],
+["Mieszko","Mieszku","name","names in -o take -u"],
+["Marek","Marku","name","k takes -u"],
+["Michał","Michale","name","ł → l"],
+["Piotr","Piotrze","name","r → rz"],
+["Paweł","Pawle","name","ł → l, e drops"],
+["Andrzej","Andrzeju","name","j takes -u"],
+["Krzysztof","Krzysztofie","name","f → fi"],
+["Tomasz","Tomaszu","name","sz takes -u"],
+["Łukasz","Łukaszu","name","sz takes -u"],
+["Maciej","Macieju","name","j takes -u"],
+["Jakub","Jakubie","name","b → bi"],
+["Jan","Janie","name","n → ni"],
+["Szymon","Szymonie","name","n → ni"],
+["Adam","Adamie","name","d stays d"],
+["Dawid","Dawidzie","name","d → dzi"],
+["Tomek","Tomku","diminutive","-ek → -ku"],
+["Piotrek","Piotrku","diminutive","-ek → -ku"],
+["Maciek","Maćku","diminutive","-ek → -ku"],
+["Kuba","Kubo","diminutive","masculine -a → -o"],
+["Staś","Stasiu","diminutive","ś → si plus -u"],
+["Krzyś","Krzysiu","diminutive","ś → si plus -u"],
+["mama","mamo","feminine","-a → -o"],
+["kobieta","kobieto","feminine","-a → -o"],
+["siostra","siostro","feminine","-a → -o"],
+["córka","córko","feminine","-a → -o"],
+["matka","matko","feminine","-a → -o"],
+["ziemia","ziemio","feminine","soft stem, ordinary noun → -o"],
+["róża","różo","feminine","hardened stem, still -o"],
+["ulica","ulico","feminine","hardened stem, still -o"],
+["noc","nocy","feminine","consonant-final → -y"],
+["rzecz","rzeczy","feminine","consonant-final → -y"],
+["twarz","twarzy","feminine","consonant-final → -y"],
+["miłość","miłości","feminine","soft stem → -i"],
+["odpowiedź","odpowiedzi","feminine","soft stem → -i"],
+["sól","soli","feminine","l → -i, ó → o"],
+["krew","krwi","feminine","e drops, w → -i"],
+["jesień","jesieni","feminine","soft ń → -i"],
+["wieś","wsi","feminine","e drops, ś → s"],
+["pani","pani","feminine","ends in -i, unchanged"],
+["Anna","Anno","female name","full name → -o"],
+["Katarzyna","Katarzyno","female name","full name → -o"],
+["Agnieszka","Agnieszko","female name","full name → -o, even after sz"],
+["Maria","Mario","female name","hard r → -o"],
+["Zofia","Zofio","female name","full name → -o"],
+["Ania","Aniu","female diminutive","soft stem → -u"],
+["Kasia","Kasiu","female diminutive","soft stem → -u"],
+["Zosia","Zosiu","female diminutive","soft stem → -u"],
+["Basia","Basiu","female diminutive","soft stem → -u"],
+["Ola","Olu","female diminutive","l behaves as soft"],
+["ciocia","ciociu","feminine","soft personal noun → -u"],
+["babcia","babciu","feminine","soft personal noun → -u"],
+["dziecko","dziecko","neuter","unchanged"],
+["okno","okno","neuter","unchanged"],
+["imię","imię","neuter","unchanged"],
+["zwierzę","zwierzę","neuter","unchanged"],
+["studenci","studenci","plural","unchanged"],
+["kobiety","kobiety","plural","unchanged"],
+["dzieci","dzieci","plural","unchanged"],
+["Państwo","Państwo","plural","unchanged"],
+["Warszawa","Warszawo","place","-a → -o"],
+["Polska","Polsko","place","-a → -o"],
+["Kraków","Krakowie","place","matches the locative"],
+["Gdańsk","Gdańsku","place","k takes -u"],
+["Wrocław","Wrocławiu","place","w → wi"],
+["Łódź","Łodzi","place","soft dź → -i"],
+["Poznań","Poznaniu","place","ń takes -u"],
+["Litwa","Litwo","place","-a → -o"],
+["Europa","Europo","place","-a → -o"],
+["doktor","doktorze","title","r → rz"],
+["profesor","profesorze","title","r → rz"],
+["dyrektor","dyrektorze","title","r → rz"],
+["prezes","prezesie","title","s → si"],
+["inżynier","inżynierze","title","r → rz"],
+["minister","ministrze","title","r → rz"],
+["mecenas","mecenasie","title","s → si"],
+["proboszcz","proboszczu","title","sz takes -u"],
+["Jezus","Jezu","religion","fixed exclamatory form"],
+["Chrystus","Chryste","religion","old vocative, kept in exclamations"],
+["biskup","biskupie","religion","p → pi"],
+["papież","papieżu","religion","ż takes -u"],
+["brat","bracie","religion","t → ci"],
+["siostra","siostro","religion","-a → -o"],
+["matka","matko","religion","Matko Boska"]
+];
+
+/* ============================================================
+   THEME
+   ============================================================ */
+(function(){
+  const btn = document.getElementById("themeBtn");
+  const saved = localStorage.getItem("wol.theme");
+  if (saved) document.documentElement.setAttribute("data-theme", saved);
+  btn.addEventListener("click", function(){
+    const cur = document.documentElement.getAttribute("data-theme");
+    const sysDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const next = cur ? (cur === "dark" ? "light" : "dark") : (sysDark ? "light" : "dark");
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("wol.theme", next);
+  });
+})();
+
+/* ============================================================
+   SCROLL: progress bar + active nav
+   ============================================================ */
+(function(){
+  const bar = document.getElementById("scrollbar");
+  function onScroll(){
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + "%";
+  }
+  window.addEventListener("scroll", onScroll, {passive:true});
+  onScroll();
+
+  const links = Array.from(document.querySelectorAll("#nav a"));
+  const targets = links.map(a => document.querySelector(a.getAttribute("href"))).filter(Boolean);
+  if ("IntersectionObserver" in window){
+    const io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){
+          links.forEach(l => l.classList.toggle("on", l.getAttribute("href") === "#" + e.target.id));
+        }
+      });
+    }, {rootMargin:"-45% 0px -50% 0px"});
+    targets.forEach(t => io.observe(t));
+  }
+})();
+
+/* ============================================================
+   DRILL ENGINE
+   ============================================================ */
+(function(){
+  const grid = document.getElementById("setgrid");
+  const runner = document.getElementById("runner");
+  const summary = document.getElementById("summary");
+  const runTitle = document.getElementById("runTitle");
+  const runCount = document.getElementById("runCount");
+  const runScore = document.getElementById("runScore");
+  const pfill = document.getElementById("pfill");
+  const askLine = document.getElementById("askLine");
+  const qText = document.getElementById("qText");
+  const qHint = document.getElementById("qHint");
+  const optsEl = document.getElementById("opts");
+  const typebox = document.getElementById("typebox");
+  const answer = document.getElementById("answer");
+  const checkBtn = document.getElementById("checkBtn");
+  const fb = document.getElementById("fb");
+  const nextBtn = document.getElementById("nextBtn");
+  const quitBtn = document.getElementById("quitBtn");
+  const skipBtn = document.getElementById("skipBtn");
+
+  let S = { set:null, order:[], i:0, right:0, misses:[], done:false, retry:false };
+
+  const norm = s => s.toLowerCase().trim()
+      .replace(/[.,!?;:„”"()]/g,"")
+      .replace(/\s+/g," ");
+  const deacc = s => s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ł/g,"l");
+
+  function best(id){
+    try { return JSON.parse(localStorage.getItem("wol.best." + id) || "null"); } catch(e){ return null; }
+  }
+  function saveBest(id, r, t){
+    const b = best(id);
+    if (!b || r/t > b.r/b.t) localStorage.setItem("wol.best." + id, JSON.stringify({r:r, t:t}));
+  }
+
+  function buildGrid(){
+    grid.innerHTML = "";
+    SETS.forEach(function(s){
+      const b = best(s.id);
+      const btn = document.createElement("button");
+      btn.className = "setcard";
+      btn.innerHTML = '<div class="t">' + s.title + '</div><div class="m">' + s.meta + '</div>' +
+        (b ? '<div class="best">best ' + b.r + "/" + b.t + '</div>' : '');
+      btn.addEventListener("click", function(){ start(s.id); });
+      grid.appendChild(btn);
+    });
+  }
+
+  function start(id, onlyMisses){
+    const set = SETS.find(s => s.id === id);
+    S.set = set;
+    S.order = onlyMisses && onlyMisses.length ? onlyMisses.slice() : set.items.map((_, i) => i);
+    if (!onlyMisses) S.order = shuffle(S.order);
+    S.i = 0; S.right = 0; S.misses = []; S.done = false;
+    grid.classList.add("off");
+    summary.style.display = "none";
+    runner.classList.add("on");
+    runTitle.textContent = set.title;
+    askLine.textContent = onlyMisses ? "Reviewing your mistakes" : set.ask;
+    render();
+  }
+
+  function shuffle(a){
+    for (let i = a.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function render(){
+    const idx = S.order[S.i];
+    const item = S.set.items[idx];
+    fb.className = "fb";
+    fb.innerHTML = "";
+    nextBtn.disabled = true;
+    nextBtn.textContent = "Next";
+    skipBtn.style.display = "";
+    answer.classList.remove("right","wrong");
+    answer.value = "";
+    answer.disabled = false;
+    checkBtn.disabled = false;
+
+    runCount.textContent = (S.i + 1) + " / " + S.order.length;
+    runScore.textContent = S.right + " correct";
+    pfill.style.width = (S.i / S.order.length * 100) + "%";
+
+    qHint.textContent = item.hint ? "Hint: " + item.hint : "";
+
+    if (S.set.type === "choice"){
+      qText.textContent = item.q;
+      typebox.style.display = "none";
+      optsEl.style.display = "grid";
+      optsEl.innerHTML = "";
+      const shuffled = shuffle(item.opts.slice());
+      shuffled.forEach(function(o, i){
+        const b = document.createElement("button");
+        b.className = "opt";
+        b.innerHTML = '<span class="k">' + (i + 1) + '</span><span>' + o + '</span>';
+        b.dataset.val = o;
+        b.addEventListener("click", function(){ pick(b, item); });
+        optsEl.appendChild(b);
+      });
+    } else {
+      qText.innerHTML = item.q.replace("___", '<span class="gap"></span>');
+      optsEl.style.display = "none";
+      typebox.style.display = "flex";
+      setTimeout(function(){ answer.focus(); }, 40);
+    }
+  }
+
+  function markChoice(correct){
+    Array.from(optsEl.children).forEach(function(b){
+      b.disabled = true;
+      if (b.dataset.val === S.cur.a) b.classList.add("right");
+    });
+  }
+
+  function pick(btn, item){
+    if (btn.disabled) return;
+    S.cur = item;
+    const ok = btn.dataset.val === item.a;
+    if (!ok) btn.classList.add("wrong");
+    markChoice();
+    finishItem(ok, item.a);
+  }
+
+  function checkType(){
+    const item = S.set.items[S.order[S.i]];
+    const val = answer.value;
+    if (!val.trim()) { answer.focus(); return; }
+    const n = norm(val);
+    let ok = false, accentOnly = false;
+    item.a.forEach(function(c){
+      if (n === norm(c)) ok = true;
+      else if (deacc(n) === deacc(norm(c))) accentOnly = true;
+    });
+    answer.disabled = true;
+    checkBtn.disabled = true;
+    answer.classList.add(ok ? "right" : (accentOnly ? "right" : "wrong"));
+    finishItem(ok, item.a, accentOnly);
+  }
+
+  function finishItem(ok, correct, accentOnly){
+    S.cur = S.cur || S.set.items[S.order[S.i]];
+    if (ok) S.right++; else S.misses.push(S.order[S.i]);
+    runScore.textContent = S.right + " correct";
+    fb.className = "fb on " + (ok ? "ok" : "no");
+    const head = ok ? (accentOnly ? "Right — mind the diacritics" : "Correct") : "Not quite";
+    fb.innerHTML = '<div class="v">' + head + '</div>' +
+      '<div class="a">' + [].concat(correct).join(" · ") + '</div>' +
+      '<div class="why">' + S.set.items[S.order[S.i]].why + '</div>';
+    nextBtn.disabled = false;
+    skipBtn.style.display = "none";
+    nextBtn.focus();
+  }
+
+  function next(){
+    if (S.i + 1 >= S.order.length){ end(); return; }
+    S.i++;
+    render();
+  }
+
+  function end(){
+    runner.classList.remove("on");
+    summary.style.display = "block";
+    const total = S.order.length;
+    document.getElementById("sumScore").textContent = S.right + " / " + total;
+    const pct = Math.round(S.right / total * 100);
+    let msg;
+    if (pct === 100) msg = "Clean sweep. Move to the next set, or come back tomorrow — spacing is what makes this stick.";
+    else if (pct >= 80) msg = "Solid. Reread the explanations for the ones you missed, then run them again.";
+    else if (pct >= 50) msg = "The pattern is there but not automatic yet. Run the mistakes again now, and the whole set tomorrow.";
+    else msg = "Go back to the section for this set, read the table once more, then retry. Nothing here needs to be memorised blind.";
+    document.getElementById("sumMsg").textContent = msg;
+    saveBest(S.set.id, S.right, total);
+
+    const btns = document.getElementById("sumBtns");
+    btns.innerHTML = "";
+    if (S.misses.length){
+      const b1 = document.createElement("button");
+      b1.className = "btn primary";
+      b1.textContent = "Review " + S.misses.length + " mistake" + (S.misses.length > 1 ? "s" : "");
+      b1.addEventListener("click", function(){ start(S.set.id, S.misses); });
+      btns.appendChild(b1);
+    }
+    const b2 = document.createElement("button");
+    b2.className = "btn ghost";
+    b2.textContent = "Run the set again";
+    b2.addEventListener("click", function(){ start(S.set.id); });
+    btns.appendChild(b2);
+    const b3 = document.createElement("button");
+    b3.className = "btn ghost";
+    b3.textContent = "Choose another set";
+    b3.addEventListener("click", backToGrid);
+    btns.appendChild(b3);
+  }
+
+  function backToGrid(){
+    runner.classList.remove("on");
+    summary.style.display = "none";
+    grid.classList.remove("off");
+    buildGrid();
+  }
+
+  nextBtn.addEventListener("click", next);
+  checkBtn.addEventListener("click", checkType);
+  quitBtn.addEventListener("click", backToGrid);
+  skipBtn.addEventListener("click", function(){
+    const item = S.set.items[S.order[S.i]];
+    if (S.set.type === "choice"){
+      Array.from(optsEl.children).forEach(function(b){ b.disabled = true; if (b.dataset.val === item.a) b.classList.add("right"); });
+    } else {
+      answer.value = item.a[0]; answer.disabled = true; checkBtn.disabled = true;
+    }
+    finishItem(false, item.a);
+  });
+
+  answer.addEventListener("keydown", function(e){
+    if (e.key === "Enter"){
+      e.preventDefault();
+      if (answer.disabled) next(); else checkType();
+    }
+  });
+
+  document.addEventListener("keydown", function(e){
+    if (!runner.classList.contains("on")) return;
+    if (e.target === answer) return;
+    if (e.key >= "1" && e.key <= "9" && S.set.type === "choice"){
+      const b = optsEl.children[Number(e.key) - 1];
+      if (b && !b.disabled) b.click();
+    }
+    if (e.key === "Enter" && !nextBtn.disabled){ e.preventDefault(); next(); }
+  });
+
+  buildGrid();
+  window.__startSet = start;
+})();
+
+/* ============================================================
+   REFERENCE TABLE
+   ============================================================ */
+(function(){
+  const tbody = document.querySelector("#reftable tbody");
+  const input = document.getElementById("refFilter");
+  const count = document.getElementById("refCount");
+
+  function row(r){
+    const tr = document.createElement("tr");
+    tr.innerHTML = '<td class="pl">' + r[0] + '</td><td class="pl">' + r[1] +
+      '</td><td class="small"><b>' + r[2] + '</b> · ' + r[3] + '</td>';
+    tr.dataset.txt = r.join(" ").toLowerCase();
+    return tr;
+  }
+
+  REF.forEach(r => tbody.appendChild(row(r)));
+  count.textContent = REF.length + " entries";
+
+  input.addEventListener("input", function(){
+    const q = input.value.toLowerCase().trim();
+    let shown = 0;
+    Array.from(tbody.children).forEach(function(tr){
+      const hit = !q || tr.dataset.txt.indexOf(q) !== -1;
+      tr.style.display = hit ? "" : "none";
+      if (hit) shown++;
+    });
+    count.textContent = shown + " of " + REF.length;
+  });
+})();
+</script>
+</body>
+</html>

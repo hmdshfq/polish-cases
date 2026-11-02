@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Narzędnik — the Polish instrumental, from zero to confident</title>
+<style>
+  :root{
+    --paper:#f7f3ea; --card:#fffdf7; --ink:#1b1915; --ink2:#4b443a; --muted:#7c7365;
+    --line:#e3dac9; --line2:#efe8da;
+    --accent:#a4361f; --accent-soft:#f6e4de;
+    --green:#1d5b45; --green-soft:#e3efe7;
+    --amber:#8a5a10; --amber-soft:#f7ebd4;
+    --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    --radius:14px; --maxw:1120px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#131210; --card:#1c1a16; --ink:#efe9dd; --ink2:#c6bdad; --muted:#948b7b;
+      --line:#302c24; --line2:#26231d;
+      --accent:#e6795f; --accent-soft:#3a211a;
+      --green:#7cc4a4; --green-soft:#17302a;
+      --amber:#d8a95c; --amber-soft:#33280f;
+    }
+  }
+  html[data-theme="dark"]{
+    --paper:#131210; --card:#1c1a16; --ink:#efe9dd; --ink2:#c6bdad; --muted:#948b7b;
+    --line:#302c24; --line2:#26231d; --accent:#e6795f; --accent-soft:#3a211a;
+    --green:#7cc4a4; --green-soft:#17302a; --amber:#d8a95c; --amber-soft:#33280f;
+  }
+  html[data-theme="light"]{
+    --paper:#f7f3ea; --card:#fffdf7; --ink:#1b1915; --ink2:#4b443a; --muted:#7c7365;
+    --line:#e3dac9; --line2:#efe8da; --accent:#a4361f; --accent-soft:#f6e4de;
+    --green:#1d5b45; --green-soft:#e3efe7; --amber:#8a5a10; --amber-soft:#f7ebd4;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth; scroll-padding-top:96px}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{animation:none!important; transition:none!important} }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--sans); font-size:17px; line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(circle at 12% 8%, color-mix(in oklab, var(--accent) 5%, transparent), transparent 42%),
+                     radial-gradient(circle at 88% 2%, color-mix(in oklab, var(--green) 5%, transparent), transparent 38%);
+    background-attachment:fixed;
+  }
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px}
+  a{color:var(--accent); text-decoration-thickness:1px; text-underline-offset:3px}
+  a:hover{text-decoration-thickness:2px}
+  code, .mono{font-family:var(--mono); font-size:.94em}
+  .pl{font-family:var(--serif); font-size:1.04em; font-style:italic}
+  strong{font-weight:650}
+
+  /* ---------- progress + header ---------- */
+  #scrollbar{position:fixed; top:0; left:0; height:3px; width:0; background:var(--accent); z-index:60; transition:width .1s linear}
+  header.top{
+    position:sticky; top:0; z-index:50; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    background:color-mix(in oklab, var(--paper) 86%, transparent);
+    border-bottom:1px solid var(--line);
+  }
+  .top-in{max-width:var(--maxw); margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:18px}
+  .brand{font-family:var(--serif); font-size:19px; letter-spacing:.01em; white-space:nowrap}
+  .brand b{color:var(--accent)}
+  nav.sections{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; flex:1}
+  nav.sections::-webkit-scrollbar{display:none}
+  nav.sections a{
+    color:var(--ink2); text-decoration:none; font-size:13.5px; padding:7px 11px; border-radius:99px;
+    white-space:nowrap; transition:background .15s, color .15s;
+  }
+  nav.sections a:hover{background:var(--line2); color:var(--ink)}
+  nav.sections a.on{background:var(--ink); color:var(--paper)}
+  .theme{
+    border:1px solid var(--line); background:var(--card); color:var(--ink2); width:36px; height:36px;
+    border-radius:99px; cursor:pointer; font-size:15px; line-height:1; display:grid; place-items:center;
+  }
+  .theme:hover{border-color:var(--ink2); color:var(--ink)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:74px 0 40px; border-bottom:1px solid var(--line)}
+  .kicker{font-size:12.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:650; margin:0 0 18px}
+  h1{font-family:var(--serif); font-weight:500; font-size:clamp(42px, 7vw, 74px); line-height:1.02; margin:0 0 6px; letter-spacing:-.02em}
+  h1 em{font-style:italic; color:var(--accent)}
+  .lede{font-size:clamp(18px,2.2vw,21px); color:var(--ink2); max-width:56ch; margin:18px 0 30px}
+  .facts{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:0 0 32px}
+  .fact{border:1px solid var(--line); background:var(--card); border-radius:var(--radius); padding:16px 18px}
+  .fact .n{font-family:var(--serif); font-size:26px; line-height:1.1; margin-bottom:4px}
+  .fact .l{font-size:13px; color:var(--muted); line-height:1.45}
+  .cta{display:flex; gap:10px; flex-wrap:wrap}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:12px 20px; border-radius:99px; font-size:15px;
+    font-weight:600; text-decoration:none; cursor:pointer; border:1px solid transparent; font-family:inherit;
+  }
+  .btn.primary{background:var(--ink); color:var(--paper)}
+  .btn.primary:hover{background:var(--accent)}
+  .btn.ghost{border-color:var(--line); color:var(--ink); background:var(--card)}
+  .btn.ghost:hover{border-color:var(--ink2)}
+
+  /* ---------- sections ---------- */
+  section{padding:64px 0; border-bottom:1px solid var(--line)}
+  section:last-of-type{border-bottom:none}
+  .shead{display:flex; gap:20px; align-items:baseline; margin-bottom:26px}
+  .snum{font-family:var(--serif); font-size:15px; color:var(--accent); font-variant-numeric:tabular-nums; padding-top:10px; min-width:34px}
+  h2{font-family:var(--serif); font-weight:500; font-size:clamp(28px,3.6vw,38px); line-height:1.1; margin:0; letter-spacing:-.01em}
+  h3{font-family:var(--serif); font-weight:600; font-size:22px; margin:36px 0 12px; letter-spacing:-.005em}
+  h4{font-size:15px; font-weight:700; margin:24px 0 8px; letter-spacing:.01em}
+  p{margin:0 0 14px; max-width:74ch}
+  .small{font-size:14.5px; color:var(--muted)}
+  ul,ol{margin:0 0 16px; padding-left:22px; max-width:74ch}
+  li{margin:5px 0}
+  li::marker{color:var(--muted)}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+  .card{border:1px solid var(--line); background:var(--card); border-radius:var(--radius); padding:20px 22px}
+  .card h4{margin-top:0}
+  .card p:last-child{margin-bottom:0}
+
+  .ex{font-family:var(--serif); font-size:18px; margin:2px 0}
+  .ex .g{color:var(--accent); font-weight:600}
+  .ex s{color:var(--muted)}
+  .tr{color:var(--muted); font-size:14px; font-style:italic}
+  .ex.say{cursor:pointer}
+  .ex.say::after{content:"🔉"; font-family:var(--sans); font-style:normal; font-size:11px; margin-left:8px; opacity:.4; vertical-align:2px}
+  .ex.say:hover{color:var(--accent)}
+  .ex.say:hover::after{opacity:.9}
+
+  .note{border-left:3px solid var(--amber); background:var(--amber-soft); padding:14px 18px; border-radius:0 10px 10px 0; margin:18px 0}
+  .note p:last-child{margin-bottom:0}
+  .note .lab{font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; font-weight:700; color:var(--amber); display:block; margin-bottom:4px}
+  .warn{border-left-color:var(--accent); background:var(--accent-soft)}
+  .warn .lab{color:var(--accent)}
+  .good{border-left-color:var(--green); background:var(--green-soft)}
+  .good .lab{color:var(--green)}
+
+  /* ---------- tables ---------- */
+  .tw{overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius); background:var(--card); margin:18px 0}
+  table{border-collapse:collapse; width:100%; font-size:15px; min-width:520px}
+  th,td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--line2); vertical-align:top}
+  thead th{background:color-mix(in oklab, var(--line2) 60%, transparent); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:700; position:sticky; top:0}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:color-mix(in oklab, var(--line2) 40%, transparent)}
+  tbody tr.hl{background:color-mix(in oklab, var(--accent-soft) 45%, transparent)}
+  td.pl, th.pl{font-family:var(--serif); font-size:16.5px; font-style:normal}
+  .end{color:var(--accent); font-weight:700}
+  .yes{color:var(--green); font-weight:600}
+  .no{color:var(--accent); font-weight:600; text-decoration:line-through; text-decoration-thickness:1px}
+  tr.trap td{background:color-mix(in oklab, var(--accent-soft) 55%, transparent)}
+
+  .chips{display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 6px}
+  .chip{font-size:13px; padding:5px 12px; border-radius:99px; border:1px solid var(--line); background:var(--card); color:var(--ink2)}
+  .chip b{color:var(--ink)}
+  button.chip{font-family:inherit; cursor:pointer}
+  button.chip:hover{border-color:var(--ink2)}
+  button.chip.on{background:var(--ink); color:var(--paper); border-color:var(--ink)}
+  button.chip.on b{color:inherit}
+
+  /* ---------- drills ---------- */
+  .drills{background:var(--card); border:1px solid var(--line); border-radius:20px; padding:26px; box-shadow:0 1px 0 var(--line2)}
+  .setgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(215px,1fr)); gap:12px; margin-top:18px}
+  .setcard{
+    text-align:left; border:1px solid var(--line); background:var(--paper); border-radius:12px; padding:14px 16px;
+    cursor:pointer; font-family:inherit; color:var(--ink); transition:border-color .15s, transform .15s;
+  }
+  .setcard:hover{border-color:var(--accent); transform:translateY(-1px)}
+  .setcard .t{font-weight:650; font-size:15px; margin-bottom:3px}
+  .setcard .m{font-size:12.5px; color:var(--muted)}
+  .setcard .best{font-size:12px; color:var(--green); margin-top:6px; font-variant-numeric:tabular-nums}
+  .runner{display:none}
+  .runner.on{display:block}
+  .setgrid.off{display:none}
+  .rhead{display:flex; align-items:center; gap:14px; margin-bottom:18px; flex-wrap:wrap}
+  .rhead .ttl{font-weight:700; font-size:15px}
+  .rhead .cnt{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .rhead .sp{flex:1}
+  .xbtn{border:1px solid var(--line); background:transparent; color:var(--ink2); border-radius:99px; padding:6px 13px; font-size:13px; cursor:pointer; font-family:inherit}
+  .xbtn:hover{border-color:var(--ink2); color:var(--ink)}
+  .pbar{height:4px; background:var(--line2); border-radius:99px; overflow:hidden; margin-bottom:22px}
+  .pbar i{display:block; height:100%; width:0; background:var(--accent); transition:width .25s ease}
+  .ask{font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:10px}
+  .q{font-family:var(--serif); font-size:clamp(22px,3vw,30px); line-height:1.25; margin:0 0 6px}
+  .q .gap{color:var(--accent); border-bottom:2px dashed var(--accent); padding:0 16px}
+  .q .tr{display:block; font-family:var(--sans); font-size:14px; margin-top:8px}
+  .qhint{font-size:14px; color:var(--muted); margin-bottom:20px}
+  .opts{display:grid; gap:9px; margin:0 0 16px}
+  .opt{
+    display:flex; align-items:center; gap:12px; width:100%; text-align:left; cursor:pointer;
+    border:1px solid var(--line); background:var(--paper); border-radius:10px; padding:12px 15px;
+    font-family:var(--serif); font-size:19px; color:var(--ink); transition:border-color .12s, background .12s;
+  }
+  .opt:hover:not(:disabled){border-color:var(--accent)}
+  .opt:disabled{cursor:default}
+  .opt .k{font-family:var(--sans); font-size:11px; color:var(--muted); border:1px solid var(--line); border-radius:5px; padding:1px 6px; line-height:1.5}
+  .opt.right{border-color:var(--green); background:var(--green-soft); color:var(--green)}
+  .opt.wrong{border-color:var(--accent); background:var(--accent-soft); color:var(--accent)}
+  .opt.wrong .k,.opt.right .k{border-color:currentColor; color:inherit}
+  .typebox{display:flex; gap:9px; margin:0 0 14px; flex-wrap:wrap}
+  .typebox input{
+    flex:1; min-width:220px; font-family:var(--serif); font-size:20px; padding:11px 15px; border-radius:10px;
+    border:1px solid var(--line); background:var(--paper); color:var(--ink);
+  }
+  .typebox input:focus{outline:2px solid var(--accent); outline-offset:1px; border-color:transparent}
+  .typebox input.right{border-color:var(--green); background:var(--green-soft)}
+  .typebox input.wrong{border-color:var(--accent); background:var(--accent-soft)}
+  .keys{display:flex; gap:6px; flex-wrap:wrap; margin:0 0 16px}
+  .keys button{font-family:var(--serif); font-size:16px; width:36px; height:34px; border:1px solid var(--line); background:var(--paper); color:var(--ink); border-radius:8px; cursor:pointer}
+  .keys button:hover{border-color:var(--accent); color:var(--accent)}
+  .fb{display:none; border-radius:10px; padding:13px 16px; margin:4px 0 16px; font-size:15px; line-height:1.55}
+  .fb.on{display:block}
+  .fb.ok{background:var(--green-soft); border:1px solid color-mix(in oklab, var(--green) 30%, transparent)}
+  .fb.no{background:var(--accent-soft); border:1px solid color-mix(in oklab, var(--accent) 30%, transparent)}
+  .fb .v{font-weight:700; margin-bottom:2px}
+  .fb .a{font-family:var(--serif); font-size:18px}
+  .fb .why{color:var(--ink2); margin-top:5px; font-size:14.5px}
+  .rfoot{display:flex; align-items:center; gap:12px}
+  .rfoot .sp{flex:1}
+  .score{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .summary{text-align:center; padding:26px 0}
+  .summary .big{font-family:var(--serif); font-size:52px; line-height:1; color:var(--accent); margin-bottom:8px}
+  .summary p{margin-left:auto; margin-right:auto}
+
+  /* ---------- reference ---------- */
+  .filter{display:flex; gap:10px; margin:16px 0; flex-wrap:wrap; align-items:center}
+  .filter input{
+    flex:1; min-width:240px; padding:10px 14px; border-radius:10px; border:1px solid var(--line);
+    background:var(--card); color:var(--ink); font-family:inherit; font-size:15px;
+  }
+  .filter input:focus{outline:2px solid var(--accent); outline-offset:1px}
+  .filter .n{font-size:13px; color:var(--muted)}
+
+  /* ---------- flashcards ---------- */
+  .fcgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px; margin-top:18px}
+  .fc{border:1px solid var(--line); background:var(--card); border-radius:12px; padding:14px 16px; cursor:pointer; position:relative; transition:border-color .15s, transform .15s}
+  .fc:hover{border-color:var(--accent); transform:translateY(-1px)}
+  .fc .p{font-family:var(--serif); font-size:19px; line-height:1.2; padding-right:56px}
+  .fc .lv{position:absolute; top:12px; right:12px; font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+  .fc .hint{font-size:12.5px; color:var(--muted); margin-top:6px}
+  .fc .m{display:none; color:var(--muted); font-size:14px; margin-top:6px}
+  .fc .exm{display:none; font-family:var(--serif); font-size:15.5px; margin-top:7px}
+  .fc.flipped .m,.fc.flipped .exm{display:block}
+  .fc.flipped .hint{display:none}
+  .fc .fcbtns{display:none; gap:8px; margin-top:10px}
+  .fc.flipped .fcbtns{display:flex}
+  .fc .fcbtns button{font-family:inherit; font-size:12.5px; border:1px solid var(--line); background:var(--paper); color:var(--ink2); border-radius:99px; padding:4px 11px; cursor:pointer}
+  .fc .fcbtns button:hover{border-color:var(--ink2); color:var(--ink)}
+  .fc.known{border-color:color-mix(in oklab, var(--green) 45%, var(--line)); background:var(--green-soft)}
+  .fc.known .p{color:var(--green)}
+
+  /* ---------- plan ---------- */
+  .plan{display:grid; gap:12px; margin-top:18px}
+  .plan-day{border:1px solid var(--line); background:var(--card); border-radius:12px; padding:14px 18px}
+  .plan-day .dt{font-family:var(--serif); font-size:18px; margin-bottom:6px}
+  .plan-day label{display:flex; gap:10px; align-items:flex-start; font-size:15px; margin:6px 0; cursor:pointer; color:var(--ink2)}
+  .plan-day input{accent-color:var(--accent); width:17px; height:17px; margin-top:4px; flex:none}
+
+  /* ---------- advanced details ---------- */
+  details.adv{border:1px solid var(--line); background:var(--card); border-radius:12px; margin:12px 0; overflow:hidden}
+  details.adv summary{cursor:pointer; padding:14px 18px; font-weight:650; font-size:15.5px; list-style:none; display:flex; justify-content:space-between; gap:14px; align-items:baseline}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::after{content:"+"; color:var(--accent); font-family:var(--serif); font-size:20px; line-height:1}
+  details.adv[open] summary::after{content:"–"}
+  details.adv[open] summary{border-bottom:1px solid var(--line2)}
+  .advbody{padding:16px 18px}
+  .advbody > :first-child{margin-top:0}
+  .advbody > :last-child{margin-bottom:0}
+
+  /* ---------- steps ---------- */
+  .step{border-left:2px solid var(--accent); padding:2px 0 2px 16px; margin:16px 0}
+  .step .n{font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); font-weight:700; display:block; margin-bottom:2px}
+
+  kbd{font-family:var(--mono); font-size:12.5px; border:1px solid var(--line); border-radius:5px; padding:1px 6px; background:var(--card)}
+  .tag{display:inline-block; font-size:10.5px; letter-spacing:.07em; text-transform:uppercase; font-weight:700; padding:1px 8px; border-radius:99px; border:1px solid var(--line); color:var(--muted); vertical-align:1px}
+  .tag.g{color:var(--green); border-color:color-mix(in oklab, var(--green) 35%, var(--line))}
+  .tag.a{color:var(--accent); border-color:color-mix(in oklab, var(--accent) 35%, var(--line))}
+
+  footer{padding:44px 0 70px; color:var(--muted); font-size:13.5px}
+  footer p{max-width:70ch}
+
+  @media (max-width:700px){
+    table{min-width:0}
+    th,td{padding:9px 10px; font-size:14px}
+    td{overflow-wrap:break-word}
+    th{overflow-wrap:normal}
+    td:first-child, th:first-child{white-space:nowrap}
+    td.pl, th.pl{font-size:15px}
+    thead th{position:static; font-size:11px}
+    .tw{margin:14px 0}
+    .q .gap{padding:0 8px}
+  }
+  @media (max-width:860px){
+    .facts{grid-template-columns:1fr}
+    .grid2,.grid3{grid-template-columns:1fr}
+    .hero{padding:52px 0 34px}
+    section{padding:48px 0}
+    .shead{gap:12px}
+    .snum{padding-top:6px}
+    .drills{padding:18px}
+    .top-in{gap:10px}
+    .brand{font-size:17px}
+  }
+  @media print{
+    header.top,#scrollbar,.drills,.cta,.theme{display:none!important}
+    body{background:#fff; color:#000; font-size:11pt}
+    section{page-break-inside:avoid; padding:18px 0}
+    .card,.tw{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div id="scrollbar"></div>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">narzędnik <b>·</b></div>
+    <nav class="sections" id="nav">
+      <a href="#przypadek">Case</a>
+      <a href="#idea">Idea</a>
+      <a href="#sciaga">Cheat sheet</a>
+      <a href="#kiedy">Jobs</a>
+      <a href="#formy1">Singular</a>
+      <a href="#formy2">Plural</a>
+      <a href="#przymiotnik">Adjectives</a>
+      <a href="#przyimki">Prepositions</a>
+      <a href="#czasowniki">Verbs</a>
+      <a href="#pulapki">Traps</a>
+      <a href="#cwiczenia">Drills</a>
+      <a href="#fiszki">Cards</a>
+      <a href="#plan">Plan</a>
+      <a href="#ambitni">Advanced</a>
+    </nav>
+    <button class="theme" id="themeBtn" aria-label="Switch light or dark theme" title="Light / dark">◐</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============ HERO ============ -->
+<div class="hero" id="top">
+  <p class="kicker">Polish cases · 5 of 7</p>
+  <h1>Narzędnik<br><em>the case of the tool</em></h1>
+  <p class="lede">
+    The instrumental answers <b>(z) kim? (z) czym?</b> — “with whom? with what? by what means?”. It is the case of the
+    instrument, the vehicle and the company you keep, and the only case you need for the sentence “I am a student”.
+    It has three endings, six jobs and a small, famous set of traps. Learn them in that order and the case stops being
+    a mystery and becomes a habit.
+  </p>
+  <div class="facts">
+    <div class="fact"><div class="n">kim? czym?</div><div class="l">Its two questions. The first for people, the second for everything else.</div></div>
+    <div class="fact"><div class="n">3 endings</div><div class="l">Singular: <b>-em</b>, <b>-ą</b>. Plural: <b>-ami</b> — and the short <b>-mi</b> list.</div></div>
+    <div class="fact"><div class="n">82 drills</div><div class="l">Six sets with instant feedback, explanations, a mistakes pass, flashcards and a 7-day plan.</div></div>
+  </div>
+  <div class="cta">
+    <a class="btn primary" href="#cwiczenia">Start drilling</a>
+    <a class="btn ghost" href="#sciaga">One-page cheat sheet</a>
+  </div>
+</div>
+
+<!-- ============ 01 CASE ============ -->
+<section id="przypadek">
+  <div class="shead"><div class="snum">01</div><h2>What a case is</h2></div>
+
+  <p>
+    A Polish noun never travels alone. Depending on the <b>job</b> it does in the sentence, its ending changes — that
+    changing shape is the <b>case</b>. English does a tiny version of this: <i>I</i> see <i>me</i>, <i>he</i> sees
+    <i>him</i>. Polish does it with almost every word, and there are seven cases.
+  </p>
+  <p>
+    Each case has a <b>question</b> that helps you recognise it. Narzędnik's is <b>(z) kim? (z) czym?</b> — “with whom?
+    with what? by what means?”. Here are all seven, with one word — <b>Anna</b> — in each:
+  </p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>#</th><th>Case</th><th>Polish</th><th>Question</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>nominative</td><td class="pl">mianownik</td><td class="pl">kto? co?</td><td>To jest <b>Anna</b>.</td></tr>
+        <tr><td>2</td><td>genitive</td><td class="pl">dopełniacz</td><td class="pl">kogo? czego?</td><td>Szukam <b>Anny</b>.</td></tr>
+        <tr><td>3</td><td>dative</td><td class="pl">celownik</td><td class="pl">komu? czemu?</td><td>Daję <b>Annie</b> prezent.</td></tr>
+        <tr><td>4</td><td>accusative</td><td class="pl">biernik</td><td class="pl">kogo? co?</td><td>Widzę <b>Annę</b>.</td></tr>
+        <tr class="hl"><td>5</td><td><b>instrumental</b></td><td class="pl"><b>narzędnik</b></td><td class="pl"><b>(z) kim? (z) czym?</b></td><td>Idę z <b>Anną</b>.</td></tr>
+        <tr><td>6</td><td>locative</td><td class="pl">miejscownik</td><td class="pl">o kim? o czym?</td><td>Myślę o <b>Annie</b>.</td></tr>
+        <tr><td>7</td><td>vocative</td><td class="pl">wołacz</td><td>—</td><td><b>Anno!</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="lab">Careful</span>
+    <p>Narzędnik and miejscownik have the same-sounding question — <b>kim? czym?</b> The <b>preposition</b> tells them
+    apart: <b>z</b> kimś → narzędnik (<span class="pl">Idę z Anną</span>); <b>o</b> kimś → miejscownik
+    (<span class="pl">Myślę o Annie</span>).</p>
+  </div>
+
+  <p class="small">In Polish schools narzędnik is case number <b>5</b> (in the order above). In some books you will see
+  it numbered differently — same case, different counting.</p>
+</section>
+
+<!-- ============ 02 IDEA ============ -->
+<section id="idea">
+  <div class="shead"><div class="snum">02</div><h2>The big idea: <i>narzędzie</i> = tool</h2></div>
+
+  <p>
+    Every case has a personality. Narzędnik's is in its name: <b>narzędzie</b> is Polish for “tool”. Narzędnik is the
+    case you use for <b>the thing you do something with</b> — your instrument, your vehicle, your means — and for
+    <b>the company you keep</b>, the one you do something <i>with</i>.
+  </p>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>Where English says “by”, “with”, “using”</h4>
+      <p class="ex">Jadę <span class="g">autobusem</span>.</p>
+      <p class="tr">I go by bus.</p>
+      <p class="ex">Piszę <span class="g">piórem</span>.</p>
+      <p class="tr">I write with a pen.</p>
+      <p class="ex">Idę z <span class="g">Anną</span>.</p>
+      <p class="tr">I go with Anna.</p>
+    </div>
+    <div class="card">
+      <h4>Where English says “I am a…”</h4>
+      <p class="ex">Jestem <span class="g">studentem</span>.</p>
+      <p class="tr">I am a student.</p>
+      <p class="ex">Chcę zostać <span class="g">lekarzem</span>.</p>
+      <p class="tr">I want to become a doctor.</p>
+      <p class="ex">Kot jest pod <span class="g">stołem</span>.</p>
+      <p class="tr">The cat is under the table.</p>
+    </div>
+  </div>
+
+  <div class="note good">
+    <span class="lab">The one surprise</span>
+    <p>For tools and vehicles <b>Polish uses no preposition at all</b>. You just say the bare narzędnik form:
+    <span class="pl">piórem</span>, <span class="pl">autobusem</span>, <span class="pl">kluczem</span>. The case ending
+    <i>is</i> the word “with”.</p>
+    <p class="ex">Piszę piórem. <span class="tr">— I write with a pen. (no „z”!)</span></p>
+    <p class="ex"><s>Piszę z piórem.</s> <span class="tr">— this means “I write together with a pen”, which is odd.</span></p>
+  </div>
+</section>
+
+<!-- ============ 03 CHEAT SHEET ============ -->
+<section id="sciaga">
+  <div class="shead"><div class="snum">03</div><h2>One-page cheat sheet</h2></div>
+
+  <p>If you remember only this table, you can already say a lot:</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>What</th><th>Rule</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td>Question</td><td><b>(z) kim? (z) czym?</b></td><td class="pl">Z kim idziesz? — Z Anią.</td></tr>
+        <tr><td>Masculine &amp; neuter nouns</td><td><b>-em</b></td><td class="pl">kot → kot<span class="end">em</span> · okno → okn<span class="end">em</span></td></tr>
+        <tr><td>Feminine nouns</td><td><b>-ą</b></td><td class="pl">Anna → Ann<span class="end">ą</span> · muzyka → muzyk<span class="end">ą</span></td></tr>
+        <tr><td>Adjectives — m/n · f · plural</td><td><b>-ym</b> · <b>-ą</b> · <b>-ymi</b></td><td class="pl">dobry → dobr<span class="end">ym</span> · dobra → dobr<span class="end">ą</span> · dobre → dobr<span class="end">ymi</span></td></tr>
+        <tr><td>Plural nouns</td><td><b>-ami</b>, and the short <b>-mi</b> list</td><td class="pl">koty → kot<span class="end">ami</span> · konie → koń<span class="end">mi</span></td></tr>
+        <tr><td>Job 1 · tool</td><td>bare narzędnik, no preposition</td><td class="pl">Piszę piór<span class="end">em</span>.</td></tr>
+        <tr><td>Job 2 · transport</td><td>bare narzędnik</td><td class="pl">Jadę autobus<span class="end">em</span>.</td></tr>
+        <tr><td>Job 3 · company</td><td><b>z</b> + narzędnik</td><td class="pl">Idę z Ani<span class="end">ą</span>.</td></tr>
+        <tr><td>Job 4 · who you are</td><td>być, zostać, stać się + narzędnik</td><td class="pl">Jestem student<span class="end">em</span>.</td></tr>
+        <tr><td>Job 5 · verbs that demand it</td><td>interesować się, zajmować się… + narzędnik</td><td class="pl">Interesuję się muzyk<span class="end">ą</span>.</td></tr>
+        <tr><td>Job 6 · place words</td><td><b>nad, pod, przed, za, między</b> + narzędnik</td><td class="pl">pod stoł<span class="end">em</span></td></tr>
+        <tr><td>The one trap to fear</td><td><b>z</b> + narzędnik = <i>with</i> · <b>z</b> + genitive = <i>from</i></td><td class="pl">z mam<span class="end">ą</span> (with mum) · z prac<span class="end">y</span> (from work)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>The three-step method for any new sentence</h3>
+  <div class="step"><span class="n">Step 1</span><b>Is there a “with”, a tool, a vehicle, or “being somebody” in my sentence?</b>
+    If yes, that word goes into narzędnik. (Or: is one of <i>nad, pod, przed, za, między, z</i> in front of it?)</div>
+  <div class="step"><span class="n">Step 2</span><b>What word is it?</b> Man or thing (masculine/neuter) → <b>-em</b>.
+    Woman (feminine) → <b>-ą</b>. Many things → <b>-ami</b>.</div>
+  <div class="step"><span class="n">Step 3</span><b>Check the special letters:</b> k/g take <b>-iem</b> (pociąg → pociąg<span class="end">iem</span>);
+    <b>ą</b> inside the stem often becomes <b>ę</b> (mąż → męż<span class="end">em</span>); words in ś/ć/ń/ź write <b>-iem</b>
+    (koń → kon<span class="end">iem</span>).</div>
+
+  <h3>Say it out loud, ten times</h3>
+  <p class="ex">Piszę piórem. · Jadę autobusem. · Idę z Anną. · Jestem studentem. · Interesuję się muzyką. · Pod stołem. · Kawa z mlekiem. · Mieszkam z mamą. · Zostałem nauczycielem. · Moim zdaniem.</p>
+  <p class="small">The rhythm to memorise: <b>-em · -ą · -ami</b>. Every drill below reuses it.</p>
+</section>
+
+<!-- ============ 04 JOBS ============ -->
+<section id="kiedy">
+  <div class="shead"><div class="snum">04</div><h2>The six jobs it does</h2></div>
+
+  <p>Every narzędnik you will ever produce belongs to one of these six patterns. Recognise the pattern, and the ending follows far more easily than by guessing.</p>
+
+  <div class="grid3">
+    <div class="card">
+      <h4>1 · The tool <span class="tag g">no preposition</span></h4>
+      <p class="ex">Piszę <span class="g">piórem</span>.</p>
+      <p class="tr">I write with a pen.</p>
+      <p class="ex">Otwieram drzwi <span class="g">kluczem</span>.</p>
+      <p class="tr">I open the door with a key.</p>
+      <p class="ex">Jem zupę <span class="g">łyżką</span>.</p>
+      <p class="tr">I eat soup with a spoon.</p>
+      <p class="ex">Rysuję <span class="g">ołówkiem</span>.</p>
+      <p class="tr">I draw with a pencil.</p>
+    </div>
+    <div class="card">
+      <h4>2 · The vehicle <span class="tag g">no preposition</span></h4>
+      <p class="ex">Jadę <span class="g">autobusem</span> do pracy.</p>
+      <p class="tr">I go to work by bus.</p>
+      <p class="ex">Jedziemy <span class="g">pociągiem</span> do Krakowa.</p>
+      <p class="tr">We’re going to Kraków by train.</p>
+      <p class="ex">Lecę <span class="g">samolotem</span> do Londynu.</p>
+      <p class="tr">I’m flying to London.</p>
+      <p class="ex">Wracam <span class="g">tramwajem</span>.</p>
+      <p class="tr">I’m coming back by tram.</p>
+    </div>
+    <div class="card">
+      <h4>3 · The company: <b>z</b> + narzędnik</h4>
+      <p class="ex">Idę do kina z <span class="g">Anią</span>.</p>
+      <p class="tr">I’m going to the cinema with Anna.</p>
+      <p class="ex">Mieszkam z <span class="g">mamą</span> i <span class="g">tatą</span>.</p>
+      <p class="tr">I live with mum and dad.</p>
+      <p class="ex">Rozmawiam z <span class="g">kolegą</span>.</p>
+      <p class="tr">I’m talking with a friend.</p>
+      <p class="ex">Kawa z <span class="g">mlekiem</span>, proszę.</p>
+      <p class="tr">Coffee with milk, please.</p>
+    </div>
+    <div class="card">
+      <h4>4 · Who you are: być / zostać + narzędnik</h4>
+      <p class="ex">Jestem <span class="g">studentem</span>.</p>
+      <p class="tr">I am a student.</p>
+      <p class="ex">Ania jest <span class="g">lekarką</span>.</p>
+      <p class="tr">Ania is a doctor.</p>
+      <p class="ex">Chcę zostać <span class="g">programistą</span>.</p>
+      <p class="tr">I want to become a programmer.</p>
+      <p class="ex">Ona została moją <span class="g">żoną</span>.</p>
+      <p class="tr">She became my wife.</p>
+    </div>
+    <div class="card">
+      <h4>5 · Verbs that demand it <span class="tag a">rekcja</span></h4>
+      <p class="ex">Interesuję się <span class="g">muzyką</span>.</p>
+      <p class="tr">I’m interested in music.</p>
+      <p class="ex">Zajmuję się <span class="g">sportem</span>.</p>
+      <p class="tr">I do sports.</p>
+      <p class="ex">Opiekuję się <span class="g">psem</span>.</p>
+      <p class="tr">I look after a dog.</p>
+      <p class="ex">Bawię się z <span class="g">dziećmi</span>.</p>
+      <p class="tr">I’m playing with the children.</p>
+    </div>
+    <div class="card">
+      <h4>6 · Where things are</h4>
+      <p class="ex">Kot jest pod <span class="g">stołem</span>.</p>
+      <p class="tr">The cat is under the table.</p>
+      <p class="ex">Siedzimy przed <span class="g">telewizorem</span>.</p>
+      <p class="tr">We’re sitting in front of the TV.</p>
+      <p class="ex">Park jest za <span class="g">szkołą</span>.</p>
+      <p class="tr">The park is behind the school.</p>
+      <p class="ex">Lato spędzam nad <span class="g">morzem</span>.</p>
+      <p class="tr">I spend the summer at the seaside.</p>
+    </div>
+  </div>
+
+  <div class="note warn">
+    <span class="lab">Position, not movement</span>
+    <p>These five words take narzędnik when something <i>is</i> somewhere. If something <i>goes</i> there, they take
+    biernik instead: <span class="pl">Kot jest pod stołem</span> → <span class="pl">Kot wbiegł pod stół</span>.</p>
+  </div>
+
+  <div class="note">
+    <span class="lab">Nouns, not adjectives</span>
+    <p>Job 4 works for <b>nouns</b>. With an <b>adjective</b> after „być” you keep the plain form:
+    <span class="pl">Jestem zmęczony</span> (not „zmęczonym”), <span class="pl">Ona jest ładna</span> — see the
+    <a href="#ambitni">advanced corner</a> for the few places where the plain form is right after a noun, too.</p>
+  </div>
+</section>
+
+<!-- ============ 05 SINGULAR ============ -->
+<section id="formy1">
+  <div class="shead"><div class="snum">05</div><h2>Endings: singular</h2></div>
+
+  <p>Three tables — one for each gender. Read the last column aloud; the pattern will stick faster than the rule.</p>
+
+  <h3>Masculine: things and men <span class="tag g">-em</span></h3>
+  <p class="small">Masculine nouns almost always take <b>-em</b>. Watch the spelling changes.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Dictionary form</th><th>Narzędnik</th><th>What happens</th><th>Say it</th></tr></thead>
+      <tbody>
+        <tr><td>kot <span class="tr">cat</span></td><td class="pl">kot<span class="end">em</span></td><td>plain hard stem + -em</td><td class="pl">Idę z kotem.</td></tr>
+        <tr><td>dom <span class="tr">house</span></td><td class="pl">dom<span class="end">em</span></td><td>hard stem + -em</td><td class="pl">Stoję przed domem.</td></tr>
+        <tr><td>stół <span class="tr">table</span></td><td class="pl">stoł<span class="end">em</span></td><td>ó stays, + -em</td><td class="pl">Pod stołem.</td></tr>
+        <tr><td>pan <span class="tr">gentleman</span></td><td class="pl">pan<span class="end">em</span></td><td>hard stem + -em</td><td class="pl">Rozmawiam z panem.</td></tr>
+        <tr><td>pociąg <span class="tr">train</span></td><td class="pl">pociąg<span class="end">iem</span></td><td>after <b>g</b> write -iem</td><td class="pl">Jadę pociągiem.</td></tr>
+        <tr><td>rok <span class="tr">year</span></td><td class="pl">rok<span class="end">iem</span></td><td>after <b>k</b> write -iem</td><td class="pl">Przed rokiem mieszkałem w Krakowie.</td></tr>
+        <tr><td>lekarz <span class="tr">doctor</span></td><td class="pl">lekarz<span class="end">em</span></td><td>soft cz: still -em</td><td class="pl">Jestem lekarzem.</td></tr>
+        <tr><td>klucz <span class="tr">key</span></td><td class="pl">klucz<span class="end">em</span></td><td>soft cz: still -em</td><td class="pl">Otwieram kluczem.</td></tr>
+        <tr><td>nauczyciel <span class="tr">teacher</span></td><td class="pl">nauczyciel<span class="end">em</span></td><td>soft l: -em</td><td class="pl">Chcę zostać nauczycielem.</td></tr>
+        <tr><td>koń <span class="tr">horse</span></td><td class="pl">kon<span class="end">iem</span></td><td>after <b>ń</b> write -iem</td><td class="pl">Za koniem idzie źrebię.</td></tr>
+        <tr><td>gość <span class="tr">guest</span></td><td class="pl">goś<span class="end">ciem</span></td><td>after <b>ś</b> write -iem</td><td class="pl">Rozmawiam z gościem.</td></tr>
+        <tr><td>mąż <span class="tr">husband</span></td><td class="pl">męż<span class="end">em</span></td><td><b>ą → ę</b> inside the word</td><td class="pl">Idę z mężem.</td></tr>
+        <tr><td>pies <span class="tr">dog</span></td><td class="pl">ps<span class="end">em</span></td><td><b>e</b> drops out: pies → psem</td><td class="pl">Idę na spacer z psem.</td></tr>
+        <tr><td>chłopiec <span class="tr">boy</span></td><td class="pl">chłopc<span class="end">em</span></td><td>e drops out: chłopiec → chłopcem</td><td class="pl">Rozmawiam z chłopcem.</td></tr>
+        <tr><td>kolega <span class="tr">colleague (a man!)</span></td><td class="pl">koleg<span class="end">ą</span></td><td>masculine in <b>-a</b> → -ą, like feminine!</td><td class="pl">Idę z kolegą.</td></tr>
+        <tr><td>tata <span class="tr">dad</span></td><td class="pl">tat<span class="end">ą</span></td><td>same pattern: -a → -ą</td><td class="pl">Mieszkam z tatą.</td></tr>
+        <tr><td>mężczyzna <span class="tr">man</span></td><td class="pl">mężczyzn<span class="end">ą</span></td><td>same pattern: -a → -ą</td><td class="pl">Rozmawiam z mężczyzną.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">
+    <span class="lab">Why „kolegą”?</span>
+    <p>Words for men that end in -a (kolega, tata, mężczyzna, dentysta, kierowca) behave like feminine words in this one
+    spot. You will say <b>kolegą</b>, never „kolegiem”.</p>
+  </div>
+
+  <h3>Feminine: almost always <span class="tag g">-ą</span></h3>
+  <p class="small">One rule, no exceptions worth worrying about: feminine → <b>-ą</b>.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Dictionary form</th><th>Narzędnik</th><th>What happens</th><th>Say it</th></tr></thead>
+      <tbody>
+        <tr><td>Anna</td><td class="pl">Ann<span class="end">ą</span></td><td>-a → -ą</td><td class="pl">Idę z Anną.</td></tr>
+        <tr><td>mama <span class="tr">mum</span></td><td class="pl">mam<span class="end">ą</span></td><td>-a → -ą</td><td class="pl">Mieszkam z mamą.</td></tr>
+        <tr><td>muzyka <span class="tr">music</span></td><td class="pl">muzyk<span class="end">ą</span></td><td>-a → -ą (k stays hard)</td><td class="pl">Interesuję się muzyką.</td></tr>
+        <tr><td>kobieta <span class="tr">woman</span></td><td class="pl">kobiet<span class="end">ą</span></td><td>-a → -ą</td><td class="pl">Rozmawiam z kobietą.</td></tr>
+        <tr><td>praca <span class="tr">work</span></td><td class="pl">prac<span class="end">ą</span></td><td>c + ą is written <b>cą</b></td><td class="pl">Mam problem z pracą.</td></tr>
+        <tr><td>pani <span class="tr">lady</span></td><td class="pl">pani<span class="end">ą</span></td><td>-i stays, add -ą</td><td class="pl">Rozmawiam z panią.</td></tr>
+        <tr><td>ziemia <span class="tr">earth, land</span></td><td class="pl">ziem<span class="end">ią</span></td><td>-a → -ą</td><td class="pl">Samolot leci nad ziemią.</td></tr>
+        <tr><td>noc <span class="tr">night</span></td><td class="pl">noc<span class="end">ą</span></td><td>nouns in a consonant: -ą</td><td class="pl">Pracuję nocą.</td></tr>
+        <tr><td>miłość <span class="tr">love</span></td><td class="pl">miłoś<span class="end">cią</span></td><td>after <b>ś</b>: -ą</td><td class="pl">Żyję miłością.</td></tr>
+        <tr><td>krew <span class="tr">blood</span></td><td class="pl">krw<span class="end">ią</span></td><td>irregular but still -ą</td><td class="pl">Płacę krwią i potem.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">Time words freeze into narzędnik and become adverbs: <b>nocą</b> (at night), <b>dniem</b> (by day),
+  <b>rankiem</b> (in the morning), <b>wieczorem</b> (in the evening), <b>latem</b>, <b>zimą</b>, <b>wiosną</b>,
+  <b>jesienią</b>. You will use these every day without thinking about cases — enjoy it.</p>
+
+  <h3>Neuter: like masculine <span class="tag g">-em</span></h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Dictionary form</th><th>Narzędnik</th><th>What happens</th><th>Say it</th></tr></thead>
+      <tbody>
+        <tr><td>okno <span class="tr">window</span></td><td class="pl">okn<span class="end">em</span></td><td>-o drops, + -em</td><td class="pl">Siedzę pod oknem.</td></tr>
+        <tr><td>miasto <span class="tr">city</span></td><td class="pl">miast<span class="end">em</span></td><td>-o drops, + -em</td><td class="pl">Jestem zachwycony miastem.</td></tr>
+        <tr><td>mleko <span class="tr">milk</span></td><td class="pl">mlek<span class="end">iem</span></td><td>after k: -iem</td><td class="pl">Kawa z mlekiem.</td></tr>
+        <tr><td>dziecko <span class="tr">child</span></td><td class="pl">dzieck<span class="end">iem</span></td><td>after k: -iem</td><td class="pl">Opiekuję się dzieckiem.</td></tr>
+        <tr><td>morze <span class="tr">sea</span></td><td class="pl">morz<span class="end">em</span></td><td>soft rz: -em</td><td class="pl">Nad morzem.</td></tr>
+        <tr><td>zdanie <span class="tr">sentence, opinion</span></td><td class="pl">zdani<span class="end">em</span></td><td>-e drops, + -em</td><td class="pl">Moim zdaniem…</td></tr>
+        <tr><td>imię <span class="tr">first name</span></td><td class="pl">imieni<span class="end">em</span></td><td>special -ę noun</td><td class="pl">Podpisuję się imieniem i nazwiskiem.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <details class="adv">
+    <summary>For the ambitious: the exceptions hiding in the tables</summary>
+    <div class="advbody">
+      <p><b>pies → psem</b>, <b>chłopiec → chłopcem</b>, <b>Kraków → Krakowem</b>, <b>sen → snem</b> — whenever <b>e</b> or
+      <b>ó</b> is only “glued” into the stem, it drops or changes in narzędnik. A dictionary will show you the stem; your
+      ear will learn the common ones fast.</p>
+      <p><b>mąż → mężem</b>, <b>ksiądz → księdzem</b>, <b>wąż → wężem</b> — <b>ą</b> inside a word always turns into <b>ę</b> here.</p>
+      <p><b>Neuter nouns in -ę</b> (imię, cielę, zwierzę) take <b>-ęciem / -ieniem</b>: imię → imieniem, cielę → cielęciem,
+      zwierzę → zwierzęciem. These are old n-stems — a museum piece of Polish grammar.</p>
+      <p>Nouns borrowed with <b>-um</b> (muzeum, liceum, centrum) simply don’t decline: <b>muzeum → muzeum</b>,
+      <b>liceum → liceum</b>.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ============ 06 PLURAL ============ -->
+<section id="formy2">
+  <div class="shead"><div class="snum">06</div><h2>Endings: plural</h2></div>
+
+  <p>Good news: plural narzędnik is the friendliest place in Polish grammar — <b>all genders take the same ending</b>.
+  No gender, no personal/impersonal split (that only exists in dative and accusative).</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Rule</th><th>Dictionary form → Narzędnik</th><th>Say it</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td>Default: <b>-ami</b></td><td class="pl">koty → kot<span class="end">ami</span> · domy → dom<span class="end">ami</span> · kobiety → kobiet<span class="end">ami</span> · okna → okn<span class="end">ami</span></td><td class="pl">Interesuję się kotami.</td></tr>
+        <tr><td>After most soft stems: still <b>-ami</b></td><td class="pl">lekarze → lekarz<span class="end">ami</span> · klucze → klucz<span class="end">ami</span> · talerze → talerz<span class="end">ami</span></td><td class="pl">Rozmawiam z lekarzami.</td></tr>
+        <tr><td>The short list: <b>-mi</b></td><td class="pl">konie → koń<span class="end">mi</span> · dzieci → dzieć<span class="end">mi</span> · ludzie → ludź<span class="end">mi</span> · bracia → brać<span class="end">mi</span></td><td class="pl">Idę z dziećmi.</td></tr>
+        <tr><td>Relics of the old dual</td><td class="pl">ręce → ręk<span class="end">ami</span> / ręk<span class="end">oma</span> · oczy → ocz<span class="end">ami</span> / ocz<span class="end">yma</span></td><td class="pl">Patrzę na to własnymi oczami.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="lab">The -mi list is short and worth memorising</span>
+    <div class="chips">
+      <span class="chip">końmi</span><span class="chip">dziećmi</span><span class="chip">ludźmi</span>
+      <span class="chip">braćmi</span><span class="chip">gośćmi</span><span class="chip">liśćmi</span>
+      <span class="chip">pieniędzmi</span><span class="chip">przyjaciółmi</span><span class="chip">księżmi</span>
+    </div>
+    <p style="margin-top:8px">Everything else: <b>-ami</b>.</p>
+  </div>
+
+  <p class="small">Adjectives in the plural: <b>-ymi</b> after hard stems (dobrzy → dobrymi), <b>-imi</b> after soft ones
+  (tani → tanimi, wielcy → wielkimi). The adjective always takes the same number and case as the noun:
+  <span class="pl">z dobrymi przyjaciółmi</span>.</p>
+</section>
+
+<!-- ============ 07 ADJECTIVES & PRONOUNS ============ -->
+<section id="przymiotnik">
+  <div class="shead"><div class="snum">07</div><h2>Adjectives &amp; pronouns</h2></div>
+
+  <p>An adjective simply copies the noun: same case, same number — and in narzędnik that is very easy to do.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Adjective</th><th>Masculine</th><th>Feminine</th><th>Neuter</th><th>Plural (all)</th></tr></thead>
+      <tbody>
+        <tr><td>dobry <span class="tr">good</span></td><td class="pl">dobr<span class="end">ym</span></td><td class="pl">dobr<span class="end">ą</span></td><td class="pl">dobr<span class="end">ym</span></td><td class="pl">dobr<span class="end">ymi</span></td></tr>
+        <tr><td>nowy <span class="tr">new</span></td><td class="pl">now<span class="end">ym</span></td><td class="pl">now<span class="end">ą</span></td><td class="pl">now<span class="end">ym</span></td><td class="pl">now<span class="end">ymi</span></td></tr>
+        <tr><td>tani <span class="tr">cheap</span></td><td class="pl">tan<span class="end">im</span></td><td class="pl">tani<span class="end">ą</span></td><td class="pl">tan<span class="end">im</span></td><td class="pl">tan<span class="end">imi</span></td></tr>
+        <tr><td>wielki <span class="tr">big</span></td><td class="pl">wielk<span class="end">im</span></td><td class="pl">wielk<span class="end">ą</span></td><td class="pl">wielk<span class="end">im</span></td><td class="pl">wielk<span class="end">imi</span></td></tr>
+        <tr><td>drogi <span class="tr">expensive, dear</span></td><td class="pl">drog<span class="end">im</span></td><td class="pl">drog<span class="end">ą</span></td><td class="pl">drog<span class="end">im</span></td><td class="pl">drog<span class="end">imi</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="ex">To jest dobry nauczyciel. → Rozmawiam z dobr<span class="g">ym</span> nauczyciel<span class="g">em</span>.</p>
+  <p class="tr">a good teacher → with a good teacher</p>
+  <p class="ex">To jest dobra lekarka. → Rozmawiam z dobr<span class="g">ą</span> lekark<span class="g">ą</span>.</p>
+  <p class="ex">To są dobrzy studenci. → Rozmawiam z dobr<span class="g">ymi</span> student<span class="g">ami</span>.</p>
+  <p class="tr">masculine-personal plural: no special form needed in the instrumental.</p>
+
+  <h3>Pronouns — the shapes you will use daily</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Plain form</th><th>Narzędnik</th><th>Used like this</th></tr></thead>
+      <tbody>
+        <tr><td>ja <span class="tr">I</span></td><td class="pl">mną</td><td class="pl">Ona idzie ze mną. <span class="tr">note: „ze”, not „z”, before m</span></td></tr>
+        <tr><td>ty <span class="tr">you</span></td><td class="pl">tobą</td><td class="pl">Idę z tobą.</td></tr>
+        <tr><td>on / ono <span class="tr">he / it</span></td><td class="pl">nim</td><td class="pl">Rozmawiam z nim.</td></tr>
+        <tr><td>ona <span class="tr">she</span></td><td class="pl">nią</td><td class="pl">Idę do kina z nią.</td></tr>
+        <tr><td>my</td><td class="pl">nami</td><td class="pl">Między nami mówiąc… <span class="tr">between us…</span></td></tr>
+        <tr><td>wy</td><td class="pl">wami</td><td class="pl">Idę z wami.</td></tr>
+        <tr><td>oni / one</td><td class="pl">nimi</td><td class="pl">Pracuję z nimi.</td></tr>
+        <tr><td>siebie <span class="tr">self</span></td><td class="pl">sobą</td><td class="pl">Rozmawiamy ze sobą.</td></tr>
+        <tr><td>ten / ta / to</td><td class="pl">tym / tą / tym</td><td class="pl">z tą kobietą · z tym panem <span class="tr">„tą” is the correct feminine form here</span></td></tr>
+        <tr><td>mój / moja / moje</td><td class="pl">moim / moją / moim · pl. moimi</td><td class="pl">z moją siostrą · z moimi rodzicami</td></tr>
+        <tr><td>kto / co</td><td class="pl">kim / czym</td><td class="pl">Z kim idziesz? Czym jedziesz?</td></tr>
+        <tr><td>nic / wszystko</td><td class="pl">niczym / wszystkim</td><td class="pl">Interesuję się wszystkim.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="lab">Watch the little n-</span>
+    <p>After a preposition, the pronouns on / ona / ono / oni start with <b>n</b>:
+    <span class="pl">z nim, do niego, od niej, u nich</span>. Without a preposition they lose it:
+    <span class="pl">Jego nie ma</span> — <span class="pl">Widzę go</span>.</p>
+  </div>
+</section>
+
+<!-- ============ 08 PREPOSITIONS ============ -->
+<section id="przyimki">
+  <div class="shead"><div class="snum">08</div><h2>The prepositions: z, nad, pod, przed, za, między</h2></div>
+
+  <p>Six words to know, in two families.</p>
+
+  <h3>Family 1 · <b>z</b> = with — and its evil twin <b>z</b> = from</h3>
+  <div class="grid2">
+    <div class="card">
+      <h4>z + narzędnik = WITH</h4>
+      <p class="ex">Idę z <span class="g">mamą</span>.</p>
+      <p class="tr">I’m going with mum.</p>
+      <p class="ex">Kawa z <span class="g">mlekiem</span>.</p>
+      <p class="tr">coffee with milk</p>
+      <p class="ex">Rozmawiam z <span class="g">kolegą</span>.</p>
+      <p class="ex">Mieszkam z <span class="g">przyjaciółmi</span>.</p>
+    </div>
+    <div class="card">
+      <h4>z + genitive = FROM</h4>
+      <p class="ex">Wracam z <span class="g">pracy</span>.</p>
+      <p class="tr">I’m coming back from work.</p>
+      <p class="ex">Jestem z <span class="g">Polski</span>.</p>
+      <p class="tr">I’m from Poland.</p>
+      <p class="ex">Wracam ze <span class="g">sklepu</span>.</p>
+      <p class="ex">Pochodzę z <span class="g">Krakowa</span>.</p>
+    </div>
+  </div>
+
+  <div class="note warn">
+    <span class="lab">The classic beginner error</span>
+    <p><s class="no">Wracam z pracą.</s> (= with work) → <b>Wracam z pracy.</b> (from work)<br>
+    And the opposite: <s class="no">Idę z mama.</s> → <b>Idę z mamą.</b></p>
+  </div>
+
+  <p class="small">Before m and some clusters the word becomes <b>ze</b>: <b>ze mną</b>, <b>ze sobą</b>, <b>ze stali</b>.</p>
+
+  <h3>Family 2 · position words: nad, pod, przed, za, między, poza</h3>
+  <div class="grid2">
+    <div class="card">
+      <h4>Where is it? → narzędnik</h4>
+      <p class="ex">Kot jest pod <span class="g">stołem</span>.</p>
+      <p class="ex">Lampa wisi nad <span class="g">stołem</span>. <span class="tr">above</span></p>
+      <p class="ex">Siedzimy przed <span class="g">domem</span>. <span class="tr">in front of</span></p>
+      <p class="ex">Park jest za <span class="g">szkołą</span>. <span class="tr">behind</span></p>
+      <p class="ex">Stoję między <span class="g">domem</span> i <span class="g">sklepem</span>. <span class="tr">between</span></p>
+      <p class="ex">Pies jest poza <span class="g">domem</span>. <span class="tr">outside</span></p>
+    </div>
+    <div class="card">
+      <h4>Where is it going? → biernik</h4>
+      <p class="ex">Kot wbiegł pod <span class="g">stół</span>.</p>
+      <p class="ex">Idę nad <span class="g">jezioro</span>. <span class="tr">to the lake</span></p>
+      <p class="ex">Wchodzę przed <span class="g">dom</span>.</p>
+      <p class="ex">Idę za <span class="g">szkołę</span>. <span class="tr">behind the school</span></p>
+      <p class="ex">Kładę się między <span class="g">nich</span>.</p>
+      <p class="ex">Wychodzę poza <span class="g">miasto</span>.</p>
+    </div>
+  </div>
+
+  <p>One pair worth memorising — the same word, two cases, two meanings:</p>
+  <p class="ex">Spędzam wakacje nad <span class="g">morzem</span>. <span class="tr">— I spend the holidays at the seaside. (where → narzędnik)</span></p>
+  <p class="ex">Lecę nad <span class="g">morze</span>. <span class="tr">— I’m flying to the seaside. (where to → biernik)</span></p>
+
+  <p class="small">Also with <b>przed</b> and time: <b>przed obiadem</b> (before dinner), <b>przed wojną</b> (before the war)
+  — narzędnik again. And with <b>za</b>: <b>za granicą</b> (abroad), <b>za rogiem</b> (around the corner),
+  <b>za pomocą</b> (by means of).</p>
+</section>
+
+<!-- ============ 09 VERBS ============ -->
+<section id="czasowniki">
+  <div class="shead"><div class="snum">09</div><h2>Verbs that come with narzędnik</h2></div>
+
+  <p>A verb’s fixed case is called <b>rekcja</b>. Search the list, filter it, and read the example aloud — the sentence
+  teaches the case better than the rule.</p>
+
+  <div class="filter">
+    <input id="verbSearch" type="search" placeholder="Search: interesować, look, się…" aria-label="Filter the verb list">
+    <span class="n" id="verbCount"></span>
+  </div>
+  <div class="chips" id="verbChips">
+    <button class="chip on" data-verbfilter="all">All</button>
+    <button class="chip" data-verbfilter="basic">Basic</button>
+    <button class="chip" data-verbfilter="adv">Advanced</button>
+    <button class="chip" data-verbfilter="trap">⚠ Traps</button>
+  </div>
+
+  <div class="tw">
+    <table class="verb-table">
+      <thead><tr><th>Verb</th><th>Case</th><th>Meaning</th><th>Example</th></tr></thead>
+      <tbody id="verbBody"></tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="lab">Pattern to notice</span>
+    <p>If a verb means “to engage in / to deal with / to be busy with” (often with <b>-ować się</b>), it almost always
+    takes narzędnik. If it means “to be afraid of / to be ashamed of / to laugh at” — that is genitive. Feelings split
+    families; learn them with their case, never alone.</p>
+  </div>
+</section>
+
+<!-- ============ 10 TRAPS ============ -->
+<section id="pulapki">
+  <div class="shead"><div class="snum">10</div><h2>Eleven traps, in the order you will hit them</h2></div>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Wrong</th><th>Right</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td class="no">Piszę z piórem.</td><td class="yes">Piszę piórem.</td><td>tools and vehicles take the bare narzędnik — „z” would mean “together with”</td></tr>
+        <tr><td class="no">Wracam z pracą.</td><td class="yes">Wracam z pracy.</td><td><i>z</i> = “from” takes the genitive; <i>z</i> = “with” takes the narzędnik</td></tr>
+        <tr><td class="no">Gram gitarą.</td><td class="yes">Gram na gitarze.</td><td><i>grać, jeździć</i> + <b>na</b> + miejscownik, not the narzędnik</td></tr>
+        <tr><td class="no">Jestem zmęczonym.</td><td class="yes">Jestem zmęczony.</td><td>with <i>być</i> an adjective keeps the plain form; the narzędnik is for nouns</td></tr>
+        <tr><td class="no">Boję się psem.</td><td class="yes">Boję się psa.</td><td><i>bać się, wstydzić się, śmiać się z</i> govern the genitive</td></tr>
+        <tr><td class="no">Pracuję jako nauczycielem.</td><td class="yes">Pracuję jako nauczyciel.</td><td><i>jako</i> takes the nominative; <i>zostać</i> takes the narzędnik</td></tr>
+        <tr><td class="no">Uważam go za przyjacielem.</td><td class="yes">Uważam go za przyjaciela.</td><td><i>uważać za</i> + biernik</td></tr>
+        <tr><td class="no">Dzwonię z mamą.</td><td class="yes">Dzwonię do mamy.</td><td>“to phone someone” is <i>dzwonić do</i> + genitive; „z mamą” means calling together with mum</td></tr>
+        <tr><td class="no">Idę bez tobą.</td><td class="yes">Idę bez ciebie.</td><td><i>bez</i> takes the genitive</td></tr>
+        <tr><td class="no">Nazywam się Anną.</td><td class="yes">Nazywam się Anna.</td><td>your own name stays in the nominative; <i>nazywać kogoś czymś</i> takes the narzędnik</td></tr>
+        <tr><td class="no">Piję mlekiem słomką.</td><td class="yes">Piję mleko słomką.</td><td>only the straw is a tool — what you drink is the direct object, so biernik</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note good">
+    <span class="lab">The three questions to ask before any noun</span>
+    <p><b>1.</b> Is there a “with”, a tool, a vehicle or “being somebody”? → narzędnik. <b>2.</b> Is there
+    <i>nad, pod, przed, za, między</i>? → narzędnik if nothing moves. <b>3.</b> Is there <i>z</i> meaning “with”? →
+    narzędnik. Anything else, and the noun is probably not narzędnik at all.</p>
+  </div>
+</section>
+
+<!-- ============ 11 DRILLS ============ -->
+<section id="cwiczenia">
+  <div class="shead"><div class="snum">11</div><h2>Drills</h2></div>
+
+  <p id="drillIntro">Six sets, 82 items. Every answer comes with the reason. Use <kbd>1</kbd>–<kbd>9</kbd> to pick an option, <kbd>Enter</kbd> to check or continue. Your best score per set is kept on this device.</p>
+
+  <div class="drills">
+    <div class="setgrid" id="setgrid"></div>
+
+    <div class="runner" id="runner">
+      <div class="rhead">
+        <span class="ttl" id="runTitle"></span>
+        <span class="cnt" id="runCount"></span>
+        <span class="sp"></span>
+        <span class="score" id="runScore"></span>
+        <button class="xbtn" id="quitBtn">Change set</button>
+      </div>
+      <div class="pbar"><i id="pfill"></i></div>
+
+      <div class="ask" id="askLine"></div>
+      <p class="q" id="qText"></p>
+      <p class="qhint" id="qHint"></p>
+
+      <div class="opts" id="opts"></div>
+      <div class="typebox" id="typebox" style="display:none">
+        <input id="answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Your answer">
+        <button class="btn primary" id="checkBtn">Check</button>
+      </div>
+      <div class="keys" id="keys" style="display:none"></div>
+
+      <div class="fb" id="fb" aria-live="polite"></div>
+
+      <div class="rfoot">
+        <button class="btn primary" id="nextBtn" disabled>Next</button>
+        <span class="sp"></span>
+        <button class="xbtn" id="skipBtn">Show the answer</button>
+      </div>
+    </div>
+
+    <div class="summary" id="summary" style="display:none">
+      <div class="big" id="sumScore">0 / 0</div>
+      <p id="sumMsg"></p>
+      <div class="cta" style="justify-content:center" id="sumBtns"></div>
+    </div>
+  </div>
+
+  <div class="chips" id="progressChips" style="margin-top:20px"></div>
+  <p class="small"><button class="xbtn" id="resetProgress">Reset all progress</button></p>
+</section>
+
+<!-- ============ 12 FLASHCARDS ============ -->
+<section id="fiszki">
+  <div class="shead"><div class="snum">12</div><h2>Flashcards: the verb list</h2></div>
+
+  <p>Click a card to turn it over. „Umiem” counts it as known, „Powtórzę” keeps it in the loop. Come back daily — the
+  cards remember what you marked.</p>
+
+  <div class="chips" id="fcFilters">
+    <button class="chip on" data-fclv="all">All</button>
+    <button class="chip" data-fclv="basic">Basic</button>
+    <button class="chip" data-fclv="adv">Advanced</button>
+    <span class="chip">Umiem: <b id="fcKnown">0</b> / <span id="fcTotal">0</span></span>
+  </div>
+
+  <div class="fcgrid" id="fcGrid"></div>
+</section>
+
+<!-- ============ 13 PLAN ============ -->
+<section id="plan">
+  <div class="shead"><div class="snum">13</div><h2>A 7-day plan</h2></div>
+
+  <p>Fifteen focused minutes a day beats three hours on Sunday. Tick the boxes as you go — the ticks are saved too.</p>
+  <div class="plan" id="planRoot"></div>
+</section>
+
+<!-- ============ 14 ADVANCED ============ -->
+<section id="ambitni">
+  <div class="shead"><div class="snum">14</div><h2>For the ambitious</h2></div>
+
+  <p>Everything above makes you functional. This corner is for when you want to sound like someone who has met a grammar book.</p>
+
+  <details class="adv">
+    <summary>„Jestem student” czy „Jestem studentem”? — nominative or narzędnik after „być”</summary>
+    <div class="advbody">
+      <p>A noun after <b>być</b> normally stands in the <b>narzędnik</b>: <span class="pl">Jestem studentem</span>,
+      <span class="pl">Ona jest lekarką</span>, <span class="pl">To był dobry pomysł</span>. The plain form —
+      <i>Jestem student</i> — is the classic beginner slip and it is <b>not</b> the model form in today’s standard Polish,
+      even though it turns up in casual speech, in older texts and in poems.</p>
+      <p>But the <b>nominative</b> is the right — sometimes the only possible — choice in a few clearly defined situations:</p>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Situation</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td>Presenting yourself, giving your name</td><td class="pl">Jestem Jan Zawadzki. · Jestem Anna Kowalska.</td></tr>
+            <tr><td>Identification with <b>to</b></td><td class="pl">To jest student.</td></tr>
+            <tr><td>Emotionally marked statements</td><td class="pl">Jesteś łotr i oszust!</td></tr>
+            <tr><td>After <b>jako</b></td><td class="pl">Pracuję jako student.</td></tr>
+            <tr><td>Apposition — a noun thrown in to explain who someone is</td><td class="pl">Jan Kowalski, student prawa, wygrał konkurs.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Two more rules that go with it. The <b>adjective</b> predicate always keeps the plain form:
+      <span class="pl">Jestem zmęczony</span> (never „zmęczonym”). But when the copula is an <b>infinitive, a participle
+      or a noun</b>, the adjective moves into the narzędnik: <span class="pl">Trzeba być ostrożnym</span>,
+      <span class="pl">bycie nietrzeźwym</span>, <span class="pl">Dobrze być młodym</span>.</p>
+      <p>And after <b>zostać, stać się, okazać się, wydawać się</b> the narzędnik is obligatory:
+      <span class="pl">Chcę zostać studentem</span>, <span class="pl">Okazał się dobrym mówcą</span>. There is no
+      nominative version of those.</p>
+      <p class="small">Sources: Poradnia Językowa Uniwersytetu Łódzkiego („orzeczenie słowno-imienne”), Z. Klemensiewicz,
+      <i>Zarys składni polskiej</i>, and Polish teaching materials.</p>
+    </div>
+  </details>
+
+  <details class="adv">
+    <summary>The old dual: rękoma, oczyma</summary>
+    <div class="advbody">
+      <p>Polish keeps two fossil forms from the ancient dual number: <b>rękoma</b> and <b>oczyma</b>. Both are fully
+      correct and slightly more literary than <b>rękami</b> / <b>oczami</b>. You will hear them in films, literature and
+      serious speeches: <span class="pl">Witał nas z otwartymi rękoma</span>, <span class="pl">widział to swoimi oczyma</span>.
+      Use the -ami versions in everyday speech; save -oma for when you want a shiver of style.</p>
+    </div>
+  </details>
+
+  <details class="adv">
+    <summary>Numerals in narzędnik: z dwoma, trzema, pięcioma</summary>
+    <div class="advbody">
+      <p>Numbers change shape too: <span class="pl">z dwoma kotami</span>, <span class="pl">z trzema kolegami</span>,
+      <span class="pl">z pięcioma osobami</span>, <span class="pl">z dwojgiem dzieci</span> (that last one is the
+      collective numeral — for children and mixed groups). A very natural sentence:
+      <span class="pl">Mieszkam z dwoma kotami i psem</span>.</p>
+    </div>
+  </details>
+
+  <details class="adv">
+    <summary>Where the case came from</summary>
+    <div class="advbody">
+      <p>The instrumental existed already in Proto-Indo-European; Slavic languages kept it (Russian <i>топором</i> works
+      the same way). Old Polish inherited <b>-omь</b> for masculine/neuter (today’s -em), <b>-ojǫ</b> for feminine
+      (today’s -ą) and <b>-ami</b> for the plural. The Polish peculiarity is the softened spelling we met above: k/g →
+      -iem, and the -mi group (końmi, dziećmi) — old soft stems that kept their short ending.</p>
+    </div>
+  </details>
+
+  <details class="adv">
+    <summary>The literary agent: „drzewo zasadzone ręką ojca”</summary>
+    <div class="advbody">
+      <p>Modern Polish marks the doer of a passive sentence with <b>przez</b> + biernik:
+      <span class="pl">Dom został zbudowany przez ojca</span>. Older and poetic Polish used the narzędnik without a
+      preposition: <span class="pl">drzewo zasadzone ręką ojca</span> (a tree planted by the father’s hand),
+      <span class="pl">zdradzony przyjacielem</span> next to <span class="pl">zdradzony przez przyjaciół</span>. You will
+      meet it in literature — now you will recognise it.</p>
+    </div>
+  </details>
+
+  <details class="adv">
+    <summary>Frozen phrases worth stealing</summary>
+    <div class="advbody">
+      <p><b>moim zdaniem</b> — in my opinion · <b>jednym słowem</b> — in a word · <b>innymi słowy</b> — in other words ·
+      <b>tym razem</b> — this time · <b>między młotem a kowadłem</b> — between a rock and a hard place, literally “between
+      hammer and anvil” · <b>nocą</b> — by night · <b>za granicą</b> — abroad · <b>z czasem</b> — in time ·
+      <b>siłą rzeczy</b> — by force of circumstance.</p>
+    </div>
+  </details>
+
+  <details class="adv">
+    <summary>„służyć za” vs „służyć jako” — one letter, different case</summary>
+    <div class="advbody">
+      <p>The PWN language office notes that <i>służyć</i> with the narzędnik (<i>służyć dowodem</i>) is a Russian-style
+      calque to avoid. Polish says <b>służyć jako</b> + plain form (<span class="pl">To służy jako dowód</span>) or
+      <b>służyć za</b> + biernik (<span class="pl">To służy za dowód</span>). Same story with
+      <i>opływać w dobra</i> (not „opływać dobrami”). A good example of how rekcja can betray even advanced learners.</p>
+    </div>
+  </details>
+</section>
+
+<footer>
+  <p><b>How to use this page.</b> Read sections 1–4 first (about fifteen minutes), then drill. Every example with a
+  speaker is clickable — for a Polish voice on your Mac: System Settings → Accessibility → Spoken Content → System
+  Voice → Polish. In the typing sets, the letter buttons insert ą, ę, ś… at the cursor.</p>
+  <p><b>Sources.</b> A. Nagórko, <i>Zarys gramatyki polskiej</i> (PWN) · <a href="https://pl.wikipedia.org/wiki/Narz%C4%99dnik">Narzędnik — Wikipedia (PL)</a> ·
+  <a href="https://sjp.pwn.pl/poradnia/">Poradnia językowa PWN</a> · Poradnia Językowa Uniwersytetu Łódzkiego ·
+  Polish teaching materials (polskinawynos, onlinelanguageschool). Every table and example was checked against the
+  standard grammars.</p>
+  <p>Made as a study companion — progress lives only in this browser, and the page works offline as a single HTML file.</p>
+  <div class="cta" style="margin-top:22px">
+    <button class="btn ghost" onclick="window.print()">Print this page</button>
+    <a class="btn ghost" href="#top">Back to the top</a>
+  </div>
+</footer>
+
+</main>
+
+<script>
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function norm(s){
+  return s.toLowerCase().trim()
+    .replace(/[,.!?;:…"'„”()]/g, " ")
+    .replace(/\s+/g, " ").trim();
+}
+function stripDi(s){
+  return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\u0142/g, "l");
+}
+function phraseIn(text, phrase){
+  var esc = phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp("(^|\\s)" + esc + "(?=\\s|$)").test(text);
+}
+var POLISH_LETTERS = ["ą","ć","ę","ł","ń","ó","ś","ź","ż"];
+function shuffle(a){
+  for (var i = a.length - 1; i > 0; i--){
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+/* ---------- storage (same key as before, so old progress survives) ---------- */
+var KEY = "narzednik.progress.v1";
+function loadAll(){ try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ return {}; } }
+function saveAll(o){ try { localStorage.setItem(KEY, JSON.stringify(o)); } catch(e){} }
+function getP(k, dflt){ var o = loadAll(); return (k in o) ? o[k] : dflt; }
+function setP(k, v){ var o = loadAll(); o[k] = v; saveAll(o); }
+
+/* ============================================================
+   DATA
+   ============================================================ */
+/* the item banks — same data as the previous edition of this page */
+var D1 = [
+ {q:'Piszę list ___. <span class="tr">(pióro — pen)</span>', opts:[{x:"piórem",ok:1},{x:"piórą",ok:0},{x:"piórze",ok:0}], why:'Neuter takes -em, just like masculine: pióro → <b>piórem</b>.'},
+ {q:'Jadę ___ do pracy. <span class="tr">(samochód — car)</span>', opts:[{x:"samochodem",ok:1},{x:"samochodą",ok:0},{x:"samochodu",ok:0}], why:'Masculine -em: samochód → <b>samochodem</b>. And notice: no preposition for vehicles.'},
+ {q:'Idę do kina z ___. <span class="tr">(Ania)</span>', opts:[{x:"Anią",ok:1},{x:"Anie",ok:0},{x:"Anię",ok:0}], why:'z + narzędnik; names in -a take -ą: Ania → <b>Anią</b>.'},
+ {q:'Interesuję się ___. <span class="tr">(muzyka — music)</span>', opts:[{x:"muzyką",ok:1},{x:"muzykę",ok:0},{x:"muzyko",ok:0}], why:'interesować się + narzędnik; feminine -ą: muzyka → <b>muzyką</b>.'},
+ {q:'Marek jest ___. <span class="tr">(student)</span>', opts:[{x:"studentem",ok:1},{x:"student",ok:0},{x:"studentowi",ok:0}], why:'być + profession → narzędnik: <b>studentem</b>. The plain form „Jest student" is the classic slip — in standard Polish the noun after „być" stands in the narzędnik. (The nominative has its own niches: see the Advanced corner.)'},
+ {q:'Poproszę kawę z ___. <span class="tr">(mleko — milk)</span>', opts:[{x:"mlekiem",ok:1},{x:"mleka",ok:0},{x:"mleko",ok:0}], why:'z (with) + narzędnik; after k write -iem: mleko → <b>mlekiem</b>.'},
+ {q:'Ania jest ___. <span class="tr">(lekarka — doctor, a woman)</span>', opts:[{x:"lekarką",ok:1},{x:"lekarkę",ok:0},{x:"lekarkiem",ok:0}], why:'Feminine -ą: lekarka → <b>lekarką</b>. („lekarkiem” would sound masculine.)'},
+ {q:'Chcę zostać ___. <span class="tr">(programista — programmer, a man)</span>', opts:[{x:"programistą",ok:1},{x:"programista",ok:0},{x:"programiście",ok:0}], why:'zostać + narzędnik; masculine words in -a take -ą: programista → <b>programistą</b>.'},
+ {q:'Otwieram drzwi ___. <span class="tr">(klucz — key)</span>', opts:[{x:"kluczem",ok:1},{x:"kluczą",ok:0},{x:"kluczu",ok:0}], why:'Masculine -em: <b>kluczem</b>. The tool needs no preposition in Polish.'},
+ {q:'Pies bawi się ___. <span class="tr">(piłka — ball)</span>', opts:[{x:"piłką",ok:1},{x:"piłkę",ok:0},{x:"piłki",ok:0}], why:'bawić się + narzędnik; feminine -ą: piłka → <b>piłką</b>.'},
+ {q:'Lato spędzam nad ___. <span class="tr">(morze — sea)</span>', opts:[{x:"morzem",ok:1},{x:"morze",ok:0},{x:"morzu",ok:0}], why:'nad + narzędnik for a place where you stay: nad <b>morzem</b>.'},
+ {q:'___ jem dużo lodów. <span class="tr">(lato — summer)</span>', opts:[{x:"Latem",ok:1},{x:"Lato",ok:0},{x:"Latą",ok:0}], why:'Seasons as time words take narzędnik: <b>latem</b>, zimą, wiosną, jesienią.'},
+ {q:'Moim ___, to dobry pomysł. <span class="tr">(zdanie — opinion)</span>', opts:[{x:"zdaniem",ok:1},{x:"zdanie",ok:0},{x:"zdaniu",ok:0}], why:'The fixed phrase „moim <b>zdaniem</b>” — in my opinion.'},
+ {q:'Idę z ___. <span class="tr">(ty — you)</span>', opts:[{x:"tobą",ok:1},{x:"ciebie",ok:0},{x:"tobie",ok:0}], why:'ty → <b>tobą</b> in narzędnik. (ciebie is dopełniacz.)'},
+ {q:'Ona idzie z ___. <span class="tr">(ja — I)</span>', opts:[{x:"ze mną",ok:1},{x:"z mną",ok:0},{x:"z mnie",ok:0}], why:'ja → <b>mną</b>, and the preposition becomes <b>ze</b> before m: ze mną.'},
+ {q:'Jadę ___ do Krakowa. <span class="tr">(pociąg — train)</span>', opts:[{x:"pociągiem",ok:1},{x:"pociągu",ok:0},{x:"pociągą",ok:0}], why:'After k/g write -iem: pociąg → <b>pociągiem</b>.'}
+];
+
+var D2 = [
+ {q:'Jadę na wakacje z ___. <span class="tr">(przyjaciele — friends)</span>', opts:[{x:"przyjaciółmi",ok:1},{x:"przyjaciółami",ok:0},{x:"przyjacielami",ok:0}], why:'przyjaciele → <b>przyjaciółmi</b> — one of the -mi words.'},
+ {q:'Rozmawiam z ___. <span class="tr">(ludzie — people)</span>', opts:[{x:"ludźmi",ok:1},{x:"ludziami",ok:0},{x:"ludami",ok:0}], why:'ludzie → <b>ludźmi</b>.'},
+ {q:'Bawię się z ___. <span class="tr">(dzieci — children)</span>', opts:[{x:"dziećmi",ok:1},{x:"dzieciami",ok:0},{x:"dzieciom",ok:0}], why:'dzieci → <b>dziećmi</b>.'},
+ {q:'Mam dobry kontakt z ___. <span class="tr">(bracia — brothers)</span>', opts:[{x:"braćmi",ok:1},{x:"bratami",ok:0},{x:"braciami",ok:0}], why:'bracia → <b>braćmi</b>.'},
+ {q:'Interesuję się ___. <span class="tr">(komputery — computers)</span>', opts:[{x:"komputerami",ok:1},{x:"komputerach",ok:0},{x:"komputery",ok:0}], why:'Regular plural: -ami. komputery → <b>komputerami</b>.'},
+ {q:'Nie szastaj ___! <span class="tr">(pieniądze — money)</span>', opts:[{x:"pieniędzmi",ok:1},{x:"pieniądzami",ok:0},{x:"pieniądzach",ok:0}], why:'pieniądze → <b>pieniędzmi</b>. Nie szastaj pieniędzmi!'},
+ {q:'Sałatka z ___. <span class="tr">(pomidory — tomatoes)</span>', opts:[{x:"pomidorami",ok:1},{x:"pomidorach",ok:0},{x:"pomidory",ok:0}], why:'Regular -ami: pomidory → <b>pomidorami</b>.'},
+ {q:'Ona zajmuje się ___. <span class="tr">(konie — horses)</span>', opts:[{x:"końmi",ok:1},{x:"koniami",ok:0},{x:"konie",ok:0}], why:'konie → <b>końmi</b>.'},
+ {q:'Rozmawiam z ___. <span class="tr">(goście — guests)</span>', opts:[{x:"gośćmi",ok:1},{x:"gościami",ok:0},{x:"goście",ok:0}], why:'goście → <b>gośćmi</b>.'},
+ {q:'Idę do pracy z ___. <span class="tr">(koleżanki — female friends)</span>', opts:[{x:"koleżankami",ok:1},{x:"koleżankach",ok:0},{x:"koleżanki",ok:0}], why:'Regular -ami: koleżanki → <b>koleżankami</b>.'}
+];
+
+var D3 = [
+ {q:'The cat is sleeping under the table.', opts:[{x:"Kot śpi pod stołem.",ok:1},{x:"Kot śpi pod stół.",ok:0}], why:'No movement → narzędnik: pod <b>stołem</b>. „Pod stół” would mean moving to under the table.'},
+ {q:'The cat ran under the table.', opts:[{x:"Kot wbiegł pod stół.",ok:1},{x:"Kot wbiegł pod stołem.",ok:0}], why:'Movement → biernik: pod <b>stół</b>. This is the one place where these prepositions leave narzędnik.'},
+ {q:'We are sitting in front of the TV.', opts:[{x:"Siedzimy przed telewizorem.",ok:1},{x:"Siedzimy przed telewizor.",ok:0}], why:'Static position → przed + narzędnik: przed <b>telewizorem</b>.'},
+ {q:'The park is behind the school.', opts:[{x:"Park jest za szkołą.",ok:1},{x:"Park jest za szkołę.",ok:0}], why:'za + narzędnik = behind (a place, no movement): za <b>szkołą</b>.'},
+ {q:'A lamp is hanging above the bed.', opts:[{x:"Nad łóżkiem wisi lampa.",ok:1},{x:"Nad łóżko wisi lampa.",ok:0}], why:'nad + narzędnik (static): nad <b>łóżkiem</b>.'},
+ {q:'I am flying to the seaside.', opts:[{x:"Lecę nad morze.",ok:1},{x:"Lecę nad morzem.",ok:0}], why:'Movement towards → nad + biernik: nad <b>morze</b>. „Nad morzem” = being there.'},
+ {q:'We spent the holidays at the seaside.', opts:[{x:"Spędziliśmy wakacje nad morzem.",ok:1},{x:"Spędziliśmy wakacje nad morze.",ok:0}], why:'Staying somewhere → narzędnik: nad <b>morzem</b>.'},
+ {q:'I will call you before dinner.', opts:[{x:"Zadzwonię przed obiadem.",ok:1},{x:"Zadzwonię przed obiad.",ok:0}], why:'przed + narzędnik also for time: przed <b>obiadem</b> (before dinner).'},
+ {q:'Between us — I think Jan is right.', opts:[{x:"Między nami mówiąc, Jan ma rację.",ok:1},{x:"Między nas mówiąc, Jan ma rację.",ok:0}], why:'między + narzędnik: między <b>nami</b>; the phrase „między nami mówiąc” (= between us) is fixed like this.'}
+];
+
+var D4 = [
+ {q:'To jest Ania. Idę do kina z [[Ania]].', hint:'Ania → -ą (feminine name)', accept:["Anią"], display:'Anią', why:'Names in -a take -ą: Ania → Anią.'},
+ {q:'Jadę [[autobus]] do centrum.', hint:'autobus — masculine, hard stem', accept:["autobusem"], display:'autobusem', why:'Masculine hard stem → -em.'},
+ {q:'Piszę [[długopis]].', hint:'długopis — masculine', accept:["długopisem"], display:'długopisem', why:'Tool → bare narzędnik: długopisem.'},
+ {q:'Interesuję się [[fotografia]].', hint:'fotografia — feminine, -a', accept:["fotografią"], display:'fotografią', why:'interesować się + narzędnik; feminine → -ą.'},
+ {q:'Marek jest [[nauczyciel]].', hint:'nauczyciel — masculine, soft l', accept:["nauczycielem"], display:'nauczycielem', why:'Soft stem still takes -em: nauczycielem.'},
+ {q:'Ania chce zostać [[lekarka]].', hint:'lekarka — feminine', accept:["lekarką"], display:'lekarką', why:'zostać + narzędnik; feminine → -ą.'},
+ {q:'Poproszę kawę z [[mleko]].', hint:'mleko — neuter, ends in k', accept:["mlekiem"], display:'mlekiem', why:'z + narzędnik; after k write -iem.'},
+ {q:'Idę do kina z [[ty]].', hint:'ty → ? (look at the pronoun table)', accept:["tobą"], display:'tobą', why:'ty → tobą.'},
+ {q:'Rozmawiam z [[oni]].', hint:'oni → ? (a pronoun)', accept:["nimi"], display:'nimi', why:'oni → nimi (with the n- after a preposition).'},
+ {q:'Kanapka z [[masło]].', hint:'masło — neuter', accept:["masłem"], display:'masłem', why:'Neuter → -em: masłem.'},
+ {q:'Jadę [[pociąg]] do Gdańska.', hint:'pociąg — masculine, ends in g', accept:["pociągiem"], display:'pociągiem', why:'After g write -iem: pociągiem.'},
+ {q:'Wracam do domu z [[przyjaciele]].', hint:'przyjaciele — a -mi exception!', accept:["przyjaciółmi"], display:'przyjaciółmi', why:'przyjaciele → przyjaciółmi.'},
+ {q:'Ona zajmuje się [[dzieci]].', hint:'dzieci — a -mi exception', accept:["dziećmi"], display:'dziećmi', why:'dzieci → dziećmi.'},
+ {q:'Idę na spacer z [[pies]].', hint:'pies — watch the e!', accept:["psem"], display:'psem', why:'The e drops out: pies → psem.'},
+ {q:'Między [[my]] mówiąc, masz rację.', hint:'my → ?', accept:["nami"], display:'nami', why:'między + narzędnik: między nami.'},
+ {q:'Idę z [[kolega]] na obiad.', hint:'kolega — masculine in -a', accept:["kolegą"], display:'kolegą', why:'Masculine words in -a take -ą: kolegą.'},
+ {q:'Lato spędzam nad [[jezioro]].', hint:'jezioro — neuter', accept:["jeziorem"], display:'jeziorem', why:'nad + narzędnik (static): jeziorem.'},
+ {q:'Herbata z [[cytryna]].', hint:'cytryna — feminine', accept:["cytryną"], display:'cytryną', why:'z + narzędnik; feminine → -ą.'},
+ {q:'Rysuję [[ołówek]].', hint:'ołówek — watch the e!', accept:["ołówkiem"], display:'ołówkiem', why:'e drops: ołówek → ołówkiem.'},
+ {q:'Wracam [[tramwaj]] do domu.', hint:'tramwaj — masculine, soft j', accept:["tramwajem"], display:'tramwajem', why:'Soft stem → -em: tramwajem.'}
+];
+
+var D5 = [
+ {q:'I am a student. <span class="tr">(a man speaking)</span>', hint:'być + profession', accept:["jestem studentem"], display:'Jestem studentem.', why:'być + noun → narzędnik: studentem. The plain form „jestem student" is the classic slip; the nominative is only right in its own niches (presenting yourself, „to jest…", „jako…") — see the Advanced corner.'},
+ {q:'She is a teacher. <span class="tr">(a woman)</span>', hint:'feminine noun', accept:["ona jest nauczycielką","jest nauczycielką"], display:'Ona jest nauczycielką.', why:'Feminine → -ą.'},
+ {q:'I am going by bus.', hint:'transport, no preposition', accept:["jadę autobusem"], display:'Jadę autobusem.', why:'Vehicles = bare narzędnik.'},
+ {q:'I write with a pen.', hint:'tool, no „z”!', accept:["piszę piórem","piszę długopisem"], display:'Piszę piórem.', why:'Tools = bare narzędnik, never z.'},
+ {q:'Coffee with milk.', hint:'z + narzędnik', accept:["kawa z mlekiem"], display:'Kawa z mlekiem.', why:'Ingredient = company: z + narzędnik.'},
+ {q:'I am interested in music.', hint:'interesować się', accept:["interesuję się muzyką"], display:'Interesuję się muzyką.', why:'interesować się + narzędnik.'},
+ {q:'I am going for a walk with Anna.', hint:'z + name in -a', accept:["idę na spacer z anną"], display:'Idę na spacer z Anną.', why:'z + narzędnik; Anna → Anną.'},
+ {q:'I want to become a doctor. <span class="tr">(a man)</span>', hint:'zostać + narzędnik', accept:["chcę zostać lekarzem"], display:'Chcę zostać lekarzem.', why:'zostać + narzędnik: lekarzem.'},
+ {q:'The keys are under the newspaper.', hint:'static position', accept:["klucze są pod gazetą"], display:'Klucze są pod gazetą.', why:'pod + narzędnik (static): gazetą.'},
+ {q:'He is a good friend.', hint:'adjective + noun both change', accept:["on jest dobrym przyjacielem","jest dobrym przyjacielem"], display:'On jest dobrym przyjacielem.', why:'dobry → dobrym, przyjaciel → przyjacielem.'},
+ {q:'I drink milk with a straw.', hint:'the thing you drink is NOT a tool', accept:["piję mleko słomką","piję mleko przez słomkę"], display:'Piję mleko słomką. / Piję mleko przez słomkę.', why:'The straw is the tool → narzędnik (słomką). The milk is what you drink → biernik (mleko). Two narzędniks in a row — „piję mlekiem słomką" — would leave the sentence without an object.'}
+];
+
+var QUIZ = [
+ {q:'Idę z ___. <span class="tr">(mama)</span>', opts:[{x:"mamą",ok:1},{x:"mamę",ok:0},{x:"mamy",ok:0}], why:'z (with) → narzędnik; mama → mamą.'},
+ {q:'Czym jedziesz? — ___. <span class="tr">(tramwaj)</span>', opts:[{x:"Tramwajem",ok:1},{x:"Tramwaju",ok:0},{x:"Tramwaj",ok:0}], why:'Means of transport → bare narzędnik: tramwajem.'},
+ {q:'Wracam z ___. <span class="tr">(praca)</span>', opts:[{x:"pracy",ok:1},{x:"pracą",ok:0},{x:"pracę",ok:0}], why:'Here z means „from” → dopełniacz: z pracy. With „with” it would be narzędnik: z pracą (e.g. mam problem z pracą).'},
+ {q:'Choose the correct sentence: „I play the guitar.”', opts:[{x:"Gram na gitarze.",ok:1},{x:"Gram gitarą.",ok:0}], why:'grać + na + miejscownik — even though a guitar feels like a tool.'},
+ {q:'Ona jest dobrą ___. <span class="tr">(koleżanka)</span>', opts:[{x:"koleżanką",ok:1},{x:"koleżankę",ok:0},{x:"koleżanki",ok:0}], why:'Adjective and noun both in narzędnik: dobrą koleżanką.'},
+ {q:'Poproszę kotlet z ___. <span class="tr">(ziemniaki)</span>', opts:[{x:"ziemniakami",ok:1},{x:"ziemniaki",ok:0},{x:"ziemniakach",ok:0}], why:'z (with) + narzędnik plural: -ami.'},
+ {q:'Boję się ___. <span class="tr">(pies)</span>', opts:[{x:"psa",ok:1},{x:"psem",ok:0},{x:"psu",ok:0}], why:'bać się takes dopełniacz (psa) — unlike interessować się (+ narzędnik). The classic mix-up.'},
+ {q:'Interesuję się ___. <span class="tr">(historia)</span>', opts:[{x:"historią",ok:1},{x:"historię",ok:0},{x:"historii",ok:0}], why:'interesować się + narzędnik: historią.'},
+ {q:'Idziesz z ___? <span class="tr">(ja)</span>', opts:[{x:"ze mną",ok:1},{x:"z mną",ok:0},{x:"z mnie",ok:0}], why:'ja → mną; the preposition becomes ze before m.'},
+ {q:'Ona chce zostać ___. <span class="tr">(lekarz)</span>', opts:[{x:"lekarką",ok:1},{x:"lekarzem",ok:0},{x:"lekarkę",ok:0}], why:'zostać + narzędnik; for a woman use the feminine lekarką.'},
+ {q:'Choose the standard way to say „I am tired.”', opts:[{x:"Jestem zmęczony.",ok:1},{x:"Jestem zmęczonym.",ok:0}], why:'być + adjective keeps the plain form: Jestem zmęczony. The -ym shape appears after verbs like wydawać się / okazywać się.'},
+ {q:'___ jeżdżę na narty. <span class="tr">(zima)</span>', opts:[{x:"Zimą",ok:1},{x:"Zima",ok:0},{x:"Zimę",ok:0}], why:'Seasons as time words: zimą, latem, wiosną, jesienią.'},
+ {q:'Między ___ mówiąc, Jan ma rację. <span class="tr">(my)</span>', opts:[{x:"nami",ok:1},{x:"nas",ok:0},{x:"nam",ok:0}], why:'między + narzędnik: między nami.'},
+ {q:'Przed ___ jest ogród. <span class="tr">(dom)</span>', opts:[{x:"domem",ok:1},{x:"dom",ok:0},{x:"domu",ok:0}], why:'Static position → przed + narzędnik: przed domem.'},
+ {q:'Rozmawiam z ___. <span class="tr">(nowi uczniowie)</span>', opts:[{x:"nowymi uczniami",ok:1},{x:"nowych uczniów",ok:0},{x:"nowi uczniami",ok:0}], why:'Both words in narzędnik: nowymi uczniami (uczeń → uczniowie → uczniami).'},
+ {q:'Piszę list ___. <span class="tr">(ołówek)</span>', opts:[{x:"ołówkiem",ok:1},{x:"ołówek",ok:0},{x:"ołówku",ok:0}], why:'Tool → bare narzędnik; e drops: ołówek → ołówkiem.'}
+];
+
+var VERBS = [
+ {v:"interesować się", c:"+ narzędnik", en:"to be interested in", ex:"Interesuję się muzyką.", lv:"basic"},
+ {v:"zajmować się", c:"+ narzędnik", en:"to do, to be busy with", ex:"Zajmuję się sportem.", lv:"basic"},
+ {v:"opiekować się", c:"+ narzędnik", en:"to look after", ex:"Opiekuję się psem.", lv:"basic"},
+ {v:"bawić się", c:"+ narzędnik", en:"to play with", ex:"Dzieci bawią się klockami.", lv:"basic"},
+ {v:"spotykać się z", c:"z + narzędnik", en:"to meet with", ex:"Spotykam się z Anną.", lv:"basic"},
+ {v:"rozmawiać z", c:"z + narzędnik", en:"to talk with", ex:"Rozmawiam z mamą.", lv:"basic"},
+ {v:"przyjaźnić się z", c:"z + narzędnik", en:"to be friends with", ex:"Przyjaźnię się z Tomkiem.", lv:"basic"},
+ {v:"witać się z / żegnać się z", c:"z + narzędnik", en:"to greet / to say goodbye to", ex:"Witam się z sąsiadem.", lv:"basic"},
+ {v:"jechać / lecieć / płynąć", c:"+ narzędnik", en:"to go by (vehicle)", ex:"Jadę autobusem. Lecę samolotem.", lv:"basic"},
+ {v:"pachnieć", c:"+ narzędnik", en:"to smell of", ex:"Pachnie kawą.", lv:"basic"},
+ {v:"machać", c:"+ narzędnik", en:"to wave (with)", ex:"Macham ręką do mamy.", lv:"basic"},
+ {v:"kiwać", c:"+ narzędnik", en:"to nod", ex:"Kiwa głową.", lv:"basic"},
+ {v:"tupać", c:"+ narzędnik", en:"to stamp (with)", ex:"Tupię nogą.", lv:"basic"},
+ {v:"nazywać (kogoś)", c:"+ narzędnik", en:"to call somebody (a name)", ex:"Nazywają go geniuszem.", lv:"basic"},
+ {v:"martwić się", c:"+ narzędnik", en:"to worry about", ex:"Martwię się egzaminem.", lv:"basic"},
+ {v:"cieszyć się", c:"+ narzędnik", en:"to enjoy", ex:"Cieszę się życiem.", lv:"basic"},
+ {v:"chwalić się", c:"+ narzędnik", en:"to boast about", ex:"Chwalę się nowym rowerem.", lv:"basic"},
+ {v:"przejmować się", c:"+ narzędnik", en:"to fret about", ex:"Przejmuję się pogodą.", lv:"adv"},
+ {v:"zachwycać się", c:"+ narzędnik", en:"to be delighted by", ex:"Zachwycam się tym miastem.", lv:"adv"},
+ {v:"ekscytować się", c:"+ narzędnik", en:"to be excited about", ex:"Ekscytuję się wyjazdem.", lv:"adv"},
+ {v:"handlować", c:"+ narzędnik", en:"to trade in", ex:"Handluję warzywami.", lv:"adv"},
+ {v:"kierować", c:"+ narzędnik", en:"to drive / to manage", ex:"Kieruję samochodem. Kieruję zespołem.", lv:"adv"},
+ {v:"rządzić", c:"+ narzędnik", en:"to rule", ex:"Rządzi państwem.", lv:"adv"},
+ {v:"zarządzać", c:"+ narzędnik", en:"to manage", ex:"Zarządzam firmą.", lv:"adv"},
+ {v:"dowodzić", c:"+ narzędnik", en:"to command", ex:"Dowodzi armią.", lv:"adv"},
+ {v:"posługiwać się", c:"+ narzędnik", en:"to use", ex:"Posługuję się komputerem.", lv:"adv"},
+ {v:"władać", c:"+ narzędnik", en:"to have command of", ex:"Włada trzema językami.", lv:"adv"},
+ {v:"dysponować", c:"+ narzędnik", en:"to have at one's disposal", ex:"Dysponuję czasem.", lv:"adv"},
+ {v:"gardzić", c:"+ narzędnik", en:"to despise", ex:"Gardzę kłamstwem.", lv:"adv"},
+ {v:"brzydzić się", c:"+ narzędnik", en:"to be disgusted by", ex:"Brzydzę się kłamstwem.", lv:"adv"},
+ {v:"szczycić się", c:"+ narzędnik", en:"to be proud of", ex:"Szczycę się córką.", lv:"adv"},
+ {v:"szastać", c:"+ narzędnik", en:"to squander", ex:"Nie szastaj pieniędzmi!", lv:"adv"},
+ {v:"uważać za", c:"za + BIERNIK", en:"to consider (as)", ex:"Uważam go za przyjaciela.", lv:"trap"},
+ {v:"bać się", c:"+ DOPEŁNIACZ", en:"to be afraid of", ex:"Boję się psa.", lv:"trap"},
+ {v:"wstydzić się", c:"+ DOPEŁNIACZ", en:"to be ashamed of", ex:"Wstydzę się swojego akcentu.", lv:"trap"},
+ {v:"śmiać się z", c:"z + DOPEŁNIACZ", en:"to laugh at", ex:"Śmieję się z żartu.", lv:"trap"},
+ {v:"grać na", c:"na + MIEJSCOWNIK", en:"to play (an instrument)", ex:"Gram na gitarze.", lv:"trap"},
+ {v:"jeździć na", c:"na + MIEJSCOWNIK", en:"to ride (a bike, a horse)", ex:"Jeżdżę na rowerze.", lv:"trap"}
+];
+
+var CARDS = [
+ {p:"interesować się", m:"to be interested in", ex:"Interesuję się muzyką.", lv:"basic"},
+ {p:"zajmować się", m:"to do, to be busy with", ex:"Zajmuję się sportem.", lv:"basic"},
+ {p:"opiekować się", m:"to look after", ex:"Opiekuję się psem.", lv:"basic"},
+ {p:"bawić się", m:"to play with", ex:"Dzieci bawią się klockami.", lv:"basic"},
+ {p:"spotykać się z", m:"to meet with", ex:"Spotykam się z Anną.", lv:"basic"},
+ {p:"rozmawiać z", m:"to talk with", ex:"Rozmawiam z mamą.", lv:"basic"},
+ {p:"przyjaźnić się z", m:"to be friends with", ex:"Przyjaźnię się z Tomkiem.", lv:"basic"},
+ {p:"jechać / lecieć", m:"to go / fly by (vehicle)", ex:"Jadę autobusem, lecę samolotem.", lv:"basic"},
+ {p:"pachnieć", m:"to smell of", ex:"Pachnie kawą.", lv:"basic"},
+ {p:"machać", m:"to wave (with)", ex:"Macham ręką.", lv:"basic"},
+ {p:"kiwać", m:"to nod", ex:"Kiwa głową.", lv:"basic"},
+ {p:"nazywać (kogoś)", m:"to call somebody (a name)", ex:"Nazywają go geniuszem.", lv:"basic"},
+ {p:"martwić się", m:"to worry about", ex:"Martwię się egzaminem.", lv:"basic"},
+ {p:"cieszyć się", m:"to enjoy", ex:"Cieszę się życiem.", lv:"basic"},
+ {p:"chwalić się", m:"to boast about", ex:"Chwalę się nowym rowerem.", lv:"basic"},
+ {p:"handlować", m:"to trade in", ex:"Handluję warzywami.", lv:"adv"},
+ {p:"kierować", m:"to drive / to manage", ex:"Kieruję samochodem.", lv:"adv"},
+ {p:"rządzić", m:"to rule", ex:"Rządzi państwem.", lv:"adv"},
+ {p:"posługiwać się", m:"to use", ex:"Posługuję się komputerem.", lv:"adv"},
+ {p:"władać", m:"to have command of", ex:"Włada trzema językami.", lv:"adv"},
+ {p:"gardzić", m:"to despise", ex:"Gardzę kłamstwem.", lv:"adv"},
+ {p:"szczycić się", m:"to be proud of", ex:"Szczycę się córką.", lv:"adv"},
+ {p:"bać się", m:"to be afraid of  ⚠ dopełniacz!", ex:"Boję się psa.", lv:"adv"},
+ {p:"uważać za", m:"to consider (as)  ⚠ za + biernik!", ex:"Uważam go za przyjaciela.", lv:"adv"}
+];
+
+var PLAN = [
+ {t:"Dzień 1 · Meet the case", items:[
+   {k:"p1a", en:"Read sections 1–2 and say the rhythm aloud: –em, –ą, –ami."},
+   {k:"p1b", en:"Say five sentences with a tool: piszę piórem / długopisem / ołówkiem…"}]},
+ {t:"Dzień 2 · Endings, singular", items:[
+   {k:"p2a", en:"Do Drill 1 until you score 15+ out of 16."},
+   {k:"p2b", en:"Write 10 of your own sentences: one tool, one vehicle, one person, one „z”…"}]},
+ {t:"Dzień 3 · Transport & company", items:[
+   {k:"p3a", en:"List how you travel: pociągiem, autobusem, samochodem, rowerem…"},
+   {k:"p3b", en:"Say who you do things with: z mamą, z kolegą, z przyjaciółmi… (do Drill 4)"}]},
+ {t:"Dzień 4 · Plural", items:[
+   {k:"p4a", en:"Memorise the -mi list: końmi, dziećmi, ludźmi, braćmi, gośćmi, liśćmi, pieniędzmi, przyjaciółmi, księżmi."},
+   {k:"p4b", en:"Score 9+ in Drill 2."}]},
+ {t:"Dzień 5 · Prepositions", items:[
+   {k:"p5a", en:"Do Drill 3 and notice where narzędnik stops and biernik begins."},
+   {k:"p5b", en:"Describe your room out loud: nad łóżkiem, pod stołem, przed oknem, za drzwiami, między…"}]},
+ {t:"Dzień 6 · Verbs", items:[
+   {k:"p6a", en:"Flashcards: mark 15 verbs as „Umiem”."},
+   {k:"p6b", en:"Write 10 sentences with interesować się / zajmować się / opiekować się / bawić się."}]},
+ {t:"Dzień 7 · Test", items:[
+   {k:"p7a", en:"Take the final test, then review the tips you missed."},
+   {k:"p7b", en:"Ask and answer out loud: Kim chcesz zostać? — Chcę zostać… (10 professions)."}]}
+];
+
+var SETS = [
+  { id:"d1",  title:"Końcówki · l. poj.",  meta:"16 pytań · wybór formy",      ask:"Wybierz poprawną formę narzędnika.",       type:"choice", items:D1 },
+  { id:"d2",  title:"Liczba mnoga",        meta:"10 pytań · -ami i -mi",        ask:"Wybierz poprawną formę liczby mnogiej.",   type:"choice", items:D2 },
+  { id:"d3",  title:"Miejsce czy ruch?",   meta:"9 pytań · narzędnik vs biernik", ask:"Które zdanie jest poprawne?",            type:"choice", items:D3 },
+  { id:"d4",  title:"Wpisz formę",         meta:"20 pytań · pisanie",           ask:"Wpisz formę narzędnika.",                  type:"type",   items:D4 },
+  { id:"d5",  title:"Przetłumacz zdanie",  meta:"11 pytań · tłumaczenie",       ask:"Przetłumacz na polski.",                   type:"type",   items:D5 },
+  { id:"quiz",title:"Test końcowy",        meta:"16 pytań · wszystko naraz",    ask:"Wybierz poprawną formę.",                  type:"choice", items:QUIZ }
+];
+
+/* ============================================================
+   SPEECH — click any example to hear it
+   ============================================================ */
+(function(){
+  if (!("speechSynthesis" in window)) return;
+  var exs = document.querySelectorAll(".ex");
+  for (var i = 0; i < exs.length; i++) exs[i].classList.add("say");
+  document.addEventListener("click", function(ev){
+    var t = ev.target;
+    while (t && t !== document){
+      if (t.classList && t.classList.contains("say")){ speak(t); return; }
+      t = t.parentNode;
+    }
+  });
+  function speak(el){
+    var clone = el.cloneNode(true);
+    var trs = clone.querySelectorAll(".tr");
+    for (var i = 0; i < trs.length; i++) trs[i].parentNode.removeChild(trs[i]);
+    var txt = clone.textContent.replace(/[\u2014\u2013\-]\s*$/, "").trim();
+    if (!txt) return;
+    try { window.speechSynthesis.cancel(); } catch(e){}
+    var u = new SpeechSynthesisUtterance(txt);
+    u.lang = "pl-PL"; u.rate = 0.88;
+    var vs = window.speechSynthesis.getVoices() || [];
+    for (var j = 0; j < vs.length; j++){ if (/^pl/i.test(vs[j].lang)){ u.voice = vs[j]; break; } }
+    window.speechSynthesis.speak(u);
+  }
+})();
+
+/* ============================================================
+   VERB TABLE
+   ============================================================ */
+(function(){
+  var body = document.getElementById("verbBody");
+  var input = document.getElementById("verbSearch");
+  var count = document.getElementById("verbCount");
+  var chips = document.querySelectorAll("#verbChips button");
+  var filter = "all";
+  if (!body) return;
+
+  function render(){
+    var q = (input.value || "").toLowerCase();
+    var rows = "", shown = 0;
+    for (var i = 0; i < VERBS.length; i++){
+      var v = VERBS[i];
+      if (filter !== "all" && v.lv !== filter) continue;
+      if (q && (v.v + " " + v.en + " " + v.ex + " " + v.c).toLowerCase().indexOf(q) === -1) continue;
+      var tag = v.lv === "trap" ? "tag a" : "tag";
+      rows += '<tr' + (v.lv === "trap" ? ' class="trap"' : '') + '><td class="pl">' + v.v + '</td>' +
+              '<td><span class="' + tag + '">' + v.c + '</span></td><td>' + v.en + '</td>' +
+              '<td class="pl">' + v.ex + '</td></tr>';
+      shown++;
+    }
+    body.innerHTML = rows || '<tr><td colspan="4" class="small">No matches — try another word.</td></tr>';
+    count.textContent = shown + " of " + VERBS.length;
+  }
+  input.addEventListener("input", render);
+  for (var c = 0; c < chips.length; c++){
+    chips[c].addEventListener("click", function(){
+      for (var j = 0; j < chips.length; j++) chips[j].classList.remove("on");
+      this.classList.add("on");
+      filter = this.getAttribute("data-verbfilter");
+      render();
+    });
+  }
+  render();
+})();
+
+/* ============================================================
+   DRILL ENGINE
+   ============================================================ */
+(function(){
+  var grid = document.getElementById("setgrid");
+  var runner = document.getElementById("runner");
+  var summary = document.getElementById("summary");
+  var runTitle = document.getElementById("runTitle");
+  var runCount = document.getElementById("runCount");
+  var runScore = document.getElementById("runScore");
+  var pfill = document.getElementById("pfill");
+  var askLine = document.getElementById("askLine");
+  var qText = document.getElementById("qText");
+  var qHint = document.getElementById("qHint");
+  var optsEl = document.getElementById("opts");
+  var typebox = document.getElementById("typebox");
+  var answer = document.getElementById("answer");
+  var checkBtn = document.getElementById("checkBtn");
+  var keysEl = document.getElementById("keys");
+  var fb = document.getElementById("fb");
+  var nextBtn = document.getElementById("nextBtn");
+  var quitBtn = document.getElementById("quitBtn");
+  var skipBtn = document.getElementById("skipBtn");
+
+  var S = { set:null, order:[], i:0, right:0, misses:[], cur:null };
+
+  function best(id){
+    var b = getP(id, null);
+    return b && typeof b.best === "number" ? b : null;
+  }
+  function saveBest(id, r, t){
+    var b = best(id);
+    if (!b || r / t > b.best / b.total || (r / t === b.best / b.total && r > b.best)) setP(id, {best:r, total:t});
+    else if (!b) setP(id, {best:r, total:t});
+    refreshChips();
+  }
+
+  function buildGrid(){
+    grid.innerHTML = "";
+    for (var i = 0; i < SETS.length; i++){
+      (function(s){
+        var b = best(s.id);
+        var btn = document.createElement("button");
+        btn.className = "setcard";
+        btn.innerHTML = '<div class="t">' + s.title + '</div><div class="m">' + s.meta + '</div>' +
+          (b ? '<div class="best">best ' + b.best + " / " + b.total + '</div>' : '');
+        btn.addEventListener("click", function(){ start(s.id); });
+        grid.appendChild(btn);
+      })(SETS[i]);
+    }
+  }
+
+  function start(id, onlyMisses){
+    var set = null;
+    for (var i = 0; i < SETS.length; i++) if (SETS[i].id === id) set = SETS[i];
+    if (!set) return;
+    S.set = set;
+    S.order = onlyMisses && onlyMisses.length ? onlyMisses.slice() : set.items.map(function(_, i){ return i; });
+    if (!onlyMisses) shuffle(S.order);
+    S.i = 0; S.right = 0; S.misses = []; S.cur = null;
+    grid.classList.add("off");
+    summary.style.display = "none";
+    runner.classList.add("on");
+    runTitle.textContent = set.title;
+    askLine.textContent = onlyMisses ? "Reviewing your mistakes" : set.ask;
+    render();
+  }
+
+  function render(){
+    var item = S.set.items[S.order[S.i]];
+    S.cur = item;
+    fb.className = "fb";
+    fb.innerHTML = "";
+    nextBtn.disabled = true;
+    nextBtn.textContent = "Next";
+    skipBtn.style.display = "";
+    answer.classList.remove("right", "wrong");
+    answer.value = "";
+    answer.disabled = false;
+    checkBtn.disabled = false;
+
+    runCount.textContent = (S.i + 1) + " / " + S.order.length;
+    runScore.textContent = S.right + " correct";
+    pfill.style.width = (S.i / S.order.length * 100) + "%";
+    qHint.textContent = item.hint ? "Hint: " + item.hint : "";
+
+    if (S.set.type === "choice"){
+      qText.innerHTML = String(item.q).replace(/___/g, '<span class="gap"></span>');
+      typebox.style.display = "none";
+      keysEl.style.display = "none";
+      optsEl.style.display = "grid";
+      optsEl.innerHTML = "";
+      var order = shuffle(item.opts.slice());
+      for (var i = 0; i < order.length; i++){
+        (function(o, n){
+          var b = document.createElement("button");
+          b.className = "opt";
+          b.innerHTML = '<span class="k">' + (n + 1) + '</span><span>' + o.x + '</span>';
+          b.dataset.ok = o.ok ? "1" : "0";
+          b.dataset.txt = o.x;
+          b.addEventListener("click", function(){ pick(b); });
+          optsEl.appendChild(b);
+        })(order[i], i);
+      }
+    } else {
+      qText.innerHTML = String(item.q).replace(/\[\[(.*?)\]\]/g, '<span class="gap">$1</span>');
+      optsEl.style.display = "none";
+      typebox.style.display = "flex";
+      keysEl.style.display = "flex";
+      if (!keysEl.children.length){
+        for (var k = 0; k < POLISH_LETTERS.length; k++){
+          (function(ch){
+            var b = document.createElement("button");
+            b.type = "button";
+            b.textContent = ch;
+            b.addEventListener("mousedown", function(ev){
+              ev.preventDefault();
+              var s = answer.selectionStart, e = answer.selectionEnd, v = answer.value;
+              answer.value = v.slice(0, s) + ch + v.slice(e);
+              answer.selectionStart = answer.selectionEnd = s + 1;
+              answer.focus();
+            });
+            keysEl.appendChild(b);
+          })(POLISH_LETTERS[k]);
+        }
+      }
+      setTimeout(function(){ answer.focus(); }, 40);
+    }
+  }
+
+  function correctOf(item){
+    for (var i = 0; i < item.opts.length; i++) if (item.opts[i].ok) return item.opts[i].x;
+    return "";
+  }
+
+  function pick(btn){
+    if (btn.disabled) return;
+    var item = S.cur;
+    var ok = btn.dataset.ok === "1";
+    var all = optsEl.children;
+    for (var i = 0; i < all.length; i++){
+      all[i].disabled = true;
+      if (all[i].dataset.ok === "1") all[i].classList.add("right");
+    }
+    if (!ok) btn.classList.add("wrong");
+    finishItem(ok, correctOf(item), item.why, false);
+  }
+
+  function checkType(){
+    if (answer.disabled) return;
+    var item = S.cur;
+    var raw = (answer.value || "").trim();
+    if (!raw){ answer.focus(); return; }
+    var n = norm(raw), nd = stripDi(n), ok = false, exact = false, diacOnly = false;
+    var acc = item.accept || [];
+    for (var i = 0; i < acc.length; i++){
+      if (norm(acc[i]) === n){ ok = true; exact = true; break; }
+    }
+    if (!ok){
+      for (var j = 0; j < acc.length; j++){
+        if (stripDi(norm(acc[j])) === nd){ ok = true; diacOnly = true; break; }
+      }
+    }
+    var negated = /(^|\s)nie(\s|$)/.test(n);
+    if (!ok && !negated){
+      for (var k = 0; k < acc.length; k++){
+        var a = norm(acc[k]);
+        if (a.indexOf(" ") !== -1 && phraseIn(n, a)){ ok = true; break; }
+      }
+    }
+    if (!ok && !negated){
+      for (var m = 0; m < acc.length; m++){
+        var d = stripDi(norm(acc[m]));
+        if (d.indexOf(" ") !== -1 && phraseIn(nd, d)){ ok = true; diacOnly = true; break; }
+      }
+    }
+    answer.disabled = true;
+    checkBtn.disabled = true;
+    answer.classList.add(ok ? "right" : "wrong");
+    finishItem(ok, item.display || acc[0], item.why, diacOnly);
+  }
+
+  function finishItem(ok, correct, why, diacOnly){
+    var item = S.cur;
+    if (ok) S.right++; else S.misses.push(S.order[S.i]);
+    runScore.textContent = S.right + " correct";
+    fb.className = "fb on " + (ok ? "ok" : "no");
+    var head = ok ? (diacOnly ? "Right — mind the diacritics" : "Correct") : "Not quite";
+    fb.innerHTML = '<div class="v">' + head + '</div>' +
+      '<div class="a">' + correct + '</div>' +
+      '<div class="why">' + (why || "") + '</div>';
+    nextBtn.disabled = false;
+    skipBtn.style.display = "none";
+    nextBtn.focus();
+  }
+
+  function next(){
+    if (S.i + 1 >= S.order.length){ end(); return; }
+    S.i++;
+    render();
+  }
+
+  function end(){
+    runner.classList.remove("on");
+    summary.style.display = "block";
+    var total = S.order.length;
+    document.getElementById("sumScore").textContent = S.right + " / " + total;
+    var pct = Math.round(S.right / total * 100);
+    var msg;
+    if (pct === 100) msg = "Clean sweep. Move to the next set, or come back tomorrow — spacing is what makes this stick.";
+    else if (pct >= 80) msg = "Solid. Reread the explanations for the ones you missed, then run them again.";
+    else if (pct >= 50) msg = "The pattern is there but not automatic yet. Run the mistakes now, the whole set tomorrow.";
+    else msg = "Go back to the section for this set, read the table once more, then retry. Nothing here needs to be memorised blind.";
+    document.getElementById("sumMsg").textContent = msg;
+    saveBest(S.set.id, S.right, total);
+
+    var btns = document.getElementById("sumBtns");
+    btns.innerHTML = "";
+    if (S.misses.length){
+      var b1 = document.createElement("button");
+      b1.className = "btn primary";
+      b1.textContent = "Review " + S.misses.length + " mistake" + (S.misses.length > 1 ? "s" : "");
+      b1.addEventListener("click", function(){ start(S.set.id, S.misses); });
+      btns.appendChild(b1);
+    }
+    var b2 = document.createElement("button");
+    b2.className = "btn ghost";
+    b2.textContent = "Run the set again";
+    b2.addEventListener("click", function(){ start(S.set.id); });
+    btns.appendChild(b2);
+    var b3 = document.createElement("button");
+    b3.className = "btn ghost";
+    b3.textContent = "Choose another set";
+    b3.addEventListener("click", backToGrid);
+    btns.appendChild(b3);
+  }
+
+  function backToGrid(){
+    runner.classList.remove("on");
+    summary.style.display = "none";
+    grid.classList.remove("off");
+    buildGrid();
+  }
+
+  nextBtn.addEventListener("click", next);
+  checkBtn.addEventListener("click", checkType);
+  quitBtn.addEventListener("click", backToGrid);
+  skipBtn.addEventListener("click", function(){
+    var item = S.cur;
+    if (S.set.type === "choice"){
+      var all = optsEl.children;
+      for (var i = 0; i < all.length; i++){
+        all[i].disabled = true;
+        if (all[i].dataset.ok === "1") all[i].classList.add("right");
+      }
+      finishItem(false, correctOf(item), item.why, false);
+    } else {
+      answer.value = item.display || (item.accept || [])[0] || "";
+      answer.disabled = true;
+      checkBtn.disabled = true;
+      answer.classList.add("wrong");
+      finishItem(false, item.display || (item.accept || [])[0], item.why, false);
+    }
+  });
+
+  answer.addEventListener("keydown", function(e){
+    if (e.key === "Enter"){
+      e.preventDefault();
+      if (answer.disabled) next(); else checkType();
+    }
+  });
+
+  document.addEventListener("keydown", function(e){
+    if (!runner.classList.contains("on")) return;
+    if (e.target === answer) return;
+    if (e.key >= "1" && e.key <= "9" && S.set.type === "choice"){
+      var b = optsEl.children[Number(e.key) - 1];
+      if (b && !b.disabled) b.click();
+    }
+    if (e.key === "Enter" && !nextBtn.disabled){ e.preventDefault(); next(); }
+  });
+
+  buildGrid();
+  window.__startSet = start;
+})();
+
+/* ============================================================
+   FLASHCARDS
+   ============================================================ */
+(function(){
+  var grid = document.getElementById("fcGrid");
+  var knownEl = document.getElementById("fcKnown");
+  var totalEl = document.getElementById("fcTotal");
+  var chips = document.querySelectorAll("#fcFilters button");
+  var filter = "all";
+  if (!grid) return;
+
+  function knownSet(){ var a = getP("fcKnownList", []); return a; }
+
+  function render(){
+    var known = knownSet(), html = "";
+    for (var i = 0; i < CARDS.length; i++){
+      var c = CARDS[i];
+      if (filter !== "all" && c.lv !== filter) continue;
+      var isKnown = known.indexOf(c.p) !== -1;
+      html += '<div class="fc' + (isKnown ? ' known' : '') + '" data-p="' + c.p + '">' +
+        '<span class="lv">' + (c.lv === "basic" ? "basic" : "advanced") + '</span>' +
+        '<div class="p">' + c.p + '</div>' +
+        '<div class="hint">click to turn over</div>' +
+        '<div class="m">' + c.m + '</div>' +
+        '<div class="exm">' + c.ex + '</div>' +
+        '<div class="fcbtns"><button data-umiem>✔ I know it</button><button data-powtorze>↻ Again</button></div>' +
+      '</div>';
+    }
+    grid.innerHTML = html;
+    var cards = grid.querySelectorAll(".fc");
+    for (var k = 0; k < cards.length; k++){
+      cards[k].addEventListener("click", function(ev){
+        var b = ev.target;
+        if (b.hasAttribute && (b.hasAttribute("data-umiem") || b.hasAttribute("data-powtorze"))){
+          var set = knownSet(), p = this.getAttribute("data-p");
+          if (b.hasAttribute("data-umiem")){ if (set.indexOf(p) === -1) set.push(p); }
+          else { var ix = set.indexOf(p); if (ix !== -1) set.splice(ix, 1); }
+          setP("fcKnownList", set);
+          render();
+          refreshChips();
+          return;
+        }
+        this.classList.toggle("flipped");
+      });
+    }
+    knownEl.textContent = known.length;
+    totalEl.textContent = CARDS.length;
+  }
+
+  for (var c = 0; c < chips.length; c++){
+    chips[c].addEventListener("click", function(){
+      for (var j = 0; j < chips.length; j++) chips[j].classList.remove("on");
+      this.classList.add("on");
+      filter = this.getAttribute("data-fclv");
+      render();
+    });
+  }
+  render();
+})();
+
+/* ============================================================
+   PLAN
+   ============================================================ */
+(function(){
+  var root = document.getElementById("planRoot");
+  if (!root) return;
+  var html = "";
+  for (var i = 0; i < PLAN.length; i++){
+    var d = PLAN[i];
+    html += '<div class="plan-day"><div class="dt">' + d.t + '</div>';
+    for (var j = 0; j < d.items.length; j++){
+      var it = d.items[j];
+      html += '<label><input type="checkbox" class="planbox" data-k="' + it.k + '"><span>' + it.en + '</span></label>';
+    }
+    html += '</div>';
+  }
+  root.innerHTML = html;
+  var saved = getP("plan", {});
+  var boxes = root.querySelectorAll(".planbox");
+  for (var b = 0; b < boxes.length; b++){
+    boxes[b].checked = !!saved[boxes[b].getAttribute("data-k")];
+    boxes[b].addEventListener("change", function(){
+      var s = getP("plan", {});
+      s[this.getAttribute("data-k")] = this.checked;
+      setP("plan", s);
+      refreshChips();
+    });
+  }
+})();
+
+/* ============================================================
+   PROGRESS CHIPS + RESET
+   ============================================================ */
+function refreshChips(){
+  var root = document.getElementById("progressChips");
+  if (!root) return;
+  var html = "";
+  for (var i = 0; i < SETS.length; i++){
+    var s = SETS[i], b = getP(s.id, null);
+    html += '<span class="chip">' + s.title + ': ' + (b && typeof b.best === "number" ? '<b>' + b.best + " / " + b.total + '</b>' : '—') + '</span>';
+  }
+  var known = getP("fcKnownList", []).length;
+  html += '<span class="chip">Cards known: <b>' + known + " / " + CARDS.length + '</b></span>';
+  var plan = getP("plan", {}), cnt = 0, tot = 0;
+  for (var key in plan) if (plan[key]) cnt++;
+  for (var d = 0; d < PLAN.length; d++) tot += PLAN[d].items.length;
+  html += '<span class="chip">7-day plan: <b>' + cnt + " / " + tot + '</b></span>';
+  root.innerHTML = html;
+}
+(function(){
+  var b = document.getElementById("resetProgress");
+  if (!b) return;
+  b.addEventListener("click", function(){
+    if (window.confirm("Clear all progress — scores, flashcards and the plan?")){
+      try { localStorage.removeItem(KEY); } catch(e){}
+      window.location.reload();
+    }
+  });
+})();
+refreshChips();
+
+/* ============================================================
+   THEME
+   ============================================================ */
+(function(){
+  var btn = document.getElementById("themeBtn");
+  var saved = null;
+  try { saved = localStorage.getItem("narz.theme"); } catch(e){}
+  if (saved) document.documentElement.setAttribute("data-theme", saved);
+  btn.addEventListener("click", function(){
+    var cur = document.documentElement.getAttribute("data-theme");
+    var sysDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    var next = cur ? (cur === "dark" ? "light" : "dark") : (sysDark ? "light" : "dark");
+    document.documentElement.setAttribute("data-theme", next);
+    try { localStorage.setItem("narz.theme", next); } catch(e){}
+  });
+})();
+
+/* ============================================================
+   SCROLL: progress bar + active nav
+   ============================================================ */
+(function(){
+  var bar = document.getElementById("scrollbar");
+  function onScroll(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + "%";
+  }
+  window.addEventListener("scroll", onScroll, {passive:true});
+  onScroll();
+
+  var links = [].slice.call(document.querySelectorAll("#nav a"));
+  var targets = links.map(function(a){ return document.querySelector(a.getAttribute("href")); }).filter(Boolean);
+  if ("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){
+          links.forEach(function(l){ l.classList.toggle("on", l.getAttribute("href") === "#" + e.target.id); });
+        }
+      });
+    }, {rootMargin:"-45% 0px -50% 0px"});
+    targets.forEach(function(t){ io.observe(t); });
+  }
+})();
+</script>
+</body>
+</html>

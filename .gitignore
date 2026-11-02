@@ -1,0 +1,16 @@
+# dependencies
+node_modules/
+
+# build output — regenerate with `npm run build`
+dist/
+
+# local Cloudflare state: local D1 files and any auth/session data
+.wrangler/
+
+# macOS
+.DS_Store
+
+# logs and local env
+*.log
+.env
+.env.*

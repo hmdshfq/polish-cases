@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Celownik — the Polish dative, end to end</title>
+<style>
+  :root{
+    --paper:#f7f3ea; --card:#fffdf7; --ink:#1b1915; --ink2:#4b443a; --muted:#7c7365;
+    --line:#e3dac9; --line2:#efe8da;
+    --accent:#a4361f; --accent-soft:#f6e4de;
+    --green:#1d5b45; --green-soft:#e3efe7;
+    --amber:#8a5a10; --amber-soft:#f7ebd4;
+    --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    --radius:14px; --maxw:1120px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#131210; --card:#1c1a16; --ink:#efe9dd; --ink2:#c6bdad; --muted:#948b7b;
+      --line:#302c24; --line2:#26231d;
+      --accent:#e6795f; --accent-soft:#3a211a;
+      --green:#7cc4a4; --green-soft:#17302a;
+      --amber:#d8a95c; --amber-soft:#33280f;
+    }
+  }
+  html[data-theme="dark"]{
+    --paper:#131210; --card:#1c1a16; --ink:#efe9dd; --ink2:#c6bdad; --muted:#948b7b;
+    --line:#302c24; --line2:#26231d; --accent:#e6795f; --accent-soft:#3a211a;
+    --green:#7cc4a4; --green-soft:#17302a; --amber:#d8a95c; --amber-soft:#33280f;
+  }
+  html[data-theme="light"]{
+    --paper:#f7f3ea; --card:#fffdf7; --ink:#1b1915; --ink2:#4b443a; --muted:#7c7365;
+    --line:#e3dac9; --line2:#efe8da; --accent:#a4361f; --accent-soft:#f6e4de;
+    --green:#1d5b45; --green-soft:#e3efe7; --amber:#8a5a10; --amber-soft:#f7ebd4;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  html{scroll-behavior:smooth; scroll-padding-top:96px}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{animation:none!important; transition:none!important} }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--sans); font-size:17px; line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(circle at 12% 8%, color-mix(in oklab, var(--accent) 5%, transparent), transparent 42%),
+                     radial-gradient(circle at 88% 2%, color-mix(in oklab, var(--green) 5%, transparent), transparent 38%);
+    background-attachment:fixed;
+  }
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px}
+  a{color:var(--accent); text-decoration-thickness:1px; text-underline-offset:3px}
+  a:hover{text-decoration-thickness:2px}
+  code{font-family:var(--mono); font-size:.94em}
+  .pl{font-family:var(--serif); font-size:1.04em; font-style:italic}
+  strong{font-weight:650}
+
+  /* ---------- progress + header ---------- */
+  #scrollbar{position:fixed; top:0; left:0; height:3px; width:0; background:var(--accent); z-index:60; transition:width .1s linear}
+  header.top{
+    position:sticky; top:0; z-index:50; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    background:color-mix(in oklab, var(--paper) 86%, transparent);
+    border-bottom:1px solid var(--line);
+  }
+  .top-in{max-width:var(--maxw); margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:18px}
+  .brand{font-family:var(--serif); font-size:19px; letter-spacing:.01em; white-space:nowrap}
+  .brand b{color:var(--accent)}
+  nav.sections{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; flex:1;
+    -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 22px),transparent);
+    mask-image:linear-gradient(to right,#000 calc(100% - 22px),transparent)}
+  nav.sections::-webkit-scrollbar{display:none}
+  nav.sections a{
+    color:var(--ink2); text-decoration:none; font-size:13.5px; padding:7px 11px; border-radius:99px;
+    white-space:nowrap; transition:background .15s, color .15s;
+  }
+  nav.sections a:hover{background:var(--line2); color:var(--ink)}
+  nav.sections a.on{background:var(--ink); color:var(--paper)}
+  .theme{
+    border:1px solid var(--line); background:var(--card); color:var(--ink2); width:36px; height:36px;
+    border-radius:99px; cursor:pointer; font-size:15px; line-height:1; display:grid; place-items:center;
+  }
+  .theme:hover{border-color:var(--ink2); color:var(--ink)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:74px 0 40px; border-bottom:1px solid var(--line)}
+  .kicker{font-size:12.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:650; margin:0 0 18px}
+  h1{font-family:var(--serif); font-weight:500; font-size:clamp(42px, 7vw, 74px); line-height:1.02; margin:0 0 6px; letter-spacing:-.02em}
+  h1 em{font-style:italic; color:var(--accent)}
+  .lede{font-size:clamp(17px,2vw,19px); color:var(--ink2); max-width:62ch; margin:16px 0 0}
+  .lede + .lede{margin-top:12px}
+  .facts{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px; margin:28px 0 30px}
+  .fact{border:1px solid var(--line); background:var(--card); border-radius:var(--radius); padding:16px 18px}
+  .fact .n{font-family:var(--serif); font-size:24px; line-height:1.15; margin-bottom:4px; color:var(--accent)}
+  .fact .l{font-size:13px; color:var(--muted); line-height:1.45}
+  .cta{display:flex; gap:10px; flex-wrap:wrap}
+
+  /* ---------- buttons ---------- */
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:12px 20px; border-radius:99px; font-size:15px;
+    font-weight:600; text-decoration:none; cursor:pointer; border:1px solid transparent; font-family:inherit;
+    background:var(--ink); color:var(--paper); transition:background .15s, border-color .15s;
+  }
+  .btn:hover{background:var(--accent); color:var(--paper)}
+  .btn.primary{background:var(--ink); color:var(--paper)}
+  .btn.primary:hover{background:var(--accent)}
+  .btn.ghost, .btn-ghost{border-color:var(--line); color:var(--ink); background:var(--card)}
+  .btn.ghost:hover, .btn-ghost:hover{border-color:var(--ink2); background:var(--card); color:var(--ink)}
+  .btn-next{margin-top:18px}
+
+  /* ---------- sections ---------- */
+  section{padding:64px 0; border-bottom:1px solid var(--line); scroll-margin-top:82px}
+  section:last-of-type{border-bottom:none}
+  .shead{display:flex; gap:20px; align-items:baseline; margin-bottom:26px}
+  .snum{font-family:var(--serif); font-size:15px; color:var(--accent); font-variant-numeric:tabular-nums; padding-top:10px; min-width:34px}
+  h2{font-family:var(--serif); font-weight:500; font-size:clamp(28px,3.6vw,38px); line-height:1.1; margin:0; letter-spacing:-.01em}
+  h3{font-family:var(--serif); font-weight:600; font-size:22px; margin:36px 0 12px; letter-spacing:-.005em}
+  h4{font-size:15px; font-weight:700; margin:24px 0 8px; letter-spacing:.01em}
+  p{margin:0 0 14px; max-width:74ch}
+  .small, .t-note{font-size:14px; color:var(--muted); max-width:74ch}
+  ul,ol{margin:0 0 16px; padding-left:22px; max-width:74ch}
+  li{margin:5px 0}
+  li::marker{color:var(--muted)}
+
+  .cols{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+  .cols-3{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+  .cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(268px,1fr)); gap:16px; margin:18px 0}
+  .card{border:1px solid var(--line); background:var(--card); border-radius:var(--radius); padding:20px 22px}
+  .card h4{margin:0 0 6px}
+  .card p{font-size:14.5px; color:var(--ink2); margin:0 0 10px}
+  .card p:last-child{margin-bottom:0}
+  .card .n{font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; font-weight:700; color:var(--muted); display:block; margin-bottom:8px}
+
+  .ex{font-family:var(--serif); font-size:18px; margin:2px 0; background:none; border:0; padding:0}
+  .ex .gl{display:block; font-family:var(--sans); color:var(--muted); font-size:14px; font-style:italic; margin-top:2px}
+  em{font-style:italic}
+  .ex em, .ex .g{color:var(--accent); font-weight:600; font-style:normal}
+  .tr{color:var(--muted); font-size:14px; font-style:italic}
+
+  /* ---------- notes ---------- */
+  .note{border-left:3px solid var(--amber); background:var(--amber-soft); padding:14px 18px; border-radius:0 10px 10px 0; margin:18px 0}
+  .note p:last-child{margin-bottom:0}
+  .note > b, .note .lab{font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; font-weight:700; color:var(--amber); display:block; margin-bottom:4px}
+  .note.warn{border-left-color:var(--accent); background:var(--accent-soft)}
+  .note.warn > b{color:var(--accent)}
+  .note.good{border-left-color:var(--green); background:var(--green-soft)}
+  .note.good > b{color:var(--green)}
+
+  /* ---------- tables ---------- */
+  .tw{overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius); background:var(--card); margin:18px 0}
+  table{border-collapse:collapse; width:100%; font-size:15px; min-width:520px}
+  th,td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--line2); vertical-align:top}
+  thead th{background:color-mix(in oklab, var(--line2) 60%, transparent); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:700; position:sticky; top:0}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:color-mix(in oklab, var(--line2) 40%, transparent)}
+  td.m{font-family:var(--serif); font-size:16.5px; font-style:normal}
+  td.m strong{color:var(--accent)}
+  .t-note{margin-top:8px}
+
+  .chips{display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 6px}
+  .chip{font-size:13.5px; padding:5px 12px; border-radius:99px; border:1px solid var(--line); background:var(--card); color:var(--ink2); font-family:var(--serif)}
+  .chip b, .chip span{color:var(--accent); font-weight:600}
+  .chip b{color:var(--ink)}
+
+  .verbs{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:0 24px; margin:14px 0}
+  .verb{display:flex; justify-content:space-between; gap:12px; padding:8px 0; border-bottom:1px solid var(--line2); font-size:15px}
+  .verb b{font-weight:600; font-family:var(--serif); font-size:16.5px}
+  .verb span{color:var(--muted); font-size:13px; text-align:right}
+
+  /* ---------- drills ---------- */
+  .drill{background:var(--card); border:1px solid var(--line); border-radius:20px; padding:26px; box-shadow:0 1px 0 var(--line2); margin-top:22px}
+  .drill-modes{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:20px}
+  .mode{
+    border:1px solid var(--line); background:var(--paper); color:var(--ink2); border-radius:99px;
+    padding:7px 14px; font-size:13.5px; font-family:inherit; cursor:pointer; transition:background .15s, color .15s, border-color .15s;
+  }
+  .mode:hover{border-color:var(--accent); color:var(--ink)}
+  .mode.is-active{background:var(--ink); color:var(--paper); border-color:var(--ink)}
+  .drill-stage{padding:0}
+  .drill-top{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:18px}
+  .dots{display:flex; gap:5px; flex-wrap:wrap}
+  .dot{width:7px; height:7px; border-radius:99px; background:var(--line); transition:.2s}
+  .dot.done{background:var(--green)}
+  .dot.now{background:var(--accent); transform:scale(1.45)}
+  .score{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .drill-prompt{font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:700; margin:0 0 10px; font-family:var(--sans)}
+  .drill-prompt em{font-style:normal; color:var(--accent)}
+  .drill-sub{font-family:var(--serif); font-size:clamp(22px,3vw,30px); line-height:1.25; margin:0 0 6px; min-height:0}
+  .drill-sub .word{font-family:var(--serif); font-style:italic; color:var(--accent); background:none; font-size:1em; font-weight:500}
+  .drill-sub .en{display:block; font-family:var(--sans); font-size:14px; color:var(--muted); font-style:italic; margin-top:6px}
+  .drill-sub .sentence{display:block}
+  .drill-sub .quote{display:block; font-style:italic}
+  .gap{color:var(--accent); border-bottom:2px dashed var(--accent); padding:0 18px; font-family:var(--serif)}
+  .drill-options{display:grid; gap:9px; margin:16px 0}
+
+  .option{
+    display:flex; align-items:center; gap:12px; width:100%; text-align:left; cursor:pointer;
+    border:1px solid var(--line); background:var(--paper); border-radius:10px; padding:12px 15px;
+    font-family:var(--serif); font-size:19px; color:var(--ink); transition:border-color .12s, background .12s;
+  }
+  .option:hover:not(:disabled){border-color:var(--accent)}
+  .option:disabled{cursor:default}
+  .option.is-correct{border-color:var(--green); background:var(--green-soft); color:var(--green)}
+  .option.is-wrong{border-color:var(--accent); background:var(--accent-soft); color:var(--accent); text-decoration:line-through}
+  .drill-answer{margin:0}
+  #drillAnswer{
+    width:100%; font-family:var(--serif); font-size:20px; padding:11px 15px; border-radius:10px;
+    border:1px solid var(--line); background:var(--paper); color:var(--ink);
+  }
+  #drillAnswer:focus{outline:2px solid var(--accent); outline-offset:1px; border-color:transparent}
+  .keypad{display:flex; gap:6px; flex-wrap:wrap; margin:10px 0 14px}
+  .keypad button{
+    border:1px solid var(--line); background:var(--paper); color:var(--ink2); width:36px; height:36px;
+    border-radius:8px; font-family:var(--serif); font-size:16px; cursor:pointer; transition:.12s;
+  }
+  .keypad button:hover{border-color:var(--accent); color:var(--ink)}
+  .feedback{display:none; border-radius:10px; padding:13px 16px; margin:14px 0 16px; font-size:15px; line-height:1.55; border:1px solid transparent}
+  .feedback[hidden]{display:none}
+  .feedback.ok{display:block; background:var(--green-soft); border-color:color-mix(in oklab, var(--green) 30%, transparent)}
+  .feedback.no{display:block; background:var(--accent-soft); border-color:color-mix(in oklab, var(--accent) 30%, transparent)}
+  .feedback-title{font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; font-weight:700; margin:0 0 5px}
+  .feedback.ok .feedback-title{color:var(--green)}
+  .feedback.no .feedback-title{color:var(--accent)}
+  .feedback p{margin:0 0 5px; font-size:14.5px; max-width:none}
+  .feedback p:last-child{margin-bottom:0}
+  .feedback .answer-line{font-family:var(--serif); font-size:18px}
+  .feedback .answer-line strong{color:inherit}
+  .feedback .example{font-family:var(--serif); font-size:17px; color:var(--ink2)}
+  .feedback .en{color:var(--muted); font-size:14px; font-style:italic}
+  .drill-summary{padding:6px 0 4px}
+  .score-big{font-family:var(--serif); font-size:52px; line-height:1; color:var(--accent); margin-bottom:8px}
+  .score-big span{font-size:26px; color:var(--muted)}
+  .verdict{font-size:17px; color:var(--ink2); margin:0 0 16px}
+  .best-tag{display:inline-block; font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--green); background:var(--green-soft); border-radius:99px; padding:4px 11px; margin:0 0 14px}
+  .miss-list{margin:0 0 18px; padding-left:20px; font-size:14px; color:var(--ink2)}
+  .miss-list li{margin-bottom:6px}
+  .miss-list strong{color:var(--accent)}
+  .summary-actions{display:flex; gap:10px; flex-wrap:wrap}
+  .best{font-size:12.5px; color:var(--muted); margin:12px 0 0; font-variant-numeric:tabular-nums}
+
+  footer{padding:44px 0 70px; color:var(--muted); font-size:13.5px}
+  footer p{max-width:70ch}
+  footer h4{font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--ink2); margin:0 0 10px}
+  footer ul{margin:0; padding-left:20px}
+  footer li{margin-bottom:5px}
+
+  @media (max-width:860px){
+    .facts{grid-template-columns:1fr 1fr}
+    .cards{grid-template-columns:1fr}
+    .cols,.cols-3{grid-template-columns:1fr}
+    .hero{padding:52px 0 34px}
+    section{padding:48px 0}
+    .shead{gap:12px}
+    .snum{padding-top:6px}
+    .drill{padding:18px}
+  }
+  @media (max-width:700px){
+    table{min-width:0}
+    th,td{padding:9px 10px; font-size:13.5px}
+    td{overflow-wrap:break-word}
+    th{font-size:10.5px; letter-spacing:.06em; white-space:nowrap}
+    td.m{font-size:15px}
+    thead th{position:static; font-size:11px}
+    .tw{margin:14px 0}
+    .dots{display:none}
+    .drill-sub{font-size:22px}
+  }
+  @media (max-width:560px){
+    .facts{grid-template-columns:1fr}
+  }
+  @media print{
+    header.top,#scrollbar,.drills,.cta,.theme{display:none!important}
+    body{background:#fff; color:#000; font-size:11pt}
+    section{page-break-inside:avoid; padding:18px 0}
+    .card,.tw{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<div id="scrollbar"></div>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">celownik <b>·</b></div>
+    <nav class="sections" id="nav">
+      <a href="#jobs">Functions</a>
+      <a href="#endings">Endings</a>
+      <a href="#plural">Plural</a>
+      <a href="#pronouns">Pronouns</a>
+      <a href="#adjectives">Adjectives</a>
+      <a href="#verbs">Verbs</a>
+      <a href="#prepositions">Prepositions</a>
+      <a href="#constructions">Special uses</a>
+      <a href="#traps">Traps</a>
+      <a href="#drills">Drills</a>
+    </nav>
+    <button class="theme" id="themeBtn" aria-label="Switch light or dark theme" title="Light / dark">◐</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ HERO ============ -->
+  <div class="hero" id="top">
+    <p class="kicker">Polish cases · 3 of 7</p>
+    <h1>Celownik<br><em>the case of the one who receives</em></h1>
+    <p class="lede">The case that answers <b>komu?</b> and <b>czemu?</b> — <i>to whom?</i>, <i>to what?</i>. It marks the receiver, the person something is done for or to, and the person an experience happens to.</p>
+    <p class="lede">Celownik is the third case in the Polish order, after <span class="pl">mianownik</span> and <span class="pl">dopełniacz</span>. Poles use it less often than the other cases, which is why its forms feel unfamiliar — and why a small, well-drilled set of rules covers almost all of it.</p>
+    <div class="facts">
+      <div class="fact"><div class="n">komu? czemu?</div><div class="l">Its two questions — to whom? to what? The first for people, the second for everything else.</div></div>
+      <div class="fact"><div class="n">‑owi</div><div class="l">The default masculine ending. Only a short closed list keeps ‑u.</div></div>
+      <div class="fact"><div class="n">‑e · ‑i · ‑y</div><div class="l">Feminine singular — the last consonant of the stem decides which.</div></div>
+      <div class="fact"><div class="n">‑om</div><div class="l">The plural, every gender, with no gender distinction at all.</div></div>
+    </div>
+    <div class="cta">
+      <a class="btn primary" href="#drills">Start drilling</a>
+      <a class="btn ghost" href="#endings">See the endings</a>
+    </div>
+  </div>
+
+  <!-- ============ 01 JOBS ============ -->
+  <section id="jobs">
+    <div class="shead"><span class="snum">01</span><h2>What the case actually does</h2></div>
+    <p class="lede">Six jobs cover nearly everything. Learn to recognise the job and the ending usually follows.</p>
+
+    <div class="cards">
+      <div class="card">
+        <span class="n">JOB 01</span>
+        <h4>The receiver</h4>
+        <p>Someone gets something. The thing is accusative, the person is dative.</p>
+        <div class="ex">Daję <em>kotu</em> mleko.<span class="gl">I give the cat milk.</span></div>
+      </div>
+      <div class="card">
+        <span class="n">JOB 02</span>
+        <h4>The beneficiary</h4>
+        <p>An action is done for someone's sake, or at their expense.</p>
+        <div class="ex">Kupiłam <em>mamie</em> kwiaty.<span class="gl">I bought mum flowers.</span></div>
+      </div>
+      <div class="card">
+        <span class="n">JOB 03</span>
+        <h4>The loser</h4>
+        <p>Something is taken, lost, or happens against someone's interest.</p>
+        <div class="ex">Ukradli <em>mi</em> rower.<span class="gl">They stole my bike.</span></div>
+      </div>
+      <div class="card">
+        <span class="n">JOB 04</span>
+        <h4>The experiencer</h4>
+        <p>The person is not the subject — the thing is. The person feels it in the dative.</p>
+        <div class="ex">Podoba <em>mi</em> się Kraków.<span class="gl">I like Kraków. (Kraków pleases to me.)</span></div>
+      </div>
+      <div class="card">
+        <span class="n">JOB 05</span>
+        <h4>The possessor in trouble</h4>
+        <p>Polish says the thing happened <em>to</em> the person, not <em>to</em> the object.</p>
+        <div class="ex">Zginął <em>mi</em> portfel.<span class="gl">I lost my wallet. (The wallet was lost on me.)</span></div>
+      </div>
+      <div class="card">
+        <span class="n">JOB 06</span>
+        <h4>The direction of an attitude</h4>
+        <p>A handful of prepositions and adjectives point at a person or thing.</p>
+        <div class="ex">Dzięki <em>tobie</em> zdaliśmy.<span class="gl">Thanks to you we passed.</span></div>
+      </div>
+    </div>
+
+    <div class="note good">
+      <b>The one-line test</b>
+      <p>If you can put <em>to</em> or <em>for</em> before the person in English, and the verb is not one of the accusative verbs, Polish wants the dative. <span class="m">Dałem to bratu. Kupiłem to mamie.</span></p>
+    </div>
+  </section>
+
+  <!-- ============ 02 ENDINGS ============ -->
+  <section id="endings">
+    <div class="shead"><span class="snum">02</span><h2>Endings in the singular</h2></div>
+    <p class="lede">Gender and the last consonant of the stem decide everything. There are only five endings to know.</p>
+
+    <div class="tw">
+      <table>
+        <thead>
+          <tr><th>Type</th><th>Dative ending</th><th>Example</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Masculine — consonant stem</td><td class="m"><strong>‑owi</strong></td><td class="m">student → studentowi</td></tr>
+          <tr><td>Masculine — closed list</td><td class="m"><strong>‑u</strong></td><td class="m">pan → panu</td></tr>
+          <tr><td>Masculine in ‑a</td><td class="m"><strong>‑e / ‑i / ‑y</strong></td><td class="m">kolega → koledze</td></tr>
+          <tr><td>Neuter</td><td class="m"><strong>‑u</strong></td><td class="m">okno → oknu</td></tr>
+          <tr><td>Feminine in ‑a</td><td class="m"><strong>‑e / ‑i / ‑y</strong></td><td class="m">woda → wodzie</td></tr>
+          <tr><td>Feminine — consonant stem</td><td class="m"><strong>‑i / ‑y</strong></td><td class="m">noc → nocy</td></tr>
+          <tr><td>Feminine in ‑i / ‑y</td><td class="m"><strong>no change</strong></td><td class="m">pani → pani</td></tr>
+          <tr><td>All genders — plural</td><td class="m"><strong>‑om</strong></td><td class="m">student → studentom</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Masculine: ‑owi is the rule, ‑u is the exception</h3>
+    <p>PWN is explicit: masculine nouns ending in a consonant take <span class="m">‑owi</span> <em>almost always</em>. A small, closed list keeps <span class="m">‑u</span>. Learn that list as vocabulary — everything else is safe with <span class="m">‑owi</span>.</p>
+
+    <div class="chips">
+      <span class="chip">Bóg <span>→ Bogu</span></span>
+      <span class="chip">brat <span>→ bratu</span></span>
+      <span class="chip">chłop <span>→ chłopu</span></span>
+      <span class="chip">chłopiec <span>→ chłopcu</span></span>
+      <span class="chip">diabeł <span>→ diabłu</span></span>
+      <span class="chip">ksiądz <span>→ księdzu</span></span>
+      <span class="chip">książę <span>→ księciu</span></span>
+      <span class="chip">kot <span>→ kotu</span></span>
+      <span class="chip">lew <span>→ lwu</span></span>
+      <span class="chip">łeb <span>→ łbu</span></span>
+      <span class="chip">ojciec <span>→ ojcu</span></span>
+      <span class="chip">pan <span>→ panu</span></span>
+      <span class="chip">pies <span>→ psu</span></span>
+      <span class="chip">świat <span>→ światu</span></span>
+    </div>
+
+    <div class="note">
+      <b>Borderline cases</b>
+      <p>A few nouns accept both endings: <span class="m">katowi / katu</span>, <span class="m">orłowi / orłu</span>, <span class="m">osłowi / osłu</span>, <span class="m">kwiatowi / kwiatu</span>. The <span class="m">‑owi</span> form is never wrong and is the modern preference.</p>
+    </div>
+
+    <h3>Feminine ‑a: three endings, one test</h3>
+    <p>Look at the last consonant of the stem — not the last letter of the word, but what is left when the <span class="m">‑a</span> is removed.</p>
+
+    <div class="tw">
+      <table>
+        <thead>
+          <tr><th>Stem ends in</th><th>Ending</th><th>What happens</th><th>Example</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="m">b</td><td class="m">‑e</td><td>b → bi</td><td class="m">ryba → rybie</td></tr>
+          <tr><td class="m">d</td><td class="m">‑e</td><td>d → dzi</td><td class="m">woda → wodzie</td></tr>
+          <tr><td class="m">f</td><td class="m">‑e</td><td>f → fi</td><td class="m">szafa → szafie</td></tr>
+          <tr><td class="m">g</td><td class="m">‑e</td><td>g → dz</td><td class="m">noga → nodze</td></tr>
+          <tr><td class="m">k</td><td class="m">‑e</td><td>k → c</td><td class="m">ręka → ręce</td></tr>
+          <tr><td class="m">m</td><td class="m">‑e</td><td>m → mi</td><td class="m">mama → mamie</td></tr>
+          <tr><td class="m">n</td><td class="m">‑e</td><td>n → ni</td><td class="m">żona → żonie</td></tr>
+          <tr><td class="m">p</td><td class="m">‑e</td><td>p → pi</td><td class="m">mapa → mapie</td></tr>
+          <tr><td class="m">r</td><td class="m">‑e</td><td>r → rz</td><td class="m">siostra → siostrze</td></tr>
+          <tr><td class="m">s</td><td class="m">‑e</td><td>s → si</td><td class="m">rasa → rasie</td></tr>
+          <tr><td class="m">t</td><td class="m">‑e</td><td>t → ci</td><td class="m">kobieta → kobiecie</td></tr>
+          <tr><td class="m">w</td><td class="m">‑e</td><td>w → wi</td><td class="m">sowa → sowie</td></tr>
+          <tr><td class="m">z</td><td class="m">‑e</td><td>z → zi</td><td class="m">koza → kozie</td></tr>
+          <tr><td class="m">ch</td><td class="m">‑e</td><td>ch → sz</td><td class="m">mucha → musze</td></tr>
+          <tr><td class="m">ł</td><td class="m">‑e</td><td>ł → l</td><td class="m">szkoła → szkole</td></tr>
+          <tr><td class="m">l</td><td class="m">‑i</td><td>no change</td><td class="m">sala → sali</td></tr>
+          <tr><td class="m">soft: ć, ń, ś, ź, j</td><td class="m">‑i</td><td>no change</td><td class="m">kuchnia → kuchni</td></tr>
+          <tr><td class="m">hardened: c, dz</td><td class="m">‑y</td><td>no change</td><td class="m">ulica → ulicy</td></tr>
+          <tr><td class="m">hardened: cz, sz, ż, rz</td><td class="m">‑y</td><td>no change</td><td class="m">plaża → plaży</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note warn">
+      <b>The ł / l trap</b>
+      <p><span class="m">ł</span> is hard and takes <span class="m">‑e</span>: <span class="m">szkoła → szkole</span>, <span class="m">cegła → cegle</span>, <span class="m">perła → perle</span>. <span class="m">l</span> is soft and takes <span class="m">‑i</span>: <span class="m">sala → sali</span>, <span class="m">fala → fali</span>, <span class="m">rola → roli</span>. One stroke of the pen changes the ending.</p>
+    </div>
+
+    <h3>Feminine in ‑ia: watch the syllable</h3>
+    <p>When the <span class="m">i</span> is a syllable of its own, the dative doubles it: <span class="m">‑ia → ‑ii</span>. When it only softens the consonant before <span class="m">‑a</span>, you get a single <span class="m">‑i</span>.</p>
+    <div class="cols">
+      <div>
+        <h4>‑ia → ‑ii</h4>
+        <div class="chips">
+          <span class="chip">Maria <span>→ Marii</span></span>
+          <span class="chip">armia <span>→ armii</span></span>
+          <span class="chip">historia <span>→ historii</span></span>
+          <span class="chip">linia <span>→ linii</span></span>
+          <span class="chip">kolonia <span>→ kolonii</span></span>
+        </div>
+      </div>
+      <div>
+        <h4>soft consonant + ‑a → ‑i</h4>
+        <div class="chips">
+          <span class="chip">Ania <span>→ Ani</span></span>
+          <span class="chip">Kasia <span>→ Kasi</span></span>
+          <span class="chip">ciocia <span>→ cioci</span></span>
+          <span class="chip">kuchnia <span>→ kuchni</span></span>
+        </div>
+      </div>
+    </div>
+
+    <h3>Feminine with no ‑a</h3>
+    <p>These take <span class="m">‑i</span> or <span class="m">‑y</span>, and the form is identical to the locative — the one place where two cases share a shape in the feminine.</p>
+    <div class="chips">
+      <span class="chip">noc <span>→ nocy</span></span>
+      <span class="chip">rzecz <span>→ rzeczy</span></span>
+      <span class="chip">twarz <span>→ twarzy</span></span>
+      <span class="chip">radość <span>→ radości</span></span>
+      <span class="chip">miłość <span>→ miłości</span></span>
+      <span class="chip">jesień <span>→ jesieni</span></span>
+      <span class="chip">kość <span>→ kości</span></span>
+      <span class="chip">pamięć <span>→ pamięci</span></span>
+      <span class="chip">krew <span>→ krwi</span></span>
+      <span class="chip">sól <span>→ soli</span></span>
+    </div>
+  </section>
+
+  <!-- ============ 03 PLURAL ============ -->
+  <section id="plural">
+    <div class="shead"><span class="snum">03</span><h2>Plural: one ending for everyone</h2></div>
+    <p class="lede">This is the good news. In the plural the dative has no gender distinction at all: <span class="m">‑om</span>, every time.</p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Singular</th><th>Plural nominative</th><th>Dative plural</th></tr></thead>
+        <tbody>
+          <tr><td class="m">student</td><td class="m">studenci</td><td class="m"><strong>studentom</strong></td></tr>
+          <tr><td class="m">kobieta</td><td class="m">kobiety</td><td class="m"><strong>kobietom</strong></td></tr>
+          <tr><td class="m">okno</td><td class="m">okna</td><td class="m"><strong>oknom</strong></td></tr>
+          <tr><td class="m">człowiek</td><td class="m">ludzie</td><td class="m"><strong>ludziom</strong></td></tr>
+          <tr><td class="m">brat</td><td class="m">bracia</td><td class="m"><strong>braciom</strong></td></tr>
+          <tr><td class="m">ksiądz</td><td class="m">księża</td><td class="m"><strong>księżom</strong></td></tr>
+          <tr><td class="m">przyjaciel</td><td class="m">przyjaciele</td><td class="m"><strong>przyjaciołom</strong></td></tr>
+          <tr><td class="m">oko</td><td class="m">oczy</td><td class="m"><strong>oczom</strong></td></tr>
+          <tr><td class="m">ucho</td><td class="m">uszy</td><td class="m"><strong>uszom</strong></td></tr>
+          <tr><td class="m">ręka</td><td class="m">ręce</td><td class="m"><strong>rękom</strong></td></tr>
+          <tr><td class="m">dziecko</td><td class="m">dzieci</td><td class="m"><strong>dzieciom</strong></td></tr>
+          <tr><td class="m">imię</td><td class="m">imiona</td><td class="m"><strong>imionom</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="t-note">Masculine-personal plurals are no different: <span class="m">studentom</span>, <span class="m">panom</span>, <span class="m">Polakom</span>. The dative does not copy the genitive here, even though genitive plural of masculine personal nouns ends in <span class="m">‑ów</span>.</p>
+  </section>
+
+  <!-- ============ 04 PRONOUNS ============ -->
+  <section id="pronouns">
+    <div class="shead"><span class="snum">04</span><h2>Pronouns: long and short</h2></div>
+    <p class="lede">This is the part that makes spoken Polish sound Polish. Most pronouns have two dative forms — a stressed one and a clitic one.</p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Nominative</th><th>Long (stressed)</th><th>Short (clitic)</th><th>After a preposition</th></tr></thead>
+        <tbody>
+          <tr><td class="m">ja</td><td class="m">mnie</td><td class="m"><strong>mi</strong></td><td class="m">mnie</td></tr>
+          <tr><td class="m">ty</td><td class="m">tobie</td><td class="m"><strong>ci</strong></td><td class="m">tobie</td></tr>
+          <tr><td class="m">on</td><td class="m">jemu</td><td class="m"><strong>mu</strong></td><td class="m">niemu</td></tr>
+          <tr><td class="m">ona</td><td class="m">jej</td><td class="m">—</td><td class="m">niej</td></tr>
+          <tr><td class="m">ono</td><td class="m">jemu</td><td class="m"><strong>mu</strong></td><td class="m">niemu</td></tr>
+          <tr><td class="m">my</td><td class="m">nam</td><td class="m">—</td><td class="m">nam</td></tr>
+          <tr><td class="m">wy</td><td class="m">wam</td><td class="m">—</td><td class="m">wam</td></tr>
+          <tr><td class="m">oni / one</td><td class="m">im</td><td class="m">—</td><td class="m">nim</td></tr>
+          <tr><td class="m">siebie</td><td class="m">sobie</td><td class="m">—</td><td class="m">sobie</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>When to use which</h3>
+    <div class="cols">
+      <div class="card">
+        <h4>Short form — the default</h4>
+        <p>Unstressed, inside the sentence, after the verb.</p>
+        <div class="ex">Daj <em>mi</em> chwilę.<span class="gl">Give me a moment.</span></div>
+        <div class="ex">Powiedz <em>mu</em> prawdę.<span class="gl">Tell him the truth.</span></div>
+      </div>
+      <div class="card">
+        <h4>Long form — for weight</h4>
+        <p>Emphasis, contrast, coordination, and always after a preposition.</p>
+        <div class="ex"><em>Jemu</em> daj, nie mnie.<span class="gl">Give it to him, not to me.</span></div>
+        <div class="ex">Ku <em>mnie</em> szła.<span class="gl">She was walking towards me.</span></div>
+      </div>
+    </div>
+
+    <div class="note warn">
+      <b>Two rules that never bend</b>
+      <p><span class="m">mi</span> and <span class="m">ci</span> cannot start a sentence. <span class="m">Mi się to podoba</span> is wrong; say <span class="m">Podoba mi się to</span> or <span class="m">Mnie się to podoba</span>.</p>
+      <p>After every preposition, only the long form: <span class="m">ku mnie</span>, <span class="m">ku tobie</span>, <span class="m">ku niemu</span>, <span class="m">dzięki mnie</span>, <span class="m">przeciwko nim</span>. Never <span class="m">ku mi</span> or <span class="m">dzięki ci</span> in that position.</p>
+    </div>
+
+    <div class="note">
+      <b>Clitic order</b>
+      <p>When two pronouns meet, the dative comes first: <span class="m">Daję mu ją</span> (I'm giving it to him), <span class="m">Powiem ci to</span>, <span class="m">Kupię ci je</span>. The reversed order <span class="m">Daję ją mu</span> sounds wrong to a native ear.</p>
+    </div>
+
+    <h3>Everything else</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Nominative</th><th>Dative</th><th>Nominative</th><th>Dative</th></tr></thead>
+        <tbody>
+          <tr><td class="m">ten</td><td class="m">temu</td><td class="m">kto</td><td class="m">komu</td></tr>
+          <tr><td class="m">ta</td><td class="m">tej</td><td class="m">co</td><td class="m">czemu</td></tr>
+          <tr><td class="m">mój</td><td class="m">mojemu / memu</td><td class="m">nikt</td><td class="m">nikomu</td></tr>
+          <tr><td class="m">twój</td><td class="m">twojemu / twemu</td><td class="m">nic</td><td class="m">niczemu</td></tr>
+          <tr><td class="m">swój</td><td class="m">swojemu / swemu</td><td class="m">który</td><td class="m">któremu</td></tr>
+          <tr><td class="m">nasz</td><td class="m">naszemu</td><td class="m">jaki</td><td class="m">jakiemu</td></tr>
+          <tr><td class="m">wasz</td><td class="m">waszemu</td><td class="m">czyj</td><td class="m">czyjemu</td></tr>
+          <tr><td class="m">sam</td><td class="m">samemu</td><td class="m">wszyscy</td><td class="m">wszystkim</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="t-note"><span class="m">jego</span>, <span class="m">jej</span> and <span class="m">ich</span> as possessives do not decline: <span class="m">jego bratu</span>, <span class="m">jej siostrze</span>, <span class="m">ich dziecku</span>.</p>
+  </section>
+
+  <!-- ============ 05 ADJECTIVES ============ -->
+  <section id="adjectives">
+    <div class="shead"><span class="snum">05</span><h2>Adjectives and numerals</h2></div>
+
+    <h3>Adjectives: two endings in the singular, one in the plural</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Stem</th><th>Masculine</th><th>Neuter</th><th>Feminine</th><th>Plural</th></tr></thead>
+        <tbody>
+          <tr><td class="m">hard: dobr‑</td><td class="m">dobremu</td><td class="m">dobremu</td><td class="m">dobrej</td><td class="m">dobrym</td></tr>
+          <tr><td class="m">hard: now‑</td><td class="m">nowemu</td><td class="m">nowemu</td><td class="m">nowej</td><td class="m">nowym</td></tr>
+          <tr><td class="m">soft: tani‑</td><td class="m">taniemu</td><td class="m">taniemu</td><td class="m">taniej</td><td class="m">tanim</td></tr>
+          <tr><td class="m">soft: wielk‑</td><td class="m">wielkiemu</td><td class="m">wielkiemu</td><td class="m">wielkiej</td><td class="m">wielkim</td></tr>
+          <tr><td class="m">comparative: lepsz‑</td><td class="m">lepszemu</td><td class="m">lepszemu</td><td class="m">lepszej</td><td class="m">lepszym</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="t-note">The feminine <span class="m">‑ej</span> is shared with the genitive and locative. The masculine and neuter <span class="m">‑emu</span> is shared with nothing else — it is a pure dative marker.</p>
+
+    <h3>Numerals</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Numeral</th><th>Dative</th><th>Numeral</th><th>Dative</th></tr></thead>
+        <tbody>
+          <tr><td class="m">jeden</td><td class="m">jednemu</td><td class="m">jedenaście</td><td class="m">jedenastu</td></tr>
+          <tr><td class="m">dwa</td><td class="m">dwom / dwóm</td><td class="m">dwadzieścia</td><td class="m">dwudziestu</td></tr>
+          <tr><td class="m">trzy</td><td class="m">trzem</td><td class="m">trzydzieści</td><td class="m">trzydziestu</td></tr>
+          <tr><td class="m">cztery</td><td class="m">czterem</td><td class="m">sto</td><td class="m">stu</td></tr>
+          <tr><td class="m">pięć</td><td class="m">pięciu</td><td class="m">dwieście</td><td class="m">dwustu</td></tr>
+          <tr><td class="m">sześć</td><td class="m">sześciu</td><td class="m">tysiąc</td><td class="m">tysiącowi</td></tr>
+          <tr><td class="m">dziesięć</td><td class="m">dziesięciu</td><td class="m">milion</td><td class="m">milionowi</td></tr>
+          <tr><td class="m">oba</td><td class="m">obu</td><td class="m">dwoje</td><td class="m">dwojgu</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="t-note">Collective numerals take <span class="m">‑u</span>: <span class="m">dwojgu</span>, <span class="m">trogu</span>, <span class="m">czworgu</span>, <span class="m">pięciorgu</span>, <span class="m">obojgu</span>.</p>
+  </section>
+
+  <!-- ============ 06 VERBS ============ -->
+  <section id="verbs">
+    <div class="shead"><span class="snum">06</span><h2>Verbs that demand the dative</h2></div>
+    <p class="lede">These are not optional. The verb decides the case, and no amount of English intuition will save you — <em>help me</em> is <span class="m">pomóż mi</span>, not <span class="m">pomóż mnie</span>.</p>
+
+    <h3>Dative only — no direct object</h3>
+    <div class="verbs">
+      <div class="verb"><b>pomagać</b><span>to help</span></div>
+      <div class="verb"><b>dziękować</b><span>to thank</span></div>
+      <div class="verb"><b>ufać</b><span>to trust</span></div>
+      <div class="verb"><b>wierzyć</b><span>to believe</span></div>
+      <div class="verb"><b>kibicować</b><span>to cheer for</span></div>
+      <div class="verb"><b>przyglądać się</b><span>to watch closely</span></div>
+      <div class="verb"><b>przysłuchiwać się</b><span>to listen in on</span></div>
+      <div class="verb"><b>dziwić się</b><span>to be surprised at</span></div>
+      <div class="verb"><b>sprzeciwiać się</b><span>to oppose</span></div>
+      <div class="verb"><b>przytakiwać</b><span>to agree, to nod along</span></div>
+      <div class="verb"><b>wtórować</b><span>to echo, to second</span></div>
+      <div class="verb"><b>ubliżać</b><span>to insult</span></div>
+      <div class="verb"><b>zagrażać</b><span>to threaten</span></div>
+      <div class="verb"><b>szkodzić</b><span>to harm</span></div>
+      <div class="verb"><b>służyć</b><span>to serve</span></div>
+      <div class="verb"><b>podlegać</b><span>to be subject to</span></div>
+      <div class="verb"><b>ulegać</b><span>to give in to</span></div>
+      <div class="verb"><b>podporządkowywać się</b><span>to submit to</span></div>
+      <div class="verb"><b>ustępować</b><span>to give way to</span></div>
+      <div class="verb"><b>kłaniać się</b><span>to bow to</span></div>
+      <div class="verb"><b>sprzyjać</b><span>to favour</span></div>
+      <div class="verb"><b>pochlebiać</b><span>to flatter</span></div>
+      <div class="verb"><b>dokuczać</b><span>to tease, to bother</span></div>
+      <div class="verb"><b>zaimponować</b><span>to impress</span></div>
+      <div class="verb"><b>przewodniczyć</b><span>to chair</span></div>
+      <div class="verb"><b>grozić</b><span>to threaten</span></div>
+      <div class="verb"><b>przysięgać</b><span>to swear to</span></div>
+      <div class="verb"><b>kłamać</b><span>to lie to</span></div>
+      <div class="verb"><b>mówić</b><span>to say to</span></div>
+      <div class="verb"><b>odpowiadać</b><span>to answer</span></div>
+      <div class="verb"><b>rozkazywać</b><span>to order</span></div>
+      <div class="verb"><b>kazać</b><span>to tell someone to</span></div>
+      <div class="verb"><b>polecić</b><span>to instruct</span></div>
+      <div class="verb"><b>pozwolić</b><span>to allow</span></div>
+      <div class="verb"><b>zabronić</b><span>to forbid</span></div>
+      <div class="verb"><b>radzić</b><span>to advise</span></div>
+      <div class="verb"><b>doradzić</b><span>to advise</span></div>
+      <div class="verb"><b>przeszkadzać</b><span>to disturb</span></div>
+      <div class="verb"><b>zapobiegać</b><span>to prevent</span></div>
+      <div class="verb"><b>współczuć</b><span>to sympathise</span></div>
+      <div class="verb"><b>zawdzięczać</b><span>to owe</span></div>
+      <div class="verb"><b>zwierzyć się</b><span>to confide in</span></div>
+      <div class="verb"><b>żalić się</b><span>to complain to</span></div>
+      <div class="verb"><b>towarzyszyć</b><span>to accompany</span></div>
+      <div class="verb"><b>narazić się</b><span>to get on the wrong side of</span></div>
+    </div>
+
+    <h3>Dative + a second object</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Pattern</th><th>Verbs</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><b>dative + accusative</b><br><span class="t-note">person + thing</span></td><td class="m">dać, dawać, kupić, pokazać, powiedzieć, pożyczyć, ofiarować, wręczyć, wybaczyć, poświęcić, zlecić, ułatwić, załatwić</td><td class="m">Dałem <strong>bratu</strong> książkę.</td></tr>
+          <tr><td><b>dative + genitive</b><br><span class="t-note">person + thing wished, envied, refused</span></td><td class="m">życzyć, gratulować, zazdrościć, zabronić, odmówić, oszczędzić, przysporzyć</td><td class="m">Życzę <strong>ci</strong> szczęścia.</td></tr>
+          <tr><td><b>dative + za + accusative</b></td><td class="m">dziękować, podziękować</td><td class="m">Dziękuję <strong>ci</strong> za pomoc.</td></tr>
+          <tr><td><b>dative + o + locative</b></td><td class="m">przypominać, przypomnieć, opowiedzieć, powiedzieć</td><td class="m">Przypomnij <strong>mi</strong> o spotkaniu.</td></tr>
+          <tr><td><b>dative + na + accusative</b></td><td class="m">odpowiedzieć, poskarżyć się, narzekać, skarżyć się</td><td class="m">Odpowiedz <strong>mi</strong> na pytanie.</td></tr>
+          <tr><td><b>dative + do + genitive</b></td><td class="m">przyznać się</td><td class="m">Przyznał <strong>mi</strong> się do błędu.</td></tr>
+          <tr><td><b>dative + z + genitive</b></td><td class="m">tłumaczyć się, usprawiedliwiać się</td><td class="m">Tłumaczył <strong>mi</strong> się z opóźnienia.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note warn">
+      <b>The four verbs learners mix up</b>
+      <p><span class="m">pomagać komu</span> (dative) but <span class="m">przepraszać kogo</span> (accusative). <span class="m">dziękować komu</span> (dative) but <span class="m">podziwiać kogo</span> (accusative). <span class="m">słuchać kogo/czego</span> (genitive) but <span class="m">przysłuchiwać się komu</span> (dative). <span class="m">ufać komu</span> (dative) but <span class="m">wierzyć w kogo</span> (accusative).</p>
+    </div>
+
+    <h3>The contrast table worth memorising</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Dative</th><th>Accusative</th><th>Genitive</th><th>Instrumental</th></tr></thead>
+        <tbody>
+          <tr><td class="m">pomagać komu</td><td class="m">przepraszać kogo</td><td class="m">słuchać kogo</td><td class="m">kierować czym</td></tr>
+          <tr><td class="m">ufać komu</td><td class="m">lubić kogo</td><td class="m">szukać kogo</td><td class="m">interesować się czym</td></tr>
+          <tr><td class="m">wierzyć komu</td><td class="m">podziwiać kogo</td><td class="m">potrzebować czego</td><td class="m">zajmować się czym</td></tr>
+          <tr><td class="m">służyć komu</td><td class="m">widzieć kogo</td><td class="m">bronić kogo</td><td class="m">posługiwać się czym</td></tr>
+          <tr><td class="m">przyglądać się komu</td><td class="m">oglądać kogo</td><td class="m">nienawidzić kogo</td><td class="m">chwalić się czym</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ 07 PREPOSITIONS ============ -->
+  <section id="prepositions">
+    <div class="shead"><span class="snum">07</span><h2>Prepositions that take the dative</h2></div>
+    <p class="lede">Short list, high yield. Note the one trap at the bottom — it catches almost everyone.</p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Preposition</th><th>Example</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td class="m"><strong>ku</strong></td><td class="m">ku morzu, ku mnie, ku górze</td><td>towards (bookish)</td></tr>
+          <tr><td class="m"><strong>dzięki</strong></td><td class="m">dzięki tobie, dzięki nim</td><td>thanks to</td></tr>
+          <tr><td class="m"><strong>wbrew</strong></td><td class="m">wbrew pozorom, wbrew przepisom</td><td>contrary to</td></tr>
+          <tr><td class="m"><strong>przeciw</strong></td><td class="m">przeciw wiatrowi</td><td>against</td></tr>
+          <tr><td class="m"><strong>przeciwko</strong></td><td class="m">przeciwko nim</td><td>against</td></tr>
+          <tr><td class="m"><strong>naprzeciw</strong></td><td class="m">naprzeciw szkole</td><td>opposite, facing</td></tr>
+          <tr><td class="m"><strong>gwoli</strong></td><td class="m">gwoli prawdzie</td><td>for the sake of (archaic)</td></tr>
+          <tr><td class="m">na przekór</td><td class="m">na przekór losowi</td><td>in defiance of</td></tr>
+          <tr><td class="m">na złość</td><td class="m">na złość jej</td><td>to spite</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note warn">
+      <b>naprzeciw vs naprzeciwko</b>
+      <p>These two look like twins and take different cases. <span class="m">naprzeciw</span> + dative: <span class="m">naprzeciw szkole</span>. <span class="m">naprzeciwko</span> + genitive: <span class="m">naprzeciwko szkoły</span>. Saying <span class="m">naprzeciwko szkole</span> is the classic mistake.</p>
+    </div>
+
+    <div class="note">
+      <b>Not dative, despite appearances</b>
+      <p><span class="m">mimo</span>, <span class="m">pomimo</span>, <span class="m">według</span>, <span class="m">wedle</span>, <span class="m">podług</span>, <span class="m">wobec</span>, <span class="m">dla</span> and <span class="m">do</span> all take the <b>genitive</b>. <span class="m">Według mnie</span> — not <span class="m">według mi</span>.</p>
+    </div>
+  </section>
+
+  <!-- ============ 08 CONSTRUCTIONS ============ -->
+  <section id="constructions">
+    <div class="shead"><span class="snum">08</span><h2>Special uses you will hear daily</h2></div>
+
+    <h3>Impersonal dative — the person as experiencer</h3>
+    <p>Polish often puts the feeling in an adverb and the person in the dative. There is no subject at all.</p>
+    <div class="cols">
+      <div>
+        <div class="ex" style="margin-bottom:9px">Jest <em>mi</em> zimno.<span class="gl">I am cold.</span></div>
+        <div class="ex" style="margin-bottom:9px">Jest <em>mi</em> przykro.<span class="gl">I am sorry / I feel bad.</span></div>
+        <div class="ex" style="margin-bottom:9px">Wstyd <em>mi</em>.<span class="gl">I am ashamed.</span></div>
+        <div class="ex" style="margin-bottom:9px">Żal <em>mi</em>.<span class="gl">I feel sorry / I regret.</span></div>
+      </div>
+      <div>
+        <div class="ex" style="margin-bottom:9px">Szkoda <em>mi</em>.<span class="gl">I feel sorry for / it's a shame.</span></div>
+        <div class="ex" style="margin-bottom:9px">Trzeba <em>mi</em> iść.<span class="gl">I have to go.</span></div>
+        <div class="ex" style="margin-bottom:9px">Wolno <em>mi</em>.<span class="gl">I am allowed.</span></div>
+        <div class="ex" style="margin-bottom:9px">Głupio <em>mi</em>.<span class="gl">I feel silly.</span></div>
+      </div>
+    </div>
+
+    <h3>Verbs with <span class="m">się</span> that put the person in the dative</h3>
+    <p>The grammatical subject is the thing; the person is the recipient of the experience. This is where English word order fails completely.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Polish</th><th>Literally</th><th>English</th></tr></thead>
+        <tbody>
+          <tr><td class="m">Podoba <strong>mi</strong> się Kraków.</td><td>Kraków pleases to me.</td><td>I like Kraków.</td></tr>
+          <tr><td class="m">Śniło <strong>mi</strong> się morze.</td><td>The sea dreamt to me.</td><td>I dreamt about the sea.</td></tr>
+          <tr><td class="m">Udało <strong>mi</strong> się.</td><td>It succeeded to me.</td><td>I managed it.</td></tr>
+          <tr><td class="m">Nie chce <strong>mi</strong> się.</td><td>It doesn't want to me.</td><td>I can't be bothered.</td></tr>
+          <tr><td class="m">Wydaje <strong>mi</strong> się.</td><td>It seems to me.</td><td>It seems to me.</td></tr>
+          <tr><td class="m">Przyszło <strong>mi</strong> do głowy.</td><td>It came to my head.</td><td>It occurred to me.</td></tr>
+          <tr><td class="m">Nie mieści <strong>mi</strong> się w głowie.</td><td>It doesn't fit in my head.</td><td>I can't get my head around it.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Dative of loss — the Polish way of saying "my"</h3>
+    <p>Instead of "my wallet disappeared", Polish says the wallet disappeared <em>on me</em>. The dative marks the person affected.</p>
+    <div class="cols">
+      <div>
+        <div class="ex" style="margin-bottom:9px">Zginął <em>mi</em> portfel.<span class="gl">I lost my wallet.</span></div>
+        <div class="ex" style="margin-bottom:9px">Uciekła <em>mi</em> córka.<span class="gl">My daughter ran away from me.</span></div>
+        <div class="ex" style="margin-bottom:9px">Zamarzły <em>mi</em> ręce.<span class="gl">My hands froze.</span></div>
+      </div>
+      <div>
+        <div class="ex" style="margin-bottom:9px">Spaliło <em>mi</em> się ciasto.<span class="gl">My cake burned.</span></div>
+        <div class="ex" style="margin-bottom:9px">Wypadł <em>mi</em> ząb.<span class="gl">My tooth fell out.</span></div>
+        <div class="ex" style="margin-bottom:9px">Uciekł <em>mi</em> autobus.<span class="gl">I missed the bus.</span></div>
+      </div>
+    </div>
+
+    <h3>Ethical dative — pure attitude</h3>
+    <p>A pronoun that adds no information, only involvement, impatience, or affection. Very colloquial, very Polish.</p>
+    <div class="ex" style="margin-bottom:9px">Idź <em>mi</em> stąd!<span class="gl">Get out of here! (with feeling)</span></div>
+    <div class="ex" style="margin-bottom:9px">A ty <em>mi</em> tu nie hałasuj!<span class="gl">And don't you make noise here!</span></div>
+    <div class="ex" style="margin-bottom:9px">Uważaj <em>mi</em> na siebie.<span class="gl">You take care of yourself, you hear?</span></div>
+
+    <h3>Adjectives that point at someone</h3>
+    <p>These take a dative complement instead of <span class="m">do</span> + genitive.</p>
+    <div class="chips">
+      <span class="chip">miły <span>komu</span></span>
+      <span class="chip">drogi <span>komu</span></span>
+      <span class="chip">bliski <span>komu</span></span>
+      <span class="chip">obcy <span>komu</span></span>
+      <span class="chip">znany <span>komu</span></span>
+      <span class="chip">wdzięczny <span>komu</span></span>
+      <span class="chip">wierny <span>komu</span></span>
+      <span class="chip">posłuszny <span>komu</span></span>
+      <span class="chip">oddany <span>komu</span></span>
+      <span class="chip">przychylny <span>komu</span></span>
+      <span class="chip">życzliwy <span>komu</span></span>
+      <span class="chip">przeciwny <span>komu</span></span>
+      <span class="chip">równy <span>komu</span></span>
+      <span class="chip">potrzebny <span>komu</span></span>
+      <span class="chip">przydatny <span>komu</span></span>
+      <span class="chip">niezbędny <span>komu</span></span>
+      <span class="chip">dostępny <span>komu</span></span>
+      <span class="chip">obojętny <span>komu</span></span>
+      <span class="chip">przyjazny <span>komu</span></span>
+      <span class="chip">wrogi <span>komu</span></span>
+    </div>
+    <div class="ex" style="margin-top:14px">Jestem <em>ci</em> wdzięczny.<span class="gl">I am grateful to you.</span></div>
+    <div class="ex" style="margin-top:9px">Ten film jest <em>mi</em> obcy.<span class="gl">This film is alien to me.</span></div>
+    <div class="ex" style="margin-top:9px">To jest <em>mi</em> obojętne.<span class="gl">It is all the same to me.</span></div>
+
+    <div class="note warn">
+      <b>podobny is the exception</b>
+      <p><span class="m">podobny</span> takes <span class="m">do</span> + genitive, not the dative: <span class="m">podobny do ojca</span>. But <span class="m">bliski</span> does take the dative: <span class="m">bliski ojcu</span>.</p>
+    </div>
+
+    <h3>Nouns and verbal nouns</h3>
+    <p>Verbal nouns in <span class="m">‑anie, ‑enie, ‑cie</span> keep the verb's dative. Their non-verbal cousins often switch to <span class="m">dla</span> + genitive — a genuine stylistic difference, noted by PWN.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Verbal noun + dative</th><th>Plain noun + dla + genitive</th></tr></thead>
+        <tbody>
+          <tr><td class="m">pomaganie ubogim</td><td class="m">pomoc dla ubogich</td></tr>
+          <tr><td class="m">służenie krajowi</td><td class="m">służba dla kraju</td></tr>
+          <tr><td class="m">odpowiadanie komuś</td><td class="m">odpowiedź dla kogoś</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="t-note">Other nouns that take a dative complement: <span class="m">hołd komuś</span>, <span class="m">cześć komuś</span>, <span class="m">wierność komuś</span>, <span class="m">posłuszeństwo komuś</span>, <span class="m">oddanie komuś</span>.</p>
+
+    <h3>Frozen phrases worth knowing</h3>
+    <div class="chips">
+      <span class="chip">Bogu dzięki</span>
+      <span class="chip">daj Boże</span>
+      <span class="chip">nie daj Boże</span>
+      <span class="chip">ku czci</span>
+      <span class="chip">ku pamięci</span>
+      <span class="chip">ku przestrodze</span>
+      <span class="chip">ku uciesze</span>
+      <span class="chip">ku zadowoleniu</span>
+      <span class="chip">ku mojemu zdziwieniu</span>
+      <span class="chip">na przekór losowi</span>
+    </div>
+  </section>
+
+  <!-- ============ 09 TRAPS ============ -->
+  <section id="traps">
+    <div class="shead"><span class="snum">09</span><h2>The ten mistakes to kill now</h2></div>
+    <p class="lede">Every one of these is a real, frequent error. Fix them once and your Polish jumps a level.</p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Wrong</th><th>Right</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td class="m" style="color:var(--red)">Pomagam go.</td><td class="m"><strong>Pomagam mu.</strong></td><td>pomagać governs the dative.</td></tr>
+          <tr><td class="m" style="color:var(--red)">Dziękuję ciebie.</td><td class="m"><strong>Dziękuję ci.</strong></td><td>dziękować governs the dative.</td></tr>
+          <tr><td class="m" style="color:var(--red)">Podoba się mnie.</td><td class="m"><strong>Podoba mi się.</strong></td><td>podobać się takes the dative clitic mi.</td></tr>
+          <tr><td class="m" style="color:var(--red)">Mi się to podoba.</td><td class="m"><strong>Podoba mi się to.</strong></td><td>mi cannot start a sentence.</td></tr>
+          <tr><td class="m" style="color:var(--red)">Ku mi.</td><td class="m"><strong>Ku mnie.</strong></td><td>prepositions take the long form.</td></tr>
+          <tr><td class="m" style="color:var(--red)">Dzięki mi.</td><td class="m"><strong>Dzięki mnie.</strong></td><td>same rule, same preposition.</td></tr>
+          <tr><td class="m" style="color:var(--red)">Naprzeciwko szkole.</td><td class="m"><strong>Naprzeciwko szkoły.</strong></td><td>naprzeciwko takes the genitive; naprzeciw takes the dative.</td></tr>
+          <tr><td class="m" style="color:var(--red)">Słucham muzykę.</td><td class="m"><strong>Słucham muzyki.</strong></td><td>słuchać governs the genitive.</td></tr>
+          <tr><td class="m" style="color:var(--red)">Zazdroszczę jego.</td><td class="m"><strong>Zazdroszczę mu.</strong></td><td>the person goes in the dative.</td></tr>
+          <tr><td class="m" style="color:var(--red)">Podobny mnie.</td><td class="m"><strong>Podobny do mnie.</strong></td><td>podobny takes do + genitive.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note good">
+      <b>The 4-step routine</b>
+      <p><b>1.</b> Ask <span class="m">komu? czemu?</span> — if the answer is a person receiving, you are in the dative. <b>2.</b> Find the gender and the last stem consonant. <b>3.</b> Apply the ending: <span class="m">‑owi / ‑u / ‑e / ‑i / ‑y</span> in the singular, <span class="m">‑om</span> in the plural. <b>4.</b> If it is a pronoun, decide short or long — and never put the short one first.</p>
+    </div>
+  </section>
+
+  <!-- ============ 10 DRILLS ============ -->
+  <section id="drills">
+    <div class="shead"><span class="snum">10</span><h2>Drills</h2></div>
+    <p class="lede">Four modes, drawn at random from a bank of more than 200 items. Type the form, or pick the answer. Misses are explained, and you can re-run only the ones you missed.</p>
+
+    <div class="drill">
+      <div class="drill-modes">
+        <button class="mode is-active" data-mode="forms" type="button">Forms</button>
+        <button class="mode" data-mode="sentences" type="button">In context</button>
+        <button class="mode" data-mode="cases" type="button">Which case?</button>
+        <button class="mode" data-mode="errors" type="button">Error hunt</button>
+      </div>
+
+      <div class="drill-stage" id="drillStage">
+        <div class="drill-top">
+          <div class="dots" id="drillDots"></div>
+          <div class="score" id="drillScore">0 / 0</div>
+        </div>
+        <p class="drill-prompt" id="drillPrompt"></p>
+        <div class="drill-sub" id="drillSub"></div>
+        <div class="drill-options" id="drillOptions" hidden></div>
+        <div class="drill-answer" id="drillAnswerWrap" hidden>
+          <input id="drillAnswer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Your answer">
+          <div class="keypad" id="keypad">
+            <button type="button" data-char="ą">ą</button>
+            <button type="button" data-char="ć">ć</button>
+            <button type="button" data-char="ę">ę</button>
+            <button type="button" data-char="ł">ł</button>
+            <button type="button" data-char="ń">ń</button>
+            <button type="button" data-char="ó">ó</button>
+            <button type="button" data-char="ś">ś</button>
+            <button type="button" data-char="ź">ź</button>
+            <button type="button" data-char="ż">ż</button>
+          </div>
+          <button id="drillCheck" class="btn" type="button">Check</button>
+        </div>
+        <div class="feedback" id="drillFeedback" hidden>
+          <p class="feedback-title" id="drillFeedbackTitle"></p>
+          <div id="drillFeedbackBody"></div>
+        </div>
+        <button id="drillNext" class="btn btn-next" type="button" hidden>Next →</button>
+      </div>
+
+      <div class="drill-summary" id="drillSummary" hidden>
+        <div id="drillSummaryBody"></div>
+        <div class="summary-actions">
+          <button id="drillAgain" class="btn" type="button">Run this mode again</button>
+          <button id="drillReview" class="btn btn-ghost" type="button">Practise the misses</button>
+        </div>
+      </div>
+    </div>
+    <p class="best" id="drillBest"></p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <h4>Checked against</h4>
+    <ul>
+      <li>Hanna Jadacka, <a href="https://sjp.pwn.pl/poradnia/artykul/celownik;4011827.html" target="_blank" rel="noopener">„Celownik”, Poradnia Językowa PWN</a> — endings, syntax, verb lists.</li>
+      <li>Katarzyna Kłosińska, <a href="https://sjp.pwn.pl/poradnia/haslo/Ku-wraz-z-celownikiem;20188.html" target="_blank" rel="noopener">„Ku wraz z celownikiem”, PWN</a> — the ‑owi / ‑u list and place names.</li>
+      <li><a href="https://odmiana.net/" target="_blank" rel="noopener">Odmiana.NET</a> and <a href="https://pl.wiktionary.org/" target="_blank" rel="noopener">Wikisłownik</a> — individual paradigms (ojciec, ksiądz, sędzia, mężczyzna, oba).</li>
+      <li>Maciej Malinowski, <a href="https://obcyjezykpolski.pl/dlaczego-krakowowi-ale-wroclawiowi/" target="_blank" rel="noopener">„Dlaczego Krakowowi, ale Wrocławiowi?”</a> — place names and the ‑u relics.</li>
+    </ul>
+    <p style="margin-top:22px;font-size:12.5px;color:var(--muted)">Progress is saved in this browser only. Nothing leaves your computer.</p>
+  </div>
+</footer>
+
+<script src="drills.js"></script>
+<script>
+  // theme toggle
+  (function(){
+    var btn = document.getElementById('themeBtn');
+    var saved = localStorage.getItem('cel.theme');
+    if (saved) document.documentElement.setAttribute('data-theme', saved);
+    btn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-theme');
+      var sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var next = cur ? (cur === 'dark' ? 'light' : 'dark') : (sysDark ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('cel.theme', next);
+    });
+  })();
+
+  // progress bar + active nav
+  (function(){
+    var bar = document.getElementById('scrollbar');
+    function onScroll(){
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+    }
+    window.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+
+    var links = Array.from(document.querySelectorAll('#nav a'));
+    var targets = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+    if ('IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if (e.isIntersecting){
+            links.forEach(function(l){ l.classList.toggle('on', l.getAttribute('href') === '#' + e.target.id); });
+          }
+        });
+      }, {rootMargin:'-45% 0px -50% 0px'});
+      targets.forEach(function(t){ io.observe(t); });
+    }
+  })();
+</script>
+</body>
+</html>
