@@ -42,7 +42,7 @@ sync panel says syncing needs the Cloudflare build.
 
 ## Deploying to Cloudflare Pages
 
-This project is deployed to **https://cases.hammad.lol** (custom domain on the
+This project is deployed to https://cases.hammad.lol (custom domain on the
 `hammad.lol` zone) and to its `https://polski-cases.pages.dev` Pages address.
 Both serve the same deployment. The D1 database exists and its id is in
 `wrangler.toml`, the `progress` table has been created remotely, and sync works
