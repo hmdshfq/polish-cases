@@ -18,15 +18,17 @@ devices.
 
 ## Running it locally
 
-Node lives under `~/.local/bin` on this machine.
+Needs Node 20 or newer. On this machine Node is on `PATH` (nvm); the copy
+under `~/.local/bin` also works if you prefer `export PATH="$HOME/.local/bin:$PATH"`.
 
 ```sh
-export PATH="$HOME/.local/bin:$PATH"
 npm install          # wrangler, the only dependency
 npm run build        # data + all 11 pages into dist/
 npm run check        # 302 checks: links, sections, data, styles
 npm run serve        # http://127.0.0.1:4321 — static only, no sync
 ```
+
+`PORT=5000 npm run serve` moves it. `dist/` is generated — never edit it.
 
 For the sync API locally you need the Pages runtime with a local D1:
 
@@ -40,36 +42,43 @@ sync panel says syncing needs the Cloudflare build.
 
 ## Deploying to Cloudflare Pages
 
-Once, in this order:
+This project is already deployed to `https://polski-cases.pages.dev`, with a
+custom domain attached in the dashboard (Pages → polski-cases → Custom
+domains). The D1 database exists and its id is in `wrangler.toml`, and the
+`progress` table has been created remotely.
+
+To ship a change:
 
 ```sh
-export PATH="$HOME/.local/bin:$PATH"
+npm run deploy       # build, then upload dist/ + functions/ as one deployment
+```
 
-# 1. Sign in (opens the browser; the token from before has expired).
+`wrangler pages deploy` picks up `functions/` automatically, so the sync API
+goes up with the static files. It prints a preview address per deployment;
+the production alias (`polski-cases.pages.dev` and the custom domain) only
+moves once the deployment succeeds.
+
+### First-time setup on a fresh account
+
+Done once for this project. Needed again only if you recreate the account or
+the database.
+
+```sh
+# 1. Sign in (opens the browser).
 npx wrangler login
 
-# 2. Create the database and copy the database_id it prints.
+# 2. Create the database; it prints a database_id.
 npx wrangler d1 create polski-progress
 
-# 3. Paste that id into wrangler.toml, replacing REPLACE_WITH_YOUR_D1_ID.
+# 3. Put that id in wrangler.toml (no ${VAR} substitution is supported there).
 #    database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 
 # 4. Create the table in the live database.
 npx wrangler d1 execute polski-progress --remote --file=migrations/0001_progress.sql
 
-# 5. Build and upload pages + functions.
+# 5. Upload.
 npm run deploy
 ```
-
-Then, every time after that:
-
-```sh
-npm run deploy
-```
-
-`wrangler pages deploy` prints the address (`https://polski-cases.pages.dev`
-unless that name is taken). Open `/progress/` on the live site, press
-**Create a sync code**, and type that code on the phone.
 
 ### What the deploy contains
 
@@ -82,15 +91,27 @@ unless that name is taken). Open `/progress/` on the live site, press
 - `wrangler.toml` — the D1 binding `DB` and the Pages output folder.
 
 Both are on the free plan: Pages allows unlimited static requests, and D1's
-free tier (5 million rows read and 100,000 rows written a day) is far beyond
-one learner's progress.
+free tier gives 5 million rows read and 100,000 rows written a day, 5 GB of
+storage, and 7 days of Time Travel. Since September 2026 those daily limits
+are **enforced, not billed**: once an account passes them, queries error until
+midnight UTC. The site keeps working — only sync stops until the reset.
+
+Each visitor who presses **Create a sync code** gets their own row, keyed by a
+random 128-bit code, so other people using the site can neither read nor change
+your progress. It does mean a busy day of strangers counts against the account's
+write quota.
 
 ### If something goes wrong
 
 - **The site works but sync says it is not available** — the `DB` binding is
-  missing or `database_id` was not replaced. Re-check step 3 and redeploy.
+  missing or `database_id` is wrong. Re-check step 3 and redeploy.
 - **`no such table: progress`** — step 4 was skipped or run against the
   wrong database name.
+- **Sync fails for everyone until midnight UTC** — the free-tier daily row
+  limit was hit; the site itself is unaffected.
+- **Progress looks empty on the custom domain** — `localStorage` is per
+  origin. Open the old domain's `/progress/`, copy the sync code, then enter it
+  on the new domain under “I have a code”.
 - **A deploy says the project already exists** — that is fine, it just means
   the project was created before; the upload still replaces the files.
 
@@ -112,6 +133,20 @@ dist/               the built site (generated — do not edit)
 to that page, so it cannot fight the shared shell), then replaces the drill,
 flashcard, plan, verb and reference sections with ones driven by the shared
 engine. Editing a page's prose means editing `content/` and rebuilding.
+
+## Version control
+
+One git repo, branch `main`. Ignored: `node_modules/`, `dist/` (built),
+`.wrangler/` (local D1 files and any auth state), `.dev.vars`, `.DS_Store`.
+
+`src/data/bank.json` is committed because it is content. `catalog.json` and
+`extras.json` are generated but also committed, so `npm run check` works on a
+fresh clone without building first.
+
+`wrangler.toml` is committed with the D1 `database_id`. That id is an
+identifier, not a credential: every D1 call needs an account token on top of
+it, so it gives nothing away. Never commit `~/.wrangler/` state, a
+`CLOUDFLARE_API_TOKEN`, or a `.dev.vars` file — those are credentials.
 
 ## Notes on the content
 
