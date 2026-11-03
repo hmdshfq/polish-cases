@@ -1061,11 +1061,11 @@
 
   function syncPush() {
     var s = syncState();
-    if (!s.code || syncBusy) return;
+    if (!s.code || syncBusy) return Promise.resolve(false);
     syncBusy = true;
     // A millisecond stamp, always larger than what this device has seen.
     var rev = Math.max(Date.now(), (s.rev || 0) + 1);
-    apiFetch('/api/progress/' + s.code, {
+    return apiFetch('/api/progress/' + s.code, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ rev: rev, data: store })
@@ -1176,103 +1176,263 @@
     return /^[0-9A-HJKMNP-TV-Z]{12}$/.test(code) ? code.replace(/(.{4})/g, '$1 ').trim() : code;
   }
 
+  /* -------------------------------------------------------------- the panel */
+
+  function whenWas(iso) {
+    if (!iso) return '';
+    var ms = Date.now() - new Date(iso).getTime();
+    if (!isFinite(ms) || ms < 0) return 'just now';
+    var min = Math.round(ms / 60000);
+    if (min < 1) return 'just now';
+    if (min === 1) return 'a minute ago';
+    if (min < 60) return min + ' minutes ago';
+    var h = Math.round(min / 60);
+    if (h === 1) return 'an hour ago';
+    if (h < 24) return h + ' hours ago';
+    var d = Math.round(h / 24);
+    return d === 1 ? 'yesterday' : d + ' days ago';
+  }
+
+  function syncStatus() {
+    var s = syncState();
+    if (s.error) return String(s.error).replace(/\.+$/, '') + '.';
+    if (s.at) return 'Last saved to the cloud ' + whenWas(s.at) + '.';
+    return 'Not saved to the cloud yet.';
+  }
+
+  // What this device holds, in the words a person would use.
+  function statsChips() {
+    var answered = store.attempts || 0;
+    var seen = Object.keys(store.items).length;
+    var sets = Object.keys(store.sets || {}).length;
+    return '<div class="chips">' +
+      '<span class="chip">' + answered + ' answer' + (answered === 1 ? '' : 's') + ' recorded</span>' +
+      '<span class="chip">' + seen + ' item' + (seen === 1 ? '' : 's') + ' seen</span>' +
+      '<span class="chip">' + sets + ' set' + (sets === 1 ? '' : 's') + ' practised</span>' +
+      '</div>';
+  }
+
+  var PORTABLE = 'polski-cases';
+
+  function portableProgress() {
+    return {
+      app: PORTABLE,
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      progress: store
+    };
+  }
+
+  function downloadProgress() {
+    var data = JSON.stringify(portableProgress(), null, 1);
+    var blob = new Blob([data], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'polski-przypadki-progress-' + today() + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+  }
+
+  // A file is accepted only if it is this site's own export and carries the
+  // shape progress has; anything else is refused with a reason, not merged.
+  function readProgressFile(file, done) {
+    var reader = new FileReader();
+    reader.onerror = function () { done(new Error('that file could not be read')); };
+    reader.onload = function () {
+      var j;
+      try { j = JSON.parse(String(reader.result)); }
+      catch (e) { return done(new Error('that file is not JSON — pick the file this site exported')); }
+      if (!j || j.app !== PORTABLE || !j.progress || typeof j.progress !== 'object') {
+        return done(new Error('that is not a progress file from this site'));
+      }
+      var b = blank();
+      var given = j.progress;
+      for (var k in b) if (!(k in given)) given[k] = b[k];
+      given.v = 1;
+      done(null, given);
+    };
+    reader.readAsText(file);
+  }
+
+  function fileBlock() {
+    return '<details class="syncfile"><summary>Or move progress with a file</summary>' +
+      '<p class="small">Download everything as a JSON file, or load one back. This needs no code and ' +
+      'no network, but a loaded file replaces what the browser holds.</p>' +
+      '<div class="cta">' +
+      '<button class="btn ghost" id="progDownload">Download my progress</button>' +
+      '<button class="btn ghost" id="progUpload">Load a progress file</button>' +
+      '<input type="file" id="progFile" accept="application/json,.json" style="display:none">' +
+      '</div>' +
+      '<p class="small" id="progMsg"></p></details>';
+  }
+
   function paintSync() {
     var root = $('#syncRoot');
     if (!root) return;
     var s = syncState();
-    var out = '';
-    if (!s.code) {
-      out =
-        '<p>Progress is saved on this device now. Give it a sync code and it follows you to your phone and back.</p>' +
-        '<div class="cta"><button class="btn primary" id="syncNew">Create a sync code</button>' +
-        '<button class="btn ghost" id="syncJoin">I have a code</button></div>' +
-        '<div id="syncJoinBox" style="display:none;margin-top:12px">' +
-        '<div class="typebox"><input id="syncCodeIn" type="text" placeholder="XXXX XXXX XXXX" ' +
-        'autocomplete="off" spellcheck="false"><button class="btn primary" id="syncJoinGo">Use it</button></div>' +
-        '</div><p class="small" id="syncMsg"></p>';
-    } else {
-      out =
-        '<p>This device syncs with the code below. Type the same code on another device to carry your progress over.</p>' +
-        '<div class="chips"><span class="chip">Sync code: <b style="font-family:var(--mono);font-size:12.5px">' +
-        formatCode(s.code) + '</b></span>' +
-        '<span class="chip">' + (s.at ? 'last saved ' + s.at.slice(0, 16).replace('T', ' ') : 'not saved yet') + '</span>' +
-        (s.error ? '<span class="chip">⚠ ' + s.error + '</span>' : '') +
-        '</div>' +
-        '<div class="cta"><button class="btn ghost" id="syncCopy">Copy the code</button>' +
+
+    if (s.code) {
+      root.innerHTML =
+        '<p>This device is connected. Every answer is saved here and to your sync code, so any device ' +
+        'on the same code picks it up; the most recent save wins.</p>' +
+        statsChips() +
+        '<div class="syncbox">' +
+        '<div class="small">Your sync code — enter it on your other devices</div>' +
+        '<code id="syncCode">' + formatCode(s.code) + '</code>' +
+        '<div class="cta">' +
+        '<button class="btn primary" id="syncCopy">Copy the code</button>' +
         '<button class="btn ghost" id="syncNow">Save now</button>' +
-        '<button class="btn ghost" id="syncForget">Stop syncing on this device</button></div>' +
-        '<p class="small" id="syncMsg">Anyone with the code can read and change this progress — keep it to yourself.</p>';
+        '<button class="btn ghost" id="syncStop">Stop syncing on this device</button>' +
+        '</div></div>' +
+        '<p class="small" id="syncMsg">' + escapeHtml(syncStatus()) + '</p>' +
+        fileBlock();
+    } else {
+      root.innerHTML =
+        '<p>Progress can follow you between devices. Create a sync code here, then enter it on your ' +
+        'phone or another computer: both devices save to the same place.</p>' +
+        statsChips() +
+        '<div class="cta"><button class="btn primary" id="syncCreate">Create a sync code</button></div>' +
+        '<div class="syncjoin">' +
+        '<label class="small" for="syncInput">Already have a code from this site? Paste it here.</label>' +
+        '<div class="cta">' +
+        '<input id="syncInput" type="text" autocomplete="off" spellcheck="false" maxlength="16" ' +
+        'placeholder="XXXX XXXX XXXX">' +
+        '<button class="btn ghost" id="syncJoin">Use this code</button>' +
+        '</div></div>' +
+        '<p class="small" id="syncMsg">' + escapeHtml(syncStatus()) + '</p>' +
+        fileBlock();
     }
-    root.innerHTML = out;
 
-    var msg = function (t) { var m = $('#syncMsg'); if (m) m.textContent = t; };
+    function msg(t, bad) {
+      var m = $('#syncMsg');
+      if (!m) return;
+      m.textContent = t;
+      m.style.color = bad ? 'var(--accent)' : '';
+    }
 
-    var n = $('#syncNew');
-    if (n) n.addEventListener('click', function () {
-      n.disabled = true;
-      startSync().then(function () { paintSync(); }).catch(function (e) { msg(String(e.message || e)); });
-    });
-    var j = $('#syncJoin');
-    if (j) j.addEventListener('click', function () {
-      var box = $('#syncJoinBox');
-      box.style.display = box.style.display === 'none' ? 'block' : 'none';
-    });
-    var go = $('#syncJoinGo');
-    if (go) go.addEventListener('click', function () {
-      var code = $('#syncCodeIn').value;
-      go.disabled = true;
-      joinSync(code)
-        .then(function (what) {
-          var m0 = $('#syncMsg');
-          if (what === 'pulled') {
-            if (m0) m0.textContent = 'Progress brought over from your other device.';
-            setTimeout(function () { location.reload(); }, 700);
-          } else {
-            paintSync();
-            var m = $('#syncMsg');
-            if (m) m.textContent = 'This device is now linked; its progress was sent up.';
-          }
-        })
+    var create = $('#syncCreate');
+    if (create) create.addEventListener('click', function () {
+      create.disabled = true;
+      msg('Asking the server for a code…');
+      startSync()
+        .then(function () { paintSync(); })
         .catch(function (e) {
-          go.disabled = false;
-          msg(String(e.message || e));
+          setSyncState({ error: String(e && e.message ? e.message : e) });
+          paintSync();
         });
     });
-    var c = $('#syncCopy');
-    if (c) c.addEventListener('click', function () {
-      if (navigator.clipboard) navigator.clipboard.writeText(formatCode(s.code)).then(function () { msg('Copied.'); });
-      else msg(s.code);
+
+    var join = $('#syncJoin');
+    var input = $('#syncInput');
+    function joinCode() {
+      var code = cleanCode(input && input.value);
+      if (!/^[0-9A-HJKMNP-TV-Z]{12}$|^[0-9a-f]{32}$/.test(code)) {
+        msg('A sync code is 12 letters and digits — copy all three groups from the other device.', true);
+        return;
+      }
+      msg('Looking for progress under that code…');
+      try {
+        joinSync(code)
+          .then(function (what) {
+            if (what === 'pulled') {
+              paintSync();
+              msg('Connected. Progress from the other device came down — reloading…');
+              setTimeout(function () { location.reload(); }, 900);
+            } else {
+              paintSync();
+              msg('Connected. What this device had is now saved under that code.');
+            }
+          })
+          .catch(function (e) {
+            setSyncState({ error: String(e && e.message ? e.message : e) });
+            paintSync();
+          });
+      } catch (e) {
+        msg(String(e.message || e), true);
+      }
+    }
+    if (join) join.addEventListener('click', joinCode);
+    if (input) input.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Enter') { ev.preventDefault(); joinCode(); }
     });
+
+    var copy = $('#syncCopy');
+    if (copy) copy.addEventListener('click', function () {
+      var text = formatCode(s.code);
+      var done = function (ok) {
+        msg(ok ? 'Code copied. Paste it into the other device.' : 'Copy it by hand: ' + text, !ok);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+      } else {
+        done(false);
+      }
+    });
+
     var now = $('#syncNow');
-    if (now) now.addEventListener('click', function () { syncPush(); });
-    var f = $('#syncForget');
-    if (f) f.addEventListener('click', function () {
+    if (now) now.addEventListener('click', function () {
+      now.disabled = true;
+      msg('Saving…');
+      syncPush().then(function () {
+        paintSync();
+        msg('Saved to the cloud ' + whenWas(syncState().at) + '.');
+      });
+    });
+
+    var stop = $('#syncStop');
+    if (stop) stop.addEventListener('click', function () {
       // Two presses, no browser dialog: the first asks, the second does it.
-      if (!f.dataset.sure) {
-        f.dataset.sure = '1';
-        f.textContent = 'Press again to stop syncing here';
+      if (!stop.dataset.sure) {
+        stop.dataset.sure = '1';
+        stop.textContent = 'Press again to disconnect';
         setTimeout(function () {
-          if (f.dataset.sure) {
-            delete f.dataset.sure;
-            f.textContent = 'Stop syncing on this device';
-          }
+          if (stop.dataset.sure) { delete stop.dataset.sure; stop.textContent = 'Stop syncing on this device'; }
         }, 5000);
         return;
       }
       setSyncState({});
       paintSync();
+      msg('Disconnected. Your progress stays on this device and on the code — enter the code again to reconnect.');
     });
+
+    var d = $('#progDownload');
+    if (d) d.addEventListener('click', function () {
+      downloadProgress();
+      var m = $('#progMsg');
+      if (m) m.textContent = 'Downloaded. Load it on the other device from this same panel.';
+    });
+
+    var up = $('#progUpload');
+    var file = $('#progFile');
+    if (up && file) {
+      up.addEventListener('click', function () { file.click(); });
+      file.addEventListener('change', function () {
+        var f = file.files && file.files[0];
+        if (!f) return;
+        readProgressFile(f, function (err, loaded) {
+          var m = $('#progMsg');
+          if (err) { if (m) m.textContent = String(err.message || err); file.value = ''; return; }
+          store = loaded;
+          flush();
+          if (m) m.textContent = 'Progress loaded — ' + Object.keys(loaded.items).length + ' items. Reloading…';
+          setTimeout(function () { location.reload(); }, 700);
+        });
+      });
+    }
   }
 
   function initSync() {
-    // On a page with the panel, offer the state; on any page, pull quietly.
+    // On a page with the panel, show the state; on any page, pull quietly.
     var s = syncState();
+    paintSync();
     if (s.code) {
       syncPull(s.code)
         .then(function (remote) { if (adopt(remote)) location.reload(); })
         .catch(function () {});
     }
-    paintSync();
   }
 
   /* --------------------------------------------------------------- meters */

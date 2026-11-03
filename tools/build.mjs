@@ -615,7 +615,7 @@ simplePage({
 
 <section>
   <div class="shead"><div class="snum">03</div><h2>Sync between devices</h2></div>
-  <div id="syncRoot"><p class="small">Reading the sync state…</p></div>
+  <div id="syncRoot"><p class="small">Reading your progress…</p></div>
 </section>`,
 });
 

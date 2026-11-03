@@ -170,6 +170,27 @@ td.pl, th.pl{font-family:var(--serif); font-size:16.5px; font-style:normal}
 .chip{font-size:13px; padding:5px 12px; border-radius:99px; border:1px solid var(--line); background:var(--card); color:var(--ink2)}
 .chip b{color:var(--ink)}
 
+/* ---------- sync panel ---------- */
+.syncbox{
+  margin:16px 0 4px; padding:16px 18px; border:1px solid var(--line); border-radius:14px; background:var(--card);
+}
+.syncbox code{
+  display:block; font-family:var(--mono); font-size:15px; letter-spacing:.06em; color:var(--ink);
+  word-break:break-all; margin:6px 0 14px; padding:10px 12px; background:var(--paper);
+  border:1px dashed var(--line); border-radius:10px; user-select:all;
+}
+.syncjoin{margin:16px 0 4px; padding-top:14px; border-top:1px solid var(--line2)}
+.syncjoin label{display:block; margin-bottom:8px; color:var(--ink2)}
+.syncjoin input{
+  font-family:var(--mono); font-size:14px; color:var(--ink); background:var(--card);
+  border:1px solid var(--line); border-radius:10px; padding:10px 12px; flex:1 1 320px; min-width:0;
+}
+.syncjoin input:focus{outline:2px solid var(--accent); outline-offset:1px; border-color:transparent}
+.syncfile{margin-top:16px; padding-top:14px; border-top:1px solid var(--line2)}
+.syncfile summary{cursor:pointer; font-size:14px; color:var(--ink2)}
+.syncfile summary:hover{color:var(--ink)}
+.syncfile .cta{margin-top:10px}
+
 /* ---------- drills ---------- */
 .drills{background:var(--card); border:1px solid var(--line); border-radius:20px; padding:26px; box-shadow:0 1px 0 var(--line2)}
 .setgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(215px,1fr)); gap:12px; margin-top:18px}
