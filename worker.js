@@ -11,6 +11,7 @@ export default {
       const params = { code: match[1] ? [match[1]] : [] };
       return onRequest({ request, env, params });
     }
+    if (!env.ASSETS) return new Response("assets not configured", { status: 503 });
     return env.ASSETS.fetch(request);
   },
 };
