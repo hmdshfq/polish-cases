@@ -9,6 +9,7 @@
     "build": "node tools/build-catalog.mjs && node tools/extract-extras.mjs && node tools/build.mjs",
     "check": "node tools/check.mjs",
     "serve": "node tools/serve.mjs",
+    "db:migrate": "wrangler d1 migrations apply polski-cases-progress --remote",
     "deploy": "npm run build && wrangler deploy"
   },
   "devDependencies": {

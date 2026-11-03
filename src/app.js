@@ -1046,11 +1046,13 @@
   var SYNC_KEY = 'polski.sync.v1';
 
   function syncState() {
-    try {
-      return JSON.parse(localStorage.getItem(SYNC_KEY)) || {};
-    } catch (e) {
-      return {};
-    }
+    var s;
+    try { s = JSON.parse(localStorage.getItem(SYNC_KEY)) || {}; } catch (e) { s = {}; }
+    // Revisions used to be millisecond stamps from the device; the server stamps
+    // them now, counting from 1. A stored stamp only means "unknown", and one
+    // refused save reads the real revision back.
+    if (!(Number.isInteger(s.rev) && s.rev >= 0 && s.rev < 1e9)) s.rev = 0;
+    return s;
   }
   function setSyncState(s) {
     try { localStorage.setItem(SYNC_KEY, JSON.stringify(s)); } catch (e) {}
@@ -1058,25 +1060,53 @@
 
   var syncTimer = null;
   var syncBusy = false;
+  var syncPending = false;
+
+  // The revision belongs to the server, so a save says which revision it read:
+  // baseRev. A code's first save has read nothing and sends 0.
+  function baseRev(s) {
+    return Number.isInteger(s.rev) && s.rev >= 0 ? s.rev : 0;
+  }
+
+  // One save. The code rides in a header so it stays out of request logs and
+  // traces, and the answer carries the revision the server just stamped.
+  function syncSend(s, base) {
+    return apiFetch('/api/progress', {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json', 'x-sync-code': s.code },
+      body: JSON.stringify({ data: store, baseRev: base })
+    }).then(function (r) {
+      return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; });
+    });
+  }
+
+  function syncSaved(s, rev) {
+    setSyncState({ code: s.code, rev: rev, at: new Date().toISOString(), error: null });
+  }
 
   function syncPush() {
     var s = syncState();
-    if (!s.code || syncBusy) return Promise.resolve(false);
+    if (!s.code) return Promise.resolve(false);
+    // A save that lands mid-flight is not dropped: it runs once this one is done.
+    if (syncBusy) { syncPending = true; return Promise.resolve(false); }
     syncBusy = true;
-    // A millisecond stamp, always larger than what this device has seen.
-    var rev = Math.max(Date.now(), (s.rev || 0) + 1);
-    return apiFetch('/api/progress/' + s.code, {
-      method: 'PUT',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ rev: rev, data: store })
-    })
-      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+    return syncSend(s, baseRev(s))
       .then(function (res) {
-        if (res.ok) {
-          setSyncState({ code: s.code, rev: res.j.rev || rev, at: new Date().toISOString(), error: null });
-        } else {
-          setSyncState({ code: s.code, rev: s.rev || 0, at: s.at, error: res.j.error || 'save failed' });
-        }
+        if (res.ok) { syncSaved(s, res.j.rev); return; }
+        if (res.status !== 409) throw new Error(res.j.error || 'save failed');
+        // Another device saved first. Read its copy, fold ours into it, and try
+        // once more on top of the revision just read, so nothing is overwritten.
+        return syncPull(s.code).then(function (remote) {
+          var base = remote ? remote.rev : null;
+          if (remote && remote.data) {
+            store = mergeDocs(store, remote.data);
+            flush();
+          }
+          return syncSend(s, base).then(function (again) {
+            if (!again.ok) throw new Error(again.j.error || 'save failed');
+            syncSaved(s, again.j.rev);
+          });
+        });
       })
       .catch(function (e) {
         setSyncState({ code: s.code, rev: s.rev || 0, at: s.at, error: e && e.message ? e.message : 'offline' });
@@ -1084,7 +1114,53 @@
       .then(function () {
         syncBusy = false;
         paintSync();
+        if (syncPending) { syncPending = false; return syncPush(); }
       });
+  }
+
+  // Two devices that both saved since they last synced have diverged. The
+  // server's copy is the base; every total takes the larger of the two, an item
+  // with more answers wins, and lists are joined — so no answer is lost and no
+  // counter goes backwards. Answers given on both devices at once are counted
+  // once, which is the price of one small document per person.
+  function mergeDocs(local, remote) {
+    var out = blank();
+    var base = remote && remote.v === 1 ? remote : {};
+    var k, id;
+    for (k in out) if (k in base) out[k] = base[k];
+    // The merge writes into these collections, so work on copies: the caller
+    // still needs the document it fetched left as the server sent it.
+    out = JSON.parse(JSON.stringify(out));
+
+    var mine = local || blank();
+    if ((mine.attempts || 0) > (out.attempts || 0)) {
+      out.attempts = mine.attempts;
+      out.correct = mine.correct;
+    }
+    for (id in mine.items) {
+      var a = mine.items[id], b = out.items[id];
+      if (!b || (a.seen || 0) >= (b.seen || 0)) out.items[id] = a;
+    }
+    for (k in mine.days) {
+      var ld = mine.days[k], rd = out.days[k];
+      out.days[k] = rd ? { n: Math.max(ld.n || 0, rd.n || 0), ok: Math.max(ld.ok || 0, rd.ok || 0) } : ld;
+    }
+    for (k in mine.cards) {
+      var had = {}, joined = [];
+      (out.cards[k] || []).concat(mine.cards[k] || []).forEach(function (w) {
+        if (!had[w]) { had[w] = 1; joined.push(w); }
+      });
+      out.cards[k] = joined;
+    }
+    for (k in mine.plan) {
+      out.plan[k] = out.plan[k] || {};
+      for (id in mine.plan[k]) out.plan[k][id] = true;
+    }
+    for (k in mine.sets) {
+      var ls = mine.sets[k], rs = out.sets[k];
+      if (!rs || (ls.best || 0) > (rs.best || 0)) out.sets[k] = ls;
+    }
+    return out;
   }
 
   function queueSync() {
@@ -1108,27 +1184,63 @@
   }
 
   function syncPull(code) {
-    return apiFetch('/api/progress/' + code)
+    return apiFetch('/api/progress', { headers: { 'x-sync-code': code } })
       .then(function (r) {
         if (r.status === 404) return null;
-        if (!r.ok) throw new Error('server said ' + r.status);
+        if (!r.ok) {
+          var err = new Error(r.status === 400
+            ? 'this code is no longer valid, make a new one'
+            : 'server said ' + r.status);
+          err.status = r.status;
+          throw err;
+        }
         return r.json();
       });
   }
 
-  // Adopt the server's copy only when it is genuinely newer than this device's,
-  // so a page never reloads on data it already has.
+  // A page load meets the server copy as a base at any revision, never as a
+  // replacement: this device may hold answers it never managed to push —
+  // offline, a tab closed inside the debounce, a save that failed — and a reload
+  // must not drop them. Returns which side the merge took from: `mine` means the
+  // server still lacks something, `theirs` that what is on screen is out of date.
   function adopt(remote) {
-    var local = syncState().rev || 0;
-    if (remote && remote.rev > local && remote.data && remote.data.v === 1) {
-      store = remote.data;
-      var b = blank();
-      for (var k in b) if (!(k in store)) store[k] = b[k];
-      flush();
-      setSyncState({ code: syncState().code, rev: remote.rev, at: remote.updatedAt, error: null });
-      return true;
+    var s = syncState();
+    var seen = { mine: false, theirs: false };
+    var data = remote && remote.data;
+    if (!data || data.v !== 1) {
+      // No row yet: this device is the whole story, if it has anything to tell.
+      seen.mine = (store.attempts || 0) > 0 || Object.keys(store.items).length > 0;
+      return seen;
     }
-    return false;
+    // Merging even at the same revision matters: a device that lost its save
+    // still has more than the server, and one with a stale local copy still has
+    // less. Merging makes the direction of the repair automatic.
+    var merged = mergeDocs(store, data);
+    seen.mine = !same(merged, data);
+    seen.theirs = !same(merged, store);
+    if (seen.theirs) {
+      store = merged;
+      flush();
+    }
+    if (remote.rev > (s.rev || 0)) {
+      setSyncState({ code: s.code, rev: remote.rev, at: remote.updatedAt, error: s.error || null });
+    }
+    return seen;
+  }
+
+  // Comparing two documents means asking whether they say the same thing, not
+  // whether their keys came out in the same order on two devices.
+  function same(a, b) {
+    return stable(a || {}) === stable(b || {});
+  }
+  function stable(v) {
+    if (Array.isArray(v)) return '[' + v.map(stable).join(',') + ']';
+    if (v && typeof v === 'object') {
+      return '{' + Object.keys(v).sort().map(function (k) {
+        return JSON.stringify(k) + ':' + stable(v[k]);
+      }).join(',') + '}';
+    }
+    return JSON.stringify(v);
   }
 
   function startSync() {
@@ -1142,9 +1254,7 @@
   }
 
   // A code is forgiving on the way in: spaces, dashes and case are dropped,
-  // and O, I and L read as the digits they are confused with. 12-character
-  // codes are current; 32-character hex codes from before keep working —
-  // those stay lowercase, which is the form the rows are stored under.
+  // and O, I and L read as the digits they are confused with.
   function cleanCode(s) {
     return String(s || '').toUpperCase()
       .replace(/[^0-9A-Z]/g, '')
@@ -1154,26 +1264,23 @@
 
   function joinSync(code) {
     code = cleanCode(code);
-    if (code.length === 32) code = code.toLowerCase();
-    if (!/^[0-9A-HJKMNP-TV-Z]{12}$|^[0-9a-f]{32}$/.test(code)) {
+    if (!/^[0-9A-HJKMNP-TV-Z]{12}$/.test(code)) {
       throw new Error('a sync code is 12 letters and digits — copy all three groups from the other device');
     }
     var s = syncState();
     setSyncState({ code: code, rev: 0, at: s.at, error: null });
     return syncPull(code).then(function (remote) {
-      if (remote) {
-        if (adopt(remote)) return 'pulled';
-        return syncPush(); // this device knows more; send it up
-      }
-      return syncPush();
+      var seen = adopt(remote);
+      if (!seen.mine) return seen.theirs ? 'pulled' : syncPush();
+      // Send the union before asking for a reload: the reload would drop it.
+      return syncPush().then(function () { if (seen.theirs) return 'pulled'; });
     });
   }
 
-  // Codes are stored without spaces; a 12-character code shows alphabet letters
-  // in uppercase, the way it reads aloud, in three groups of four. Older
-  // 32-character codes are shown as they are.
+  // Codes are stored without spaces; a code shows alphabet letters in
+  // uppercase, the way it reads aloud, in three groups of four.
   function formatCode(code) {
-    return /^[0-9A-HJKMNP-TV-Z]{12}$/.test(code) ? code.replace(/(.{4})/g, '$1 ').trim() : code;
+    return code.replace(/(.{4})/g, '$1 ').trim();
   }
 
   /* -------------------------------------------------------------- the panel */
@@ -1277,7 +1384,7 @@
     if (s.code) {
       root.innerHTML =
         '<p>This device is connected. Every answer is saved here and to your sync code, so any device ' +
-        'on the same code picks it up; the most recent save wins.</p>' +
+        'on the same code picks it up. Two devices that both saved are merged, never one over the other.</p>' +
         statsChips() +
         '<div class="syncbox">' +
         '<div class="small">Your sync code — enter it on your other devices</div>' +
@@ -1329,7 +1436,7 @@
     var input = $('#syncInput');
     function joinCode() {
       var code = cleanCode(input && input.value);
-      if (!/^[0-9A-HJKMNP-TV-Z]{12}$|^[0-9a-f]{32}$/.test(code)) {
+      if (!/^[0-9A-HJKMNP-TV-Z]{12}$/.test(code)) {
         msg('A sync code is 12 letters and digits — copy all three groups from the other device.', true);
         return;
       }
@@ -1429,9 +1536,24 @@
     var s = syncState();
     paintSync();
     if (s.code) {
-      syncPull(s.code)
-        .then(function (remote) { if (adopt(remote)) location.reload(); })
-        .catch(function () {});
+      return syncPull(s.code)
+        .then(function (remote) {
+          var seen = adopt(remote);
+          // Whatever this device held back goes up first, so the reload below
+          // cannot throw it away.
+          if (!seen.mine) {
+            if (seen.theirs) location.reload();
+            return;
+          }
+          return syncPush().then(function () { if (seen.theirs) location.reload(); });
+        })
+        .catch(function (e) {
+          // A code the server refuses is worth saying out loud — it is a code
+          // from before the shorter alphabet. A network blip is not.
+          if (!e || e.status !== 400) return;
+          setSyncState({ code: s.code, rev: s.rev, at: s.at, error: e.message });
+          paintSync();
+        });
     }
   }
 

@@ -49,8 +49,8 @@ sync panel says syncing needs the Cloudflare build.
 This project is deployed as a Cloudflare Worker at https://cases.hammad.lol
 (custom domain on the `hammad.lol` zone) and at
 `https://polish-cases.hmdshfq.workers.dev`. Both serve the same deployment.
-Static files come from `dist/` through the assets binding; `worker.js` routes
-`/api/progress/*` to the sync handler and everything else to the assets. The
+Static files come from `dist/` through the assets binding; `worker/index.js` answers
+`/api/progress/*` and everything else goes to the assets. The
 D1 database exists and its id is in `wrangler.jsonc`, the `progress` table has
 been created remotely, and sync works on both hosts.
 
@@ -98,12 +98,13 @@ The custom domain is declared in `wrangler.jsonc` (`routes` with
 
 - `dist/` — 11 HTML pages, `site.css`, one `<case>.css` per case, `app.js`,
   `catalog.js`. 948 KB in total.
-- `worker.js` — the Worker entry: `/api/progress/*` to the sync handler,
-  everything else to the assets binding.
-- `functions/api/progress/[[code]].js` — the sync API itself:
-  `GET /api/progress` mints a code, `GET /api/progress/:code` reads,
-  `PUT /api/progress/:code` writes only if the revision is newer.
+- `worker/index.js` — one Worker file: `GET /api/progress` mints a code,
+  `GET /api/progress/:code` reads, `PUT` writes on top of the revision the
+  caller read (`baseRev`) and answers 409 when another device saved first.
+  Everything else goes to the assets binding.
 - `migrations/0001_progress.sql` — one table, `progress`.
+- `migrations/0002_drop_progress_updated.sql` — drops an index nothing queries.
+  Apply both with `npm run db:migrate`.
 - `wrangler.jsonc` — the D1 binding `DB`, the assets directory, and the
   custom domain.
 

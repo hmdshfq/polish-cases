@@ -1,4 +1,4 @@
-# Cloudflare Pages headers
+# Headers for the static assets in dist/ (Workers static assets)
 
 /*
   X-Content-Type-Options: nosniff
@@ -16,6 +16,3 @@
 
 /favicon.svg
   Cache-Control: public, max-age=86400
-
-/_functions/*
-  Cache-Control: no-store
