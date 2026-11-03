@@ -1,0 +1,28 @@
+{
+  // Cloudflare Workers: static assets from dist/ + one Worker for the API + D1.
+  // `npm run deploy` builds dist/ and deploys both.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "polish-cases",
+  "main": "worker.js",
+  "compatibility_date": "2026-11-01",
+
+  // Custom domain on the hammad.lol zone; claimed by `wrangler deploy`.
+  "routes": [{ "pattern": "cases.hammad.lol", "custom_domain": true }],
+
+  // Serve on the custom domain and on the workers.dev subdomain, as the README
+  // documents for both hosts.
+  "workers_dev": true,
+
+  "assets": {
+    "directory": "./dist"
+  },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "polski-cases-progress",
+      // Filled in by `wrangler d1 create polski-cases-progress` — see README.
+      "database_id": "6934a9d9-7975-4927-ad95-29bdabfd8729"
+    }
+  ]
+}
