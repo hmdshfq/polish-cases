@@ -14,7 +14,8 @@ devices.
 - **Today's lesson** — twelve items, about six minutes, due first.
 - **Mixed drill** — twenty items from all seven cases at once.
 - Progress on the device, and optionally synced through a Cloudflare D1
-  database with a 32-character code you can type on your phone.
+  database with a 12-character code (shown as `xxxx xxxx xxxx`) you can type
+  on your phone.
 
 ## Running it locally
 
@@ -30,23 +31,28 @@ npm run serve        # http://127.0.0.1:4321 — static only, no sync
 
 `PORT=5000 npm run serve` moves it. `dist/` is generated — never edit it.
 
-For the sync API locally you need the Pages runtime with a local D1:
+For the sync API locally you need the Workers runtime with a local D1:
 
 ```sh
 npx wrangler d1 execute polski-progress --local --file=migrations/0001_progress.sql
-npx wrangler pages dev dist --port=8788 --persist-to=.wrangler/state
+npx wrangler dev --port=8788
 ```
+
+`wrangler dev` serves the static assets and the API together, same as the
+deployed Worker.
 
 Without the API the site still works: progress saves in the browser and the
 sync panel says syncing needs the Cloudflare build.
 
-## Deploying to Cloudflare Pages
+## Deploying to Cloudflare Workers
 
-This project is deployed to https://cases.hammad.lol (custom domain on the
-`hammad.lol` zone) and to its `https://polski-cases.pages.dev` Pages address.
-Both serve the same deployment. The D1 database exists and its id is in
-`wrangler.toml`, the `progress` table has been created remotely, and sync works
-on both hosts.
+This project is deployed as a Cloudflare Worker at https://cases.hammad.lol
+(custom domain on the `hammad.lol` zone) and at
+`https://polish-cases.hmdshfq.workers.dev`. Both serve the same deployment.
+Static files come from `dist/` through the assets binding; `worker.js` routes
+`/api/progress/*` to the sync handler and everything else to the assets. The
+D1 database exists and its id is in `wrangler.toml`, the `progress` table has
+been created remotely, and sync works on both hosts.
 
 Note: the custom domain sits behind the `hammad.lol` zone, which appends a
 Cloudflare challenge-platform script to HTML (`/cdn-cgi/challenge-platform/
@@ -56,13 +62,12 @@ the JS and CSS bytes are identical on both hosts.
 To ship a change:
 
 ```sh
-npm run deploy       # build, then upload dist/ + functions/ as one deployment
+npm run deploy       # build, then wrangler deploy
 ```
 
-`wrangler pages deploy` picks up `functions/` automatically, so the sync API
-goes up with the static files. It prints a preview address per deployment;
-the production alias (`polski-cases.pages.dev` and the custom domain) only
-moves once the deployment succeeds.
+Pushes to `main` also build and deploy automatically through Workers Builds
+(GitHub integration), with the same commands: `npm run build`, then
+`npx wrangler deploy`.
 
 ### First-time setup on a fresh account
 
@@ -86,17 +91,24 @@ npx wrangler d1 execute polski-progress --remote --file=migrations/0001_progress
 npm run deploy
 ```
 
+The custom domain is declared in `wrangler.toml` (`routes` with
+`custom_domain = true`) and claimed by the deploy.
+
 ### What the deploy contains
 
 - `dist/` — 11 HTML pages, `site.css`, one `<case>.css` per case, `app.js`,
-  `catalog.js`, `_headers` (caching and security headers). 948 KB in total.
-- `functions/api/progress/[[code]].js` — the sync API: `GET /api/progress`
-  mints a code, `GET /api/progress/:code` reads, `PUT /api/progress/:code`
-  writes only if the revision is newer.
+  `catalog.js`. 948 KB in total.
+- `worker.js` — the Worker entry: `/api/progress/*` to the sync handler,
+  everything else to the assets binding.
+- `functions/api/progress/[[code]].js` — the sync API itself:
+  `GET /api/progress` mints a code, `GET /api/progress/:code` reads,
+  `PUT /api/progress/:code` writes only if the revision is newer.
 - `migrations/0001_progress.sql` — one table, `progress`.
-- `wrangler.toml` — the D1 binding `DB` and the Pages output folder.
+- `wrangler.toml` — the D1 binding `DB`, the assets directory, and the
+  custom domain.
 
-Both are on the free plan: Pages allows unlimited static requests, and D1's
+Both are on the free plan: static asset requests are free and unlimited, and
+D1's
 free tier gives 5 million rows read and 100,000 rows written a day, 5 GB of
 storage, and 7 days of Time Travel. Since September 2026 those daily limits
 are **enforced, not billed**: once an account passes them, queries error until
@@ -116,12 +128,13 @@ write quota.
 - **Sync fails for everyone until midnight UTC** — the free-tier daily row
   limit was hit; the site itself is unaffected.
 - **Progress looks empty on `cases.hammad.lol`** — `localStorage` is per
-  origin, so progress earned on `polski-cases.pages.dev` does not follow you to
-  the custom domain. Open the old domain's `/progress/`, copy the sync code,
-  then enter it on the new domain under “I have a code”. Afterwards, stay on
-  one host: pick `cases.hammad.lol`.
-- **A deploy says the project already exists** — that is fine, it just means
-  the project was created before; the upload still replaces the files.
+  origin, so progress earned on a different host (the old
+  `polski-cases.pages.dev`, now retired) does not follow you here. Open the
+  old host's `/progress/`, copy the sync code, then enter it on the custom
+  domain under “I have a code”. Afterwards, stay on one host:
+  pick `cases.hammad.lol`.
+- **A deploy says the custom domain is taken** — another Worker or a Pages
+  project still holds the hostname. Remove it there first, then deploy again.
 
 ## How it is built
 
