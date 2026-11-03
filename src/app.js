@@ -1048,10 +1048,11 @@
   function syncState() {
     var s;
     try { s = JSON.parse(localStorage.getItem(SYNC_KEY)) || {}; } catch (e) { s = {}; }
-    // Revisions used to be millisecond stamps from the device; the server stamps
-    // them now, counting from 1. A stored stamp only means "unknown", and one
-    // refused save reads the real revision back.
-    if (!(Number.isInteger(s.rev) && s.rev >= 0 && s.rev < 1e9)) s.rev = 0;
+    // No rewriting of rev on the way out. It is the server's number, and all this
+    // device does with it is send it back as baseRev — including a millisecond
+    // stamp stored before the server took the stamping over, which still names
+    // the revision it read. Reading it as "unknown" would make every save miss
+    // the compare-and-set and take a 409 it does not need.
     return s;
   }
   function setSyncState(s) {
