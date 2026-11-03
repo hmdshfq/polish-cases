@@ -1,6 +1,6 @@
 # Cloudflare Workers: static assets from dist/ + one Worker for the API + D1.
 # `npm run deploy` builds dist/ and deploys both.
-name = "polski-cases"
+name = "polish-cases"
 main = "worker.js"
 compatibility_date = "2026-11-01"
 
