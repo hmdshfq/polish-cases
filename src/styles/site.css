@@ -171,6 +171,7 @@ td.pl, th.pl{font-family:var(--serif); font-size:16.5px; font-style:normal}
 .chip b{color:var(--ink)}
 
 /* ---------- sync panel ---------- */
+#syncRoot .chips + .cta{margin-top:18px}
 .syncbox{
   margin:16px 0 4px; padding:16px 18px; border:1px solid var(--line); border-radius:14px; background:var(--card);
 }
