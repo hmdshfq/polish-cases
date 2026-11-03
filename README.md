@@ -14,7 +14,7 @@ devices.
 - **Today's lesson** — twelve items, about six minutes, due first.
 - **Mixed drill** — twenty items from all seven cases at once.
 - Progress on the device, and optionally synced through a Cloudflare D1
-  database with a 12-character code (shown as `xxxx xxxx xxxx`) you can type
+  database with a 12-character code (shown as `XXXX XXXX XXXX`) you can type
   on your phone.
 
 ## Running it locally
@@ -34,7 +34,7 @@ npm run serve        # http://127.0.0.1:4321 — static only, no sync
 For the sync API locally you need the Workers runtime with a local D1:
 
 ```sh
-npx wrangler d1 execute polski-progress --local --file=migrations/0001_progress.sql
+npx wrangler d1 execute polski-cases-progress --local --file=migrations/0001_progress.sql
 npx wrangler dev --port=8788
 ```
 
@@ -51,7 +51,7 @@ This project is deployed as a Cloudflare Worker at https://cases.hammad.lol
 `https://polish-cases.hmdshfq.workers.dev`. Both serve the same deployment.
 Static files come from `dist/` through the assets binding; `worker.js` routes
 `/api/progress/*` to the sync handler and everything else to the assets. The
-D1 database exists and its id is in `wrangler.toml`, the `progress` table has
+D1 database exists and its id is in `wrangler.jsonc`, the `progress` table has
 been created remotely, and sync works on both hosts.
 
 Note: the custom domain sits behind the `hammad.lol` zone, which appends a
@@ -79,19 +79,19 @@ the database.
 npx wrangler login
 
 # 2. Create the database; it prints a database_id.
-npx wrangler d1 create polski-progress
+npx wrangler d1 create polski-cases-progress
 
-# 3. Put that id in wrangler.toml (no ${VAR} substitution is supported there).
+# 3. Put that id in wrangler.jsonc (no ${VAR} substitution is supported there).
 #    database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 
 # 4. Create the table in the live database.
-npx wrangler d1 execute polski-progress --remote --file=migrations/0001_progress.sql
+npx wrangler d1 execute polski-cases-progress --remote --file=migrations/0001_progress.sql
 
 # 5. Upload.
 npm run deploy
 ```
 
-The custom domain is declared in `wrangler.toml` (`routes` with
+The custom domain is declared in `wrangler.jsonc` (`routes` with
 `custom_domain = true`) and claimed by the deploy.
 
 ### What the deploy contains
@@ -104,7 +104,7 @@ The custom domain is declared in `wrangler.toml` (`routes` with
   `GET /api/progress` mints a code, `GET /api/progress/:code` reads,
   `PUT /api/progress/:code` writes only if the revision is newer.
 - `migrations/0001_progress.sql` — one table, `progress`.
-- `wrangler.toml` — the D1 binding `DB`, the assets directory, and the
+- `wrangler.jsonc` — the D1 binding `DB`, the assets directory, and the
   custom domain.
 
 Both are on the free plan: static asset requests are free and unlimited, and
@@ -115,8 +115,8 @@ are **enforced, not billed**: once an account passes them, queries error until
 midnight UTC. The site keeps working — only sync stops until the reset.
 
 Each visitor who presses **Create a sync code** gets their own row, keyed by a
-random 128-bit code, so other people using the site can neither read nor change
-your progress. It does mean a busy day of strangers counts against the account's
+random code (60 bits, from an alphabet without lookalike characters), so other
+people using the site can neither read nor change your progress. It does mean a busy day of strangers counts against the account's
 write quota.
 
 ### If something goes wrong
@@ -164,7 +164,7 @@ One git repo, branch `main`. Ignored: `node_modules/`, `dist/` (built),
 `extras.json` are generated but also committed, so `npm run check` works on a
 fresh clone without building first.
 
-`wrangler.toml` is committed with the D1 `database_id`. That id is an
+`wrangler.jsonc` is committed with the D1 `database_id`. That id is an
 identifier, not a credential: every D1 call needs an account token on top of
 it, so it gives nothing away. Never commit `~/.wrangler/` state, a
 `CLOUDFLARE_API_TOKEN`, or a `.dev.vars` file — those are credentials.

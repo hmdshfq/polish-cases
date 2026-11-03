@@ -1141,10 +1141,23 @@
       });
   }
 
+  // A code is forgiving on the way in: spaces, dashes and case are dropped,
+  // and O, I and L read as the digits they are confused with. 12-character
+  // codes are current; 32-character hex codes from before keep working —
+  // those stay lowercase, which is the form the rows are stored under.
+  function cleanCode(s) {
+    return String(s || '').toUpperCase()
+      .replace(/[^0-9A-Z]/g, '')
+      .replace(/O/g, '0')
+      .replace(/[IL]/g, '1');
+  }
+
   function joinSync(code) {
-    code = String(code || '').trim().toLowerCase().replace(/[\s-]/g, '');
-    // 12-character codes are current; 32-character codes from before keep working.
-    if (!/^[a-f0-9]{12}([a-f0-9]{20})?$/.test(code)) throw new Error('that is not a sync code');
+    code = cleanCode(code);
+    if (code.length === 32) code = code.toLowerCase();
+    if (!/^[0-9A-HJKMNP-TV-Z]{12}$|^[0-9a-f]{32}$/.test(code)) {
+      throw new Error('a sync code is 12 letters and digits — copy all three groups from the other device');
+    }
     var s = syncState();
     setSyncState({ code: code, rev: 0, at: s.at, error: null });
     return syncPull(code).then(function (remote) {
@@ -1156,10 +1169,11 @@
     });
   }
 
-  // Codes are stored without spaces; 12-character ones read better as
-  // `xxxx xxxx xxxx`. Older 32-character codes are shown as they are.
+  // Codes are stored without spaces; a 12-character code shows alphabet letters
+  // in uppercase, the way it reads aloud, in three groups of four. Older
+  // 32-character codes are shown as they are.
   function formatCode(code) {
-    return /^[a-f0-9]{12}$/.test(code) ? code.replace(/(.{4})/g, '$1 ').trim() : code;
+    return /^[0-9A-HJKMNP-TV-Z]{12}$/.test(code) ? code.replace(/(.{4})/g, '$1 ').trim() : code;
   }
 
   function paintSync() {
@@ -1173,7 +1187,7 @@
         '<div class="cta"><button class="btn primary" id="syncNew">Create a sync code</button>' +
         '<button class="btn ghost" id="syncJoin">I have a code</button></div>' +
         '<div id="syncJoinBox" style="display:none;margin-top:12px">' +
-        '<div class="typebox"><input id="syncCodeIn" type="text" placeholder="type or paste your sync code" ' +
+        '<div class="typebox"><input id="syncCodeIn" type="text" placeholder="XXXX XXXX XXXX" ' +
         'autocomplete="off" spellcheck="false"><button class="btn primary" id="syncJoinGo">Use it</button></div>' +
         '</div><p class="small" id="syncMsg"></p>';
     } else {

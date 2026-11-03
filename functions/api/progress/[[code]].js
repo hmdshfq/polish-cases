@@ -18,15 +18,28 @@ const json = (body, status = 200) =>
     },
   });
 
-// New codes are 12 hex characters (48 bits), shown as `xxxx xxxx xxxx`.
+// A code is a private random key, not a password. New codes are 12 characters
+// from Crockford's base32, which drops I, L, O and U so a code read aloud or
+// copied by hand cannot be mistyped for another one. 12 × 5 bits is 60 bits of
+// entropy, far beyond guessing, and 256 is a multiple of 32, so the modulo
+// below introduces no bias. The client shows a code in three groups of four.
 // Old 32-hex codes keep working; the check below accepts both.
+const ALPHABET = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
 function newCode() {
-  const bytes = new Uint8Array(6);
+  const bytes = new Uint8Array(12);
   crypto.getRandomValues(bytes);
-  return [...bytes].map((b) => b.toString(16).padStart(2, '0')).join('');
+  return [...bytes].map((b) => ALPHABET[b % 32]).join('');
 }
 
-const CODE_RE = /^[a-f0-9]{12}([a-f0-9]{20})?$/;
+// Forgiving on the way in: spaces, dashes and case are dropped, and the
+// confusable spellings O, I and L read as 0 and 1. Legacy hex survives in the
+// database in lowercase, so a 32-character code keeps its lowercase form.
+function normalizeCode(raw) {
+  const c = String(raw || '').toUpperCase().replace(/[^0-9A-Z]/g, '')
+    .replace(/O/g, '0').replace(/[IL]/g, '1');
+  return c.length === 32 ? c.toLowerCase() : c;
+}
+const CODE_RE = /^[0-9A-HJKMNP-TV-Z]{12}$|^[0-9a-f]{32}$/;
 
 export async function onRequest(context) {
   const { request, env, params } = context;
@@ -42,14 +55,17 @@ export async function onRequest(context) {
   }
 
   // An optional catch-all arrives as an array; take the one segment.
-  const code = Array.isArray(params.code) ? params.code[0] : params.code;
+  let code = Array.isArray(params.code) ? params.code[0] : params.code;
 
   if (request.method === 'GET' && !code) {
     return json({ code: newCode(), enabled: true });
   }
 
-  if (code && !CODE_RE.test(code)) {
-    return json({ error: 'a sync code is 12 hex characters' }, 400);
+  if (code) {
+    code = normalizeCode(code);
+    if (!CODE_RE.test(code)) {
+      return json({ error: 'a sync code is 12 letters and digits' }, 400);
+    }
   }
 
   try {
