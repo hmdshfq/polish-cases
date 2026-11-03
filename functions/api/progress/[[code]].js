@@ -18,11 +18,15 @@ const json = (body, status = 200) =>
     },
   });
 
+// New codes are 12 hex characters (48 bits), shown as `xxxx xxxx xxxx`.
+// Old 32-hex codes keep working; the check below accepts both.
 function newCode() {
-  const bytes = new Uint8Array(16);
+  const bytes = new Uint8Array(6);
   crypto.getRandomValues(bytes);
   return [...bytes].map((b) => b.toString(16).padStart(2, '0')).join('');
 }
+
+const CODE_RE = /^[a-f0-9]{12}([a-f0-9]{20})?$/;
 
 export async function onRequest(context) {
   const { request, env, params } = context;
@@ -44,8 +48,8 @@ export async function onRequest(context) {
     return json({ code: newCode(), enabled: true });
   }
 
-  if (code && !/^[a-f0-9]{32}$/.test(code)) {
-    return json({ error: 'a sync code is 32 hex characters' }, 400);
+  if (code && !CODE_RE.test(code)) {
+    return json({ error: 'a sync code is 12 hex characters' }, 400);
   }
 
   try {

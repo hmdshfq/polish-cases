@@ -1142,8 +1142,9 @@
   }
 
   function joinSync(code) {
-    code = String(code || '').trim().toLowerCase();
-    if (!/^[a-f0-9]{32}$/.test(code)) throw new Error('that is not a sync code');
+    code = String(code || '').trim().toLowerCase().replace(/[\s-]/g, '');
+    // 12-character codes are current; 32-character codes from before keep working.
+    if (!/^[a-f0-9]{12}([a-f0-9]{20})?$/.test(code)) throw new Error('that is not a sync code');
     var s = syncState();
     setSyncState({ code: code, rev: 0, at: s.at, error: null });
     return syncPull(code).then(function (remote) {
@@ -1153,6 +1154,12 @@
       }
       return syncPush();
     });
+  }
+
+  // Codes are stored without spaces; 12-character ones read better as
+  // `xxxx xxxx xxxx`. Older 32-character codes are shown as they are.
+  function formatCode(code) {
+    return /^[a-f0-9]{12}$/.test(code) ? code.replace(/(.{4})/g, '$1 ').trim() : code;
   }
 
   function paintSync() {
@@ -1166,14 +1173,14 @@
         '<div class="cta"><button class="btn primary" id="syncNew">Create a sync code</button>' +
         '<button class="btn ghost" id="syncJoin">I have a code</button></div>' +
         '<div id="syncJoinBox" style="display:none;margin-top:12px">' +
-        '<div class="typebox"><input id="syncCodeIn" type="text" placeholder="paste your 32-character code" ' +
+        '<div class="typebox"><input id="syncCodeIn" type="text" placeholder="type or paste your sync code" ' +
         'autocomplete="off" spellcheck="false"><button class="btn primary" id="syncJoinGo">Use it</button></div>' +
         '</div><p class="small" id="syncMsg"></p>';
     } else {
       out =
         '<p>This device syncs with the code below. Type the same code on another device to carry your progress over.</p>' +
         '<div class="chips"><span class="chip">Sync code: <b style="font-family:var(--mono);font-size:12.5px">' +
-        s.code + '</b></span>' +
+        formatCode(s.code) + '</b></span>' +
         '<span class="chip">' + (s.at ? 'last saved ' + s.at.slice(0, 16).replace('T', ' ') : 'not saved yet') + '</span>' +
         (s.error ? '<span class="chip">⚠ ' + s.error + '</span>' : '') +
         '</div>' +
@@ -1219,7 +1226,7 @@
     });
     var c = $('#syncCopy');
     if (c) c.addEventListener('click', function () {
-      if (navigator.clipboard) navigator.clipboard.writeText(s.code).then(function () { msg('Copied.'); });
+      if (navigator.clipboard) navigator.clipboard.writeText(formatCode(s.code)).then(function () { msg('Copied.'); });
       else msg(s.code);
     });
     var now = $('#syncNow');
