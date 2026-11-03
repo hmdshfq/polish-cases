@@ -14,6 +14,9 @@
   "workers_dev": true,
 
   "assets": {
+    // The binding name the Worker uses (env.ASSETS) for anything the edge
+    // cannot serve itself, such as unknown paths — without it those throw.
+    "binding": "ASSETS",
     "directory": "./dist"
   },
 
