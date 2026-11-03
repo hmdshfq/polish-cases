@@ -9,7 +9,7 @@
     "build": "node tools/build-catalog.mjs && node tools/extract-extras.mjs && node tools/build.mjs",
     "check": "node tools/check.mjs",
     "serve": "node tools/serve.mjs",
-    "deploy": "npm run build && wrangler pages deploy dist --project-name polski-cases"
+    "deploy": "npm run build && wrangler deploy"
   },
   "devDependencies": {
     "wrangler": "^4.0.0"
