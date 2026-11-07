@@ -162,7 +162,7 @@ tbody tr:hover{background:color-mix(in oklab, var(--line2) 40%, transparent)}
 td.pl, th.pl{font-family:var(--serif); font-size:16.5px; font-style:normal}
 .end{color:var(--accent); font-weight:700}
 .yes{color:var(--green); font-weight:600}
-.no{color:var(--accent); font-weight:600; text-decoration:line-through; text-decoration-thickness:1px}
+.no{color:var(--accent); font-weight:600}
 .tw.tall{max-height:70vh; overflow-y:auto}
 .tw.tall thead th{position:sticky; top:0; z-index:1}
 
