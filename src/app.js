@@ -888,11 +888,11 @@
   function dueItems() {
     var out = [];
     CASE_ORDER.forEach(function (id) {
-      byId[id].sets.forEach(function (set) {
-        set.items.forEach(function (it) {
-          var s = store.items[it.id];
-          if (s && s.due && s.due <= today()) out.push(it);
-        });
+      // Go through allItems so a due item still carries its set's instruction:
+      // the mixed runs show it on its own, with no set title above it.
+      allItems(id).forEach(function (it) {
+        var s = store.items[it.id];
+        if (s && s.due && s.due <= today()) out.push(it);
       });
     });
     return out;
