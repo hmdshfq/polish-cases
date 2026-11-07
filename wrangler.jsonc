@@ -24,13 +24,11 @@
     "run_worker_first": ["/api/*"]
   },
 
-  // Sync failures are logged as structured JSON; keep them where they can be
-  // queried in the dashboard, and trace the requests that reach the API. The
-  // sync code travels in a header, so neither records it.
+  // Workers observability (logs and traces) is turned off for this project.
   "observability": {
-    "enabled": true,
+    "enabled": false,
     "logs": { "head_sampling_rate": 1 },
-    "traces": { "enabled": true, "head_sampling_rate": 0.01 }
+    "traces": { "enabled": false, "head_sampling_rate": 0.01 }
   },
 
   "d1_databases": [
