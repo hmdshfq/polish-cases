@@ -633,7 +633,7 @@ write(
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" rx="14" fill="#a4361f"/>
   <text x="32" y="46" font-family="Georgia, 'Times New Roman', serif" font-size="40" fill="#f7f3ea"
-        text-anchor="middle">ł</text>
+        text-anchor="middle">rz</text>
 </svg>
 `
 );
